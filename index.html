@@ -4,125 +4,193 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="robots" content="noindex, nofollow" />
+<meta name="description" content="Espacio colaborativo de CoMind y Otro Buen Programa — dos iniciativas desde Querétaro. Versión preliminar." />
 <title>CoMind · Otro Buen Programa — Espacio colaborativo</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
 <style>
   :root{
-    --bg:#faf8f4; --ink:#2b2724; --muted:#6b645c; --line:#e7e1d8;
-    --card:#ffffff; --accent:#3f6f5a; --accent-soft:#eaf2ee;
-    --warm:#b07c43; --warm-soft:#f6ecdd; --blue-soft:#e9eef5;
-    --radius:16px; --maxw:760px;
+    --bg:#faf7f1; --bg2:#f4efe6; --ink:#262220; --muted:#6c655c; --soft:#8a8278;
+    --line:#e8e1d6; --card:#fffdfa; --accent:#3a6b56; --accent-2:#2e5546;
+    --accent-soft:#e8f1ec; --warm:#a9742f; --warm-soft:#f7ecd9;
+    --blue-soft:#eaeef6; --shadow:0 1px 2px rgba(40,30,20,.04),0 8px 28px rgba(40,30,20,.06);
+    --radius:18px; --maxw:820px; --gut:24px;
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{
-    margin:0; background:var(--bg); color:var(--ink);
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    line-height:1.62; font-size:17px; -webkit-font-smoothing:antialiased;
+    margin:0; color:var(--ink); background:var(--bg);
+    font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(1200px 500px at 50% -200px, #fff8ec 0%, transparent 70%);
   }
-  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 22px}
-  a{color:var(--accent)}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 var(--gut)}
+  a{color:var(--accent); text-decoration:none}
+  a:hover{text-decoration:underline}
+  h1,h2,h3,h4{font-family:"Fraunces",Georgia,serif; font-weight:600; letter-spacing:-.01em; line-height:1.18}
 
-  /* Aviso de trabajo en progreso */
-  .wip{
-    background:var(--warm-soft); color:#5d3f1c; text-align:center;
-    font-size:14px; padding:10px 16px; border-bottom:1px solid #ecdcc4;
-  }
-  .wip b{font-weight:700}
+  /* Barra superior */
+  .topbar{position:sticky; top:0; z-index:50; backdrop-filter:saturate(1.2) blur(8px);
+    background:rgba(250,247,241,.82); border-bottom:1px solid var(--line)}
+  .topbar .row{display:flex; align-items:center; justify-content:space-between; height:58px}
+  .brand{font-family:"Fraunces",serif; font-weight:600; font-size:17px; display:flex; gap:9px; align-items:center}
+  .brand .dot{width:11px; height:11px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 4px var(--accent-soft)}
+  .nav{display:flex; gap:22px; font-size:14.5px}
+  .nav a{color:var(--muted)}
+  .nav a:hover{color:var(--ink); text-decoration:none}
+  @media(max-width:640px){.nav{display:none}}
 
-  /* Encabezado */
-  header{padding:54px 0 26px; text-align:center}
-  .badge{
-    display:inline-block; font-size:12px; letter-spacing:.06em; text-transform:uppercase;
-    background:var(--accent-soft); color:var(--accent); border:1px solid #cfe1d8;
-    padding:5px 12px; border-radius:999px; margin-bottom:18px; font-weight:600;
-  }
-  h1{font-size:30px; line-height:1.2; margin:0 0 8px}
-  .subtitle{color:var(--muted); margin:0; font-size:17px}
+  /* Aviso WIP */
+  .wip{background:linear-gradient(90deg,var(--warm-soft),#fbf3e3); color:#6e4b18;
+    text-align:center; font-size:13.5px; padding:9px 16px; border-bottom:1px solid #efdfc4}
+  .wip b{font-weight:600}
 
-  /* Bloques */
-  section{padding:26px 0; border-top:1px solid var(--line)}
-  h2{font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--warm); margin:0 0 6px}
-  h3{font-size:22px; margin:0 0 10px}
-  h4{font-size:18px; margin:18px 0 4px}
-  p{margin:0 0 14px}
-  .lead{font-size:18px}
+  /* Hero */
+  .hero{padding:70px 0 40px; text-align:center}
+  .eyebrow{display:inline-flex; gap:8px; align-items:center; font-size:12px; font-weight:600;
+    letter-spacing:.08em; text-transform:uppercase; color:var(--accent-2);
+    background:var(--accent-soft); border:1px solid #cfe3d8; padding:6px 13px; border-radius:999px}
+  .hero h1{font-size:clamp(32px,6vw,50px); margin:22px 0 12px}
+  .hero p{font-size:clamp(17px,2.4vw,20px); color:var(--muted); max-width:620px; margin:0 auto}
+  .hero .cluster{margin-top:26px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap}
+  .btn{display:inline-block; padding:11px 20px; border-radius:999px; font-size:15px; font-weight:600}
+  .btn.primary{background:var(--accent); color:#fff}
+  .btn.primary:hover{background:var(--accent-2); text-decoration:none}
+  .btn.ghost{background:transparent; color:var(--ink); border:1px solid var(--line)}
+  .btn.ghost:hover{border-color:var(--soft); text-decoration:none}
 
-  .callout{
+  /* Secciones */
+  section{padding:40px 0}
+  .divider{height:1px; background:var(--line); margin:0 auto; max-width:var(--maxw)}
+  .label{font-family:"Inter",sans-serif; font-size:12.5px; font-weight:600; letter-spacing:.1em;
+    text-transform:uppercase; color:var(--warm); margin:0 0 8px}
+  h2{font-size:clamp(24px,4vw,32px); margin:0 0 14px}
+  h3{font-size:21px; margin:0 0 8px}
+  p{margin:0 0 15px}
+  .lead{font-size:18.5px}
+
+  /* Callouts */
+  .callout{display:flex; gap:13px; align-items:flex-start; padding:18px 20px;
+    border-radius:var(--radius); border:1px solid var(--line); background:var(--card);
+    box-shadow:var(--shadow); margin:18px 0}
+  .callout .ico{font-size:21px; line-height:1.4; flex:none}
+  .callout.green{background:var(--accent-soft); border-color:#cfe3d8}
+  .callout.blue{background:var(--blue-soft); border-color:#d6deee}
+  .callout.warm{background:var(--warm-soft); border-color:#efdcbf}
+  .callout.gray{background:var(--bg2); border-color:var(--line)}
+
+  /* Tarjetas */
+  .grid{display:grid; gap:16px; grid-template-columns:1fr}
+  @media(min-width:640px){.grid.two{grid-template-columns:1fr 1fr} .grid.three{grid-template-columns:1fr 1fr 1fr}}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:22px; box-shadow:var(--shadow); transition:transform .25s ease, box-shadow .25s ease}
+  .card:hover{transform:translateY(-3px); box-shadow:0 2px 4px rgba(40,30,20,.05),0 14px 34px rgba(40,30,20,.09)}
+  .card .emoji{font-size:26px}
+  .card h3,.card h4{margin:12px 0 6px}
+  .card p{font-size:15.5px; color:#4d473f; margin:0}
+  .pill{display:inline-block; font-size:12px; font-weight:600; color:var(--accent-2);
+    background:var(--accent-soft); padding:3px 10px; border-radius:999px; margin-bottom:4px}
+
+  /* Arco CoMind -> OBP */
+  .arc{display:flex; align-items:center; gap:14px; flex-wrap:wrap; justify-content:center;
     background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
-    padding:16px 18px; margin:16px 0; display:flex; gap:12px; align-items:flex-start;
-  }
-  .callout .ico{font-size:20px; line-height:1.4}
-  .callout.green{background:var(--accent-soft); border-color:#cfe1d8}
-  .callout.blue{background:var(--blue-soft); border-color:#d4def0}
-  .callout.gray{background:#f1eee9; border-color:var(--line)}
-
-  .cards{display:grid; gap:14px; grid-template-columns:1fr; margin-top:6px}
-  @media(min-width:620px){.cards{grid-template-columns:1fr 1fr}}
-  .card{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:18px}
-  .card .emoji{font-size:24px}
-  .card h4{margin:8px 0 6px}
-  .card p{font-size:15.5px; color:#4a443d; margin:0}
+    padding:18px 20px; box-shadow:var(--shadow)}
+  .arc .node{text-align:center; flex:1; min-width:150px}
+  .arc .node .k{font-family:"Fraunces",serif; font-size:18px}
+  .arc .node .v{font-size:13.5px; color:var(--muted)}
+  .arc .sep{font-size:22px; color:var(--warm)}
 
   /* Placeholders */
-  .ph{
-    border:1.5px dashed #d8cfc1; background:repeating-linear-gradient(45deg,#fcfaf6,#fcfaf6 10px,#f7f2ea 10px,#f7f2ea 20px);
-    border-radius:var(--radius); padding:18px; color:var(--muted); font-size:15px;
-  }
-  .ph .tag{
-    display:inline-block; font-size:11px; letter-spacing:.05em; text-transform:uppercase;
-    background:#efe7da; color:#8a6d3b; padding:3px 9px; border-radius:6px; margin-bottom:8px; font-weight:700;
-  }
+  .ph{border:1.5px dashed #d9cfbe; border-radius:var(--radius); padding:18px 20px; color:var(--muted);
+    font-size:15px; background:repeating-linear-gradient(45deg,#fdfbf6,#fdfbf6 11px,#f6f0e6 11px,#f6f0e6 22px)}
+  .ph .tag{display:inline-block; font-size:11px; letter-spacing:.06em; text-transform:uppercase;
+    background:#efe3cf; color:#876427; padding:3px 9px; border-radius:7px; margin-bottom:9px; font-weight:700}
 
-  details{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:6px 18px; margin:14px 0}
-  summary{cursor:pointer; font-weight:600; padding:12px 0; list-style:none}
+  /* Sótano */
+  details{background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:4px 20px; margin:16px 0; box-shadow:var(--shadow)}
+  summary{cursor:pointer; font-weight:600; font-family:"Fraunces",serif; font-size:18px; padding:14px 0; list-style:none}
   summary::-webkit-details-marker{display:none}
-  summary::before{content:"▸ "; color:var(--warm)}
-  details[open] summary::before{content:"▾ "}
-  details .inner{padding:4px 0 14px; color:#4a443d; font-size:15.5px}
+  summary::before{content:"＋ "; color:var(--warm); font-family:"Inter",sans-serif}
+  details[open] summary::before{content:"− "}
+  details .inner{padding:2px 0 16px; color:#4d473f; font-size:15.5px}
 
-  ul{margin:0 0 14px; padding-left:20px}
-  li{margin-bottom:7px}
+  ul{margin:0 0 15px; padding-left:20px} li{margin-bottom:8px}
 
-  footer{padding:34px 0 60px; border-top:1px solid var(--line); color:var(--muted); font-size:15px}
-  .stamp{font-size:12.5px; color:#a59b8d; margin-top:18px}
-  .lema{font-style:italic; color:#6b645c; margin-top:14px}
+  /* Agradecimientos */
+  .thanks .card{display:flex; flex-direction:column; gap:6px; text-align:left}
+  .thanks .who{font-family:"Fraunces",serif; font-size:18px}
+  .thanks .what{font-size:14.5px; color:var(--muted)}
+  .thanks .mark{font-size:24px}
+
+  /* Footer */
+  footer{padding:48px 0 70px; border-top:1px solid var(--line); margin-top:20px; color:var(--muted); font-size:15px}
+  footer .label{color:var(--warm)}
+  .lema{font-family:"Fraunces",serif; font-style:italic; font-size:18px; color:#5a534a; margin:20px 0 0}
+  .stamp{font-size:12.5px; color:var(--soft); margin-top:18px}
+
+  /* Reveal */
+  .reveal{opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease}
+  .reveal.in{opacity:1; transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1; transform:none; transition:none}}
 </style>
 </head>
 <body>
 
-<div class="wip">🚧 <b>Versión preliminar</b> — esta página está en construcción. El contenido y las secciones marcadas como <i>próximamente</i> seguirán creciendo.</div>
+<div class="wip">🚧 <b>Versión preliminar (v0.2)</b> — página viva en construcción. Las secciones marcadas como <i>próximamente</i> seguirán creciendo.</div>
 
-<header class="wrap">
-  <span class="badge">v0.1 · borrador vivo</span>
-  <h1>CoMind&nbsp;·&nbsp;Otro Buen Programa</h1>
-  <p class="subtitle">Un espacio colaborativo para conocer, observar y sumarse a dos iniciativas hechas desde Querétaro.</p>
+<div class="topbar">
+  <div class="wrap row">
+    <div class="brand"><span class="dot"></span> CoMind · Otro Buen Programa</div>
+    <nav class="nav">
+      <a href="#proyectos">Proyectos</a>
+      <a href="#avances">Avances</a>
+      <a href="#sumarse">Sumarse</a>
+      <a href="#gracias">Gracias</a>
+    </nav>
+  </div>
+</div>
+
+<header class="hero wrap">
+  <span class="eyebrow">● Borrador vivo · desde Querétaro</span>
+  <h1>Construir, en voz baja y a la vista de todos.</h1>
+  <p>Un espacio para conocer, observar y sumarse a dos iniciativas: una prótesis cognitiva digital y una alternativa seria de recuperación.</p>
+  <div class="cluster">
+    <a class="btn primary" href="#proyectos">Conocer los proyectos</a>
+    <a class="btn ghost" href="#sumarse">Cómo sumarse</a>
+  </div>
 </header>
 
-<main class="wrap">
+<main>
 
   <!-- Bienvenida -->
-  <section>
+  <section class="wrap reveal">
     <div class="callout blue">
       <span class="ico">🪟</span>
-      <div>Te damos la bienvenida como <b>observador/a invitado/a</b>. Esta es una <b>página viva</b>: aquí puedes conocer las generalidades de los proyectos, seguir sus avances y, si algo resuena, proponer. No hay nada que firmar ni que aportar de inmediato.</div>
+      <div>Te damos la bienvenida como <b>observador/a invitado/a</b>. Esta es una <b>página viva</b>: aquí puedes conocer las generalidades, seguir los avances y, si algo resuena, proponer. No hay nada que firmar ni aportar de inmediato. Aquí no se mendiga: se construye y, porque se quiere, se rinde cuentas.</div>
     </div>
   </section>
 
-  <!-- CAPA 1 — EL MARCO -->
-  <section>
-    <h2>El marco</h2>
-    <h3>¿Qué es este espacio?</h3>
-    <p class="lead">Más que pedir apoyo económico, lo que buscamos es <b>aglutinar una comunidad</b> alrededor de estas dos iniciativas: personas, empresas y voluntades dispuestas a aportar mirada, experiencia y oficio. Aquí no se mendiga: se construye y, porque se quiere, se rinde cuentas.</p>
+  <div class="divider"></div>
 
-    <div class="cards">
+  <!-- CAPA 1 — MARCO -->
+  <section class="wrap reveal" id="proyectos">
+    <p class="label">El marco</p>
+    <h2>Los dos proyectos, en breve</h2>
+    <p class="lead">Más que pedir apoyo económico, buscamos <b>aglutinar una comunidad</b> alrededor de estas iniciativas: personas, empresas y voluntades dispuestas a aportar mirada, experiencia y oficio.</p>
+
+    <div class="grid two">
       <div class="card">
         <div class="emoji">🧠</div>
-        <h4>CoMind — una prótesis cognitiva digital</h4>
-        <p>Una herramienta de IA personal pensada para acompañar a mentes neurodivergentes: una «segunda mente» que sostiene la memoria de trabajo, organiza la atención y convierte lo que uno sabe en acción. Su continuidad natural es una empresa de tecnología con sede en Querétaro.</p>
+        <h3>CoMind</h3>
+        <p>Una herramienta de IA personal para acompañar a mentes neurodivergentes: una «segunda mente» que sostiene la memoria de trabajo, organiza la atención y convierte lo que uno sabe en acción. Su continuidad natural es una empresa de tecnología con sede en Querétaro.</p>
       </div>
       <div class="card">
         <div class="emoji">🌱</div>
-        <h4>Otro Buen Programa — una alternativa de recuperación</h4>
+        <h3>Otro Buen Programa</h3>
         <p>Un programa de acompañamiento en adicciones, análogo en forma a los doce pasos pero fundado en los principios de <i>Un Curso de Milagros</i>. No busca desplazar a nadie: ofrece una segunda opción seria donde hoy la oferta está enormemente concentrada.</p>
       </div>
     </div>
@@ -132,33 +200,46 @@
       <div><b>El objetivo, en concreto.</b> Hoy, una familia de a pie que busca ayuda para un hijo con una adicción tiene, en los hechos, una sola puerta. La ambición de <i>Otro Buen Programa</i> es que esa familia tenga <b>dos</b> opciones serias y confíe en ambas por igual. Hasta que esa otra puerta no sea real, el trabajo no se dará por terminado.</div>
     </div>
 
-    <h4>El arco entre los dos proyectos</h4>
-    <p><b>CoMind es el inicio y la prueba</b> —la herramienta que demuestra que se puede construir algo riguroso desde aquí—; <b>Otro Buen Programa es el destino</b> —el bien social al que apunta todo el esfuerzo—.</p>
-  </section>
-
-  <!-- CAPA 2 — EL LATIDO -->
-  <section>
-    <h2>El latido</h2>
-    <h3>En qué andamos hoy</h3>
-    <p>Esta es la parte que se mueve a diario. Una página que avanza cada día prueba, sin decirlo, que esto es real y que hay alguien trabajando. La constancia <i>es</i> la prueba.</p>
-
-    <h4>Estado actual</h4>
-    <ul>
-      <li><b>CoMind:</b> esqueleto técnico funcionando (captura, búsqueda y repaso) y primera versión instalable en el móvil en curso.</li>
-      <li><b>Otro Buen Programa:</b> fundamentos y oficios en redacción; banco de datos y argumentos en construcción.</li>
-    </ul>
-
-    <h4>Bitácora de avances</h4>
-    <div class="ph">
-      <span class="tag">Próximamente</span><br>
-      Aquí se irán registrando los hitos día por día —prototipos, aprendizajes y decisiones— para que cualquier observador pueda seguir el pulso de las iniciativas. La primera entrada llegará pronto.
+    <h3 style="margin-top:26px">El arco entre ambos</h3>
+    <div class="arc">
+      <div class="node"><div class="k">🧠 CoMind</div><div class="v">el inicio y la prueba</div></div>
+      <div class="sep">→</div>
+      <div class="node"><div class="k">🌱 Otro Buen Programa</div><div class="v">el destino y el bien social</div></div>
     </div>
   </section>
 
-  <!-- CAPA 3 — LA PUERTA Y EL SÓTANO -->
-  <section>
-    <h2>La puerta</h2>
-    <h3>Cómo sumarse</h3>
+  <div class="divider"></div>
+
+  <!-- CAPA 2 — LATIDO -->
+  <section class="wrap reveal" id="avances">
+    <p class="label">El latido</p>
+    <h2>En qué andamos hoy</h2>
+    <p>Una página que avanza cada día prueba, sin decirlo, que esto es real y que hay alguien trabajando. La constancia <i>es</i> la prueba.</p>
+
+    <div class="grid two">
+      <div class="card">
+        <span class="pill">CoMind</span>
+        <p>Esqueleto técnico funcionando (captura, búsqueda y repaso) y primera versión instalable en el móvil en curso.</p>
+      </div>
+      <div class="card">
+        <span class="pill">Otro Buen Programa</span>
+        <p>Fundamentos y oficios en redacción; banco de datos y argumentos en construcción.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:24px">Bitácora de avances</h3>
+    <div class="ph">
+      <span class="tag">Próximamente</span><br>
+      Aquí se registrarán los hitos día por día —prototipos, aprendizajes y decisiones— para seguir el pulso de las iniciativas. La primera entrada llegará pronto.
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CAPA 3 — PUERTA -->
+  <section class="wrap reveal" id="sumarse">
+    <p class="label">La puerta</p>
+    <h2>Cómo sumarse</h2>
     <p>En lugar de pedir, preferimos preguntar:</p>
     <ul>
       <li>¿Quieren <b>hacerse cargo</b> de alguna parte del proyecto?</li>
@@ -179,11 +260,40 @@
     </details>
   </section>
 
+  <div class="divider"></div>
+
+  <!-- AGRADECIMIENTOS -->
+  <section class="wrap reveal thanks" id="gracias">
+    <p class="label">Gratitud</p>
+    <h2>A quienes han tendido la mano</h2>
+    <p>Esta iniciativa avanza gracias a personas e instituciones que, sin que mediara obligación alguna, decidieron apoyar. Lo dejamos por escrito por decencia y reciprocidad —no como petición, sino como reconocimiento.</p>
+    <div class="grid three">
+      <div class="card">
+        <div class="mark">🏛️</div>
+        <div class="who">CECEQ · Centro Cultural Gómez Morín</div>
+        <div class="what">Por su apertura institucional y el respaldo a una actividad lícita, técnica y de interés público.</div>
+      </div>
+      <div class="card">
+        <div class="mark">🍱</div>
+        <div class="who">Toki Sushi</div>
+        <div class="what">Por un plato de comida cada día: un apoyo invaluable y consistente que ha sostenido este trabajo.</div>
+      </div>
+      <div class="card">
+        <div class="mark">🖨️</div>
+        <div class="who">Office Depot</div>
+        <div class="what">Por su apoyo a las necesidades materiales del proyecto.</div>
+      </div>
+    </div>
+    <p style="font-size:14px; color:var(--soft); margin-top:14px"><em>Las menciones se irán ampliando conforme la comunidad crezca.</em></p>
+  </section>
+
+  <div class="divider"></div>
+
   <!-- POR VENIR -->
-  <section>
-    <h2>Por venir</h2>
-    <h3>Lo que falta en esta página</h3>
-    <div class="cards">
+  <section class="wrap reveal">
+    <p class="label">Por venir</p>
+    <h2>Lo que falta en esta página</h2>
+    <div class="grid two">
       <div class="ph"><span class="tag">Próximamente</span><br>Mensajes a la medida por público (familia Toki, CECEQ, comunidad).</div>
       <div class="ph"><span class="tag">Próximamente</span><br>Código QR de acceso para los oficios impresos.</div>
       <div class="ph"><span class="tag">Próximamente</span><br>Identidad visual (color, símbolo, voz).</div>
@@ -192,14 +302,22 @@
   </section>
 
   <!-- CONTACTO -->
-  <footer>
-    <h2 style="color:var(--warm)">Contacto</h2>
+  <footer class="wrap reveal">
+    <p class="label">Contacto</p>
     <p><b>Víctor Hugo Torres Méndez</b><br>Intérprete médico y desarrollador independiente · Querétaro</p>
     <p>📧 <a href="mailto:the.willfreeman@gmail.com">the.willfreeman@gmail.com</a><br>📱 614 369 7381</p>
     <p class="lema">«Patria pendiente, esa que aún no es.»</p>
-    <p class="stamp">Documento vivo · versión preliminar v0.1 · actualizado 2026-06-10</p>
+    <p class="stamp">Documento vivo · versión preliminar v0.2 · actualizado <span id="y"></span></p>
   </footer>
 
 </main>
+
+<script>
+  // Año dinámico
+  document.getElementById('y').textContent = new Date().toLocaleDateString('es-MX',{year:'numeric',month:'long',day:'numeric'});
+  // Reveal on scroll
+  const io = new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in'); io.unobserve(e.target)}}),{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
 </body>
 </html>
