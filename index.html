@@ -6,190 +6,24 @@
 <meta name='robots' content='noindex, nofollow'>
 <meta name='theme-color' content='#1a3a8f'>
 <meta name='description' content='CoMind y Otro Buen Programa: dos iniciativas desde Queretaro. Una protesis cognitiva digital para mentes neurodivergentes y una alternativa seria de recuperacion. Espacio colaborativo, version preliminar.'>
+<link rel='icon' href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231a3a8f'/%3E%3Ccircle cx='16' cy='16' r='6.5' fill='%23b6e34d'/%3E%3C/svg%3E">
+<meta property='og:type' content='website'>
+<meta property='og:locale' content='es_MX'>
+<meta property='og:title' content='CoMind y Otro Buen Programa'>
+<meta property='og:description' content='Dos iniciativas desde Queretaro: una protesis cognitiva digital para mentes neurodivergentes y una alternativa seria de recuperacion. Espacio colaborativo, version preliminar.'>
+<meta name='author' content='Victor Hugo Torres Mendez'>
 <title>CoMind y Otro Buen Programa, espacio colaborativo</title>
 <link rel='preconnect' href='https://fonts.googleapis.com'>
 <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
 <link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap' rel='stylesheet'>
-<style>
-:root{
-  --bg:#dcdce0; --paper:#ffffff; --paper-2:#fafafa;
-  --ink:#0a0a0a; --ink-2:#262626; --ink-3:#525252; --ink-4:#737373; --ink-5:#a3a3a3;
-  --rule:#e5e5e5; --rule-2:#d4d4d4; --surface:#fafafa; --surface-2:#f4f4f5;
-  --cobalt:#1a3a8f; --cobalt-soft:#3a5fb8; --cobalt-ink:#16306f; --cobalt-bg:#eef1f9;
-  --coral:#c0524a; --coral-soft:#f4ece9; --coral-ink:#9a3f38;
-  --magenta:#a8336e; --purple:#5b3a8f; --purple-ink:#46286f; --lime:#b6e34d;
-  --mono:'JetBrains Mono',monospace; --serif:'Newsreader',Georgia,serif;
-  --maxw:880px;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0; background:var(--bg); color:var(--ink);
-  font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
-  font-size:11pt; line-height:1.68; font-weight:400;
-  font-feature-settings:'cv11','ss01','tnum'; -webkit-font-smoothing:antialiased; text-rendering:geometricPrecision;}
-::selection{background:#c9d4ef}
-a{color:var(--ink); text-decoration:none; border-bottom:1px solid var(--ink-5)}
-a:hover{border-bottom-color:var(--ink)}
-:focus-visible{outline:2.5px solid var(--cobalt); outline-offset:3px}
-
-.wip{background:var(--ink); color:#e7eaf2; text-align:center; font-family:var(--mono); font-size:8pt; letter-spacing:1.4px; text-transform:uppercase; padding:8px 14px}
-.wip b{color:var(--lime); font-weight:700}
-
-.topbar{position:sticky; top:0; z-index:80; background:rgba(220,220,224,.88); backdrop-filter:saturate(1.4) blur(10px); border-bottom:1px solid var(--rule-2)}
-.topbar .row{max-width:var(--maxw); margin:0 auto; display:flex; align-items:center; justify-content:space-between; height:54px; padding:0 24px; gap:16px}
-.brand{display:flex; align-items:center; gap:10px; font-weight:800; font-size:10.5pt; letter-spacing:-.2px; color:var(--ink); border:none; white-space:nowrap}
-.live{position:relative; width:9px; height:9px; flex:none}
-.live::before,.live::after{content:''; position:absolute; inset:0; border-radius:50%; background:var(--coral)}
-.live::after{animation:pulse 2.4s ease-out infinite}
-@keyframes pulse{0%{transform:scale(1);opacity:.6}70%{transform:scale(2.8);opacity:0}100%{opacity:0}}
-.nav{display:flex; gap:20px; font-family:var(--mono); font-size:7.5pt; letter-spacing:1.3px; text-transform:uppercase; overflow:auto}
-.nav a{color:var(--ink-4); border:none; white-space:nowrap} .nav a:hover{color:var(--ink)}
-@media(max-width:860px){.nav{display:none}}
-.progress{height:2px; background:transparent} .progress i{display:block; height:100%; width:0; background:linear-gradient(90deg,var(--cobalt),var(--coral))}
-
-.sheet{max-width:var(--maxw); margin:40px auto; background:var(--paper); border:1px solid var(--rule); box-shadow:0 2px 6px rgba(0,0,0,.06)}
-.pad{padding:0 78px}
-@media(max-width:720px){.pad{padding:0 26px} .sheet{margin:20px auto}}
-
-.mast{padding:72px 78px 40px; border-bottom:1px solid var(--ink)}
-@media(max-width:720px){.mast{padding:44px 26px 30px}}
-.mast .flag{font-family:var(--mono); font-size:7.5pt; letter-spacing:2.5px; text-transform:uppercase; color:var(--ink-4); font-weight:600; display:flex; gap:10px; align-items:center}
-.mast .flag .dot{width:7px;height:7px;border-radius:50%;background:var(--coral)}
-.mast h1{font-family:var(--serif); font-weight:600; font-size:clamp(31px,6vw,52px); line-height:1.07; letter-spacing:-.01em; margin:22px 0 0}
-.mast .sub{font-size:13.5pt; color:var(--ink-3); max-width:56ch; margin:18px 0 0; line-height:1.5}
-.mast .meta{font-family:var(--mono); font-size:8pt; color:var(--ink-4); margin-top:22px; letter-spacing:.4px}
-.mast .meta b{color:var(--ink); font-weight:600}
-.mast .cta{margin-top:26px; display:flex; gap:12px; flex-wrap:wrap}
-.btn{font-family:var(--mono); font-size:8pt; letter-spacing:1.2px; text-transform:uppercase; font-weight:600; padding:12px 20px; border:1px solid var(--ink); border-radius:2px; transition:transform .14s ease, background .2s ease, color .2s; cursor:pointer}
-.btn:active{transform:translateY(1px)}
-.btn.solid{background:var(--ink); color:#fff} .btn.solid:hover{background:var(--cobalt-ink)}
-.btn.line{background:transparent; color:var(--ink)} .btn.line:hover{background:var(--surface-2)}
-
-section{padding:14px 0; scroll-margin-top:64px}
-h2.section{font-family:var(--serif); font-weight:600; font-size:24pt; letter-spacing:-.01em; line-height:1.14; margin:54px 0 18px; padding-top:24px; border-top:1px solid var(--ink); display:grid; grid-template-columns:auto 1fr; gap:22px; align-items:baseline}
-h2.section .num{font-family:var(--mono); font-size:8.5pt; color:var(--coral); font-weight:600; letter-spacing:1px; padding-top:9px; white-space:nowrap}
-h3.sub{font-size:12.5pt; font-weight:700; letter-spacing:-.2px; margin:26px 0 8px}
-h3.mono{font-family:var(--mono); font-size:8pt; font-weight:600; letter-spacing:1.6px; text-transform:uppercase; color:var(--ink-3); margin:28px 0 10px}
-p{margin:0 0 13px; color:var(--ink-2); font-size:10.8pt; line-height:1.72}
-p.lead{font-size:13pt; color:var(--ink); font-weight:500; line-height:1.5; letter-spacing:-.2px; margin-bottom:20px}
-em.term{font-style:normal; font-weight:600; color:var(--ink)}
-strong{font-weight:600; color:var(--ink)}
-sup.fn{font-size:7pt; color:var(--ink-3); font-weight:600; font-family:var(--mono); margin-left:2px}
-
-.welcome{margin:30px 0 8px; padding:22px 26px; background:var(--cobalt-bg); border-left:2px solid var(--cobalt); font-size:11pt; line-height:1.65; color:var(--ink-2)}
-.welcome b{color:var(--ink)}
-
-.thanks{display:grid; gap:14px; grid-template-columns:repeat(2,1fr); margin:22px 0 6px}
-@media(max-width:680px){.thanks{grid-template-columns:1fr}}
-.tcard{border:1px solid var(--rule); background:var(--paper); padding:22px 24px; transition:transform .2s ease, box-shadow .2s ease}
-.tcard:hover{transform:translateY(-3px); box-shadow:0 12px 30px rgba(0,0,0,.08)}
-.tcard .flag{font-family:var(--mono); font-size:7pt; letter-spacing:1.6px; text-transform:uppercase; color:var(--ink-4); font-weight:600; margin-bottom:10px}
-.tcard .inst{font-family:var(--serif); font-size:17pt; font-weight:600; line-height:1.12; letter-spacing:-.3px; color:var(--ink)}
-.tcard .what{font-size:10pt; color:var(--ink-3); margin-top:12px; line-height:1.55}
-.thanks-note{font-family:var(--mono); font-size:8pt; color:var(--ink-4); line-height:1.6; margin-top:16px; letter-spacing:.2px}
-
-.summary{margin:24px 0; padding:24px 28px; background:var(--surface)}
-.summary .lbl{font-family:var(--mono); font-size:7.5pt; letter-spacing:1.5px; text-transform:uppercase; color:var(--ink-4); font-weight:600; margin-bottom:14px; display:block}
-.summary ol{margin:0; padding:0; list-style:none; counter-reset:sum}
-.summary li{padding:6px 0 6px 34px; position:relative; color:var(--ink-2); font-size:10.4pt; line-height:1.5}
-.summary li b{color:var(--ink); font-weight:600}
-.summary li::before{counter-increment:sum; content:'0' counter(sum); position:absolute; left:0; top:6px; font-family:var(--mono); font-size:9pt; color:var(--coral); font-weight:600}
-
-.ethos{margin:30px 0 38px; padding:34px 38px; background:var(--ink); color:#e7eaf2}
-.ethos .tag{font-family:var(--mono); font-size:7.5pt; letter-spacing:2.5px; text-transform:uppercase; color:var(--lime); font-weight:700; margin-bottom:16px; display:block}
-.ethos p{margin:0; color:#e7eaf2; font-size:13pt; line-height:1.62; font-weight:500; letter-spacing:-.2px}
-.ethos p + p{margin-top:14px}
-.ethos strong{color:#fff; font-weight:800} .ethos .mark{color:var(--lime); font-weight:800}
-
-.frame{margin:22px 0; padding:20px 26px; background:var(--surface); border-left:2px solid var(--ink); font-size:10.6pt; line-height:1.7; color:var(--ink-2)}
-.frame .ttl{font-weight:700; color:var(--ink); margin-bottom:8px}
-.frame.cobalt{border-left-color:var(--cobalt)} .frame.coral{border-left-color:var(--coral)} .frame.magenta{border-left-color:var(--magenta)} .frame.purple{border-left-color:var(--purple)}
-.frame cite{display:block; font-family:var(--mono); font-style:normal; font-size:8pt; color:var(--ink-4); margin-top:10px; letter-spacing:.3px}
-
-.grid{display:grid; gap:16px; margin:22px 0}
-.grid.two{grid-template-columns:1fr 1fr}
-@media(max-width:680px){.grid.two{grid-template-columns:1fr}}
-.card{background:var(--paper); border:1px solid var(--rule); padding:24px; transition:transform .2s ease, box-shadow .2s ease; position:relative; overflow:hidden}
-.card::before{content:''; position:absolute; left:0; top:0; bottom:0; width:2px; background:var(--cobalt); opacity:0; transition:opacity .2s}
-.card:hover{transform:translateY(-3px); box-shadow:0 14px 34px rgba(0,0,0,.09)} .card:hover::before{opacity:1}
-.card.c2::before{background:var(--coral)}
-.card .emoji{font-size:24px}
-.card h3{margin:12px 0 7px; font-size:14pt; font-family:var(--serif); font-weight:600}
-.card p{font-size:10pt; color:var(--ink-3); margin:0; line-height:1.6}
-.card .pill{display:inline-block; font-family:var(--mono); font-size:7pt; letter-spacing:1.2px; text-transform:uppercase; color:var(--cobalt-ink); background:var(--cobalt-bg); padding:3px 9px; border-radius:2px; font-weight:600}
-
-.arc{display:flex; align-items:center; justify-content:center; gap:18px; flex-wrap:wrap; border:1px solid var(--rule); background:var(--paper-2); padding:22px; margin:18px 0}
-.arc .node{text-align:center; flex:1; min-width:170px}
-.arc .node .k{font-family:var(--serif); font-size:15pt; font-weight:600} .arc .node .v{font-family:var(--mono); font-size:8pt; color:var(--ink-4); text-transform:uppercase; letter-spacing:1px; margin-top:4px}
-.arc .sep{font-size:20pt; color:var(--coral)}
-
-.chips{display:flex; flex-wrap:wrap; gap:8px; margin:16px 0}
-.chip{font-family:var(--mono); font-size:7.5pt; letter-spacing:.8px; text-transform:uppercase; color:var(--ink-3); border:1px solid var(--rule-2); padding:6px 11px; border-radius:2px}
-
-.trajectory{margin:30px 0; padding:26px 30px; background:var(--ink); color:var(--paper); overflow:hidden}
-.trajectory .kicker{font-family:var(--mono); font-size:7.5pt; letter-spacing:2.5px; text-transform:uppercase; color:var(--lime); font-weight:700; display:block; margin-bottom:12px}
-.trajectory .ttl{font-family:var(--serif); font-size:18pt; font-weight:600; letter-spacing:-.3px}
-.trajectory .subt{font-size:9.5pt; color:#ccd2e6; line-height:1.55; max-width:620px; margin:8px 0 16px}
-.tj-bleed{display:block; margin:0 -30px 16px; border:none}
-.tj-bleed img{width:100%; height:auto; display:block}
-.tj-trio{display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:18px}
-.tj-trio a{border:none; display:block}
-.tj-trio img{width:100%; height:auto; display:block; border-radius:2px}
-.tj-text{font-size:9.5pt; color:#ccd2e6; line-height:1.6; margin:0 0 10px}
-.tj-text:last-child{margin-bottom:0}
-.tj-text a{color:#cfe0ff; border-bottom:1px solid #4a5680}
-
-.jewel{margin:24px 0; border:1px solid var(--rule-2); overflow:hidden}
-.jewel .head{padding:26px 30px; border-bottom:2px solid var(--ink); display:grid; grid-template-columns:auto 1fr; gap:30px; align-items:center; background:var(--paper-2)}
-.jewel .pct-block{display:flex; align-items:baseline; gap:3px; color:var(--cobalt)}
-.jewel .pct{font-size:46pt; font-weight:900; letter-spacing:-2.5px; line-height:.9}
-.jewel .pct-sym{font-size:22pt; font-weight:700}
-.jewel .pct-l{font-family:var(--mono); font-size:7pt; letter-spacing:1.5px; text-transform:uppercase; color:var(--ink-4); margin-top:8px; font-weight:600; line-height:1.4}
-.jewel .desc{font-size:10.5pt; line-height:1.6; color:var(--ink-2)} .jewel .desc strong{color:var(--ink)}
-@media(max-width:640px){.jewel .head{grid-template-columns:1fr; gap:14px} .jewel .pct{font-size:38pt}}
-
-.stats{display:grid; grid-template-columns:repeat(3,1fr); gap:0; border:1px solid var(--rule); border-bottom:none}
-@media(max-width:640px){.stats{grid-template-columns:1fr 1fr}}
-.stat{padding:20px; border-bottom:1px solid var(--rule); border-right:1px solid var(--rule)}
-.stat .n{font-size:22pt; font-weight:800; letter-spacing:-1px; color:var(--ink); line-height:1; font-feature-settings:'tnum'}
-.stat .l{font-size:9.5pt; color:var(--ink-3); margin-top:8px; line-height:1.45}
-.stat .s{font-family:var(--mono); font-size:6.8pt; color:var(--ink-5); margin-top:8px; letter-spacing:.4px; text-transform:uppercase}
-.note-mono{font-family:var(--mono); font-size:7.8pt; color:var(--ink-4); line-height:1.6; margin:14px 0 0; letter-spacing:.2px}
-
-.ph{border:1.5px dashed var(--rule-2); padding:20px 22px; color:var(--ink-3); font-size:10pt; background:repeating-linear-gradient(45deg,#fcfcfc,#fcfcfc 11px,#f5f5f5 11px,#f5f5f5 22px); margin:14px 0}
-.ph .tag{display:inline-block; font-family:var(--mono); font-size:7pt; letter-spacing:1.2px; text-transform:uppercase; background:var(--ink); color:var(--lime); padding:3px 9px; margin-bottom:10px; font-weight:700}
-
-details{border:1px solid var(--rule); background:var(--paper); padding:2px 24px; margin:12px 0}
-summary{cursor:pointer; font-weight:700; font-size:11pt; padding:16px 0; list-style:none; display:flex; align-items:baseline; gap:10px}
-summary::-webkit-details-marker{display:none}
-summary::before{content:'+'; color:var(--coral); font-family:var(--mono); font-weight:700} details[open] summary::before{content:'-'}
-details .inner{padding:2px 0 18px; color:var(--ink-2); font-size:10.4pt; line-height:1.7}
-.reflist{margin:0; padding:0; list-style:none; font-size:9.5pt; color:var(--ink-3); counter-reset:ref}
-.reflist li{padding:10px 0 10px 30px; position:relative; border-top:1px solid var(--rule); line-height:1.5}
-.reflist li:first-child{border-top:none}
-.reflist li::before{counter-increment:ref; content:counter(ref); position:absolute; left:0; top:10px; font-family:var(--mono); font-size:8pt; color:var(--coral); font-weight:600}
-.reflist b{color:var(--ink); font-weight:600} .reflist .id{font-family:var(--mono); font-size:8pt; color:var(--ink-5); display:block; margin-top:3px}
-
-footer{border-top:1px solid var(--ink); margin-top:48px; padding:40px 78px 64px}
-@media(max-width:720px){footer{padding:34px 26px 56px}}
-footer .sig-name{font-family:var(--serif); font-size:17pt; font-weight:600; color:var(--ink)}
-footer .sig-role{font-size:9.5pt; color:var(--ink-3); margin-top:6px; line-height:1.5}
-footer .contact{font-family:var(--mono); font-size:8.5pt; color:var(--ink-4); margin-top:14px; letter-spacing:.3px}
-footer .lema{font-family:var(--serif); font-style:italic; font-size:13pt; color:var(--coral-ink); margin:24px 0 0}
-footer .stamp{font-family:var(--mono); font-size:7.5pt; color:var(--ink-5); margin-top:22px; letter-spacing:1px; text-transform:uppercase}
-
-.toTop{position:fixed; right:20px; bottom:20px; width:42px; height:42px; background:var(--ink); color:#fff; border:none; cursor:pointer; font-size:17px; box-shadow:0 10px 28px rgba(0,0,0,.2); opacity:0; transform:translateY(10px); pointer-events:none; transition:opacity .3s ease, transform .3s ease; z-index:70}
-.toTop.show{opacity:1; transform:none; pointer-events:auto}
-
-.reveal{opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease}
-.reveal.in{opacity:1; transform:none}
-@media(prefers-reduced-motion:reduce){.reveal{opacity:1; transform:none; transition:none} html{scroll-behavior:auto} .live::after{animation:none}}
-@media print{.topbar,.toTop,.wip,.cta,.nav{display:none} body{background:#fff} .sheet{box-shadow:none; margin:0; border:none} .ethos,.trajectory{background:#0a0a0a !important; -webkit-print-color-adjust:exact; print-color-adjust:exact}}
-</style>
+<link rel='stylesheet' href='assets/css/instrument.css'>
+<noscript><style>.reveal{opacity:1 !important; transform:none !important}</style></noscript>
 </head>
 <body>
 
-<div class='wip'>Documento vivo &middot; <b>version preliminar v0.5</b> &middot; en construccion &middot; las secciones marcadas como proximamente seguiran creciendo</div>
+<a class='skip' href='#gracias'>Saltar al contenido</a>
+
+<div class='wip'>Documento vivo &middot; <b>version preliminar v0.8</b> &middot; en construccion &middot; las secciones marcadas como proximamente seguiran creciendo</div>
 
 <div class='topbar'>
   <div class='row'>
@@ -201,6 +35,7 @@ footer .stamp{font-family:var(--mono); font-size:7.5pt; color:var(--ink-5); marg
       <a href='#obp'>Otro Buen Programa</a>
       <a href='#avances'>Avances</a>
       <a href='#sumarse'>Sumarse</a>
+      <a href='#autor'>Autor</a>
       <a href='#fundamentos'>Fundamentos</a>
     </nav>
   </div>
@@ -231,25 +66,26 @@ footer .stamp{font-family:var(--mono); font-size:7.5pt; color:var(--ink-5); marg
     <section id='gracias' class='reveal'>
       <h2 class='section'><span class='num'>00 &mdash; Gracias</span><span class='ttl'>Antes que nada, a quienes han estado cerca</span></h2>
       <p class='lead'>Lo decimos por afecto y por gusto, no como obligacion ni como peticion disfrazada. Sin estos lugares y estas personas, el trabajo de estos meses no se habria sostenido.</p>
+      <p class='gracias-epi'>Gran parte de lo que hoy existe descansa en gestos pequenos que nadie estaba obligado a tener.</p>
       <div class='thanks'>
-        <div class='tcard'>
+        <div class='tcard k1'>
           <div class='flag'>Institucion</div>
-          <div class='inst'>CECEQ &middot; Centro Cultural Gomez Morin</div>
+          <div class='inst'><span class='mono-i' aria-hidden='true'>C</span><span>CECEQ &middot; Centro Cultural Gomez Morin</span></div>
           <div class='what'>Por sostener un centro abierto a la cultura y al trabajo de quienes pasan por Queretaro, y por un espacio estable donde fue posible pensar con calma durante ocho meses.</div>
         </div>
-        <div class='tcard'>
+        <div class='tcard k2'>
           <div class='flag'>Cada dia</div>
-          <div class='inst'>Toki</div>
+          <div class='inst'><span class='mono-i' aria-hidden='true'>T</span><span>Toki</span></div>
           <div class='what'>Por la generosidad de recibirnos, con calidez y sin aspavientos, en la rutina de cada jornada.</div>
         </div>
-        <div class='tcard'>
+        <div class='tcard k3'>
           <div class='flag'>Un lugar para trabajar</div>
-          <div class='inst'>Office Depot</div>
+          <div class='inst'><span class='mono-i' aria-hidden='true'>O</span><span>Office Depot</span></div>
           <div class='what'>Por estar siempre disponibles: un lugar donde, sencillamente, ha sido posible sentarse a trabajar.</div>
         </div>
-        <div class='tcard'>
+        <div class='tcard k4'>
           <div class='flag'>Comunidad</div>
-          <div class='inst'>La gente cercana</div>
+          <div class='inst'><span class='mono-i' aria-hidden='true'>G</span><span>La gente cercana</span></div>
           <div class='what'>Por la mirada, el tiempo y la confianza de quienes se acercan sin pedir nada a cambio. Toda mirada cuenta.</div>
         </div>
       </div>
@@ -322,12 +158,12 @@ footer .stamp{font-family:var(--mono); font-size:7.5pt; color:var(--ink-5); marg
         <div class='ttl'>Esto no empezo en 2025</div>
         <div class='subt'>Antes de CoMind hubo un blog; antes del blog, una vida con TDAH no diagnosticado. Cuatro piezas de una hilera larga.</div>
         <a class='tj-bleed' href='https://www.facebook.com/neuronoticiascom/photos'>
-          <img src='https://i.ibb.co/yFRjZq7W/30725129-2095165847438137-6249527425449852928-n.jpg' alt='neuroNoticias: Linda Perry'>
+          <img loading='lazy' decoding='async' src='https://i.ibb.co/yFRjZq7W/30725129-2095165847438137-6249527425449852928-n.jpg' alt='neuroNoticias: Linda Perry'>
         </a>
         <div class='tj-trio'>
-          <a href='https://www.facebook.com/neuronoticiascom/photos'><img src='https://i.ibb.co/20WpG9L7/463077667-3882145025406868-1363981503847241113-n.jpg' alt='La psicopatia tambien es neurodiversidad'></a>
-          <a href='https://www.facebook.com/neuronoticiascom/photos'><img src='https://i.ibb.co/399L1cQD/44324883-2228960014058719-9033713032752005120-n.jpg' alt='Obsesionado'></a>
-          <a href='https://www.facebook.com/neuronoticiascom/photos'><img src='https://i.ibb.co/1JQK2ffj/36344284-2138972273057494-5080402525358653440-n.jpg' alt='Cultiva tu propio criterio'></a>
+          <a href='https://www.facebook.com/neuronoticiascom/photos'><img loading='lazy' decoding='async' src='https://i.ibb.co/20WpG9L7/463077667-3882145025406868-1363981503847241113-n.jpg' alt='La psicopatia tambien es neurodiversidad'></a>
+          <a href='https://www.facebook.com/neuronoticiascom/photos'><img loading='lazy' decoding='async' src='https://i.ibb.co/399L1cQD/44324883-2228960014058719-9033713032752005120-n.jpg' alt='Obsesionado'></a>
+          <a href='https://www.facebook.com/neuronoticiascom/photos'><img loading='lazy' decoding='async' src='https://i.ibb.co/1JQK2ffj/36344284-2138972273057494-5080402525358653440-n.jpg' alt='Cultiva tu propio criterio'></a>
         </div>
         <p class='tj-text'>Entre 2018 y 2019 sostuve <a href='https://www.facebook.com/neuronoticiascom/photos'>neuroNoticias</a>, un sitio de divulgacion sobre neurodivergencia &mdash;TDAH, autismo, dislexia&mdash; con presencia activa en redes. Material modesto, hecho a pulso, leido por una comunidad pequena pero real.</p>
         <p class='tj-text'>Hoy el blog vive a medias. Por la inestabilidad propia de un proceso sin la salud mental atendida, perdi el acceso a la cuenta; lo que sobrevive lo conserva <a href='https://web.archive.org/web/20190321194011/http://neuronoticias.com/2018-02-22/neurodivergente/'>The Wayback Machine</a>. Que aquello quedara en cicatriz, y no en proyecto sostenido, es exactamente la operacion contra la que CoMind se construye hoy.</p>
@@ -424,7 +260,7 @@ footer .stamp{font-family:var(--mono); font-size:7.5pt; color:var(--ink-5); marg
       </div>
       <div class='ph'>
         <span class='tag'>Proximamente</span>
-        <strong>Bitacora.</strong> Un hilo que se acumula: esto se avanzo hoy, esto ayer. Un esto avance hoy honesto es, por si mismo, la rendicion de cuentas.
+        <strong>Bitacora.</strong> Un hilo que se acumula: esto se avanzo hoy, esto ayer. Un &laquo;esto avance hoy&raquo; honesto es, por si mismo, la rendicion de cuentas.
       </div>
     </section>
 
@@ -476,43 +312,48 @@ footer .stamp{font-family:var(--mono); font-size:7.5pt; color:var(--ink-5); marg
 
   </div><!-- /pad -->
 
+    <!-- ===== 08 AUTOR ===== -->
+    <section id='autor' class='reveal'>
+      <h2 class='section'><span class='num'>08 &mdash; Autor</span><span class='ttl'>Quien sostiene este trabajo</span></h2>
+      <div class='author'>
+        <figure class='portrait'>
+          <img loading='lazy' decoding='async' width='720' height='900'
+               src='https://i.ibb.co/ccwwVstc/481297598-1179907997182490-511906674960971516-n.jpg'
+               alt='Retrato de Victor Hugo Torres Mendez'>
+          <span class='grain' aria-hidden='true'></span>
+        </figure>
+        <div class='author-body'>
+          <p class='kicker'>Interprete medico &middot; Desarrollador independiente</p>
+          <h3>Victor Hugo Torres Mendez</h3>
+          <p>Desde Queretaro, sostiene a pulso las dos iniciativas de esta pagina: una protesis cognitiva digital para mentes neurodivergentes (CoMind) y una alternativa seria de recuperacion en adicciones (Otro Buen Programa). Una tecnica, otra espiritual; el mismo trabajo.</p>
+          <ul class='facts'>
+            <li><span>Oficio</span> Interpretacion medica</li>
+            <li><span>Construye</span> CoMind &middot; Otro Buen Programa</li>
+            <li><span>Estudia</span> Seguridad de la Informacion y Cibernetica</li>
+            <li><span>Lugar</span> Queretaro, Mexico</li>
+          </ul>
+          <p class='lema-inline'>&laquo;Patria pendiente, esa que aun no es.&raquo;</p>
+          <div class='cta'>
+            <a class='btn solid' href='mailto:the.willfreeman@gmail.com'>Escribir</a>
+            <a class='btn line' href='#sumarse'>Como sumarse</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
   <footer>
     <div class='sig-name'>Victor Hugo Torres Mendez</div>
     <div class='sig-role'>Interprete medico &middot; Desarrollador independiente<br>Estudiante de Ing. en Seguridad de la Informacion y Cibernetica</div>
     <div class='contact'>the.willfreeman@gmail.com &middot; 614 369 7381 &middot; Queretaro, Mexico</div>
     <div class='lema'>&laquo;Patria pendiente, esa que aun no es.&raquo;</div>
-    <div class='stamp'>Documento vivo &middot; version preliminar v0.5 &middot; actualizado el <span id='fecha'></span> &middot; pagina sin indexar</div>
+    <div class='stamp'>Documento vivo &middot; version preliminar v0.8 &middot; actualizado el <span id='fecha'></span> &middot; pagina sin indexar</div>
   </footer>
 
 </div><!-- /sheet -->
 
 <button class='toTop' id='toTop' aria-label='Volver arriba'>&uarr;</button>
 
-<script>
-(function(){
-  var bar=document.getElementById('bar');
-  var toTop=document.getElementById('toTop');
-  function onScroll(){
-    var h=document.documentElement;
-    var max=h.scrollHeight-h.clientHeight;
-    var p=max>0?(h.scrollTop||document.body.scrollTop)/max:0;
-    if(bar) bar.style.width=(p*100)+'%';
-    if(toTop){ if((h.scrollTop||document.body.scrollTop)>600){toTop.classList.add('show');}else{toTop.classList.remove('show');} }
-  }
-  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
-  if(toTop) toTop.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
-
-  var reveals=document.querySelectorAll('.reveal');
-  if('IntersectionObserver' in window){
-    var io=new IntersectionObserver(function(entries){
-      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
-    },{rootMargin:'0px 0px -8% 0px',threshold:0.08});
-    reveals.forEach(function(el){io.observe(el);});
-  } else { reveals.forEach(function(el){el.classList.add('in');}); }
-
-  var f=document.getElementById('fecha');
-  if(f){ try{ f.textContent=new Date().toLocaleDateString('es-MX',{day:'numeric',month:'long',year:'numeric'}); }catch(err){ f.textContent=new Date().toISOString().slice(0,10); } }
-})();
-</script>
+<script src='assets/js/config.js' defer></script>
+<script src='assets/js/glosa.js' defer></script>
 </body>
 </html>
