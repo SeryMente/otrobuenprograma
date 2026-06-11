@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>CoMind · Otro Buen Programa — Espacio colaborativo</title>
+<style>
+  :root{
+    --bg:#faf8f4; --ink:#2b2724; --muted:#6b645c; --line:#e7e1d8;
+    --card:#ffffff; --accent:#3f6f5a; --accent-soft:#eaf2ee;
+    --warm:#b07c43; --warm-soft:#f6ecdd; --blue-soft:#e9eef5;
+    --radius:16px; --maxw:760px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.62; font-size:17px; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 22px}
+  a{color:var(--accent)}
+
+  /* Aviso de trabajo en progreso */
+  .wip{
+    background:var(--warm-soft); color:#5d3f1c; text-align:center;
+    font-size:14px; padding:10px 16px; border-bottom:1px solid #ecdcc4;
+  }
+  .wip b{font-weight:700}
+
+  /* Encabezado */
+  header{padding:54px 0 26px; text-align:center}
+  .badge{
+    display:inline-block; font-size:12px; letter-spacing:.06em; text-transform:uppercase;
+    background:var(--accent-soft); color:var(--accent); border:1px solid #cfe1d8;
+    padding:5px 12px; border-radius:999px; margin-bottom:18px; font-weight:600;
+  }
+  h1{font-size:30px; line-height:1.2; margin:0 0 8px}
+  .subtitle{color:var(--muted); margin:0; font-size:17px}
+
+  /* Bloques */
+  section{padding:26px 0; border-top:1px solid var(--line)}
+  h2{font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--warm); margin:0 0 6px}
+  h3{font-size:22px; margin:0 0 10px}
+  h4{font-size:18px; margin:18px 0 4px}
+  p{margin:0 0 14px}
+  .lead{font-size:18px}
+
+  .callout{
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:16px 18px; margin:16px 0; display:flex; gap:12px; align-items:flex-start;
+  }
+  .callout .ico{font-size:20px; line-height:1.4}
+  .callout.green{background:var(--accent-soft); border-color:#cfe1d8}
+  .callout.blue{background:var(--blue-soft); border-color:#d4def0}
+  .callout.gray{background:#f1eee9; border-color:var(--line)}
+
+  .cards{display:grid; gap:14px; grid-template-columns:1fr; margin-top:6px}
+  @media(min-width:620px){.cards{grid-template-columns:1fr 1fr}}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:18px}
+  .card .emoji{font-size:24px}
+  .card h4{margin:8px 0 6px}
+  .card p{font-size:15.5px; color:#4a443d; margin:0}
+
+  /* Placeholders */
+  .ph{
+    border:1.5px dashed #d8cfc1; background:repeating-linear-gradient(45deg,#fcfaf6,#fcfaf6 10px,#f7f2ea 10px,#f7f2ea 20px);
+    border-radius:var(--radius); padding:18px; color:var(--muted); font-size:15px;
+  }
+  .ph .tag{
+    display:inline-block; font-size:11px; letter-spacing:.05em; text-transform:uppercase;
+    background:#efe7da; color:#8a6d3b; padding:3px 9px; border-radius:6px; margin-bottom:8px; font-weight:700;
+  }
+
+  details{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:6px 18px; margin:14px 0}
+  summary{cursor:pointer; font-weight:600; padding:12px 0; list-style:none}
+  summary::-webkit-details-marker{display:none}
+  summary::before{content:"▸ "; color:var(--warm)}
+  details[open] summary::before{content:"▾ "}
+  details .inner{padding:4px 0 14px; color:#4a443d; font-size:15.5px}
+
+  ul{margin:0 0 14px; padding-left:20px}
+  li{margin-bottom:7px}
+
+  footer{padding:34px 0 60px; border-top:1px solid var(--line); color:var(--muted); font-size:15px}
+  .stamp{font-size:12.5px; color:#a59b8d; margin-top:18px}
+  .lema{font-style:italic; color:#6b645c; margin-top:14px}
+</style>
+</head>
+<body>
+
+<div class="wip">🚧 <b>Versión preliminar</b> — esta página está en construcción. El contenido y las secciones marcadas como <i>próximamente</i> seguirán creciendo.</div>
+
+<header class="wrap">
+  <span class="badge">v0.1 · borrador vivo</span>
+  <h1>CoMind&nbsp;·&nbsp;Otro Buen Programa</h1>
+  <p class="subtitle">Un espacio colaborativo para conocer, observar y sumarse a dos iniciativas hechas desde Querétaro.</p>
+</header>
+
+<main class="wrap">
+
+  <!-- Bienvenida -->
+  <section>
+    <div class="callout blue">
+      <span class="ico">🪟</span>
+      <div>Te damos la bienvenida como <b>observador/a invitado/a</b>. Esta es una <b>página viva</b>: aquí puedes conocer las generalidades de los proyectos, seguir sus avances y, si algo resuena, proponer. No hay nada que firmar ni que aportar de inmediato.</div>
+    </div>
+  </section>
+
+  <!-- CAPA 1 — EL MARCO -->
+  <section>
+    <h2>El marco</h2>
+    <h3>¿Qué es este espacio?</h3>
+    <p class="lead">Más que pedir apoyo económico, lo que buscamos es <b>aglutinar una comunidad</b> alrededor de estas dos iniciativas: personas, empresas y voluntades dispuestas a aportar mirada, experiencia y oficio. Aquí no se mendiga: se construye y, porque se quiere, se rinde cuentas.</p>
+
+    <div class="cards">
+      <div class="card">
+        <div class="emoji">🧠</div>
+        <h4>CoMind — una prótesis cognitiva digital</h4>
+        <p>Una herramienta de IA personal pensada para acompañar a mentes neurodivergentes: una «segunda mente» que sostiene la memoria de trabajo, organiza la atención y convierte lo que uno sabe en acción. Su continuidad natural es una empresa de tecnología con sede en Querétaro.</p>
+      </div>
+      <div class="card">
+        <div class="emoji">🌱</div>
+        <h4>Otro Buen Programa — una alternativa de recuperación</h4>
+        <p>Un programa de acompañamiento en adicciones, análogo en forma a los doce pasos pero fundado en los principios de <i>Un Curso de Milagros</i>. No busca desplazar a nadie: ofrece una segunda opción seria donde hoy la oferta está enormemente concentrada.</p>
+      </div>
+    </div>
+
+    <div class="callout green">
+      <span class="ico">🎯</span>
+      <div><b>El objetivo, en concreto.</b> Hoy, una familia de a pie que busca ayuda para un hijo con una adicción tiene, en los hechos, una sola puerta. La ambición de <i>Otro Buen Programa</i> es que esa familia tenga <b>dos</b> opciones serias y confíe en ambas por igual. Hasta que esa otra puerta no sea real, el trabajo no se dará por terminado.</div>
+    </div>
+
+    <h4>El arco entre los dos proyectos</h4>
+    <p><b>CoMind es el inicio y la prueba</b> —la herramienta que demuestra que se puede construir algo riguroso desde aquí—; <b>Otro Buen Programa es el destino</b> —el bien social al que apunta todo el esfuerzo—.</p>
+  </section>
+
+  <!-- CAPA 2 — EL LATIDO -->
+  <section>
+    <h2>El latido</h2>
+    <h3>En qué andamos hoy</h3>
+    <p>Esta es la parte que se mueve a diario. Una página que avanza cada día prueba, sin decirlo, que esto es real y que hay alguien trabajando. La constancia <i>es</i> la prueba.</p>
+
+    <h4>Estado actual</h4>
+    <ul>
+      <li><b>CoMind:</b> esqueleto técnico funcionando (captura, búsqueda y repaso) y primera versión instalable en el móvil en curso.</li>
+      <li><b>Otro Buen Programa:</b> fundamentos y oficios en redacción; banco de datos y argumentos en construcción.</li>
+    </ul>
+
+    <h4>Bitácora de avances</h4>
+    <div class="ph">
+      <span class="tag">Próximamente</span><br>
+      Aquí se irán registrando los hitos día por día —prototipos, aprendizajes y decisiones— para que cualquier observador pueda seguir el pulso de las iniciativas. La primera entrada llegará pronto.
+    </div>
+  </section>
+
+  <!-- CAPA 3 — LA PUERTA Y EL SÓTANO -->
+  <section>
+    <h2>La puerta</h2>
+    <h3>Cómo sumarse</h3>
+    <p>En lugar de pedir, preferimos preguntar:</p>
+    <ul>
+      <li>¿Quieren <b>hacerse cargo</b> de alguna parte del proyecto?</li>
+      <li>¿Pueden aportar <b>ideas, mentorías, contactos, procesos o tecnología</b>?</li>
+      <li>¿<b>Cómo lo resolverían</b> ustedes?</li>
+    </ul>
+    <div class="callout green">
+      <span class="ico">🌟</span>
+      <div>Más que modestas sumas de dinero, lo verdaderamente valioso es empezar a construir comunidad. Toda mirada cuenta.</div>
+    </div>
+
+    <details>
+      <summary>El sótano — método, rigor y fundamentos</summary>
+      <div class="inner">
+        <span class="ph tag" style="display:inline-block">Próximamente</span>
+        <p style="margin-top:10px">Para quien quiera escarbar: aquí vivirán el método de trabajo, los fundamentos técnicos de CoMind y las bases conceptuales de <i>Otro Buen Programa</i>. Se irá llenando sin saturar la entrada principal.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- POR VENIR -->
+  <section>
+    <h2>Por venir</h2>
+    <h3>Lo que falta en esta página</h3>
+    <div class="cards">
+      <div class="ph"><span class="tag">Próximamente</span><br>Mensajes a la medida por público (familia Toki, CECEQ, comunidad).</div>
+      <div class="ph"><span class="tag">Próximamente</span><br>Código QR de acceso para los oficios impresos.</div>
+      <div class="ph"><span class="tag">Próximamente</span><br>Identidad visual (color, símbolo, voz).</div>
+      <div class="ph"><span class="tag">Próximamente</span><br>Galería de avances y prototipos.</div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <footer>
+    <h2 style="color:var(--warm)">Contacto</h2>
+    <p><b>Víctor Hugo Torres Méndez</b><br>Intérprete médico y desarrollador independiente · Querétaro</p>
+    <p>📧 <a href="mailto:the.willfreeman@gmail.com">the.willfreeman@gmail.com</a><br>📱 614 369 7381</p>
+    <p class="lema">«Patria pendiente, esa que aún no es.»</p>
+    <p class="stamp">Documento vivo · versión preliminar v0.1 · actualizado 2026-06-10</p>
+  </footer>
+
+</main>
+</body>
+</html>
