@@ -13,9 +13,9 @@
   --topbar-bg:rgba(220,220,224,.88);
   --hero-bg:#0b1738; --hero-text:#f7f9fe; --hero-muted:#cdd6ea;
   --hero-grad:
-    radial-gradient(120% 90% at 16% 10%, #2a4ea6 0%, rgba(42,78,166,0) 55%),
-    radial-gradient(90% 85% at 90% 92%, #14306f 0%, rgba(20,48,111,0) 60%),
-    linear-gradient(158deg, #0f1f4d 0%, #0b1738 58%, #070f2a 100%);
+    radial-gradient(120% 110% at 18% 0%, #2c52a6 0%, rgba(44,82,166,0) 52%),
+    radial-gradient(100% 100% at 88% 100%, #16356f 0%, rgba(22,53,111,0) 58%),
+    linear-gradient(165deg, #112a5e 0%, #0c1b3f 55%, #060c22 100%);
   --hero-accent:#b6e34d; --hero-accent-ink:#0b1738;
   --hero-accent-shadow:0 6px 22px rgba(182,227,77,.28);
   --hero-ghost-border:rgba(255,255,255,.42); --hero-link:#cfe89a;
