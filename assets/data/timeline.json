@@ -1,0 +1,105 @@
+{
+  "meta": {
+    "titulo": "Linea de tiempo viva",
+    "nota": "Hitos del proyecto (persona + proyecto). Documento vivo: se anaden conforme ocurren. Fuente canonica de la linea de tiempo; el render usa la copia inline en index.html (#tl-data) para ser offline-trivial.",
+    "version": "v0.9",
+    "actualizado": "2026-06-11"
+  },
+  "hilos": [
+    {
+      "id": "comind",
+      "nombre": "CoMind - la protesis que se levanta desde cero",
+      "tipo": "proyecto",
+      "origen": "No es una app mas: es una protesis cognitiva no farmacologica para la disfuncion ejecutiva del TDAH adulto. El deficit que ataca tiene nombre: la perdida de la persistencia del contexto. Todo lo que sigue existe para resolver eso.",
+      "hitos": [
+        {
+          "n": 1, "estado": "hecho", "fecha": "2026-06-06",
+          "titulo": "El taller montado",
+          "detalle": "Repositorio en la nube, entorno de desarrollo en el navegador (Codespaces), IA en el editor y el primer test verde publicado en GitHub.",
+          "sentido": "Alguien que apenas empezaba con la terminal levanto un entorno de desarrollo profesional, en la nube, sin instalar nada en su maquina. La barrera de entrada cayo."
+        },
+        {
+          "n": 2, "estado": "hecho", "fecha": "2026-06-07/09",
+          "titulo": "El esqueleto que ya funciona de verdad",
+          "detalle": "Modelo de captura, bandeja que guarda el texto crudo, busqueda, repaso del dia e integracion de punta a punta - todo con CI verde, pruebas automatizadas y la etiqueta v0.0-esqueleto.",
+          "sentido": "El nucleo mas pequeno posible ya captura, guarda y devuelve. Probado, no simulado: nada se declara hecho porque compile, sino porque la prueba real pasa."
+        },
+        {
+          "n": 3, "estado": "encurso", "fecha": "2026-06-10/11", "fase": "Fase A - hilo delgado",
+          "titulo": "El segundo cerebro entra al bolsillo",
+          "sub": [
+            {"k": "A1", "estado": "hecho", "t": "App instalable en el movil que abre sin conexion."},
+            {"k": "A2", "estado": "hecho", "t": "Una nota escrita en el telefono llega al almacen."},
+            {"k": "A3", "estado": "hecho", "t": "Las capturas se ven ordenadas en una linea de tiempo."},
+            {"k": "A4", "estado": "encurso", "t": "Sincronizacion y persistencia: cerrar y reabrir sin perder nada."},
+            {"k": "A5", "estado": "porvenir", "t": "Instrumentacion de uso (que dias hubo captura)."}
+          ],
+          "sentido": "Por primera vez la protesis vive donde vive la vida -en el bolsillo- y captura sin friccion. Es el primer recorrido completo de extremo a extremo: del dedo en la pantalla al dato guardado."
+        },
+        {
+          "n": 4, "estado": "encurso", "fecha": "2026-06-09/2026-07-14", "fase": "Fase B - medicion",
+          "titulo": "La prueba contra la realidad",
+          "detalle": "Linea base con instrumentos validados (ASRS, ADEXI, ESQ-R), registro diario de adherencia, tablero de uso y un corte honesto go/no-go a 4 semanas.",
+          "sentido": "El proyecto se somete a evidencia. No se mide contra el entusiasmo, sino contra el dato.",
+          "evidenciaViva": "Que en estos dias me costara siquiera llenar los instrumentos de linea base no es un tropiezo a esconder - es la prueba viva del problema que la protesis existe para resolver."
+        },
+        {
+          "n": 5, "estado": "porvenir", "fecha": "desde 2026-07-15", "fase": "Fase C - estructura",
+          "titulo": "De guardar notas a entender",
+          "detalle": "Un grafo de conocimiento personal (Neo4j), extraccion de relaciones desde el texto, recuperacion tipo GraphRAG y un agente que verifica la procedencia de cada afirmacion.",
+          "sentido": "El salto de anotar a conectar y comprender. Aqui la protesis empieza a hacer lo que ningun cuaderno hace. Es lo que viene, no lo que ya esta."
+        }
+      ]
+    },
+    {
+      "id": "obp",
+      "nombre": "Otro Buen Programa - el esfuerzo hermano",
+      "tipo": "proyecto",
+      "hitos": [
+        {
+          "n": 6, "estado": "hecho", "fecha": "2026-06",
+          "titulo": "El vacio, documentado con fuentes primarias",
+          "detalle": "Banco de estadisticas con fuentes primarias: +2,500 centros residenciales, 84% privados y solo 7% en norma; predominio casi total del modelo unico; sin red establecida de alternativas en Mexico.",
+          "sentido": "OBP no parte de una opinion, parte de un hueco real y medible en el pais. La cifra sostiene la causa."
+        },
+        {
+          "n": 7, "estado": "hecho", "fecha": "2026-06-10",
+          "titulo": "La premisa, puesta a prueba",
+          "detalle": "Verificacion honesta de la premisa rectora: que se sostiene, que grietas quedan abiertas.",
+          "sentido": "Antes de proponer, se audita la propia tesis. Rigor antes que retorica."
+        },
+        {
+          "n": 8, "estado": "hecho", "fecha": "2026-06",
+          "titulo": "La comunicacion institucional, establecida",
+          "detalle": "Oficio formal al CECEQ (Centro Cultural Gomez Morin) y carta de agradecimiento a Toki, a nombre de Victor Hugo Torres.",
+          "sentido": "El proyecto ya habla con instituciones con voz seria y formal - deja constancia y reconoce a quienes lo hicieron posible."
+        }
+      ]
+    },
+    {
+      "id": "instrumento",
+      "nombre": "El instrumento mismo (esta obra)",
+      "tipo": "proyecto",
+      "hitos": [
+        {
+          "n": 9, "estado": "hecho", "fecha": "2026-06",
+          "titulo": "El documento vivo, en vivo",
+          "detalle": "Version v0.7 editorial publicada en GitHub Pages, sobria y cuidada.",
+          "sentido": "El proyecto ya tiene cara publica. Existe, se puede visitar."
+        },
+        {
+          "n": 10, "estado": "hecho", "fecha": "2026-06-11",
+          "titulo": "Decidido como crecer sin romperse",
+          "detalle": "Estrategia de arranque: v1 sin backend (anonima, local), grado mundial desde el primer dia, con transicion seamless a backend despues.",
+          "sentido": "Ambicion alta sostenida por metodo -mejora progresiva, capas reversibles-; nada se promete que la plataforma no pueda dar."
+        },
+        {
+          "n": 11, "estado": "porvenir", "fecha": "proximo",
+          "titulo": "Las capas que vienen",
+          "detalle": "Glosa (comentar por elemento), esta misma linea de tiempo viva, las voces que acompanan y el pulso (estado al dia + chat).",
+          "sentido": "Convertir al lector en interlocutor. La obra que se completa con quien la recibe."
+        }
+      ]
+    }
+  ]
+}

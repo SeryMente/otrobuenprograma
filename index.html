@@ -17,13 +17,16 @@
 <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
 <link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap' rel='stylesheet'>
 <link rel='stylesheet' href='assets/css/instrument.css'>
+<link rel='stylesheet' href='assets/css/additions.css'>
+<link rel='manifest' href='manifest.webmanifest'>
+<link rel='apple-touch-icon' href='assets/img/apple-touch-icon.png'>
 <noscript><style>.reveal{opacity:1 !important; transform:none !important}</style></noscript>
 </head>
 <body>
 
 <a class='skip' href='#gracias'>Saltar al contenido</a>
 
-<div class='wip'>Documento vivo &middot; <b>version preliminar v0.8</b> &middot; en construccion &middot; las secciones marcadas como proximamente seguiran creciendo</div>
+<div class='wip'>Documento vivo &middot; <b>version preliminar v0.9.1</b> &middot; en construccion &middot; las secciones marcadas como proximamente seguiran creciendo</div>
 
 <div class='topbar'>
   <div class='row'>
@@ -36,8 +39,14 @@
       <a href='#avances'>Avances</a>
       <a href='#sumarse'>Sumarse</a>
       <a href='#autor'>Autor</a>
+      <a href='#pulso'>Pulso</a>
+      <a href='#porque'>El porque</a>
+      <a href='#camino'>Camino</a>
+      <a href='#mapa'>Mapa</a>
+      <a href='#voces'>Voces</a>
       <a href='#fundamentos'>Fundamentos</a>
     </nav>
+    <button id='pwa-install' class='pwa-install' type='button' hidden>Instalar app</button>
   </div>
   <div class='progress'><i id='bar'></i></div>
 </div>
@@ -61,6 +70,45 @@
     <div class='welcome reveal'>
       Te damos la bienvenida como <b>observador o observadora invitada</b>. Esta es una <b>pagina viva</b>: aqui puedes conocer las generalidades de ambos proyectos, seguir sus avances y, si algo resuena, proponer. No hay nada que firmar ni que aportar de inmediato. El espiritu es sencillo: aqui no se mendiga, se construye, y porque se quiere, se rinde cuentas.
     </div>
+
+    <!-- ===== PULSO (estado al dia + presencia) ===== -->
+    <!-- ===== HERO / LLAMADO A LA ACCION (wide screen) ===== -->
+    <section id='inicio' class='hero' aria-label='Bienvenida e invitacion a participar'>
+      <div class='hero-bg' aria-hidden='true'>
+        <div class='hero-stars'></div>
+        <div class='hero-grid'></div>
+        <div class='hero-glow'></div>
+      </div>
+      <div class='hero-inner'>
+        <p class='hero-kicker'><span class='live'></span> Documento vivo &middot; CoMind &times; Otro Buen Programa</p>
+        <h1 class='hero-title'>La obra se completa <em>contigo</em>.</h1>
+        <p class='hero-sub'>Una protesis para la mente, levantandose desde cero y a la vista de todos. No solo se lee: se habita. Anota lo que te mueva, recorre el camino hito a hito y deja tu voz.</p>
+        <div class='hero-cta'>
+          <a class='btn btn-primary' href='#voces'>Deja tu voz</a>
+          <a class='btn btn-ghost' href='#camino'>Recorre el camino</a>
+          <a class='hero-link' href='#pulso'>Pulso de hoy &rarr;</a>
+        </div>
+      </div>
+      <a class='hero-scroll' href='#pulso' aria-label='Bajar al contenido'><span></span></a>
+    </section>
+
+    <section id='pulso' class='reveal'>
+      <h2 class='section'><span class='num'>&middot; Pulso</span><span class='ttl'>El estado al dia, y como hablar conmigo</span></h2>
+      <p class='lead'>El latido de hoy y la puerta para escribir. La meta es presencia real, en vivo; cuando no la haya, tu mensaje no se pierde.</p>
+      <div id='pulso-mount'>
+        <noscript><p>El estado al dia y el buzon necesitan JavaScript. Mientras tanto, puedes escribir a <a href='mailto:the.willfreeman@gmail.com'>the.willfreeman@gmail.com</a>.</p></noscript>
+      </div>
+    </section>
+
+    <!-- ===== EL PORQUE (carta abierta - EN REDACCION) ===== -->
+    <section id='porque' class='reveal'>
+      <h2 class='section'><span class='num'>&middot; El porque</span><span class='ttl'>Por que existe esto</span></h2>
+      <div class='carta'>
+        <span class='wip-flag'>&#9998; En redaccion</span>
+        <p>Aqui ira una carta abierta: en primera persona y sin adornos, el porque de todo &mdash; el problema vivido, la apuesta y la invitacion a quien lee a volverse interlocutor.</p>
+        <p class='draft-note'>Nota de la casa: la redaccion final de esta carta debe ajustarse al documento que rige el modo de redaccion del proyecto, hoy en elaboracion. Hasta que ese documento exista y se apruebe, se mantiene este andamiaje en lugar de un texto provisional que habria que rehacer.</p>
+      </div>
+    </section>
 
     <!-- ===== 00 GRACIAS ===== -->
     <section id='gracias' class='reveal'>
@@ -264,6 +312,21 @@
       </div>
     </section>
 
+    <!-- ===== CAMINO (linea de tiempo viva) ===== -->
+    <section id='camino' class='reveal'>
+      <h2 class='section'><span class='num'>&middot; Camino</span><span class='ttl'>Linea de tiempo viva</span></h2>
+      <p class='lead'>Los hitos del trabajo en tres hilos paralelos: la protesis (CoMind), el esfuerzo hermano (Otro Buen Programa) y esta misma obra. Cada hito dice que se hizo y por que importa.</p>
+      <div id='tl-filters' class='tl-filters' role='tablist' aria-label='Filtrar hitos por estado'>
+        <button type='button' data-f='all' class='on'>Todos</button>
+        <button type='button' data-f='ok'>Hecho</button>
+        <button type='button' data-f='now'>En curso</button>
+        <button type='button' data-f='next'>Por venir</button>
+      </div>
+      <div id='tl-mount' class='tl-mount'></div>
+      <noscript><ol class='tl-fallback'><li><b>CoMind - la protesis que se levanta desde cero</b><ol><li>1 &middot; El taller montado (2026-06-06)</li><li>2 &middot; El esqueleto que ya funciona de verdad (2026-06-07/09)</li><li>3 &middot; El segundo cerebro entra al bolsillo (2026-06-10/11)</li><li>4 &middot; La prueba contra la realidad (2026-06-09/2026-07-14)</li><li>5 &middot; De guardar notas a entender (desde 2026-07-15)</li></ol></li><li><b>Otro Buen Programa - el esfuerzo hermano</b><ol><li>6 &middot; El vacio, documentado con fuentes primarias (2026-06)</li><li>7 &middot; La premisa, puesta a prueba (2026-06-10)</li><li>8 &middot; La comunicacion institucional, establecida (2026-06)</li></ol></li><li><b>El instrumento mismo (esta obra)</b><ol><li>9 &middot; El documento vivo, en vivo (2026-06)</li><li>10 &middot; Decidido como crecer sin romperse (2026-06-11)</li><li>11 &middot; Las capas que vienen (proximo)</li></ol></li></ol></noscript>
+      <script type='application/json' id='tl-data'>{"hilos":[{"id":"comind","nombre":"CoMind - la protesis que se levanta desde cero","tipo":"proyecto","origen":"No es una app mas: es una protesis cognitiva no farmacologica para la disfuncion ejecutiva del TDAH adulto. El deficit que ataca tiene nombre: la perdida de la persistencia del contexto. Todo lo que sigue existe para resolver eso.","hitos":[{"n":1,"estado":"hecho","fecha":"2026-06-06","titulo":"El taller montado","detalle":"Repositorio en la nube, entorno de desarrollo en el navegador (Codespaces), IA en el editor y el primer test verde publicado en GitHub.","sentido":"Alguien que apenas empezaba con la terminal levanto un entorno de desarrollo profesional, en la nube, sin instalar nada en su maquina. La barrera de entrada cayo."},{"n":2,"estado":"hecho","fecha":"2026-06-07/09","titulo":"El esqueleto que ya funciona de verdad","detalle":"Modelo de captura, bandeja que guarda el texto crudo, busqueda, repaso del dia e integracion de punta a punta - todo con CI verde, pruebas automatizadas y la etiqueta v0.0-esqueleto.","sentido":"El nucleo mas pequeno posible ya captura, guarda y devuelve. Probado, no simulado: nada se declara hecho porque compile, sino porque la prueba real pasa."},{"n":3,"estado":"encurso","fecha":"2026-06-10/11","fase":"Fase A - hilo delgado","titulo":"El segundo cerebro entra al bolsillo","sub":[{"k":"A1","estado":"hecho","t":"App instalable en el movil que abre sin conexion."},{"k":"A2","estado":"hecho","t":"Una nota escrita en el telefono llega al almacen."},{"k":"A3","estado":"hecho","t":"Las capturas se ven ordenadas en una linea de tiempo."},{"k":"A4","estado":"encurso","t":"Sincronizacion y persistencia: cerrar y reabrir sin perder nada."},{"k":"A5","estado":"porvenir","t":"Instrumentacion de uso (que dias hubo captura)."}],"sentido":"Por primera vez la protesis vive donde vive la vida -en el bolsillo- y captura sin friccion. Es el primer recorrido completo de extremo a extremo: del dedo en la pantalla al dato guardado."},{"n":4,"estado":"encurso","fecha":"2026-06-09/2026-07-14","fase":"Fase B - medicion","titulo":"La prueba contra la realidad","detalle":"Linea base con instrumentos validados (ASRS, ADEXI, ESQ-R), registro diario de adherencia, tablero de uso y un corte honesto go/no-go a 4 semanas.","sentido":"El proyecto se somete a evidencia. No se mide contra el entusiasmo, sino contra el dato.","evidenciaViva":"Que en estos dias me costara siquiera llenar los instrumentos de linea base no es un tropiezo a esconder - es la prueba viva del problema que la protesis existe para resolver."},{"n":5,"estado":"porvenir","fecha":"desde 2026-07-15","fase":"Fase C - estructura","titulo":"De guardar notas a entender","detalle":"Un grafo de conocimiento personal (Neo4j), extraccion de relaciones desde el texto, recuperacion tipo GraphRAG y un agente que verifica la procedencia de cada afirmacion.","sentido":"El salto de anotar a conectar y comprender. Aqui la protesis empieza a hacer lo que ningun cuaderno hace. Es lo que viene, no lo que ya esta."}]},{"id":"obp","nombre":"Otro Buen Programa - el esfuerzo hermano","tipo":"proyecto","hitos":[{"n":6,"estado":"hecho","fecha":"2026-06","titulo":"El vacio, documentado con fuentes primarias","detalle":"Banco de estadisticas con fuentes primarias: +2,500 centros residenciales, 84% privados y solo 7% en norma; predominio casi total del modelo unico; sin red establecida de alternativas en Mexico.","sentido":"OBP no parte de una opinion, parte de un hueco real y medible en el pais. La cifra sostiene la causa."},{"n":7,"estado":"hecho","fecha":"2026-06-10","titulo":"La premisa, puesta a prueba","detalle":"Verificacion honesta de la premisa rectora: que se sostiene, que grietas quedan abiertas.","sentido":"Antes de proponer, se audita la propia tesis. Rigor antes que retorica."},{"n":8,"estado":"hecho","fecha":"2026-06","titulo":"La comunicacion institucional, establecida","detalle":"Oficio formal al CECEQ (Centro Cultural Gomez Morin) y carta de agradecimiento a Toki, a nombre de Victor Hugo Torres.","sentido":"El proyecto ya habla con instituciones con voz seria y formal - deja constancia y reconoce a quienes lo hicieron posible."}]},{"id":"instrumento","nombre":"El instrumento mismo (esta obra)","tipo":"proyecto","hitos":[{"n":9,"estado":"hecho","fecha":"2026-06","titulo":"El documento vivo, en vivo","detalle":"Version v0.7 editorial publicada en GitHub Pages, sobria y cuidada.","sentido":"El proyecto ya tiene cara publica. Existe, se puede visitar."},{"n":10,"estado":"hecho","fecha":"2026-06-11","titulo":"Decidido como crecer sin romperse","detalle":"Estrategia de arranque: v1 sin backend (anonima, local), grado mundial desde el primer dia, con transicion seamless a backend despues.","sentido":"Ambicion alta sostenida por metodo -mejora progresiva, capas reversibles-; nada se promete que la plataforma no pueda dar."},{"n":11,"estado":"porvenir","fecha":"proximo","titulo":"Las capas que vienen","detalle":"Glosa (comentar por elemento), esta misma linea de tiempo viva, las voces que acompanan y el pulso (estado al dia + chat).","sentido":"Convertir al lector en interlocutor. La obra que se completa con quien la recibe."}]}]}</script>
+    </section>
+
     <!-- ===== 06 SUMARSE ===== -->
     <section id='sumarse' class='reveal'>
       <h2 class='section'><span class='num'>06 &mdash; Sumarse</span><span class='ttl'>En lugar de pedir, preferimos preguntar</span></h2>
@@ -278,6 +341,65 @@
         <div class='ttl'>Contacto</div>
         Victor Hugo Torres Mendez &middot; interprete medico y desarrollador independiente<br>
         Correo: <a href='mailto:the.willfreeman@gmail.com'>the.willfreeman@gmail.com</a> &nbsp;&middot;&nbsp; Tel. 614 369 7381
+      </div>
+    </section>
+
+    <!-- ===== MAPA DEL PROYECTO ===== -->
+    <section id='mapa' class='reveal'>
+      <h2 class='section'><span class='num'>&middot; Mapa</span><span class='ttl'>El proyecto de un vistazo</span></h2>
+      <p class='lead'>Como encajan las piezas: tres hilos y la linea que los une.</p>
+      <div class='mapa-wrap'>
+        <svg viewBox='0 0 720 380' role='img' aria-labelledby='mapa-t mapa-d'>
+          <title id='mapa-t'>Mapa del proyecto</title>
+          <desc id='mapa-d'>CoMind nace del problema vivido; Otro Buen Programa sostiene la causa con evidencia; el instrumento comunica ambos y recoge las voces de quien lo recibe.</desc>
+          <g stroke='#c9c9d0' stroke-width='2' fill='none'>
+            <path d='M360 78 L150 150'/>
+            <path d='M360 78 L570 150'/>
+            <path d='M160 218 L330 286'/>
+            <path d='M560 218 L390 286'/>
+          </g>
+          <g font-family='JetBrains Mono, monospace' font-size='10' fill='#737373'>
+            <text x='238' y='118' text-anchor='middle'>nace de</text>
+            <text x='486' y='118' text-anchor='middle'>sostiene la causa</text>
+            <text x='232' y='262' text-anchor='middle'>comunica</text>
+            <text x='492' y='262' text-anchor='middle'>comunica</text>
+          </g>
+          <g>
+            <rect x='250' y='24' width='220' height='56' rx='12' fill='#fff' stroke='#c0524a' stroke-width='2'/>
+            <text x='360' y='48' text-anchor='middle' font-family='JetBrains Mono, monospace' font-size='11' font-weight='700' fill='#c0524a'>EL PROBLEMA VIVIDO</text>
+            <text x='360' y='66' text-anchor='middle' font-family='Inter, sans-serif' font-size='11' fill='#525252'>Perdida de persistencia del contexto</text>
+          </g>
+          <g>
+            <rect x='40' y='150' width='220' height='70' rx='12' fill='#1a3a8f'/>
+            <text x='150' y='182' text-anchor='middle' font-family='Inter, sans-serif' font-size='16' font-weight='800' fill='#fff'>CoMind</text>
+            <text x='150' y='202' text-anchor='middle' font-family='Inter, sans-serif' font-size='11' fill='#d7e0f5'>La protesis cognitiva</text>
+          </g>
+          <g>
+            <rect x='460' y='150' width='220' height='70' rx='12' fill='#a8336e'/>
+            <text x='570' y='182' text-anchor='middle' font-family='Inter, sans-serif' font-size='16' font-weight='800' fill='#fff'>Otro Buen Programa</text>
+            <text x='570' y='202' text-anchor='middle' font-family='Inter, sans-serif' font-size='11' fill='#f3d9e6'>El esfuerzo hermano</text>
+          </g>
+          <g>
+            <rect x='250' y='286' width='220' height='70' rx='12' fill='#5b3a8f'/>
+            <text x='360' y='318' text-anchor='middle' font-family='Inter, sans-serif' font-size='16' font-weight='800' fill='#fff'>El instrumento</text>
+            <text x='360' y='338' text-anchor='middle' font-family='Inter, sans-serif' font-size='11' fill='#e2d8f1'>Esta obra: comunica y recoge voces</text>
+          </g>
+        </svg>
+      </div>
+      <div class='mapa-legend'>
+        <span><i style='background:#1a3a8f'></i> Producto (se construye y se prueba)</span>
+        <span><i style='background:#a8336e'></i> Causa (documentada con datos)</span>
+        <span><i style='background:#5b3a8f'></i> Obra (documento vivo)</span>
+        <span><i style='background:#c0524a'></i> Origen (el problema)</span>
+      </div>
+    </section>
+
+    <!-- ===== VOCES QUE ACOMPANAN ===== -->
+    <section id='voces' class='reveal'>
+      <h2 class='section'><span class='num'>&middot; Voces</span><span class='ttl'>Las voces que acompanan</span></h2>
+      <p class='lead'>Cuando alguien glosa un elemento del documento, su voz queda aqui. La obra se completa con quien la recibe.</p>
+      <div id='voces-mount'>
+        <noscript><p>El muro de voces necesita JavaScript activo.</p></noscript>
       </div>
     </section>
 
@@ -346,7 +468,7 @@
     <div class='sig-role'>Interprete medico &middot; Desarrollador independiente<br>Estudiante de Ing. en Seguridad de la Informacion y Cibernetica</div>
     <div class='contact'>the.willfreeman@gmail.com &middot; 614 369 7381 &middot; Queretaro, Mexico</div>
     <div class='lema'>&laquo;Patria pendiente, esa que aun no es.&raquo;</div>
-    <div class='stamp'>Documento vivo &middot; version preliminar v0.8 &middot; actualizado el <span id='fecha'></span> &middot; pagina sin indexar</div>
+    <div class='stamp'>Documento vivo &middot; version preliminar v0.9.1 &middot; actualizado el <span id='fecha'></span> &middot; pagina sin indexar</div>
   </footer>
 
 </div><!-- /sheet -->
@@ -354,6 +476,9 @@
 <button class='toTop' id='toTop' aria-label='Volver arriba'>&uarr;</button>
 
 <script src='assets/js/config.js' defer></script>
+<script src='assets/js/timeline.js' defer></script>
 <script src='assets/js/glosa.js' defer></script>
+<script src='assets/js/presence.js' defer></script>
+<script src='assets/js/app.js' defer></script>
 </body>
 </html>

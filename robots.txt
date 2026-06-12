@@ -1,0 +1,4 @@
+# Instrumento de comunicacion - Proyecto Vital (v0.9)
+# Fase preliminar: sin indexacion publica aun (coincide con <meta robots noindex>).
+User-agent: *
+Disallow: /

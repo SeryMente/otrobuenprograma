@@ -1,0 +1,53 @@
+name: Calidad (no-regresion)
+
+# Verificaciones rapidas y sin red: que el sitio no se rompa en cada push.
+# Filosofia del proyecto: nada se declara "hecho" porque compile, sino
+# porque la prueba real pasa. Aqui van las pruebas baratas; las e2e
+# (Playwright) llegan cuando exista backend/flujos interactivos.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  estaticos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: JSON valido (timeline + manifest)
+        run: |
+          python3 -c "import json; json.load(open('assets/data/timeline.json')); print('timeline.json OK')"
+          python3 -c "import json; json.load(open('manifest.webmanifest')); print('manifest OK')"
+
+      - name: JSON inline (#tl-data) valido
+        run: |
+          python3 - <<'PY'
+          import re, json
+          html=open('index.html', encoding='utf-8').read()
+          m=re.search(r"id='tl-data'>(.*?)</script>", html, re.S)
+          assert m, 'no se encontro #tl-data'
+          d=json.loads(m.group(1))
+          n=sum(len(h['hitos']) for h in d['hilos'])
+          print('hilos', len(d['hilos']), 'hitos', n)
+          assert len(d['hilos'])==3 and n==11, 'conteo de hitos inesperado'
+          PY
+
+      - name: Archivos clave presentes
+        run: |
+          for f in index.html sw.js manifest.webmanifest \
+                   assets/css/instrument.css assets/css/additions.css \
+                   assets/js/config.js assets/js/timeline.js assets/js/glosa.js \
+                   assets/js/presence.js assets/js/app.js \
+                   assets/img/icon-192.png assets/img/icon-512.png; do
+            test -f "$f" || { echo "FALTA $f"; exit 1; }
+          done
+          echo "Todos los archivos clave presentes."
+
+      - name: Anclas de secciones nuevas en index.html
+        run: |
+          for id in pulso porque camino mapa voces; do
+            grep -q "id='$id'" index.html || { echo "FALTA seccion #$id"; exit 1; }
+          done
+          echo "Secciones nuevas presentes."

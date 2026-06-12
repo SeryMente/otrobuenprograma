@@ -1,34 +1,59 @@
 /* ===================================================================
-   Instrumento de comunicacion · Proyecto Vital — configuracion de plataforma
+   Instrumento de comunicacion - Proyecto Vital - configuracion de plataforma
    ARRANQUE ZERO-BACKEND CON TRANSICION SEAMLESS.
-   Esta es la unica pieza que se toca para encender capacidades futuras
-   (Supabase + login). La UI no cambia: lee de aqui a traves de adaptadores.
+   Unica pieza que se toca para encender capacidades futuras (Supabase + login + chat).
+   La UI no cambia: lee de aqui a traves de adaptadores.
    =================================================================== */
 window.INSTRUMENT_CONFIG = {
-  version: "v0.8",
+  version: "v0.9",
 
   glosa: {
-    enabled: true,        // la capa Glosa esta activa
-    storage: "local",     // "local" (hoy, sin backend)  |  "supabase" (futuro)
+    enabled: true,        // capa Glosa activa
+    storage: "local",     // "local" (hoy)  |  "supabase" (futuro, F4)
     identity: "anon",     // "anon" (hoy)  |  "google" | "facebook" (futuro)
-    moderation: false,    // pending/approved/hidden — requiere backend
+    moderation: false,
     requireApproval: false
   },
 
-  // --- TODO LO DEMAS, ANOTADO COMO PLACEHOLDER (requiere backend externo) ---
-  backend: {
-    provider: null,       // null = sin backend (GitHub Pages es estatico)
-    supabaseUrl: "",      // <PLACEHOLDER> al encender Supabase
-    supabaseAnonKey: ""   // <PLACEHOLDER> clave anon publica
+  // --- Linea de tiempo viva (F5, datos locales, sin backend) ---
+  timeline: {
+    enabled: true,
+    source: "inline",     // "inline" (lee #tl-data, offline-trivial)  |  "fetch" (assets/data/timeline.json)
+    commentable: true     // cada nodo es anclable por Glosa
   },
-  auth: {
-    google: false,        // <PLACEHOLDER> requiere backend + OAuth
-    facebook: false,      // <PLACEHOLDER> requiere backend + OAuth
-    tiktok: false         // fase posterior — no es plug-and-play
+
+  // --- Pulso: estado al dia + cascada de presencia/chat ---
+  pulso: {
+    enabled: true,
+    // Estado al dia: se edita a mano (Codespaces) o, mas adelante, desde una fuente.
+    estado: {
+      fecha: "2026-06-11",
+      texto: "Cierre del diseno del instrumento (v0.9) y arranque de la siguiente version. Hoy el latido es: el documento deja de ser pagina y empieza a ser laboratorio."
+    },
+    // Cascada de presencia (decision 2026-06-11). Live chat EXIGE backend (F4+).
+    chat: {
+      live: false,                 // <PLACEHOLDER> chat en vivo estilo WhatsApp (objetivo) - requiere backend
+      liveLabel: "Chat en vivo (proximamente)",
+      buzon: true,                 // respaldo 1: buzon asincrono (local hoy, email/backend despues)
+      ia: false,                   // <PLACEHOLDER> respaldo 2: asistente IA proxy - requiere backend
+      whatsapp: ""                  // <PLACEHOLDER> enlace wa.me cuando se decida exponerlo
+    },
+    // Senal de presencia honesta (sin backend no hay "online" real).
+    presence: {
+      mode: "async",               // "async" = "escribe y te leo en cuanto pueda" | "live" (requiere backend)
+      label: "Ahora respondo en diferido",
+      detail: "No hay nadie despierto 24/7: tu mensaje no se pierde y se responde en cuanto sea posible."
+    }
   },
-  features: {
-    bitacora: false,      // <PLACEHOLDER> seccion Avances/Bitacora dinamica
-    estadoActual: false,  // <PLACEHOLDER> foto de estado que se actualiza
-    galeria: false        // <PLACEHOLDER> galeria de avances
-  }
+
+  // --- Voces que acompanan (agrega las glosas en una seccion) ---
+  voces: { enabled: true, max: 8 },
+
+  // --- PWA: instalable + offline (client-side, sin backend) ---
+  pwa: { enabled: true, swPath: "sw.js" },
+
+  // --- TODO LO DEMAS, PLACEHOLDER (requiere backend externo) ---
+  backend: { provider: null, supabaseUrl: "", supabaseAnonKey: "" },
+  auth: { google: false, facebook: false, tiktok: false },
+  features: { bitacora: false, estadoActual: true, galeria: false }
 };

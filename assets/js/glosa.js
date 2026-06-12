@@ -85,7 +85,7 @@
   if(G.identity && G.identity!=='anon'){ console.warn('[glosa] identity="'+G.identity+'" aun no disponible (requiere backend). Modo anonimo.'); }
 
   /* --- Anclaje de bloques --- */
-  var SELECTOR='.welcome, .summary, section[id] > p.lead, .card, .frame, .ethos, .jewel, .trajectory, .author';
+  var SELECTOR='.welcome, .summary, section[id] > p.lead, .card, .frame, .ethos, .jewel, .trajectory, .author, .tl-node';
   var byAnchor={};
   function sectionOf(el){ var sec=el.closest('section[id]'); return sec?sec.id:'doc'; }
   function quoteOf(el){ return (el.textContent||'').replace(/\s+/g,' ').trim().slice(0,90); }
