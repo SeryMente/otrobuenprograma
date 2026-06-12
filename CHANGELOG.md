@@ -2,6 +2,22 @@
 
 Formato inspirado en Keep a Changelog. Fechas en America/Mexico_City.
 
+## [v0.10] - 2026-06-11 - *Temas + modo dev*
+
+Update 2 del dia. Se incorpora un sistema de temas seleccionable y un cambiador en modo dev. No-regresion: el tema por defecto (cobalto) reproduce exactamente el aspecto previo; instrument.css y el HTML no cambian de estructura (solo se tokenizaron hero y topbar con fallbacks identicos).
+
+### Anadido
+- **Sistema de temas** (`assets/css/themes.css`): 5 paletas seleccionables - **cobalto** (actual), **piedra** (grafito + brasa/oro), **marmol** (marfil + tinta + acero frio), **brutalismo** (concreto + mono + azul electrico) y **amanecer** (acero oscuro + degradado de alba cobalto->ambar). Cada tema sobrescribe SOLO tokens de `:root` (que instrument.css ya consumia) + tokens del hero.
+- **Cambiador en modo dev** (`assets/js/theme.js`): oculto al publico; se abre con `Alt+Shift+D` (configurable) o con la URL `...#dev-temas`. Previsualiza cualquier tema en vivo (guardado local, solo en ese navegador) y entrega la unica linea a editar para publicar.
+- `config.js` -> bloque `theme` (`published`, `devCombo`, `themes`).
+- `docs/TEMAS.md`: diseno del sistema de temas y guia de publicacion.
+
+### Cambiado
+- `assets/css/instrument.css`: 1 cambio (token `--topbar-bg` con fallback al valor actual).
+- `assets/css/additions.css`: hero tokenizado (bg, texto, degradado, acento, etc.) con fallbacks identicos a v0.9.1.
+- `index.html`: `<html data-theme='cobalto'>`, script anti-parpadeo en `<head>`, link a `themes.css`, script `theme.js`, sello a v0.10.
+- `sw.js`: cache `instrumento-v0.10` + precache de `themes.css` y `theme.js`.
+
 ## [v0.9] - 2026-06-11 - *Corte del diseno*
 
 Cierre de la fase de diseno. El documento deja de ser pagina editorial y se vuelve laboratorio: se incorporan las capas decididas en el encuadre y se prepara el arranque de la siguiente version.

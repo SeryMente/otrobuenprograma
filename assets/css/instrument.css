@@ -22,7 +22,7 @@ a:hover{border-bottom-color:var(--ink)}
 .wip{background:var(--ink); color:#e7eaf2; text-align:center; font-family:var(--mono); font-size:8pt; letter-spacing:1.4px; text-transform:uppercase; padding:8px 14px}
 .wip b{color:var(--lime); font-weight:700}
 
-.topbar{position:sticky; top:0; z-index:80; background:rgba(220,220,224,.88); backdrop-filter:saturate(1.4) blur(10px); border-bottom:1px solid var(--rule-2)}
+.topbar{position:sticky; top:0; z-index:80; background:var(--topbar-bg,rgba(220,220,224,.88)); backdrop-filter:saturate(1.4) blur(10px); border-bottom:1px solid var(--rule-2)}
 .topbar .row{max-width:var(--maxw); margin:0 auto; display:flex; align-items:center; justify-content:space-between; height:54px; padding:0 24px; gap:16px}
 .brand{display:flex; align-items:center; gap:10px; font-weight:800; font-size:10.5pt; letter-spacing:-.2px; color:var(--ink); border:none; white-space:nowrap}
 .live{position:relative; width:9px; height:9px; flex:none}

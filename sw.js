@@ -7,14 +7,16 @@
    - Estaticos: stale-while-revalidate.
    No hay push ni sync en segundo plano: eso EXIGE backend (F4+).
    =================================================================== */
-var VERSION='instrumento-v0.9.1';
+var VERSION='instrumento-v0.10';
 var SHELL=[
   '.',
   'index.html',
   'manifest.webmanifest',
   'assets/css/instrument.css',
   'assets/css/additions.css',
+  'assets/css/themes.css',
   'assets/js/config.js',
+  'assets/js/theme.js',
   'assets/js/timeline.js',
   'assets/js/glosa.js',
   'assets/js/presence.js',

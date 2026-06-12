@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang='es'>
+<html lang='es' data-theme='cobalto'>
 <head>
 <meta charset='UTF-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
+<script>/* tema: aplica la previsualizacion local del modo dev antes de pintar (sin parpadeo) */(function(){try{var p=localStorage.getItem('instrumento-tema-preview');var ok=['cobalto','piedra','marmol','brutalismo','amanecer'];if(p&&ok.indexOf(p)>=0){document.documentElement.setAttribute('data-theme',p);}}catch(e){}})();</script>
 <meta name='robots' content='noindex, nofollow'>
 <meta name='theme-color' content='#1a3a8f'>
 <meta name='description' content='CoMind y Otro Buen Programa: dos iniciativas desde Queretaro. Una protesis cognitiva digital para mentes neurodivergentes y una alternativa seria de recuperacion. Espacio colaborativo, version preliminar.'>
@@ -18,6 +19,7 @@
 <link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap' rel='stylesheet'>
 <link rel='stylesheet' href='assets/css/instrument.css'>
 <link rel='stylesheet' href='assets/css/additions.css'>
+<link rel='stylesheet' href='assets/css/themes.css'>
 <link rel='manifest' href='manifest.webmanifest'>
 <link rel='apple-touch-icon' href='assets/img/apple-touch-icon.png'>
 <noscript><style>.reveal{opacity:1 !important; transform:none !important}</style></noscript>
@@ -26,7 +28,7 @@
 
 <a class='skip' href='#gracias'>Saltar al contenido</a>
 
-<div class='wip'>Documento vivo &middot; <b>version preliminar v0.9.1</b> &middot; en construccion &middot; las secciones marcadas como proximamente seguiran creciendo</div>
+<div class='wip'>Documento vivo &middot; <b>version preliminar v0.10</b> &middot; en construccion &middot; las secciones marcadas como proximamente seguiran creciendo</div>
 
 <div class='topbar'>
   <div class='row'>
@@ -468,7 +470,7 @@
     <div class='sig-role'>Interprete medico &middot; Desarrollador independiente<br>Estudiante de Ing. en Seguridad de la Informacion y Cibernetica</div>
     <div class='contact'>the.willfreeman@gmail.com &middot; 614 369 7381 &middot; Queretaro, Mexico</div>
     <div class='lema'>&laquo;Patria pendiente, esa que aun no es.&raquo;</div>
-    <div class='stamp'>Documento vivo &middot; version preliminar v0.9.1 &middot; actualizado el <span id='fecha'></span> &middot; pagina sin indexar</div>
+    <div class='stamp'>Documento vivo &middot; version preliminar v0.10 &middot; actualizado el <span id='fecha'></span> &middot; pagina sin indexar</div>
   </footer>
 
 </div><!-- /sheet -->
@@ -476,6 +478,7 @@
 <button class='toTop' id='toTop' aria-label='Volver arriba'>&uarr;</button>
 
 <script src='assets/js/config.js' defer></script>
+<script src='assets/js/theme.js' defer></script>
 <script src='assets/js/timeline.js' defer></script>
 <script src='assets/js/glosa.js' defer></script>
 <script src='assets/js/presence.js' defer></script>

@@ -5,7 +5,16 @@
    La UI no cambia: lee de aqui a traves de adaptadores.
    =================================================================== */
 window.INSTRUMENT_CONFIG = {
-  version: "v0.9",
+  version: "v0.10",
+
+  // --- Temas (update 2): cambiador disponible en MODO DEV ---
+  // El publico ve UN solo tema: el de <html data-theme="..."> (espejo de 'published').
+  // El dev abre el panel con devCombo (Alt+Shift+D) o con la URL ...#dev-temas.
+  theme: {
+    published: "cobalto",   // tema de cara al publico (debe coincidir con <html data-theme>)
+    devCombo: "alt+shift+d",
+    themes: ["cobalto", "piedra", "marmol", "brutalismo", "amanecer"]
+  },
 
   glosa: {
     enabled: true,        // capa Glosa activa

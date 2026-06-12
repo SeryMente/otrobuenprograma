@@ -1,0 +1,192 @@
+/* ===================================================================
+   themes.css  -  Sistema de temas (update 2 de 2026-06-11). ADITIVO.
+   No-regresion: el tema por defecto (cobalto) = el aspecto actual exacto.
+   Los temas sobrescriben SOLO tokens de :root (instrument.css ya los usa)
+   + tokens del hero (additions.css), por lo que NO hay que tocar el HTML.
+   Se activan con  <html data-theme="...">  (publicado) o, en modo dev,
+   con la previsualizacion local de theme.js.
+   Temas: cobalto | piedra | marmol | brutalismo | amanecer
+   =================================================================== */
+
+/* ---- Tokens nuevos (defaults = aspecto cobalto actual) ---- */
+:root{
+  --topbar-bg:rgba(220,220,224,.88);
+  --hero-bg:#0b1738; --hero-text:#f7f9fe; --hero-muted:#cdd6ea;
+  --hero-grad:
+    radial-gradient(120% 90% at 16% 10%, #2a4ea6 0%, rgba(42,78,166,0) 55%),
+    radial-gradient(90% 85% at 90% 92%, #14306f 0%, rgba(20,48,111,0) 60%),
+    linear-gradient(158deg, #0f1f4d 0%, #0b1738 58%, #070f2a 100%);
+  --hero-accent:#b6e34d; --hero-accent-ink:#0b1738;
+  --hero-accent-shadow:0 6px 22px rgba(182,227,77,.28);
+  --hero-ghost-border:rgba(255,255,255,.42); --hero-link:#cfe89a;
+  --hero-glow:radial-gradient(circle, rgba(182,227,77,.20), rgba(182,227,77,0) 64%);
+}
+html{transition:background-color .35s ease, color .35s ease}
+@media (prefers-reduced-motion:reduce){html{transition:none}}
+
+/* =================================================================
+   A - PIEDRA Y BRASA   (grafito calido + luz de brasa/oro)
+   Seriedad y gravedad de piedra; la luz es un ascua de oro.
+   ================================================================= */
+html[data-theme="piedra"]{
+  --bg:#d7d4cf; --paper:#f6f4ef; --paper-2:#efece5; --surface:#efece5; --surface-2:#e6e2d9;
+  --ink:#1c1a17; --ink-2:#34302b; --ink-3:#57514a; --ink-4:#7b746a; --ink-5:#a8a194;
+  --rule:#ddd8cf; --rule-2:#cbc4b7;
+  --cobalt:#5c554c; --cobalt-soft:#7a7166; --cobalt-ink:#3a352e; --cobalt-bg:#e9e3d8;
+  --coral:#c2561d; --coral-soft:#f1e6dc; --coral-ink:#9a3f12;
+  --magenta:#9c4a26; --purple:#6a4a33; --purple-ink:#48311f; --lime:#e0a52b;
+  --topbar-bg:rgba(215,212,207,.9);
+  --hero-bg:#1b1714; --hero-text:#f4efe8; --hero-muted:#c8bdaf;
+  --hero-grad:
+    radial-gradient(120% 90% at 14% 12%, #4a3a2a 0%, rgba(74,58,42,0) 55%),
+    radial-gradient(90% 90% at 88% 96%, #6a2f12 0%, rgba(106,47,18,0) 58%),
+    linear-gradient(158deg, #2a221b 0%, #1b1714 60%, #120e0b 100%);
+  --hero-accent:#e6a92e; --hero-accent-ink:#1b1714;
+  --hero-accent-shadow:0 6px 22px rgba(230,169,46,.30);
+  --hero-ghost-border:rgba(255,240,220,.40); --hero-link:#e6c98a;
+  --hero-glow:radial-gradient(circle, rgba(230,169,46,.18), rgba(230,169,46,0) 64%);
+}
+
+/* =================================================================
+   C - MARMOL Y TINTA   (marfil claro, tinta casi negra, luz acero frio)
+   Monumental y sobrio; la luz es un azul acero, frio y limpio.
+   ================================================================= */
+html[data-theme="marmol"]{
+  --bg:#e7e4dc; --paper:#fbfaf6; --paper-2:#f3f1ea; --surface:#f3f1ea; --surface-2:#eae7df;
+  --ink:#16140f; --ink-2:#2c2920; --ink-3:#524d42; --ink-4:#7a7468; --ink-5:#a8a292;
+  --rule:#e2ded3; --rule-2:#cfc9bb;
+  --cobalt:#3a5f96; --cobalt-soft:#5a7db0; --cobalt-ink:#244063; --cobalt-bg:#e6ebf3;
+  --coral:#7a6a52; --coral-soft:#efece3; --coral-ink:#574a38;
+  --magenta:#5a4f7a; --purple:#3f4a6a; --purple-ink:#2c3550; --lime:#3a6ea5;
+  --topbar-bg:rgba(231,228,220,.9);
+  --hero-bg:#eceae1; --hero-text:#16140f; --hero-muted:#5a564a;
+  --hero-grad:
+    radial-gradient(120% 90% at 16% 10%, #ffffff 0%, rgba(255,255,255,0) 55%),
+    radial-gradient(90% 85% at 90% 92%, #d8d3c6 0%, rgba(216,211,198,0) 60%),
+    linear-gradient(158deg, #f3f1e8 0%, #e7e4da 60%, #d9d5c8 100%);
+  --hero-accent:#2f5b96; --hero-accent-ink:#ffffff;
+  --hero-accent-shadow:0 6px 22px rgba(47,91,150,.25);
+  --hero-ghost-border:rgba(20,18,12,.30); --hero-link:#2f5b96;
+  --hero-glow:radial-gradient(circle, rgba(47,91,150,.12), rgba(47,91,150,0) 64%);
+}
+
+/* =================================================================
+   D - BRUTALISMO SOBRIO   (concreto, todo mono, luz azul electrico)
+   Rejilla expuesta, tipografia monoespaciada, un unico acento que pega.
+   ================================================================= */
+html[data-theme="brutalismo"]{
+  --bg:#c7c7c7; --paper:#e3e3e3; --paper-2:#d9d9d9; --surface:#dedede; --surface-2:#d2d2d2;
+  --ink:#0f0f0f; --ink-2:#1f1f1f; --ink-3:#3d3d3d; --ink-4:#5c5c5c; --ink-5:#8a8a8a;
+  --rule:#bcbcbc; --rule-2:#a4a4a4;
+  --cobalt:#1f4fff; --cobalt-soft:#4f74ff; --cobalt-ink:#1233b0; --cobalt-bg:#dfe4ff;
+  --coral:#2b2b2b; --coral-soft:#dcdcdc; --coral-ink:#0f0f0f;
+  --magenta:#1f4fff; --purple:#2b2b2b; --purple-ink:#0f0f0f; --lime:#1f4fff;
+  --topbar-bg:rgba(199,199,199,.92);
+  --hero-bg:#111111; --hero-text:#ffffff; --hero-muted:#b0b0b0;
+  --hero-grad:linear-gradient(135deg, #161616 0%, #111111 60%, #0c0c0c 100%);
+  --hero-accent:#1f4fff; --hero-accent-ink:#ffffff;
+  --hero-accent-shadow:0 6px 22px rgba(31,79,255,.32);
+  --hero-ghost-border:rgba(255,255,255,.50); --hero-link:#6f90ff;
+  --hero-glow:radial-gradient(circle, rgba(31,79,255,.18), rgba(31,79,255,0) 64%);
+}
+/* tipografia mono + esquinas duras (identidad brutalista) */
+html[data-theme="brutalismo"] body,
+html[data-theme="brutalismo"] .mast h1,
+html[data-theme="brutalismo"] h2.section,
+html[data-theme="brutalismo"] h3.sub,
+html[data-theme="brutalismo"] .hero-title,
+html[data-theme="brutalismo"] .card h3,
+html[data-theme="brutalismo"] .tcard .inst,
+html[data-theme="brutalismo"] .pulso-texto,
+html[data-theme="brutalismo"] .carta p{font-family:var(--mono) !important; letter-spacing:-.01em}
+html[data-theme="brutalismo"] .card,
+html[data-theme="brutalismo"] .tcard,
+html[data-theme="brutalismo"] .sheet,
+html[data-theme="brutalismo"] .pulso-estado,
+html[data-theme="brutalismo"] .pulso-chat,
+html[data-theme="brutalismo"] .tl-card,
+html[data-theme="brutalismo"] .voz,
+html[data-theme="brutalismo"] .carta,
+html[data-theme="brutalismo"] .mapa-wrap{border-radius:0}
+html[data-theme="brutalismo"] .hero .btn{border-radius:0}
+
+/* =================================================================
+   E - ACERO Y AMANECER   (carril heretico: acero oscuro + amanecer real)
+   Modo oscuro de acero; el hero cruza de cobalto a ambar como un alba.
+   ================================================================= */
+html[data-theme="amanecer"]{
+  --bg:#13151b; --paper:#1c1f28; --paper-2:#232733; --surface:#1c1f28; --surface-2:#262b38;
+  --ink:#eef1f7; --ink-2:#d4dae6; --ink-3:#a7afc0; --ink-4:#7e8698; --ink-5:#5b6273;
+  --rule:#2c313d; --rule-2:#3a4150;
+  --cobalt:#5b86e5; --cobalt-soft:#82a3ee; --cobalt-ink:#cdddff; --cobalt-bg:#22304d;
+  --coral:#e8915a; --coral-soft:#33271f; --coral-ink:#f0a877;
+  --magenta:#d56f9c; --purple:#9a86d8; --purple-ink:#cabdf0; --lime:#f3b14a;
+  --topbar-bg:rgba(19,21,27,.85);
+  --hero-bg:#0d1330; --hero-text:#fdf6ee; --hero-muted:#e7d3c2;
+  --hero-grad:
+    radial-gradient(120% 110% at 12% 8%, #21478f 0%, rgba(33,71,143,0) 52%),
+    radial-gradient(90% 90% at 88% 100%, #e89a4d 0%, rgba(232,154,77,0) 55%),
+    linear-gradient(122deg, #0c1736 0%, #1b3a7a 42%, #9a4f2c 78%, #e6a14b 100%);
+  --hero-accent:#f4b758; --hero-accent-ink:#1a1207;
+  --hero-accent-shadow:0 6px 24px rgba(244,183,88,.34);
+  --hero-ghost-border:rgba(255,240,225,.50); --hero-link:#ffd9a8;
+  --hero-glow:radial-gradient(circle, rgba(244,183,88,.22), rgba(244,183,88,0) 62%);
+}
+/* overrides estructurales para el modo oscuro (donde el codigo asume papel claro) */
+html[data-theme="amanecer"] ::selection{background:#2d3a5c; color:#eef1f7}
+html[data-theme="amanecer"] .wip{background:#0c0e13; color:#cdd6ea}
+html[data-theme="amanecer"] .skip{background:var(--cobalt); color:#0b1020}
+html[data-theme="amanecer"] .btn.solid{background:var(--cobalt); color:#0b1020}
+html[data-theme="amanecer"] .btn.solid:hover{background:var(--cobalt-soft)}
+html[data-theme="amanecer"] .toTop{background:var(--cobalt); color:#0b1020}
+html[data-theme="amanecer"] .ethos,
+html[data-theme="amanecer"] .trajectory{background:#0e1016; color:#e7eaf2}
+html[data-theme="amanecer"] .ethos p{color:#e7eaf2}
+html[data-theme="amanecer"] .ethos strong{color:#fff}
+html[data-theme="amanecer"] .ph .tag{background:#0e1016}
+html[data-theme="amanecer"] .tl-hilo-tipo{color:#1a1430}
+html[data-theme="amanecer"] .tl-badge.ok{color:#dff0a0}
+html[data-theme="amanecer"] .portrait::after{mix-blend-mode:soft-light}
+
+/* =================================================================
+   PANEL DEL MODO DEV (theme.js). Estilo propio e independiente del tema
+   para que sea legible bajo cualquier paleta.
+   ================================================================= */
+.temadev{position:fixed; right:16px; bottom:16px; z-index:120; width:min(330px,92vw);
+  background:#14161d; color:#eef1f7; border:1px solid #2c313d; border-radius:14px;
+  box-shadow:0 18px 48px rgba(0,0,0,.45); font-family:'Inter',system-ui,sans-serif;
+  padding:.9rem 1rem 1rem; animation:temadev-in .18s ease}
+@keyframes temadev-in{from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:none}}
+@media (prefers-reduced-motion:reduce){.temadev{animation:none}}
+.temadev-head{display:flex; align-items:center; justify-content:space-between; gap:.5rem}
+.temadev-head b{font:700 .92rem/1.2 'Inter',sans-serif; letter-spacing:.01em}
+.temadev-x{border:0; background:none; color:#8a93a6; font-size:1.3rem; line-height:1; cursor:pointer; padding:0 .2rem}
+.temadev-x:hover{color:#fff}
+.temadev-note{font-size:.74rem; line-height:1.5; color:#aab2c2; margin:.45rem 0 .7rem}
+.temadev-note b{color:#f3b14a}
+.temadev-list{display:flex; flex-direction:column; gap:.35rem}
+.temadev-opt{display:flex; align-items:center; gap:.6rem; text-align:left; width:100%;
+  border:1px solid #2c313d; background:#1c1f28; color:#dfe4ee; border-radius:9px;
+  padding:.5rem .6rem; font:600 .82rem/1.1 'Inter',sans-serif; cursor:pointer;
+  transition:border-color .15s, background .15s}
+.temadev-opt:hover{background:#232733}
+.temadev-opt.on{border-color:#5b86e5; background:#1a2236}
+.temadev-opt em{font-style:normal; font-weight:600; font-size:.66rem; color:#7e8698; margin-left:auto}
+.temadev-sw{width:30px; height:18px; border-radius:4px; flex:none; border:1px solid rgba(255,255,255,.18)}
+.sw-cobalto{background:linear-gradient(135deg,#1a3a8f 60%,#b6e34d 60%)}
+.sw-piedra{background:linear-gradient(135deg,#2a221b 60%,#e6a92e 60%)}
+.sw-marmol{background:linear-gradient(135deg,#f3f1e8 60%,#2f5b96 60%)}
+.sw-brutalismo{background:linear-gradient(135deg,#111 60%,#1f4fff 60%)}
+.sw-amanecer{background:linear-gradient(120deg,#1b3a7a 40%,#9a4f2c 75%,#e6a14b 100%)}
+.temadev-foot{display:flex; gap:.5rem; margin-top:.7rem}
+.temadev-foot button{flex:1; border:1px solid #2c313d; background:#1c1f28; color:#cfe89a;
+  border-radius:9px; padding:.5rem; font:600 .76rem/1 'Inter',sans-serif; cursor:pointer}
+.temadev-fijar{color:#f3b14a !important; border-color:#3a4150 !important}
+.temadev-foot button:hover{background:#232733}
+.temadev-pub{margin-top:.7rem; border-top:1px solid #2c313d; padding-top:.7rem; font-size:.76rem; line-height:1.5; color:#cdd6ea}
+.temadev-pub code{font-family:'JetBrains Mono',monospace; font-size:.72rem; color:#f3b14a; background:#0e1016; padding:.05rem .25rem; border-radius:4px}
+.temadev-pub pre{background:#0e1016; border:1px solid #2c313d; border-radius:8px; padding:.55rem .6rem; overflow:auto; font:600 .72rem/1.4 'JetBrains Mono',monospace; color:#dfe4ee; margin:.5rem 0}
+.temadev-copy{border:1px solid #3a4150; background:#1c1f28; color:#eef1f7; border-radius:8px; padding:.4rem .7rem; font:600 .74rem/1 'Inter',sans-serif; cursor:pointer}
+.temadev-copy:hover{background:#232733}
+.temadev-hint{font-size:.68rem; color:#7e8698; margin:.55rem 0 0}
+@media (max-width:640px){.temadev{right:8px; left:8px; bottom:8px; width:auto}}
