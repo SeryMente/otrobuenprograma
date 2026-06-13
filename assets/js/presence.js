@@ -21,6 +21,8 @@
 
   var est=P.estado||{}, chat=P.chat||{}, pres=P.presence||{};
   var liveOn = chat.live===true;
+  var msg=(chat.messenger||'').trim();
+  var directOn=(!liveOn) && !!msg;   // canal directo (Messenger) sin backend
 
   // --- Buzon asincrono local (respaldo 1) ---
   var BKEY='pulso-buzon-v1';
@@ -38,10 +40,10 @@
         '<div class="pulso-presence '+(liveOn?'live':'async')+'"><span class="pdot"></span> '+esc(liveOn?'En vivo ahora':(pres.label||'Respondo en diferido'))+'</div>'+
         '<p class="pulso-presence-detail">'+esc(pres.detail||'')+'</p>'+
         '<div class="pulso-cascade">'+
-          '<button type="button" class="pulso-live" '+(liveOn?'':'disabled')+' title="'+(liveOn?'Abrir chat en vivo':'Requiere backend (proximamente)')+'">'+
-            '\uD83D\uDCAC '+esc(liveOn?'Hablar en vivo':(chat.liveLabel||'Chat en vivo (proximamente)'))+'</button>'+
+          '<button type="button" id="pulso-live-btn" class="pulso-live" '+((liveOn||directOn)?'':'disabled')+' title="'+(liveOn?'Abrir chat en vivo':(directOn?'Abrir Messenger':'Requiere backend (proximamente)'))+'">'+
+            '\uD83D\uDCAC '+esc(liveOn?'Hablar en vivo':(directOn?(chat.messengerLabel||'Escribirme por Messenger'):(chat.liveLabel||'Chat en vivo (proximamente)')))+'</button>'+
           '<div class="pulso-fallbacks">'+
-            '<span class="pf">Objetivo: chat en vivo estilo WhatsApp, personalizado.</span>'+
+            '<span class="pf">Ahora: chat directo por Messenger (te escribo en cuanto pueda).</span>'+
             '<span class="pf">Respaldo 1: buzon asincrono (tu mensaje no se pierde).</span>'+
             '<span class="pf">Respaldo 2: asistente IA (cuando no hay nadie).</span>'+
           '</div>'+
@@ -57,6 +59,9 @@
     '</div>';
 
   mount.innerHTML=html;
+
+  var liveBtn=document.getElementById('pulso-live-btn');
+  if(liveBtn && directOn){ liveBtn.addEventListener('click',function(){ window.open(msg,'_blank','noopener'); }); }
 
   var form=document.getElementById('pulso-buzon');
   if(form){

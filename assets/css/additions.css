@@ -126,10 +126,19 @@
     linear-gradient(158deg, #0f1f4d 0%, #0b1738 58%, #070f2a 100%));
 }
 .hero-bg{ position:absolute; inset:0; z-index:-3; }
+/* Portada: imagen dual visible (v0.13) */
+:root{ --hero-img:url('https://i.ibb.co/hJpH1g9R/Chat-GPT-Image-13-jun-2026-02-57-38-p-m.png'); }
 .hero-bg::after{
   content:''; position:absolute; inset:0;
   background-image:var(--hero-img, none); background-size:cover; background-position:center;
-  mix-blend-mode:soft-light; opacity:.55;
+  mix-blend-mode:normal; opacity:1;
+}
+.hero-stars,.hero-grid{ opacity:.22; }
+.hero::after{
+  content:''; position:absolute; inset:0; z-index:-1; pointer-events:none;
+  background:
+    linear-gradient(180deg, rgba(7,12,30,.34) 0%, rgba(7,12,30,0) 26%, rgba(7,12,30,.16) 58%, rgba(7,12,30,.78) 100%),
+    linear-gradient(90deg, rgba(7,12,30,.66) 0%, rgba(7,12,30,.12) 44%, rgba(7,12,30,0) 70%);
 }
 .hero-stars{
   position:absolute; inset:0;

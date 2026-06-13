@@ -36,8 +36,8 @@ window.INSTRUMENT_CONFIG = {
     enabled: true,
     // Estado al dia: se edita a mano (Codespaces) o, mas adelante, desde una fuente.
     estado: {
-      fecha: "2026-06-11",
-      texto: "Cierre del diseno del instrumento (v0.9) y arranque de la siguiente version. Hoy el latido es: el documento deja de ser pagina y empieza a ser laboratorio."
+      fecha: "2026-06-13",
+      texto: "Reestructura editorial del instrumento: seis secciones auditadas parte por parte, de borrador a documento con intencion, y empaquetada la v0.12 lista para publicar. Hoy el latido es: el documento se ordena para poder crecer."
     },
     // Cascada de presencia (decision 2026-06-11). Live chat EXIGE backend (F4+).
     chat: {
@@ -45,6 +45,8 @@ window.INSTRUMENT_CONFIG = {
       liveLabel: "Chat en vivo (proximamente)",
       buzon: true,                 // respaldo 1: buzon asincrono (local hoy, email/backend despues)
       ia: false,                   // <PLACEHOLDER> respaldo 2: asistente IA proxy - requiere backend
+      messenger: "https://m.me/tu.freewillman2",  // chat directo via Facebook Messenger (sin backend)
+      messengerLabel: "Escribirme por Messenger",
       whatsapp: ""                  // <PLACEHOLDER> enlace wa.me cuando se decida exponerlo
     },
     // Senal de presencia honesta (sin backend no hay "online" real).
