@@ -21,6 +21,7 @@ var SHELL=[
   'assets/js/glosa.js',
   'assets/js/presence.js',
   'assets/js/cuentas.js',
+  'assets/js/navigator.js',
   'assets/js/app.js',
   'assets/data/timeline.json',
   'assets/data/necesidades.json',

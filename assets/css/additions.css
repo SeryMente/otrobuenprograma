@@ -250,3 +250,37 @@
 .cc-table .cc-none{color:var(--ink-4,#737373);font-style:italic;text-align:center}
 .cc-ledger-note{font-size:.78rem;color:var(--ink-4,#737373);line-height:1.5;margin:.6rem 0 0}
 .cc-empty{font-size:.9rem;line-height:1.6;color:var(--ink-3,#525252);border:1px dashed var(--rule,#e6e6e9);border-radius:var(--r-md);padding:1rem;background:var(--paper-2,#fafafa)}
+
+/* ===================== NAVEGADOR GUIA PERMANENTE ===================== */
+/* Compensa el topbar sticky al saltar por anclas */
+section[id]{scroll-margin-top:74px}
+html{scroll-behavior:smooth}
+
+/* --- Riel vertical (escritorio) --- */
+.guide{position:fixed;left:16px;top:50%;transform:translateY(-50%);z-index:60}
+.guide-list{list-style:none;margin:0;padding:.3rem;display:flex;flex-direction:column;gap:1px;border-radius:var(--r-pill);background:transparent;transition:background .2s}
+.guide:hover .guide-list{background:var(--paper,#fff);box-shadow:0 8px 28px rgba(10,10,10,.12)}
+.guide-link{display:flex;align-items:center;gap:.6rem;padding:.3rem .42rem;border-radius:var(--r-pill);text-decoration:none;border:none;color:var(--ink-4,#737373);transition:color .18s,background .18s}
+.guide-link:hover{color:var(--ink,#0a0a0a)}
+.guide-dot{width:10px;height:10px;flex:none;border-radius:50%;border:2px solid var(--rule-2,#d4d4d4);background:transparent;transition:border-color .18s,background .18s,box-shadow .18s}
+.guide-label{font:600 .72rem/1 var(--mono,'JetBrains Mono',monospace);letter-spacing:.04em;white-space:nowrap;max-width:0;overflow:hidden;opacity:0;transform:translateX(-4px);transition:max-width .2s,opacity .18s,transform .18s}
+.guide:hover .guide-label{max-width:180px;opacity:1;transform:none}
+.guide-item.active .guide-label{max-width:180px;opacity:1;transform:none;color:var(--ink,#0a0a0a)}
+.guide-item.active .guide-link{color:var(--ink,#0a0a0a)}
+.guide-item.active .guide-dot{border-color:var(--cobalt,#1a3a8f);background:var(--cobalt,#1a3a8f);box-shadow:0 0 0 4px var(--cobalt-bg,#eef1f9)}
+.guide-item.done .guide-dot{border-color:var(--cobalt,#1a3a8f);background:var(--cobalt,#1a3a8f);opacity:.55}
+.guide-link:focus-visible{outline:2px solid var(--cobalt,#1a3a8f);outline-offset:2px}
+
+/* --- Pildora guia (movil / pantallas estrechas) --- */
+.guide-pill{display:none}
+@media(max-width:1180px){
+  .guide{display:none}
+  .guide-pill{display:flex;align-items:center;gap:.4rem;position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:65;background:var(--ink,#0a0a0a);color:#fff;border-radius:var(--r-pill);padding:.34rem .4rem;box-shadow:0 10px 28px rgba(10,10,10,.30);max-width:calc(100vw - 24px)}
+}
+.guide-pill button{border:0;cursor:pointer;background:rgba(255,255,255,.16);color:#fff;border-radius:var(--r-pill);font:600 .72rem/1 var(--mono,'JetBrains Mono',monospace);padding:.46rem .6rem;display:inline-flex;align-items:center;gap:.3rem;flex:none}
+.guide-pill button:active{background:rgba(255,255,255,.28)}
+.gp-now{display:flex;flex-direction:column;line-height:1.1;padding:0 .25rem;min-width:0}
+.gp-k{font:600 .54rem/1 var(--mono,'JetBrains Mono',monospace);text-transform:uppercase;letter-spacing:.12em;opacity:.6}
+.gp-t{font:700 .82rem/1.2 var(--sans,'Inter',system-ui,sans-serif);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:34vw}
+.gp-next-t{max-width:22vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
