@@ -5,7 +5,7 @@
    La UI no cambia: lee de aqui a traves de adaptadores.
    =================================================================== */
 window.INSTRUMENT_CONFIG = {
-  version: "v0.12",
+  version: "v0.13",
 
   // --- Temas (update 2): cambiador disponible en MODO DEV ---
   // El publico ve UN solo tema: el de <html data-theme="..."> (espejo de 'published').
