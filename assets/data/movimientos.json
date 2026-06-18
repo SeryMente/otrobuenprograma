@@ -1,0 +1,7 @@
+{
+  "actualizado": "2026-06-18",
+  "moneda": "MXN",
+  "nota": "Libro mayor abierto. Cada ingreso y cada egreso se anota aqui. Este archivo vive versionado en el repositorio publico: cada actualizacion queda como un registro con fecha y autor que no se puede borrar ni alterar despues sin que se note. Aun no hay movimientos: la recoleccion arranca cuando el sistema de transparencia este publicado.",
+  "ingresos": [],
+  "egresos": []
+}

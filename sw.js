@@ -20,8 +20,11 @@ var SHELL=[
   'assets/js/timeline.js',
   'assets/js/glosa.js',
   'assets/js/presence.js',
+  'assets/js/cuentas.js',
   'assets/js/app.js',
   'assets/data/timeline.json',
+  'assets/data/necesidades.json',
+  'assets/data/movimientos.json',
   'assets/img/icon-192.png',
   'assets/img/icon-512.png',
   'assets/img/apple-touch-icon.png'

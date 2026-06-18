@@ -1,0 +1,67 @@
+{
+  "actualizado": "2026-06-18",
+  "moneda": "MXN",
+  "nota": "Tablero de necesidades. PLACEHOLDERS por confirmar con el autor (titulos, costos y prioridades). Cada cambio a este archivo queda como commit en GitHub: historial inmutable y verificable.",
+  "necesidades": [
+    {
+      "id": "n1",
+      "titulo": "Conexion a internet y datos para el trabajo diario",
+      "descripcion": "[POR CONFIRMAR] Acceso estable a la red para sostener el desarrollo y la pagina viva.",
+      "categoria": "basica",
+      "prioridad": "alta",
+      "costo": 0,
+      "recaudado": 0,
+      "estado": "pendiente"
+    },
+    {
+      "id": "n2",
+      "titulo": "Insumos y espacio de trabajo",
+      "descripcion": "[POR CONFIRMAR] Papeleria, impresiones y un lugar donde sentarse a trabajar.",
+      "categoria": "basica",
+      "prioridad": "alta",
+      "costo": 0,
+      "recaudado": 0,
+      "estado": "pendiente"
+    },
+    {
+      "id": "n3",
+      "titulo": "Linea de contacto del proyecto",
+      "descripcion": "[POR CONFIRMAR] Telefonia para la comunicacion institucional y de contacto.",
+      "categoria": "basica",
+      "prioridad": "media",
+      "costo": 0,
+      "recaudado": 0,
+      "estado": "pendiente"
+    },
+    {
+      "id": "n4",
+      "titulo": "Dominio propio y hosting con backend",
+      "descripcion": "[POR CONFIRMAR] Transicion seamless del arranque zero-backend a un servicio con cuentas y chat en vivo.",
+      "categoria": "avanzada",
+      "prioridad": "media",
+      "costo": 0,
+      "recaudado": 0,
+      "estado": "pendiente"
+    },
+    {
+      "id": "n5",
+      "titulo": "Computo para el agente neuro-simbolico de CoMind",
+      "descripcion": "[POR CONFIRMAR] Creditos de computo o servidor para el grafo de conocimiento y el razonamiento.",
+      "categoria": "avanzada",
+      "prioridad": "baja",
+      "costo": 0,
+      "recaudado": 0,
+      "estado": "pendiente"
+    },
+    {
+      "id": "n6",
+      "titulo": "Diadema EEG para la interfaz bio-cibernetica",
+      "descripcion": "[POR CONFIRMAR] Hardware para registrar actividad cerebral como entrada del sistema.",
+      "categoria": "avanzada",
+      "prioridad": "baja",
+      "costo": 0,
+      "recaudado": 0,
+      "estado": "pendiente"
+    }
+  ]
+}
