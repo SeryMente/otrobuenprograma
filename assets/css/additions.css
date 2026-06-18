@@ -258,11 +258,13 @@ html{scroll-behavior:smooth}
 
 /* --- Riel vertical (escritorio) --- */
 .guide{position:fixed;left:16px;top:50%;transform:translateY(-50%);z-index:60}
-.guide-list{list-style:none;margin:0;padding:.3rem;display:flex;flex-direction:column;gap:1px;border-radius:var(--r-pill);background:transparent;transition:background .2s}
-.guide:hover .guide-list{background:var(--paper,#fff);box-shadow:0 8px 28px rgba(10,10,10,.12)}
+.guide-list{list-style:none;margin:0;padding:.3rem;display:flex;flex-direction:column;gap:1px;border-radius:var(--r-lg);background:var(--paper,#fff);border:1px solid var(--rule,#e6e6e9);box-shadow:0 10px 30px rgba(10,10,10,.14)}
+.brand-wrap{display:flex;align-items:center;gap:10px;min-width:0}
+.build-tag{font:600 .64rem/1 var(--mono,'JetBrains Mono',monospace);letter-spacing:.03em;color:var(--ink-3,#525252);background:var(--surface-2,#f4f4f5);border:1px solid var(--rule-2,#d4d4d4);border-radius:var(--r-pill);padding:.24rem .54rem;white-space:nowrap}
+@media(max-width:780px){.build-tag{font-size:.56rem;padding:.2rem .45rem}}
 .guide-link{display:flex;align-items:center;gap:.6rem;padding:.3rem .42rem;border-radius:var(--r-pill);text-decoration:none;border:none;color:var(--ink-4,#737373);transition:color .18s,background .18s}
 .guide-link:hover{color:var(--ink,#0a0a0a)}
-.guide-dot{width:10px;height:10px;flex:none;border-radius:50%;border:2px solid var(--rule-2,#d4d4d4);background:transparent;transition:border-color .18s,background .18s,box-shadow .18s}
+.guide-dot{width:11px;height:11px;flex:none;border-radius:50%;border:2px solid var(--ink-4,#737373);background:var(--paper,#fff);transition:border-color .18s,background .18s,box-shadow .18s}
 .guide-label{font:600 .72rem/1 var(--mono,'JetBrains Mono',monospace);letter-spacing:.04em;white-space:nowrap;max-width:0;overflow:hidden;opacity:0;transform:translateX(-4px);transition:max-width .2s,opacity .18s,transform .18s}
 .guide:hover .guide-label{max-width:180px;opacity:1;transform:none}
 .guide-item.active .guide-label{max-width:180px;opacity:1;transform:none;color:var(--ink,#0a0a0a)}
@@ -273,7 +275,7 @@ html{scroll-behavior:smooth}
 
 /* --- Pildora guia (movil / pantallas estrechas) --- */
 .guide-pill{display:none}
-@media(max-width:1180px){
+@media(max-width:1024px){
   .guide{display:none}
   .guide-pill{display:flex;align-items:center;gap:.4rem;position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:65;background:var(--ink,#0a0a0a);color:#fff;border-radius:var(--r-pill);padding:.34rem .4rem;box-shadow:0 10px 28px rgba(10,10,10,.30);max-width:calc(100vw - 24px)}
 }
