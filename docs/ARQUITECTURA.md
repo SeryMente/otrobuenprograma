@@ -1,3 +1,22 @@
+# Arquitectura activa · Instrumento de comunicación
+
+## Publicación vigente
+
+- `index.html`: diseño editorial original, nombre visible Khora, sin bitácora ni mapa del proyecto.
+- `transparencia.html`: instrumento financiero autónomo, embebido en `#cuentas` y disponible a pantalla completa.
+- `libro-publico.json`: fuente única activa de registros financieros, necesidades, igualación, conciliación, asignaciones y correcciones.
+- Los controles de selección y edición no están publicados en Pages. La copia de trabajo está en el área privada del autor y sus borradores no se publican automáticamente.
+
+El panel verifica la estructura de los datos, identificadores únicos, fechas, montos enteros positivos en centavos y asignaciones que no excedan los ingresos o gastos relacionados. Una fuente inválida no produce totales ficticios. El cotejo con GitHub verifica coincidencia de datos, no saldo bancario.
+
+`assets/js/cuentas.js`, `assets/data/movimientos.json` y `assets/data/necesidades.json` corresponden a la implementación anterior y no alimentan el panel activo. Se conservan como legado para el respaldo original. No deben actualizarse como un libro financiero paralelo.
+
+Los comentarios, la glosa y el buzón de la arquitectura anterior eran almacenamiento local. No constituyen por sí mismos comentarios compartidos ni un servidor de edición privada. La autenticación del taller privado depende de Notion, no de un enlace secreto.
+
+## Arquitectura histórica de referencia
+
+Lo siguiente se conserva como registro anterior; no describe la fuente financiera vigente.
+
 # Arquitectura - v0.9
 
 ## Filosofia
