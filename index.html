@@ -222,39 +222,7 @@
 </section>
 <!-- ===== 03 EL CAMINO (avances + linea de tiempo viva) ===== -->
 <!-- ===== 04 CUENTAS CLARAS (transparencia + donativos) ===== -->
-<section class="reveal" id="cuentas">
-<h2 class="section"><span class="num">04 — Cuentas claras</span><span class="ttl">Aportar es facil; rendir cuentas, obligatorio</span></h2>
-<p class="lead">Aqui se puede apoyar el proyecto con un deposito directo. Pero el dinero no entra solo: entra atado a un libro abierto donde cualquiera ve cuanto llega, en que se gasta y con que prueba. Sin esa transparencia, no habria recoleccion.</p>
-<div class="cc-model">
-<div class="cc-model-item"><span class="cc-mn">01</span><b>Tablero de necesidades</b><p>Cada necesidad, con su costo y su estado: pendiente, en proceso o cubierta. Nada de montos vagos.</p></div>
-<div class="cc-model-item"><span class="cc-mn">02</span><b>Libro mayor abierto</b><p>Cada ingreso y cada gasto, con fecha, monto y concepto. A la vista de todos.</p></div>
-<div class="cc-model-item"><span class="cc-mn">03</span><b>Evidencia por gasto</b><p>Cada egreso enlaza su comprobante: factura, recibo o foto. Sin recibo, no cuenta.</p></div>
-</div>
-<div class="frame cobalt">
-<div class="ttl">La garantia que no depende de mi palabra</div>
-        El libro vive como datos versionados en el repositorio publico del proyecto (GitHub). Cada actualizacion queda como un <strong>registro con fecha y autor</strong> que no se puede borrar ni alterar despues sin que se note. Ese historial —no una promesa— es lo que permite auditar el manejo del recurso mas alla de toda duda.
-      </div>
-<div class="cc-clabe" data-clabe="072164011486478766">
-<div class="cc-clabe-head"><span class="cc-clabe-k">Donativo por transferencia (SPEI)</span><span class="cc-bank">Banorte</span></div>
-<div class="cc-clabe-num">0721 6401 1486 4787 66</div>
-<div class="cc-clabe-row">
-<button class="cc-copy" id="cc-copy" type="button">Copiar CLABE</button>
-<span class="cc-titular"><span class="cc-pend">Titular por confirmar antes de publicar</span></span>
-</div>
-<div class="cc-concepto">Concepto sugerido: <b>Donativo — Otro Buen Programa</b></div>
-<p class="cc-clabe-note">Cualquier monto suma. El deposito es directo a una cuenta bancaria; cada peso recibido se anota abajo, en el libro abierto.</p>
-</div>
-<div class="cc-resumen" id="cuentas-resumen"></div>
-<h3 class="mono">Tablero de necesidades</h3>
-<div class="cc-needs" id="cuentas-necesidades">
-<noscript><p>El tablero de necesidades necesita JavaScript. Los datos viven en <code>assets/data/necesidades.json</code>.</p></noscript>
-</div>
-<h3 class="mono">Libro mayor abierto</h3>
-<div class="cc-ledger" id="cuentas-libro">
-<noscript><p>El libro mayor necesita JavaScript. Los datos viven en <code>assets/data/movimientos.json</code>.</p></noscript>
-</div>
-<p class="note-mono">Honestidad de plataforma: el saldo bancario no es visible de forma automatica al publico. El puente de confianza es publicar cada deposito y cada gasto con evidencia, sobre un historial que delata cualquier cambio. Recibir donativos en una cuenta personal puede tener implicaciones fiscales y no son deducibles; se trabaja para constituir una figura adecuada.</p>
-</section>
+<section class="reveal" id="cuentas"><h2 class="section"><span class="num">04 — Cuentas claras</span><span class="ttl">Aportar es facil; rendir cuentas, obligatorio</span></h2><p class="lead">Cada aporte, su destino y su comprobación. Explora el registro, las necesidades y las verificaciones sin confundir promesas con dinero recibido.</p><p><a href="transparencia.html" rel="noopener noreferrer" target="_blank">Abrir cuentas claras a pantalla completa ↗</a></p><iframe id="finance-frame" loading="lazy" src="transparencia.html" style="display:block;width:100%;height:1500px;border:1px solid #a9b6d2;border-radius:4px;background:white" title="Cuentas claras: libro público, necesidades e igualación"></iframe><noscript><p>El panel interactivo requiere JavaScript. El libro inicial no contiene movimientos. Puedes consultar <a href="libro-publico.json">la fuente de datos publicada</a>.</p></noscript></section>
 <!-- ===== 05 SUMARSE ===== -->
 <section class="reveal" id="sumarse">
 <h2 class="section"><span class="num">05 — Sumarse</span><span class="ttl">En lugar de pedir, preferimos preguntar</span></h2>
@@ -375,11 +343,10 @@
 <button aria-label="Volver arriba" class="toTop" id="toTop">↑</button>
 <script defer="" src="assets/js/config.js?v=v0.13-20260618-215135"></script>
 <script defer="" src="assets/js/theme.js?v=v0.13-20260618-215135"></script>
-
 <script defer="" src="assets/js/glosa.js?v=v0.13-20260618-215135"></script>
 <script defer="" src="assets/js/presence.js?v=v0.13-20260618-215135"></script>
-<script defer="" src="assets/js/cuentas.js?v=v0.13-20260618-215135"></script>
+
 <script defer="" src="assets/js/navigator.js?v=v0.13-20260618-215135"></script>
 <script defer="" src="assets/js/app.js?v=v0.13-20260618-215135"></script>
-</body>
+<script>window.addEventListener("message",function(e){const f=document.getElementById("finance-frame");if(f&&e.origin===location.origin&&e.source===f.contentWindow&&e.data?.type==="obp-finance-height"&&Number.isFinite(e.data.height)&&e.data.height>0&&e.data.height<30000)f.style.height=Math.ceil(e.data.height)+"px";});</script></body>
 </html>
