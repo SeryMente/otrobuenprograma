@@ -1,0 +1,40 @@
+{
+  "actualizado": "2026-10-04",
+  "moneda": "MXN",
+  "ingresos": [],
+  "egresos": [],
+  "necesidades": [
+    {
+      "id": "cibercafe",
+      "titulo": "Cibercafé",
+      "costo": null
+    },
+    {
+      "id": "impresora",
+      "titulo": "Insumos de impresora para los volantes",
+      "costo": null
+    }
+  ],
+  "igualacion": {
+    "estado": "en_preparacion",
+    "aliado": null,
+    "inicio": null,
+    "cierre": null,
+    "techo_centavos": null,
+    "comprometido_centavos": null,
+    "recibido_centavos": null
+  },
+  "nota": "Registro público sin movimientos heredados. Totales del libro, no saldo bancario.",
+  "version": 2,
+  "responsable": "Víctor Hugo Torres Méndez",
+  "conciliacion": {
+    "estado": "pendiente",
+    "fecha": null,
+    "periodo_inicio": null,
+    "periodo_fin": null,
+    "diferencia_centavos": null,
+    "evidencia": null
+  },
+  "correcciones": [],
+  "asignaciones": []
+}
