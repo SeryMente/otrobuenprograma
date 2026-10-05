@@ -21,17 +21,15 @@ jobs:
           python3 -c "import json; json.load(open('assets/data/timeline.json')); print('timeline.json OK')"
           python3 -c "import json; json.load(open('manifest.webmanifest')); print('manifest OK')"
 
-      - name: JSON inline (#tl-data) valido
+      - name: Estructura de timeline vigente
         run: |
           python3 - <<'PY'
-          import re, json
-          html=open('index.html', encoding='utf-8').read()
-          m=re.search(r"id='tl-data'>(.*?)</script>", html, re.S)
-          assert m, 'no se encontro #tl-data'
-          d=json.loads(m.group(1))
+          import json
+          d=json.load(open('assets/data/timeline.json', encoding='utf-8'))
+          assert len(d['hilos']) == 3, 'numero de hilos inesperado'
           n=sum(len(h['hitos']) for h in d['hilos'])
           print('hilos', len(d['hilos']), 'hitos', n)
-          assert len(d['hilos'])==3 and n==11, 'conteo de hitos inesperado'
+          assert n == 11, 'conteo de hitos inesperado'
           PY
 
       - name: Archivos clave presentes
@@ -48,7 +46,7 @@ jobs:
       - name: Anclas de secciones vigentes en index.html
         run: |
           for id in relato-sonoro proyectos obp comind cuentas voces fundamentos autor; do
-            grep -q "id='$id'" index.html || { echo "FALTA seccion #$id"; exit 1; }
+            grep -Eq "id=['\"]$id['\"]" index.html || { echo "FALTA seccion #$id"; exit 1; }
           done
           ! grep -q 'id="pulso"' index.html || { echo "PULSO no debe existir"; exit 1; }
           ! grep -q 'id="porque"' index.html || { echo "PORQUE no debe existir"; exit 1; }
