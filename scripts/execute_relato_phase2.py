@@ -35,7 +35,7 @@ SPLITS = {
         ("08.01", "Pero ¿qué es lo que pasa con algunos de estos individuos?"),
     ],
     "09": [
-        ("09.01", "Estas personas empiezan a hacer como que los ejemplos de personas con alto nivel de desarrollo"),
+        ("09.01", "Y estas personas empiezan a hacer como que los ejemplos de personas con alto nivel de desarrollo"),
     ],
     "10": [
         ("10.01", "Creo que educar para que la sociedad empiece a reconocer la existencia de estas dos grandes razas"),
