@@ -1,8 +1,6 @@
 name: Generate exact story word timing
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
