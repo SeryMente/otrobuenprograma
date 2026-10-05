@@ -1,4 +1,4 @@
-# Otro Gran Programa — plan maestro de ejecución del relato sonoro v1.1
+# Otro Gran Programa — plan maestro de ejecución del relato sonoro v1.2
 
 ## Propósito
 Este documento convierte en especificación operativa la totalidad del trabajo encargado en la conversación original, incluidos los hallazgos de la revisión inicial del resultado real. La conversación deja de ser necesaria como memoria de alcance: este documento es el registro de trazabilidad. Ninguna tarea se considera terminada por intención; debe existir evidencia de implementación, pruebas y, cuando corresponda, producción.
@@ -41,14 +41,19 @@ Congelar 5 Fases × 20 segmentos, con título e idea única por segmento, como c
 ### F1.8 Base de datos y trazabilidad
 Conservar en repositorio un artefacto canónico que relacione Fase → Segmento → idea y otro documento con el plan completo y sus gates.
 ### F1.9 Baseline técnico
-Registrar que el estado anterior tenía 10 escenas, un único MP3, timing proporcional y un archivo de timing exacto ausente. Esto no es una tarea a conservar: es una condición de partida verificable.
-### F1.10 Endurecimiento de Fase 1
+Registrar que el estado anterior tenía 10 escenas, un único MP3, timing proporcional y un archivo de timing exacto ausente. Registrar también que el MP3 definitivo identificado en el trabajo previo dura 23:11 y tenía 16,695,648 bytes. Esto no es una tarea a conservar: es una condición de partida verificable.
+
+### F1.10 Integridad de fuentes de audio
+Conservar como regla de ingestión que no se concatenarán fuentes aparentemente distintas sin comprobar identidad binaria. El trabajo previo detectó dos archivos WEBM/WEBa idénticos y truncados aproximadamente a 1:59; fueron descartados como fuentes maestras. Cualquier fuente que no pueda demostrar continuidad y completitud se considera no válida.
+
+### F1.11 Endurecimiento de Fase 1
 Aplicar una auditoría independiente que compruebe simultáneamente: ausencia real de los bloques eliminados; ausencia de enlaces huérfanos hacia ellos; orden Otro Gran Programa → Khora; ausencia del reproductor viejo; coherencia de la navegación restante; consistencia de nombre; presencia del relato nuevo; presencia del contenido inferior no solicitado; existencia del artefacto 5×20; integridad del MP3 máster.
 ### Gate Fase 1
-Fase 1 solo se aprueba cuando todos los controles anteriores pasan. La aprobación no implica que el relato narrativo esté terminado.
+Fase 1 solo se aprueba cuando todos los controles anteriores pasan y la matriz de trazabilidad cubre todas las decisiones y hallazgos operativos heredados del trabajo original. La aprobación no implica que el relato narrativo esté terminado.
 
 ## Fase 2 — Verdad editorial, segmentación semántica y audio físico
 ### F2.1 Transcripción maestra contra el MP3 real
+Usar exclusivamente el MP3 maestro validado en F1.10 como fuente sonora canónica.
 Reconstruir el relato completo desde el audio de 23:11. El texto actual es borrador de comparación, no fuente de verdad.
 ### F2.2 QC-1 — Fidelidad
 Buscar y corregir omisiones, sustituciones, añadidos, frases incompletas, repeticiones, nombres, números, términos técnicos, negaciones, conectores y partículas pequeñas.
@@ -93,28 +98,32 @@ Al terminar un segmento, cargar el siguiente. Anterior/siguiente deben respetar 
 ### F3.9 Scroll y control del usuario
 El seguimiento automático debe acompañar la narración sin luchar contra el scroll manual. Cuando el usuario interviene, el modo de seguimiento debe poder ceder y reanudarse explícitamente.
 ### F3.10 Diseño de las 20 unidades
+La concepción inicial identificó 24 estaciones semánticas, pero se decidió expresamente no convertir esas 24 estaciones en 24 ilustraciones. El sistema final trabajará con 20 segmentos y aproximadamente 10–12 composiciones visuales maestras, capaces de transformarse según el sentido narrativo.
 Mantener una sola idea por segmento. Las composiciones visuales pueden reutilizarse/transicionarse y deben permanecer aproximadamente en el orden de 10–12 composiciones maestras, no una ilustración obligatoria por segmento.
-### F3.11 Jerarquía visual
+### F3.11 Jerarquía de presentación
+En escritorio, la composición conceptual es transcripción | línea/nodo | visual/contexto. Las palabras ya escuchadas deben permanecer visibles pero atenuadas y la palabra activa debe destacar. En móvil, la composición se transforma a una sola columna sin perder la jerarquía textual.
+
+### F3.12 Jerarquía visual
 La transcripción debe ser el contenido principal; imagen/animación/contexto no deben sustituir ni resumir la voz.
-### F3.12 Responsive móvil
+### F3.13 Responsive móvil
 Una sola columna; controles suficientemente grandes; sin overflow horizontal; roadmap compacto; imágenes adaptadas; viewport inicial limpio.
-### F3.13 Autoplay y fallback
+### F3.14 Autoplay y fallback
 Intentar autoplay cuando sea permitido; ante bloqueo del navegador, primer toque explícito. Mantener fallback de Vocaroo sin competir con la fuente canónica.
-### F3.14 Resolver hallazgos iniciales de interfaz
+### F3.15 Resolver hallazgos iniciales de interfaz
 Eliminar estados inconsistentes como «Audio en preparación» cuando el audio ya está disponible; impedir que overlays de instalación/PWA tapen el contenido inicial; eliminar señales de coexistencia entre reproductores.
-### F3.15 Accesibilidad
+### F3.16 Accesibilidad
 Teclado, focus visible, contraste, controles semánticos, lectores de pantalla, reduced-motion y transcripción navegable.
-### F3.16 Rendimiento
+### F3.17 Rendimiento
 Carga bajo demanda de audios, precarga racional del siguiente, optimización de SVG/recursos y prevención de descargas innecesarias.
-### F3.17 Unificación definitiva
+### F3.18 Unificación definitiva
 Eliminar cualquier implementación narrativa antigua que todavía compita con el motor definitivo. Debe existir una sola experiencia narrativa.
-### F3.18 Auditoría integral
+### F3.19 Auditoría integral
 QC de audio, sincronización, continuidad, navegación, roadmap, palabra, segmento, Fase, visual, scroll, responsive, accesibilidad y regresión del contenido no narrativo.
-### F3.19 Producción
+### F3.20 Producción
 Publicar en main/GitHub Pages y verificar que los recursos públicos correspondan a main.
-### F3.20 Control de caché/divergencia
+### F3.21 Control de caché/divergencia
 Comparar hashes, contenido y comportamiento de producción para detectar versiones cacheadas o divergencias entre repo y página pública. No aceptar una página cacheada como evidencia del estado del repositorio.
-### F3.21 Cierre creativo
+### F3.22 Cierre creativo
 Pulir composición, jerarquía, ritmo, tipografía, animaciones semánticas y transición entre segmentos después de que la verdad editorial y temporal esté certificada.
 ### Gate Fase 3
 Solo se considera terminado cuando la producción pública demuestra la cadena completa y ya no existen timing proporcional, duplicación de motores, inconsistencias de audio, navegación rota ni divergencia no explicada entre main y producción.
@@ -129,20 +138,20 @@ Solo se considera terminado cuando la producción pública demuestra la cadena c
 | timing era estimated-text-sync | F2.1–F2.6 / F3.2 |
 | story-word-timing.json no existía | F3.3 |
 | El motor tenía fallback proporcional | F3.2 |
-| El audio real de 23:11 sí estaba disponible | F1.10 / F2.1 |
+| El audio real de 23:11 sí estaba disponible | F1.9 / F2.1 |
 | Había un estado de audio inconsistente | F3.14 |
 | Un overlay/PWA podía invadir el primer viewport móvil | F3.14 |
 | Móvil debía ser prioridad | F3.12 |
 | Las palabras debían ser navegables | F3.6 |
 | El seguimiento automático debía ceder al control manual | F3.9 |
-| El sistema visual debía usar aproximadamente 10–12 composiciones maestras | F3.10 |
+| El sistema visual partía de 24 estaciones conceptuales pero debía condensarse en aproximadamente 10–12 composiciones maestras | F3.10 |
 | La transcripción debía ser contenido primario | F3.11 |
 | El roadmap debía ser Fase → Segmento | F3.7 |
 | El audio debía actuar como reloj maestro | F3.5 |
 | Vocaroo debía mantenerse como fallback | F3.13 |
 | El resto del sitio no debía rehacerse innecesariamente | F1.6 |
-| Producción podía diferir por caché | F3.19–F3.20 |
-| Duplicación arquitectónica detectada | F1.1 / F3.17 |
+| Producción podía diferir por caché | F3.20–F3.21 |
+| Duplicación arquitectónica detectada | F1.1 / F3.18 |
 | La revisión inicial distinguió diseño bueno de producción incompleta | Gates de las tres fases |
 
 ## Registro del plan original de 16 ámbitos
@@ -164,7 +173,7 @@ Solo se considera terminado cuando la producción pública demuestra la cadena c
 16. Publicación/verificación en producción → F3.
 
 ## Estado tras endurecimiento de Fase 1
-- Fase 1: aprovada y endurecida.
+- Fase 1: aprobada y endurecida.
 - Fase 2: pendiente.
 - Fase 3: pendiente.
 
