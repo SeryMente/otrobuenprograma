@@ -1,5 +1,23 @@
 # Changelog - Instrumento de comunicacion - Proyecto Vital
 
+## [v1.2] - 2026-10-05 - Fase 3 narrativa
+
+### Anadido
+- Modelo narrativo de 5 Fases × 20 segmentos.
+- Motor narrativo definitivo con reproducción segmentada, anterior/siguiente, autoavance, seguimiento controlado y navegación por palabra.
+- Roadmap jerárquico Fase → Segmento.
+- Transcripción como contenido primario y contexto/visual como contenido complementario.
+- 10 composiciones visuales maestras reutilizables.
+- Gate QA estructural para impedir estados narrativos proporcionales o incompletos.
+- Workflow reproducible de forced alignment con WhisperX.
+
+### Cambiado
+- index.html utiliza la experiencia narrativa de Fase 3 y sello v1.2.
+- Service Worker actualizado para invalidar la caché anterior y precargar los artefactos de Fase 3.
+- La implementación pública deja de depender del player de Fase 2.
+
+
+
 Formato inspirado en Keep a Changelog. Fechas en America/Mexico_City.
 
 ## [v0.10] - 2026-06-11 - *Temas + modo dev*
