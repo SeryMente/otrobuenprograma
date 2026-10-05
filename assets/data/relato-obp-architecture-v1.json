@@ -1,7 +1,7 @@
 {
-  "version": "1.1",
+  "version": "1.2",
   "project": "Otro Gran Programa",
-  "status": "Fase 1 endurecida: alcance completo trazado",
+  "status": "Fase 1 endurecida: trazabilidad integral revisada",
   "fixedArchitecture": {
     "phases": 5,
     "segments": 20,
@@ -158,7 +158,9 @@
       "5x20-freeze",
       "traceability",
       "baseline",
-      "hardening-gate"
+      "hardening-gate",
+      "audio-source-integrity",
+      "24-to-10-12-visual-consolidation-baseline"
     ],
     "phase2": [
       "master-transcript",
@@ -217,7 +219,10 @@
     "El audio debía actuar como reloj maestro.",
     "Vocaroo debía mantenerse como fallback.",
     "El resto del sitio no debía rehacerse innecesariamente.",
-    "Producción podía diferir por caché y debía verificarse contra main."
+    "Producción podía diferir por caché y debía verificarse contra main.",
+    "Se detectaron dos archivos de audio WEBM/WEBa idénticos y truncados; se rechazaron como fuente maestra.",
+    "La propuesta inicial de 24 estaciones conceptuales debía condensarse visualmente en aproximadamente 10–12 composiciones maestras.",
+    "En desktop se buscaba transcripción | línea/nodo | visual; palabras pasadas atenuadas y palabra activa destacada."
   ],
   "hardeningGate": {
     "phase1Passed": true,
@@ -239,5 +244,13 @@
       "Roadmap 5x20 todavía no implementado.",
       "QA de producción todavía pendiente."
     ]
-  }
+  },
+  "completenessAssertions": [
+    "Todos los 16 ámbitos explícitos del plan original tienen destino en Fase 1, 2 o 3.",
+    "Los hallazgos accionables de la revisión inicial tienen destino explícito.",
+    "Las decisiones editoriales de 5 Fases × 20 segmentos están congeladas.",
+    "La decisión 24 estaciones conceptuales → 10–12 composiciones maestras está preservada.",
+    "La integridad de las fuentes de audio y el rechazo de fuentes duplicadas/truncadas forman parte del control del proyecto.",
+    "La divergencia repo/producción por caché está tratada como control de producción, no como evidencia de estado de main."
+  ]
 }
