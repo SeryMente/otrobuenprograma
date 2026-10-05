@@ -14,13 +14,14 @@
 <meta content="Khora y Otro Buen Programa" property="og:title"/>
 <meta content="Dos iniciativas desde Queretaro: una protesis cognitiva digital para mentes neurodivergentes y una alternativa seria de recuperacion. Espacio colaborativo, version preliminar." property="og:description"/>
 <meta content="Victor Hugo Torres Mendez" name="author"/>
-<title>Khora y Otro Buen Programa, espacio colaborativo</title>
+<title>Khora y Otro Buen Programa · relato sonoro</title>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&amp;display=swap" rel="stylesheet"/>
 <link href="assets/css/instrument.css?v=v0.13-20260618-215135" rel="stylesheet"/>
 <link href="assets/css/additions.css?v=v0.13-20260618-215135" rel="stylesheet"/>
 <link href="assets/css/themes.css?v=v0.13-20260618-215135" rel="stylesheet"/>
+<link href="assets/css/story.css?v=v0.15-20261005" rel="stylesheet"/>
 <link href="manifest.webmanifest" rel="manifest"/>
 <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon"/>
 <noscript><style>.reveal{opacity:1 !important; transform:none !important}</style></noscript>
@@ -51,24 +52,13 @@ try{tracks=(data.tracks||[]).map(validate);if(tracks.length){render();audio.hidd
 </div>
 <div class="progress"><i id="bar"></i></div>
 </div>
-<!-- ===== HERO / PORTADA (full-width, al tope) ===== -->
-<section aria-label="Bienvenida e invitacion a participar" class="hero" id="inicio">
-<div aria-hidden="true" class="hero-bg">
-<div class="hero-stars"></div>
-<div class="hero-grid"></div>
-<div class="hero-glow"></div>
+<!-- ===== RELATO SONORO / PORTADA ===== -->
+<section aria-label="Relato sonoro de Otro Buen Programa" class="story" id="relato-sonoro">
+<div class="story-loading">
+<p class="story-kicker">Otro Buen Programa · relato sonoro</p>
+<h1>La historia comienza con una voz.</h1>
+<p>Preparando la experiencia sonora…</p>
 </div>
-<div class="hero-inner">
-<p class="hero-kicker"><span class="live"></span> Instrumento vivo · Queretaro, Mexico</p>
-<h1 class="hero-title">Que ninguna idea valiosa se pierda por una mente desatendida, y que el bien que aprendimos a hacer no muera con quien lo hizo.</h1>
-<p class="hero-sub">Un solo proyecto vital con varias obras — una protesis cognitiva, una alternativa seria de recuperacion y el bien publico al que ambas apuntan — levantadas desde cero y a la vista de todos. Aqui no se mendiga: se construye, y se rinde cuentas.</p>
-<p class="hero-thesis">Patria pendiente, esa que aun no es.</p>
-<div class="hero-cta">
-<a class="btn btn-primary" href="#proyectos">Conocer los proyectos</a>
-</div>
-<a class="hero-link" href="#cuentas">Cuentas claras y como aportar →</a>
-</div>
-<a aria-label="Bajar al contenido" class="hero-scroll" href="#top"><span></span></a>
 </section>
 <div class="sheet" id="pagina-original">
 <div class="pad">
@@ -356,5 +346,6 @@ try{tracks=(data.tracks||[]).map(validate);if(tracks.length){render();audio.hidd
 
 <script defer="" src="assets/js/navigator.js?v=v0.13-20260618-215135"></script>
 <script defer="" src="assets/js/app.js?v=v0.13-20260618-215135"></script>
-<script>window.addEventListener("message",function(e){const f=document.getElementById("finance-frame");if(f&&e.origin===location.origin&&e.source===f.contentWindow&&e.data?.type==="obp-finance-height"&&Number.isFinite(e.data.height)&&e.data.height>0&&e.data.height<30000)f.style.height=Math.ceil(e.data.height)+"px";});</script></body>
+<script>window.addEventListener("message",function(e){const f=document.getElementById("finance-frame");if(f&&e.origin===location.origin&&e.source===f.contentWindow&&e.data?.type==="obp-finance-height"&&Number.isFinite(e.data.height)&&e.data.height>0&&e.data.height<30000)f.style.height=Math.ceil(e.data.height)+"px";});</script>
+<script defer="" src="assets/js/story.js?v=v0.15-20261005"></script></body>
 </html>
