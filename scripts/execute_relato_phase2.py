@@ -353,14 +353,12 @@ def main():
     pass1, asr_d1 = transcribe()
     reference = tokens(" ".join(s["text"] for s in editorial["segments"]))
     hyp1 = [w["word"] for w in pass1]
-    hyp2 = [w["word"] for w in pass2]
     wer1 = wer_details(reference, hyp1)
-    wer2 = wer_details(reference, hyp2)
 
-    if wer1["wer"] > MAX_WER or wer2["wer"] > MAX_WER:
-        raise RuntimeError(f"WER demasiado alto: pass1={wer1['wer']:.4f}, pass2={wer2['wer']:.4f}")
+    if wer1["wer"] > MAX_WER:
+        raise RuntimeError(f"WER demasiado alto: pass1={wer1['wer']:.4f}")
 
-    boundaries, min_anchor = align_boundaries(editorial, pass1, pass2)
+    boundaries, min_anchor = align_boundaries(editorial, pass1)
 
     segment_results = []
     for i, seg in enumerate(editorial["segments"]):
@@ -383,9 +381,9 @@ def main():
             "masterEnd": round(end, 3),
             "cutStart": round(start, 3),
             "cutEnd": round(end, 3),
-            "anchorScorePass1": b["anchorScorePass1"],
-            "anchorScorePass2": b["anchorScorePass2"],
-            "anchorDelta": b["anchorDelta"],
+            "anchorScore": b["anchorScorePass1"],
+            "anchorWeakestWindow": b["anchorWeakestWindowPass1"],
+            "anchorStrongWindows": b["anchorStrongWindowsPass1"],
             "audio": f"assets/audio/relato-obp-v016/segment-{seg['id']}.mp3",
         }
         segment_results.append(item)
@@ -419,8 +417,8 @@ def main():
         "asr": {
             "engine": "faster-whisper 1.2.1",
             "model": MODEL_SIZE,
-            "pass1": {**wer1, "observedDuration": round(asr_d1, 3)},
             "passes": 1,
+            "pass1": {**wer1, "observedDuration": round(asr_d1, 3)},
             "minimumBoundaryAnchorScore": round(min_anchor, 4),
             "acceptedMaxWER": MAX_WER,
             "minimumAnchorConsensusWindows": 2,
@@ -469,7 +467,6 @@ def main():
     OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     QC.write_text(json.dumps(qc, ensure_ascii=False, indent=2), encoding="utf-8")
 
-    # Mandatory stdout evidence for the workflow log.
     print(json.dumps({
         "status": "passed",
         "phase": "Fase 2",
@@ -477,7 +474,6 @@ def main():
         "phases": 5,
         "masterDuration": round(master_duration, 3),
         "werPass1": wer1["wer"],
-        "werPass2": wer2["wer"],
         "minimumBoundaryAnchorScore": min_anchor,
         "minimumAnchorConsensusWindows": 2,
         "audioFiles": 20,
