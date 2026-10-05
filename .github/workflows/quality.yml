@@ -45,9 +45,13 @@ jobs:
           done
           echo "Todos los archivos clave presentes."
 
-      - name: Anclas de secciones nuevas en index.html
+      - name: Anclas de secciones vigentes en index.html
         run: |
-          for id in pulso porque camino mapa voces; do
+          for id in relato-sonoro proyectos obp comind cuentas voces fundamentos autor; do
             grep -q "id='$id'" index.html || { echo "FALTA seccion #$id"; exit 1; }
           done
-          echo "Secciones nuevas presentes."
+          ! grep -q 'id="pulso"' index.html || { echo "PULSO no debe existir"; exit 1; }
+          ! grep -q 'id="porque"' index.html || { echo "PORQUE no debe existir"; exit 1; }
+          ! grep -q 'id="sumarse"' index.html || { echo "SUMARSE no debe existir"; exit 1; }
+          grep -q "Otro Gran Programa" index.html || { echo "FALTA nombre canonico"; exit 1; }
+          echo "Secciones vigentes presentes y legacy ausente."
