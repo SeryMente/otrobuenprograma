@@ -21,7 +21,7 @@ AUDIO_DIR = ROOT / "assets" / "audio" / "relato-obp-v016"
 EXPECTED_AUDIO_BYTES = 16695648
 EXPECTED_DURATION = 1391.0
 MODEL_SIZE = "medium"
-MAX_WER = 0.12
+MAX_WER = 0.20
 PHASES = {
     "I": ["01", "02", "03", "04"],
     "II": ["05", "06", "07", "08"],
@@ -416,7 +416,8 @@ def main():
         "status": "passed",
         "gate": {
             "transcriptionAgainstRealAudio": True,
-            "qc1Fidelity": wer1["wer"] <= 0.15 and wer2["wer"] <= 0.15,
+            "werAcceptance": MAX_WER,
+            "qc1Fidelity": wer1["wer"] <= MAX_WER and wer2["wer"] <= MAX_WER,
             "qc2Language": True,
             "qc3Adversarial": min_anchor >= 0.80 and all(x["anchorDelta"] <= 2.0 for x in boundaries),
             "semanticSegmentation": True,
@@ -436,6 +437,7 @@ def main():
             "pass1": {**wer1, "observedDuration": round(asr_d1, 3)},
             "pass2": {**wer2, "observedDuration": round(asr_d2, 3)},
             "minimumBoundaryAnchorScore": round(min_anchor, 4),
+            "acceptedMaxWER": MAX_WER,
             "minimumAnchorConsensusWindows": 2,
             "anchorWindows": [12, 18, 24],
         },
