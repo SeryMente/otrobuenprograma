@@ -1,6 +1,6 @@
 {
   "version": 15,
-  "audio": "https://media1.vocaroo.com/mp3/16paAtlA2wPX",
+  "audio": "assets/audio/relato-obp-v015.mp3",
   "duration": 1391,
   "timing": "estimated-text-sync",
   "timingNote": "El audio definitivo dura 23:11 según el archivo MP3 local. El resaltado de palabras se genera mediante sincronización proporcional al texto y ajuste por pausas de puntuación; no se presenta como alineamiento fonético verificado. La fuente primaria temporal es Vocaroo; el espejo GitHub queda preparado como destino definitivo.",
@@ -77,5 +77,6 @@
       "text": "Ya se tiene la intuición empírica, es decir, basada en la propia experiencia, de que en los anexos —para empezar, los centros de rehabilitación para drogadictos, así se les conoce, que existen en la nación y que yo más bien denominaría centros de tratamiento para la disfunción familiar— existen no solamente personas que optaron por quedar bien con mamá, quedar bien con el gobierno y quedar bien, a veces, con la sociedad, por motivos más allá de su control, lo reconozcan o no, sino que también existe la otra clase de personas: los que sí rompieron con mamá, sí rompieron, y ahí están. Y conviven las dos mentalidades, pero siempre van a ser, en cuanto a su individualidad, distintos, porque romper con lo perfecto, que es el derecho natural del hijo del hombre en esta tierra, no puede sino ser significativo e importante. Y cuando yo me conformo, jamás podré ser la persona que yo verdaderamente sigo siendo. No obstante, se rompió con lo perfecto, y esto aparentemente generó dos tipos de ser humano. Y estos dos tipos de personas, creo yo, existen en estos centros para el tratamiento de drogas. Digo, de trastorno por abuso de sustancias. Y me parece que la distinción es importante y merece ser realizada, no solo a beneficio de los unos, sino también de los otros. Creo que educar para que la sociedad empiece a reconocer la existencia de estas dos grandes razas —por así decirlo— ideológicas que existen en nuestra realidad es fundamental para poder resolver los principales problemas que tenemos como sociedad. Y el integrar la teoría de la desintegración positiva es, de hecho, el elemento inicial para dar satisfacción a esta necesidad a través de Otro Buen Programa."
     }
   ],
-  "audioMirror": "assets/audio/relato-obp-v015.mp3"
+  "audioMirror": "assets/audio/relato-obp-v015.mp3",
+  "fallbackAudio": "https://media1.vocaroo.com/mp3/16paAtlA2wPX"
 }
