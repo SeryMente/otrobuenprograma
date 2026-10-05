@@ -20,7 +20,7 @@ AUDIO_DIR = ROOT / "assets" / "audio" / "relato-obp-v016"
 
 EXPECTED_AUDIO_BYTES = 16695648
 EXPECTED_DURATION = 1391.0
-MODEL_SIZE = "medium"
+MODEL_SIZE = "small"
 MAX_WER = 0.20
 PHASES = {
     "I": ["01", "02", "03", "04"],
