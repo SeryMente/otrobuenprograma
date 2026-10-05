@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: relato-fase2
+  group: relato-fase2-v2
   cancel-in-progress: true
 
 jobs:
