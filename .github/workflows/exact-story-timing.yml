@@ -12,7 +12,6 @@ permissions:
 
 jobs:
   align:
-    if: ${{ github.event_name == 'workflow_dispatch' || !startsWith(github.event.head_commit.message, 'Fase 3: generar forced alignment') }}
     runs-on: ubuntu-latest
     timeout-minutes: 90
     steps:
