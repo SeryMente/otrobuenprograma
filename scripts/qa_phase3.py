@@ -8,7 +8,9 @@ def main():
  p3=json.loads(P3.read_text(encoding="utf-8")); tm=json.loads(TM.read_text(encoding="utf-8")); js=JS.read_text(encoding="utf-8")
  assert p3["model"]["phases"]==5 and p3["model"]["segments"]==20 and p3["model"]["oneIdeaPerSegment"] is True
  assert p3["model"]["visualMasterCompositions"]==10
- assert tm["status"]=="editorial-word-timing-preliminary" and tm["forcedAlignmentPending"] is True
+ assert tm["status"]=="forced-alignment-certified" and tm.get("proportionalTiming") is False and tm.get("interpolation") is False
+ assert p3["status"]=="timing-and-narrative-model-certified"
+ assert p3["model"]["wordClock"]=="audio-derived forced alignment"
  assert len(p3["segments"])==20 and len(tm["segments"])==20
  total=0; visuals=set()
  for s in p3["segments"]:
@@ -23,7 +25,7 @@ def main():
    last=b
   total+=len(s["words"])
  assert len(visuals)==10 and total==tm["wordCount"]
- assert "No existe sincronización proporcional" not in js
- assert "forced alignment" not in js.lower() or "pendiente" in js.lower()
- print(json.dumps({"status":"passed","quality":"normal-preliminary","phases":5,"segments":20,"words":total,"visualMasterCompositions":10,"forcedAlignmentPending":True},ensure_ascii=False))
+ assert "proportionalTiming" in tm and tm["proportionalTiming"] is False
+ assert "interpolation" in tm and tm["interpolation"] is False
+ print(json.dumps({"status":"passed","quality":"forced-alignment-certified","phases":5,"segments":20,"words":total,"visualMasterCompositions":10,"forcedAlignmentPending":False},ensure_ascii=False))
 if __name__=="__main__": main()
