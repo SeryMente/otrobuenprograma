@@ -135,7 +135,7 @@ def check_editorial(data):
 def transcribe():
     from faster_whisper import WhisperModel
 
-    model = WhisperModel(MODEL_SIZE, device="cuda", compute_type="float16")
+    device = os.environ.get("WHISPER_DEVICE", "cpu").strip().lower()\n    compute_type = os.environ.get("WHISPER_COMPUTE", "int8").strip().lower()\n    model = WhisperModel(MODEL_SIZE, device=device, compute_type=compute_type)
     segments, info = model.transcribe(
         str(AUDIO),
         language="es",
