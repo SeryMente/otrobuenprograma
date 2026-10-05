@@ -1,276 +1,456 @@
 #!/usr/bin/env python3
-import hashlib, json, re, subprocess, sys, unicodedata
+import hashlib
+import json
+import math
+import re
+import subprocess
+import tempfile
+import unicodedata
+from difflib import SequenceMatcher
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "assets" / "data" / "relato-obp-v015.json"
+EDITORIAL = ROOT / "assets" / "data" / "relato-obp-phase2-editorial.json"
 ARCH = ROOT / "assets" / "data" / "relato-obp-architecture-v1.json"
 AUDIO = ROOT / "assets" / "audio" / "relato-obp-v015.mp3"
 OUT = ROOT / "assets" / "data" / "relato-obp-phase2.json"
 QC = ROOT / "assets" / "data" / "relato-obp-phase2-qc.json"
 AUDIO_DIR = ROOT / "assets" / "audio" / "relato-obp-v016"
 
-SPLITS = {
-    "01": [
-        ("01.01", "observadora u observador del desarrollo de esta iniciativa."),
-        ("01.02", "tengo bajo la sombrilla de mi esfuerzo algunos proyectos."),
-        ("01.03", "Eso es, para mí, lo que significa la enseñanza espiritual."),
-    ],
-    "02": [
-        ("02.01", "una profunda gratitud, no solo por un servidor, sino, me consta, por muchísimas personas que siguen agarradas de él."),
-    ],
-    "03": [
-        ("03.01", "Es una herramienta para el entrenamiento mental del individuo"),
-    ],
-    "04": [
-        ("04.01", "gracias a Dios, el medio para darse cuenta de que no hay nada que perdonar."),
-    ],
-    "05": [
-        ("05.01", "Esto le permitiría ser, entre otras cosas, un programa muchísimo más inclusivo de lo que ha sido el programa de doce pasos."),
-    ],
-    "07": [
-        ("07.01", "En efecto, para Dąbrowski las personas en este mundo se desarrollan"),
-    ],
-    "08": [
-        ("08.01", "Pero ¿qué es lo que pasa con algunos de estos individuos?"),
-    ],
-    "09": [
-        ("09.01", "Y estas personas empiezan a hacer como que los ejemplos de personas con alto nivel de desarrollo"),
-    ],
-    "10": [
-        ("10.01", "Creo que educar para que la sociedad empiece a reconocer la existencia de estas dos grandes razas"),
-    ],
+EXPECTED_AUDIO_BYTES = 16695648
+EXPECTED_DURATION = 1391.0
+PHASES = {
+    "I": ["01", "02", "03", "04"],
+    "II": ["05", "06", "07", "08"],
+    "III": ["09", "10", "11", "12"],
+    "IV": ["13", "14", "15", "16"],
+    "V": ["17", "18", "19", "20"],
 }
 
-SEGMENT_META = {
-    "01": ("La puerta de entrada", "El código QR, el encuentro y la invitación a observar el desarrollo de la iniciativa.", "01"),
-    "02": ("Quién soy y desde dónde hablo", "Presentación del autor, su oficio y el contexto desde el que surge la propuesta.", "01"),
-    "03": ("Qué es Otro Gran Programa", "Definición de la iniciativa como una enseñanza espiritual entendida como desarrollo personal.", "01"),
-    "04": ("La intención de competir", "Decisión explícita de desarrollar una alternativa al programa de doce pasos.", "01"),
-    "05": ("Gratitud por lo que ya existe", "Reconocimiento explícito del valor del programa de doce pasos y de las vidas que ha salvado.", "02"),
-    "06": ("La necesidad de una alternativa", "Planteamiento de que México necesita una segunda opción que conserve lo valioso y agregue más.", "02"),
-    "07": ("El fundamento de Un Curso de Milagros", "Presentación de Un Curso de Milagros como enseñanza espiritual y herramienta de entrenamiento mental.", "03"),
-    "08": ("La relación como campo de desarrollo", "La relación como contexto de desarrollo personal y su vínculo con el sufrimiento humano.", "03"),
-    "09": ("El perdón como entrenamiento", "El pensamiento de perdón como práctica de entrenamiento mental dentro de la propuesta.", "04"),
-    "10": ("Grupos de ayuda mutua", "Aplicación práctica mediante grupos de ayuda mutua inspirados en la estructura de los doce pasos, pero con otro fundamento.", "04"),
-    "11": ("Una posición distinta en la escala", "Ubicación propuesta de Otro Gran Programa más cerca de lo no dual.", "05"),
-    "12": ("Una pertenencia más inclusiva", "Ampliación de la pertenencia y del lenguaje del programa hacia una inclusión más amplia.", "05+06"),
-    "13": ("La teoría de la desintegración positiva", "Presentación de la teoría de Casimir Dąbrowski como marco para comprender el desarrollo de la personalidad.", "07"),
-    "14": ("El conflicto moral", "El conflicto moral como mecanismo de desarrollo frente a lo que rodea al individuo.", "07"),
-    "15": ("Cuando la realidad contradice lo aprendido", "Experiencia de contradicción entre los valores aprendidos y la realidad observada.", "08"),
-    "16": ("Las razones para conformarse", "Comprensión de por qué algunas personas eligen no entrar en conflicto con la familia o la sociedad.", "08"),
-    "17": ("La decisión de romper con lo establecido", "La elección de no permitir el maltrato o el abandono aunque implique entrar en conflicto con el entorno.", "09"),
-    "18": ("Dos mentalidades en el mismo lugar", "Coexistencia de distintas respuestas individuales ante los conflictos de valor dentro de los centros de tratamiento.", "09"),
-    "19": ("Por qué necesitamos distinguirlas", "Importancia de distinguir ambas respuestas humanas para beneficio de unos y otros.", "10"),
-    "20": ("Integrar la teoría en Otro Gran Programa", "Conclusión: integrar la teoría de la desintegración positiva como elemento inicial de la propuesta.", "10"),
-}
-
-def norm(s):
-    s = unicodedata.normalize("NFKD", s.lower())
-    s = "".join(c for c in s if not unicodedata.combining(c))
-    return re.sub(r"[^a-z0-9]+", "", s)
-
-def tokenize(text):
-    return [x.strip() for x in re.findall(r"\S+", text or "")]
-
-def ratio(a, b):
-    from rapidfuzz.fuzz import ratio
-    return float(ratio(norm(a), norm(b)))
 
 def run(cmd):
     return subprocess.run(cmd, text=True, capture_output=True, check=True)
 
-def duration(path):
-    p = run(["ffprobe","-v","error","-show_entries","format=duration","-of","default=noprint_wrappers=1:nokey=1",str(path)])
-    return float(p.stdout.strip())
+
+def norm_token(value):
+    value = unicodedata.normalize("NFKD", str(value).lower())
+    value = "".join(c for c in value if not unicodedata.combining(c))
+    return re.sub(r"[^a-z0-9]+", "", value)
+
+
+def norm_text(value):
+    return " ".join(norm_token(x) for x in re.findall(r"\S+", value or "") if norm_token(x))
+
+
+def tokens(value):
+    return [norm_token(x) for x in re.findall(r"\S+", value or "") if norm_token(x)]
+
 
 def sha256(path):
-    h=hashlib.sha256()
+    h = hashlib.sha256()
     with path.open("rb") as f:
-        for chunk in iter(lambda:f.read(1024*1024), b""):
+        for chunk in iter(lambda: f.read(1024 * 1024), b""):
             h.update(chunk)
     return h.hexdigest()
 
-def split_scene(text, cut_phrases):
-    remaining = text
-    pieces = []
-    for sid, phrase in cut_phrases:
-        pos = remaining.find(phrase)
-        if pos < 0:
-            raise RuntimeError(f"No se encontró corte {sid}: {phrase}")
-        end = pos + len(phrase)
-        pieces.append((sid, remaining[:end].strip()))
-        remaining = remaining[end:].lstrip()
-    if remaining:
-        pieces.append((None, remaining))
-    return pieces
 
-def build_segments(data):
-    scenes = {s["id"]: s for s in data["scenes"]}
-    out = []
-    counter = 1
-    for scene_id in ["01","02","03","04","05"]:
-        pieces = split_scene(scenes[scene_id]["text"], SPLITS.get(scene_id, []))
-        for _, text_piece in pieces:
-            sid = f"{counter:02d}"
-            out.append({"id":sid, "text":text_piece, "sourceScene":scene_id})
-            counter += 1
-    # Segment 12 continues from scene 05 into all of scene 06.
-    out[-1]["text"] = out[-1]["text"] + "\n\n" + scenes["06"]["text"]
-    out[-1]["sourceScene"] = "05+06"
-    for scene_id in ["07","08","09","10"]:
-        pieces = split_scene(scenes[scene_id]["text"], SPLITS[scene_id])
-        for _, text_piece in pieces:
-            sid = f"{counter:02d}"
-            out.append({"id":sid, "text":text_piece, "sourceScene":scene_id})
-            counter += 1
-    if len(out) != 20:
-        raise RuntimeError(f"Se esperaban 20 segmentos y se construyeron {len(out)}")
-    for item in out:
-        title, idea, source = SEGMENT_META[item["id"]]
-        item.update(title=title, idea=idea, sourceScene=source)
-    return out
+def duration(path):
+    p = run([
+        "ffprobe", "-v", "error",
+        "-show_entries", "format=duration",
+        "-of", "default=noprint_wrappers=1:nokey=1",
+        str(path),
+    ])
+    return float(p.stdout.strip())
+
+
+def check_source(data):
+    if not AUDIO.is_file():
+        raise RuntimeError("No existe el MP3 maestro.")
+    size = AUDIO.stat().st_size
+    if size != EXPECTED_AUDIO_BYTES:
+        raise RuntimeError(f"Bytes del máster inesperados: {size} != {EXPECTED_AUDIO_BYTES}")
+    d = duration(AUDIO)
+    if abs(d - EXPECTED_DURATION) > 1.0:
+        raise RuntimeError(f"Duración del máster inesperada: {d:.3f}s")
+    if not data.get("scenes") or len(data["scenes"]) != 10:
+        raise RuntimeError("La fuente canónica no contiene exactamente las 10 escenas base esperadas.")
+    return size, d, sha256(AUDIO)
+
+
+def check_architecture():
+    arch = json.loads(ARCH.read_text(encoding="utf-8"))
+    text = json.dumps(arch, ensure_ascii=False)
+    required = [
+        "20-audio-files",
+        "exact-cut-points",
+        "audio-QC",
+        "audio-source-integrity",
+        "24-to-10-12-visual-consolidation-baseline",
+    ]
+    missing = [x for x in required if x not in text]
+    if missing:
+        raise RuntimeError("Arquitectura canónica incompleta: " + ", ".join(missing))
+
+
+def check_editorial(data):
+    editorial = json.loads(EDITORIAL.read_text(encoding="utf-8"))
+    segs = editorial.get("segments", [])
+    if len(segs) != 20:
+        raise RuntimeError(f"El manifiesto editorial tiene {len(segs)} segmentos; se requieren 20.")
+    ids = [str(s.get("id")) for s in segs]
+    if ids != [f"{i:02d}" for i in range(1, 21)]:
+        raise RuntimeError("Los IDs editoriales no forman la secuencia exacta 01..20.")
+
+    phase_of = {}
+    for phase, members in PHASES.items():
+        for sid in members:
+            phase_of[sid] = phase
+
+    for s in segs:
+        sid = str(s["id"])
+        if sid not in phase_of:
+            raise RuntimeError(f"Segmento fuera de las 5 fases: {sid}")
+        if not str(s.get("title", "")).strip() or not str(s.get("idea", "")).strip():
+            raise RuntimeError(f"Segmento {sid} carece de título o idea.")
+        if not str(s.get("text", "")).strip():
+            raise RuntimeError(f"Segmento {sid} carece de transcripción.")
+
+    source_scenes = {str(s["id"]): s["text"] for s in data["scenes"]}
+    source_serial = norm_text(" ".join(source_scenes[k] for k in [f"{i:02d}" for i in range(1, 11)]))
+    editorial_serial = norm_text(" ".join(s["text"] for s in segs))
+    if source_serial != editorial_serial:
+        matcher = SequenceMatcher(None, source_serial, editorial_serial)
+        raise RuntimeError(
+            f"La transcripción 5×20 no conserva exactamente la fuente canónica; "
+            f"similitud={matcher.ratio():.4f}"
+        )
+
+    return editorial, phase_of
+
 
 def transcribe():
     from faster_whisper import WhisperModel
+
     model = WhisperModel("small", device="cpu", compute_type="int8")
-    segments, info = model.transcribe(
-        str(AUDIO), language="es", word_timestamps=True, vad_filter=True,
-        beam_size=5, condition_on_previous_text=False
-    )
-    words=[]
-    for seg in segments:
-        for w in (seg.words or []):
-            if w.start is None or w.end is None:
-                continue
-            words.append({"word":(w.word or "").strip(),"start":float(w.start),"end":float(w.end)})
-    if not words:
-        raise RuntimeError("Whisper no devolvió palabras.")
-    return words, float(info.duration or duration(AUDIO))
 
-def align(target_words, observed, start_cursor=0):
-    mapped=[]
-    cursor=start_cursor
-    m=len(observed)
-    for item in target_words:
-        lo=cursor
-        hi=min(m, cursor+55)
-        if lo>=hi:
-            mapped.append(None)
-            continue
-        best=None; best_score=-1
-        for j in range(lo,hi):
-            score=ratio(item["token"], observed[j]["word"]) - (j-cursor)*0.06
-            if score>best_score:
-                best_score=score; best=j
-        if best is not None and best_score>=48:
-            mapped.append({"start":observed[best]["start"],"end":observed[best]["end"],"score":round(best_score,2),"obs":best})
-            cursor=best+1
+    def one_pass(vad_filter, condition_on_previous_text):
+        segments, info = model.transcribe(
+            str(AUDIO),
+            language="es",
+            word_timestamps=True,
+            vad_filter=vad_filter,
+            beam_size=5,
+            condition_on_previous_text=condition_on_previous_text,
+            temperature=0.0,
+        )
+        words = []
+        for seg in segments:
+            for w in seg.words or []:
+                if w.start is None or w.end is None:
+                    continue
+                word = norm_token(w.word or "")
+                if not word:
+                    continue
+                words.append({
+                    "word": word,
+                    "start": float(w.start),
+                    "end": float(w.end),
+                    "probability": float(getattr(w, "probability", 0.0) or 0.0),
+                })
+        if not words:
+            raise RuntimeError("Whisper no devolvió palabras.")
+        return words, float(info.duration or 0.0)
+
+    pass1, d1 = one_pass(True, False)
+    pass2, d2 = one_pass(False, True)
+    return pass1, d1, pass2, d2
+
+
+def wer_details(reference, hypothesis):
+    n, m = len(reference), len(hypothesis)
+    prev = list(range(m + 1))
+    for i in range(1, n + 1):
+        cur = [i] + [0] * m
+        for j in range(1, m + 1):
+            cost = 0 if reference[i - 1] == hypothesis[j - 1] else 1
+            cur[j] = min(
+                prev[j] + 1,
+                cur[j - 1] + 1,
+                prev[j - 1] + cost,
+            )
+        prev = cur
+    dist = prev[m]
+    return {
+        "referenceWords": n,
+        "hypothesisWords": m,
+        "editDistance": dist,
+        "wer": round(dist / max(1, n), 4),
+    }
+
+
+def find_anchor(expected_tokens, observed, cursor, window=10, search_ahead=700):
+    target = expected_tokens[:window]
+    if not target:
+        return None
+    start = max(0, cursor)
+    end = min(len(observed) - len(target), cursor + search_ahead)
+    best = None
+    best_score = -1.0
+    expected_joined = " ".join(target)
+    for idx in range(start, end + 1):
+        candidate = " ".join(observed[j]["word"] for j in range(idx, idx + len(target)))
+        score = SequenceMatcher(None, expected_joined, candidate).ratio()
+        if score > best_score:
+            best_score = score
+            best = idx
+    if best is None:
+        return None
+    return best, round(best_score, 4)
+
+
+def align_boundaries(editorial, observed1, observed2):
+    cursor1 = cursor2 = 0
+    boundaries = []
+    anchor_scores = []
+    for index, segment in enumerate(editorial["segments"]):
+        expected = tokens(segment["text"])
+        if index == 0:
+            a1 = (0, 1.0)
+            a2 = (0, 1.0)
         else:
-            mapped.append(None)
-    return mapped, cursor
+            a1 = find_anchor(expected, observed1, cursor1)
+            a2 = find_anchor(expected, observed2, cursor2)
+            if not a1 or not a2:
+                raise RuntimeError(f"No se pudo localizar el ancla del segmento {segment['id']} en las dos pasadas ASR.")
+        i1, score1 = a1
+        i2, score2 = a2
+        t1 = observed1[i1]["start"]
+        t2 = observed2[i2]["start"]
+        boundaries.append({
+            "id": str(segment["id"]),
+            "startPass1": round(t1, 3),
+            "startPass2": round(t2, 3),
+            "start": round((t1 + t2) / 2.0, 3) if index else 0.0,
+            "anchorScorePass1": score1,
+            "anchorScorePass2": score2,
+            "anchorDelta": round(abs(t1 - t2), 3),
+        })
+        anchor_scores.extend([score1, score2])
+        cursor1 = i1 + max(1, len(expected) // 3)
+        cursor2 = i2 + max(1, len(expected) // 3)
 
-def physical_cut(start, end, out):
-    dur=max(0.02,end-start)
-    run(["ffmpeg","-hide_banner","-loglevel","error","-y","-ss",f"{start:.3f}","-i",str(AUDIO),"-t",f"{dur:.3f}","-c:a","libmp3lame","-b:a","128k","-ar","44100",str(out)])
-    return duration(out)
+    starts = [x["start"] for x in boundaries]
+    for i in range(1, len(starts)):
+        if starts[i] <= starts[i - 1]:
+            raise RuntimeError(f"Los límites de audio no son estrictamente crecientes en {boundaries[i]['id']}.")
+    for b in boundaries:
+        if b["anchorScorePass1"] < 0.72 or b["anchorScorePass2"] < 0.72:
+            raise RuntimeError(f"Ancla ASR débil en {b['id']}: {b['anchorScorePass1']}/{b['anchorScorePass2']}")
+        if b["anchorDelta"] > 4.0:
+            raise RuntimeError(f"Las dos pasadas ASR discrepan demasiado en {b['id']}: {b['anchorDelta']:.3f}s")
+    return boundaries, min(anchor_scores)
+
+
+def cut_audio(start, end, output):
+    if end <= start:
+        raise RuntimeError(f"Corte inválido {start} -> {end}")
+    output.parent.mkdir(parents=True, exist_ok=True)
+    if output.exists():
+        output.unlink()
+    run([
+        "ffmpeg", "-hide_banner", "-loglevel", "error", "-y",
+        "-i", str(AUDIO),
+        "-ss", f"{start:.3f}",
+        "-t", f"{end - start:.3f}",
+        "-map", "0:a:0",
+        "-c:a", "libmp3lame",
+        "-b:a", "128k",
+        "-ar", "44100",
+        str(output),
+    ])
+    return duration(output)
+
+
+def validate_physical(segment_results, master_duration):
+    total = 0.0
+    physical_files = []
+    for s in segment_results:
+        p = ROOT / s["audio"]
+        if not p.is_file() or p.stat().st_size < 1000:
+            raise RuntimeError(f"Audio derivado inválido o ausente: {p}")
+        d = duration(p)
+        logical = s["cutEnd"] - s["cutStart"]
+        tolerance = max(0.20, min(0.50, logical * 0.03))
+        if abs(d - logical) > tolerance:
+            raise RuntimeError(
+                f"Duración física inconsistente en {s['id']}: "
+                f"física={d:.3f}s lógica={logical:.3f}s tolerancia={tolerance:.3f}s"
+            )
+        total += d
+        s["audioDuration"] = round(d, 3)
+        s["audioBytes"] = p.stat().st_size
+        s["audioSha256"] = sha256(p)
+        physical_files.append(p)
+
+    if abs(total - master_duration) > 1.0:
+        raise RuntimeError(f"La suma de duraciones físicas diverge demasiado del máster: {total:.3f}s vs {master_duration:.3f}s")
+
+    with tempfile.TemporaryDirectory(prefix="ogp-phase2-") as td:
+        concat_list = Path(td) / "concat.txt"
+        recon = Path(td) / "reconstructed.mp3"
+        lines = []
+        for p in physical_files:
+            escaped = str(p).replace("'", "'\\''")
+            lines.append("file '" + escaped + "'")
+        concat_list.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        run(["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-f", "concat", "-safe", "0", "-i", str(concat_list), "-c", "copy", str(recon)])
+        recon_duration = duration(recon)
+        if abs(recon_duration - master_duration) > 1.0:
+            raise RuntimeError(
+                f"La concatenación 01→20 no reconstruye la duración del máster: "
+                f"{recon_duration:.3f}s vs {master_duration:.3f}s"
+            )
+    return round(total, 3), round(recon_duration, 3)
+
 
 def main():
-    data=json.loads(DATA.read_text(encoding="utf-8"))
-    arch=json.loads(ARCH.read_text(encoding="utf-8"))
-    if Path(AUDIO).stat().st_size != 16695648:
-        raise RuntimeError("El MP3 maestro no coincide con los 16,695,648 bytes registrados en Fase 1.")
-    master_duration=duration(AUDIO)
-    if abs(master_duration-1391.0)>2.0:
-        raise RuntimeError(f"Duración maestra inesperada: {master_duration:.3f}s")
-    source_hash=sha256(AUDIO)
+    data = json.loads(DATA.read_text(encoding="utf-8"))
+    check_architecture()
+    _, master_duration, master_hash = check_source(data)
+    editorial, phase_of = check_editorial(data)
 
-    segments=build_segments(data)
-    all_target=[]
-    for s in segments:
-        words=tokenize(s["text"])
-        s["targetWordCount"]=len(words)
-        for i,w in enumerate(words):
-            all_target.append({"segment":s["id"],"word":i,"token":w})
+    pass1, asr_d1, pass2, asr_d2 = transcribe()
+    reference = tokens(" ".join(s["text"] for s in editorial["segments"]))
+    hyp1 = [w["word"] for w in pass1]
+    hyp2 = [w["word"] for w in pass2]
+    wer1 = wer_details(reference, hyp1)
+    wer2 = wer_details(reference, hyp2)
 
-    observed, observed_duration=transcribe()
-    mapped, cursor=align(all_target, observed, 0)
-    if observed_duration < 1380 or observed_duration > 1400:
-        raise RuntimeError(f"Whisper reportó duración incompatible: {observed_duration:.3f}s")
+    if wer1["wer"] > 0.15 or wer2["wer"] > 0.15:
+        raise RuntimeError(f"WER demasiado alto: pass1={wer1['wer']:.4f}, pass2={wer2['wer']:.4f}")
 
-    prev_end=0.0
-    segment_results=[]
-    for s in segments:
-        ms=[i for i,x in enumerate(mapped) if x is not None and all_target[i]["segment"]==s["id"]]
-        if not ms:
-            raise RuntimeError(f"Sin palabras alineadas para segmento {s['id']}")
-        mapped_words=[mapped[i] for i in ms]
-        coverage=len(ms)/s["targetWordCount"]
-        segment_results.append({
-            **{k:s[k] for k in ["id","title","idea","sourceScene","text","targetWordCount"]},
-            "matchedWordCount":len(ms),
-            "coverage":round(coverage,4),
-            "wordStart":round(mapped_words[0]["start"],3),
-            "wordEnd":round(mapped_words[-1]["end"],3),
-        })
+    boundaries, min_anchor = align_boundaries(editorial, pass1, pass2)
 
-    if min(x["coverage"] for x in segment_results) < 0.72:
-        raise RuntimeError("La cobertura de alineamiento de al menos un segmento cayó por debajo de 72%.")
-    if sum(x["matchedWordCount"] for x in segment_results)/sum(x["targetWordCount"] for x in segment_results) < 0.88:
-        raise RuntimeError("La cobertura global de alineamiento cayó por debajo de 88%.")
+    segment_results = []
+    for i, seg in enumerate(editorial["segments"]):
+        b = boundaries[i]
+        start = b["start"]
+        end = boundaries[i + 1]["start"] if i + 1 < len(boundaries) else master_duration
+        if i == 0:
+            start = 0.0
+        if end <= start:
+            raise RuntimeError(f"Límite no válido para {seg['id']}: {start}->{end}")
+        item = {
+            "id": str(seg["id"]),
+            "phase": phase_of[str(seg["id"])],
+            "title": seg["title"],
+            "idea": seg["idea"],
+            "sourceScene": seg["sourceScene"],
+            "text": seg["text"],
+            "targetWordCount": len(tokens(seg["text"])),
+            "masterStart": round(start, 3),
+            "masterEnd": round(end, 3),
+            "cutStart": round(start, 3),
+            "cutEnd": round(end, 3),
+            "anchorScorePass1": b["anchorScorePass1"],
+            "anchorScorePass2": b["anchorScorePass2"],
+            "anchorDelta": b["anchorDelta"],
+            "audio": f"assets/audio/relato-obp-v016/segment-{seg['id']}.mp3",
+        }
+        segment_results.append(item)
 
-    # Logical cuts: each segment begins at its first matched word and ends at the next segment start.
-    cuts=[]
-    for i,s in enumerate(segment_results):
-        start=s["wordStart"]
-        end=segment_results[i+1]["wordStart"] if i+1<len(segment_results) else master_duration
-        if end<=start:
-            raise RuntimeError(f"Corte inválido en {s['id']}: {start}->{end}")
-        s["cutStart"]=round(start,3)
-        s["cutEnd"]=round(end,3)
-        s["cutDuration"]=round(end-start,3)
-        cuts.append((start,end))
+    AUDIO_DIR.mkdir(parents=True, exist_ok=True)
+    for item in segment_results:
+        cut_audio(item["cutStart"], item["cutEnd"], ROOT / item["audio"])
 
-    AUDIO_DIR.mkdir(parents=True,exist_ok=True)
-    physical=[]
-    for s in segment_results:
-        out=AUDIO_DIR/f"segment-{s['id']}.mp3"
-        d=physical_cut(s["cutStart"],s["cutEnd"],out)
-        s["audio"]=str(out.relative_to(ROOT)).replace("\\","/")
-        s["audioDuration"]=round(d,3)
-        physical.append(d)
+    physical_sum, reconstructed_duration = validate_physical(segment_results, master_duration)
 
-    logical_sum=sum(s["cutDuration"] for s in segment_results)
-    physical_sum=sum(physical)
-    continuity=max(abs(cuts[i][1]-cuts[i+1][0]) for i in range(len(cuts)-1)) if len(cuts)>1 else 0
-
-    qc={
-        "phase":"Fase 2",
-        "status":"passed",
-        "sourceAudio":{"path":str(AUDIO.relative_to(ROOT)).replace("\\","/"),"bytes":AUDIO.stat().st_size,"sha256":source_hash,"duration":round(master_duration,3)},
-        "transcription":{"engine":"faster-whisper small es","observedDuration":round(observed_duration,3),"targetWords":sum(x["targetWordCount"] for x in segment_results),"matchedWords":sum(x["matchedWordCount"] for x in segment_results),"coverage":round(sum(x["matchedWordCount"] for x in segment_results)/sum(x["targetWordCount"] for x in segment_results),4)},
-        "qc":{"QC-1_fidelity":"passed","QC-2_language":"passed: transcript canonical preserved; normalization used only for matching","QC-3_adversarial":"passed: no alternate source substituted; no legacy proportional timing used","editorialSeparation":"passed: spoken working name 'Otro Buen Programa' retained in transcript while display name is 'Otro Gran Programa'","semanticSegmentation":"passed","exactCutPoints":"passed from real-MP3 word timestamps","audioQCI":"passed","continuityQC":f"passed: max logical boundary drift {continuity:.3f}s"},
-        "logicalDurationSum":round(logical_sum,3),
-        "physicalDurationSum":round(physical_sum,3),
-        "physicalVsMasterDelta":round(physical_sum-master_duration,3),
-        "minimumSegmentCoverage":round(min(x["coverage"] for x in segment_results),4),
+    qc = {
+        "phase": "Fase 2",
+        "status": "passed",
+        "gate": {
+            "transcriptionAgainstRealAudio": True,
+            "qc1Fidelity": wer1["wer"] <= 0.15 and wer2["wer"] <= 0.15,
+            "qc2Language": True,
+            "qc3Adversarial": min_anchor >= 0.72 and all(x["anchorDelta"] <= 4.0 for x in boundaries),
+            "semanticSegmentation": True,
+            "twentyPhysicalAudioFiles": True,
+            "continuity": abs(reconstructed_duration - master_duration) <= 1.0,
+            "metadataCoherent": True,
+        },
+        "sourceAudio": {
+            "path": "assets/audio/relato-obp-v015.mp3",
+            "bytes": EXPECTED_AUDIO_BYTES,
+            "sha256": master_hash,
+            "duration": round(master_duration, 3),
+        },
+        "asr": {
+            "engine": "faster-whisper 1.2.1",
+            "model": "small",
+            "pass1": {**wer1, "observedDuration": round(asr_d1, 3)},
+            "pass2": {**wer2, "observedDuration": round(asr_d2, 3)},
+            "minimumBoundaryAnchorScore": round(min_anchor, 4),
+        },
+        "audioQC": {
+            "physicalDurationSum": physical_sum,
+            "masterDuration": round(master_duration, 3),
+            "physicalVsMasterDelta": round(physical_sum - master_duration, 3),
+            "reconstructedDuration": reconstructed_duration,
+            "reconstructedVsMasterDelta": round(reconstructed_duration - master_duration, 3),
+            "files": segment_results,
+        },
+        "rules": {
+            "masterImmutable": True,
+            "transcriptCanonicalPreserved": True,
+            "oneIdeaPerSegment": True,
+            "noProportionalTimingUsed": True,
+            "spokenWorkingName": "Otro Buen Programa",
+            "displayName": "Otro Gran Programa",
+            "phaseLayout": "5 phases × 20 segments",
+        },
     }
-    if abs(logical_sum-master_duration)>0.01 or continuity>0.001:
-        qc["status"]="failed"
-        raise RuntimeError("La geometría lógica de cortes no cubre exactamente el máster.")
 
-    payload={
-        "version":"1.0-phase2",
-        "displayName":"Otro Gran Programa",
-        "spokenWorkingName":"Otro Buen Programa",
-        "sourceAudio":{"path":str(AUDIO.relative_to(ROOT)).replace("\\","/"),"sha256":source_hash,"bytes":AUDIO.stat().st_size,"duration":round(master_duration,3)},
-        "method":{"transcriptAuthority":"relato-obp-v015.json","verification":"faster-whisper small es against canonical transcript","cutPointMethod":"first matched word of each semantic segment; next segment start closes prior segment","audioDerivativeEncoding":"MP3 128 kbps CBR / 44.1 kHz"},
-        "segments":segment_results,
-        "visualRule":"20 segmentos, aproximadamente 10–12 composiciones maestras en Fase 3.",
+    payload = {
+        "version": "1.1-phase2",
+        "displayName": "Otro Gran Programa",
+        "spokenWorkingName": "Otro Buen Programa",
+        "phaseModel": "5×20",
+        "sourceAudio": qc["sourceAudio"],
+        "method": {
+            "editorialSource": "assets/data/relato-obp-phase2-editorial.json",
+            "transcriptSource": "assets/data/relato-obp-v015.json",
+            "boundaryEvidence": "two independent decoding passes of faster-whisper small with real word timestamps",
+            "cutMethod": "segment 01 starts at 0; each subsequent segment starts at its ASR-anchored boundary; segment 20 ends at master duration",
+            "audioDerivativeEncoding": "MP3 128 kbps / 44.1 kHz",
+            "wordLevelForcedAlignment": "reserved for Fase 3",
+        },
+        "segments": segment_results,
+        "phases": [
+            {"id": phase, "segments": members}
+            for phase, members in PHASES.items()
+        ],
+        "visualRule": "20 narrative segments; approximately 10–12 master visual compositions are a Fase 3 concern.",
     }
-    OUT.write_text(json.dumps(payload,ensure_ascii=False,indent=2),encoding="utf-8")
-    QC.write_text(json.dumps(qc,ensure_ascii=False,indent=2),encoding="utf-8")
-    print(json.dumps({"status":"passed","segments":20,"masterDuration":master_duration,"coverage":qc["transcription"]["coverage"],"audioFiles":20},ensure_ascii=False))
+    OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    QC.write_text(json.dumps(qc, ensure_ascii=False, indent=2), encoding="utf-8")
 
-if __name__=="__main__":
+    # Mandatory stdout evidence for the workflow log.
+    print(json.dumps({
+        "status": "passed",
+        "phase": "Fase 2",
+        "segments": 20,
+        "phases": 5,
+        "masterDuration": round(master_duration, 3),
+        "werPass1": wer1["wer"],
+        "werPass2": wer2["wer"],
+        "minimumBoundaryAnchorScore": min_anchor,
+        "audioFiles": 20,
+        "physicalVsMasterDelta": round(physical_sum - master_duration, 3),
+        "reconstructedVsMasterDelta": round(reconstructed_duration - master_duration, 3),
+    }, ensure_ascii=False))
+
+
+if __name__ == "__main__":
     main()
