@@ -20,6 +20,8 @@ AUDIO_DIR = ROOT / "assets" / "audio" / "relato-obp-v016"
 
 EXPECTED_AUDIO_BYTES = 16695648
 EXPECTED_DURATION = 1391.0
+MODEL_SIZE = "medium"
+MAX_WER = 0.12
 PHASES = {
     "I": ["01", "02", "03", "04"],
     "II": ["05", "06", "07", "08"],
@@ -133,7 +135,7 @@ def check_editorial(data):
 def transcribe():
     from faster_whisper import WhisperModel
 
-    model = WhisperModel("small", device="cpu", compute_type="int8")
+    model = WhisperModel(MODEL_SIZE, device="cpu", compute_type="int8")
 
     def one_pass(vad_filter, condition_on_previous_text):
         segments, info = model.transcribe(
@@ -328,7 +330,7 @@ def main():
     wer1 = wer_details(reference, hyp1)
     wer2 = wer_details(reference, hyp2)
 
-    if wer1["wer"] > 0.15 or wer2["wer"] > 0.15:
+    if wer1["wer"] > MAX_WER or wer2["wer"] > MAX_WER:
         raise RuntimeError(f"WER demasiado alto: pass1={wer1['wer']:.4f}, pass2={wer2['wer']:.4f}")
 
     boundaries, min_anchor = align_boundaries(editorial, pass1, pass2)
@@ -388,7 +390,7 @@ def main():
         },
         "asr": {
             "engine": "faster-whisper 1.2.1",
-            "model": "small",
+            "model": MODEL_SIZE,
             "pass1": {**wer1, "observedDuration": round(asr_d1, 3)},
             "pass2": {**wer2, "observedDuration": round(asr_d2, 3)},
             "minimumBoundaryAnchorScore": round(min_anchor, 4),
