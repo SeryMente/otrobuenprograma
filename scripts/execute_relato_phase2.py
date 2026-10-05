@@ -20,7 +20,7 @@ AUDIO_DIR = ROOT / "assets" / "audio" / "relato-obp-v016"
 
 EXPECTED_AUDIO_BYTES = 16695648
 EXPECTED_DURATION = 1391.0
-MODEL_SIZE = "small"
+MODEL_SIZE = "medium"
 MAX_WER = 0.20
 PHASES = {
     "I": ["01", "02", "03", "04"],
@@ -135,7 +135,7 @@ def check_editorial(data):
 def transcribe():
     from faster_whisper import WhisperModel
 
-    model = WhisperModel(MODEL_SIZE, device="cpu", compute_type="int8")
+    model = WhisperModel(MODEL_SIZE, device="cuda", compute_type="float16")
     segments, info = model.transcribe(
         str(AUDIO),
         language="es",
@@ -193,7 +193,7 @@ def _anchor_score(expected_tokens, observed, idx, window):
     return SequenceMatcher(None, target, candidate, autojunk=False).ratio()
 
 
-def find_anchor(expected_tokens, observed, cursor, search_back=35, search_ahead=90):
+def find_anchor(expected_tokens, observed, cursor, search_back=120, search_ahead=400):
     if not expected_tokens:
         return None
 
@@ -224,7 +224,7 @@ def find_anchor(expected_tokens, observed, cursor, search_back=35, search_ahead=
         return None
     return best
 
-def _tail_anchor(expected_tokens, observed, cursor, search_back=80, search_ahead=45):
+def _tail_anchor(expected_tokens, observed, cursor, search_back=150, search_ahead=300):
     if not expected_tokens:
         return None
     windows = [8, 12, 18]
@@ -232,26 +232,30 @@ def _tail_anchor(expected_tokens, observed, cursor, search_back=80, search_ahead
     if not valid_windows:
         valid_windows = [len(expected_tokens)]
     target_limit = max(valid_windows)
-    target = expected_tokens[-target_limit:]
     start = max(0, cursor - search_back)
     end = min(len(observed) - target_limit, cursor + search_ahead)
     best = None
     best_key = None
     for idx in range(start, end + 1):
+        scores = []
         for w in valid_windows:
             ref = expected_tokens[-w:]
             candidate = [observed[j]["word"] for j in range(idx + target_limit - w, idx + target_limit)]
-            score = SequenceMatcher(None, ref, candidate, autojunk=False).ratio()
-            key = (score >= 0.80, score, w)
-            if best_key is None or key > best_key:
-                best_key = key
-                best = {
-                    "index": idx + target_limit - 1,
-                    "score": round(score, 4),
-                    "window": w,
-                }
+            scores.append(SequenceMatcher(None, ref, candidate, autojunk=False).ratio())
+        strong = sum(s >= 0.80 for s in scores)
+        aggregate = sum(scores) / len(scores)
+        weakest = min(scores)
+        key = (strong, aggregate, weakest)
+        if best_key is None or key > best_key:
+            best_key = key
+            best = {
+                "index": idx + target_limit - 1,
+                "score": round(aggregate, 4),
+                "weakest": round(weakest, 4),
+                "strong": strong,
+                "scores": [round(s, 4) for s in scores],
+            }
     return best
-
 
 def align_boundaries(editorial, observed):
     cursor = 0
@@ -273,8 +277,8 @@ def align_boundaries(editorial, observed):
         start_anchor = find_anchor(current, observed, cursor)
         tail_anchor = _tail_anchor(previous, observed, cursor)
 
-        start_ok = bool(start_anchor and start_anchor[2] >= 0.80 and start_anchor[3] >= 2)
-        tail_ok = bool(tail_anchor and tail_anchor["score"] >= 0.80)
+        start_ok = bool(start_anchor and start_anchor[1] >= 0.80 and start_anchor[3] >= 2)
+        tail_ok = bool(tail_anchor and tail_anchor["score"] >= 0.80 and tail_anchor["strong"] >= 2)
 
         if not start_ok and not tail_ok:
             raise RuntimeError(
@@ -290,15 +294,15 @@ def align_boundaries(editorial, observed):
             # el final de la unidad anterior y el inicio de la siguiente.
             t = (tail_end + start_time) / 2.0
             evidence = "previous-tail + next-start"
-            score_values = [start_anchor[2], start_anchor[3] / max(1, len([s for s in start_anchor[4] if s >= 0.80])), tail_anchor["score"]]
+            score_values = list(start_anchor[4]) + list(tail_anchor["scores"])
         elif start_ok:
             t = start_time
             evidence = "next-start"
-            score_values = [start_anchor[2]]
+            score_values = list(start_anchor[4])
         else:
             t = tail_end
             evidence = "previous-tail"
-            score_values = [tail_anchor["score"]]
+            score_values = list(tail_anchor["scores"])
 
         weakest = min(score_values)
         aggregate = sum(score_values) / len(score_values)
@@ -313,7 +317,7 @@ def align_boundaries(editorial, observed):
             "anchorWindowScoresPass1": [round(v, 4) for v in score_values],
             "anchorEvidence": evidence,
         })
-        anchor_scores.append(weakest)
+        anchor_scores.append(aggregate)
         cursor = max(cursor + 1, (start_anchor[0] if start_ok else tail_anchor["index"]))
 
     starts = [x["start"] for x in boundaries]
@@ -492,7 +496,7 @@ def main():
         "method": {
             "editorialSource": "assets/data/relato-obp-phase2-editorial.json",
             "transcriptSource": "assets/data/relato-obp-v015.json",
-            "boundaryEvidence": "one faster-whisper small decoding pass with real word timestamps; three-window consensus anchors",
+            "boundaryEvidence": "one faster-whisper medium decoding pass with real word timestamps; three-window consensus anchors",
             "cutMethod": "segment 01 starts at 0; each subsequent segment starts at its ASR-anchored boundary; segment 20 ends at master duration",
             "audioDerivativeEncoding": "MP3 128 kbps / 44.1 kHz",
             "wordLevelForcedAlignment": "reserved for Fase 3",
