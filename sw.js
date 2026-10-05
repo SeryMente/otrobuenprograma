@@ -7,7 +7,7 @@
    - Estaticos: stale-while-revalidate.
    No hay push ni sync en segundo plano: eso EXIGE backend (F4+).
    =================================================================== */
-var VERSION='instrumento-v0.13';
+var VERSION='instrumento-v1.2-f3';
 var SHELL=[
   '.',
   'index.html',
@@ -15,6 +15,7 @@ var SHELL=[
   'assets/css/instrument.css',
   'assets/css/additions.css',
   'assets/css/themes.css',
+  'assets/css/story-v3.css',
   'assets/js/config.js',
   'assets/js/theme.js',
   'assets/js/timeline.js',
@@ -23,9 +24,12 @@ var SHELL=[
   'assets/js/cuentas.js',
   'assets/js/navigator.js',
   'assets/js/app.js',
+  'assets/js/story-v3.js',
   'assets/data/timeline.json',
   'assets/data/necesidades.json',
   'assets/data/movimientos.json',
+  'assets/data/relato-obp-phase3.json',
+  'assets/data/story-word-timing.json',
   'assets/img/icon-192.png',
   'assets/img/icon-512.png',
   'assets/img/apple-touch-icon.png'
