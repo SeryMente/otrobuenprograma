@@ -1,6 +1,10 @@
 name: Generate exact story word timing
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/build_story_timing.py'
   workflow_dispatch:
 
 permissions:
@@ -8,25 +12,25 @@ permissions:
 
 jobs:
   align:
-    if: ${{ github.event_name == 'workflow_dispatch' || github.event.head_commit.message != 'Generate exact story timing v0.15' }}
+    if: ${{ github.event_name == 'workflow_dispatch' || !startsWith(github.event.head_commit.message, 'Fase 3: generar forced alignment') }}
     runs-on: ubuntu-latest
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install alignment tools
+      - name: Install exact alignment tools
         run: |
           python3 -m pip install --upgrade pip
-          python3 -m pip install faster-whisper==1.2.1 'av<19' rapidfuzz
-
-      - name: Generate word timings from the real MP3
+          python3 -m pip install "whisperx==3.8.6"
+      - name: Generate forced alignment
         run: python3 scripts/build_story_timing.py
-
-      - name: Commit timings
+      - name: Verify Phase 3 gate
+        run: python3 scripts/qa_phase3.py
+      - name: Commit timing and Phase 3 model
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/data/story-word-timing.json
+          git add assets/data/story-word-timing.json assets/data/relato-obp-phase3.json
           if git diff --cached --quiet; then exit 0; fi
-          git commit -m "Generate exact story timing v0.15"
+          git commit -m "Fase 3: generar forced alignment"
           git push origin main
