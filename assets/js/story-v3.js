@@ -2,7 +2,10 @@
   'use strict';
   var mount=document.getElementById('relato-sonoro');
   if(!mount)return;
-  var URL_DATA='assets/data/relato-obp-phase3.json', V='20261005-f3';
+  var V='20261005-f3-fix1';
+  var ROOT=(location.hostname==='serymente.github.io')?'/otrobuenprograma/':'/';
+  var URL_DATA=ROOT+'assets/data/relato-obp-phase3.json';
+  function asset(path){return ROOT+String(path||'').replace(/^\/+/, '');}
   var PH=[{id:'I',title:'Puerta y propósito',start:0},{id:'II',title:'Por qué hace falta otra opción',start:4},{id:'III',title:'Cómo podría funcionar',start:8},{id:'IV',title:'La desintegración positiva',start:12},{id:'V',title:'Dos respuestas y una necesidad social',start:16}];
   var VIS=[['welcome','Escuchar antes de interpretar'],['currents','Lo que ya existe y lo que se abre'],['relationship','La relación como campo'],['forgiveness','Perdón como práctica'],['scale','Una posición distinta'],['inclusion','Una pertenencia más amplia'],['dabrowski','Conflicto y desarrollo'],['structures','Cuando la estructura resiste'],['minds','Dos respuestas posibles'],['closing','Una propuesta que se integra']];
   function esc(v){return String(v==null?'':v).replace(/[&<>"]/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c];});}
@@ -33,7 +36,7 @@
     function current(){return segs[cur];}
     function paint(){var s=current();cards.forEach(function(c,i){c.classList.toggle('is-active',i===cur);});nav.forEach(function(b){var on=b.dataset.segment===String(s.id);b.classList.toggle('is-active',on);if(on)b.setAttribute('aria-current','true');else b.removeAttribute('aria-current');});pnav.forEach(function(b){var on=b.dataset.phase===String(s.phase);b.classList.toggle('is-active',on);b.setAttribute('aria-current',on?'true':'false');});prev.disabled=cur===0;next.disabled=cur===segs.length-1;}
     function paintWords(){var bs=cards[cur].querySelectorAll('.story-word');bs.forEach(function(b,i){b.classList.toggle('is-past',i<widx);b.classList.toggle('is-current',i===widx);});}
-    function load(i,go,scroll){cur=Math.max(0,Math.min(segs.length-1,i));widx=-1;var s=current();audio.src=s.audio+'?v='+V;audio.load();now.textContent='Segmento '+s.id+' · '+s.title;status.textContent='Segmento '+s.id+' · timing real.';paint();paintWords();if(scroll){var el=document.getElementById('story-stop-'+s.id);if(el)el.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'center'});}if(go)start();}
+    function load(i,go,scroll){cur=Math.max(0,Math.min(segs.length-1,i));widx=-1;var s=current();audio.src=asset(s.audio)+'?v='+V;audio.load();now.textContent='Segmento '+s.id+' · '+s.title;status.textContent='Segmento '+s.id+' · timing editorial preliminar.';paint();paintWords();if(scroll){var el=document.getElementById('story-stop-'+s.id);if(el)el.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'center'});}if(go)start();}
     function start(){var p=audio.play();if(p&&p.then)p.then(function(){playing=true;mount.classList.add('is-playing');play.textContent='Ⅱ';}).catch(function(){status.textContent='El navegador bloqueó el sonido automático. Pulsa reproducir.';});}
     function update(){var s=current(),d=Number(audio.duration)||Number(s.audioDuration)||0,t=Number(audio.currentTime)||0,r=d?Math.max(0,Math.min(1,t/d)):0;prog.style.width=(r*100)+'%';wave.setAttribute('aria-valuenow',String(Math.round(r*100)));time.textContent=fmt(t)+' / '+fmt(d);var ws=s.words||[],lo=0,hi=ws.length-1,hit=-1;while(lo<=hi){var m=(lo+hi)>>1;if(t<Number(ws[m].start))hi=m-1;else{hit=m;lo=m+1;}}if(hit>=0)widx=hit;paintWords();var n=Date.now();if(widx>=0&&follow&&playing&&n>manual&&n-lastScroll>900){var el=cards[cur].querySelector('[data-word="'+widx+'"]');if(el){lastScroll=n;el.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'center'});}}}
     play.addEventListener('click',function(){if(audio.paused)start();else audio.pause();});prev.addEventListener('click',function(){if(cur>0){manual=Date.now()+1200;load(cur-1,true,true);}});next.addEventListener('click',function(){if(cur<segs.length-1){manual=Date.now()+1200;load(cur+1,true,true);}});
@@ -45,7 +48,7 @@
     pnav.forEach(function(b){b.addEventListener('click',function(){var p=PH.find(function(x){return x.id===b.dataset.phase;});if(p){manual=Date.now()+1200;load(p.start,true,true);}});});
     mount.querySelectorAll('[data-play-segment]').forEach(function(b){b.addEventListener('click',function(){var i=segs.findIndex(function(s){return String(s.id)===String(b.dataset.playSegment);});if(i>=0)load(i,true,true);});});
     mount.querySelectorAll('.story-word').forEach(function(b){b.addEventListener('click',function(){var i=segs.findIndex(function(s){return String(s.id)===String(b.dataset.segment);}),wi=Number(b.dataset.word);if(i<0)return;if(i!==cur)load(i,false,true);var w=segs[i].words[wi];if(w){audio.currentTime=Number(w.start);manual=Date.now()+1200;start();update();}});});
-    audio.addEventListener('loadedmetadata',function(){status.textContent='Segmento '+current().id+' · audio '+fmt(audio.duration)+' · sincronización real.';update();});
+    audio.addEventListener('loadedmetadata',function(){status.textContent='Segmento '+current().id+' · audio '+fmt(audio.duration)+' · timing editorial preliminar.';update();});
     audio.addEventListener('timeupdate',update);audio.addEventListener('play',function(){playing=true;mount.classList.add('is-playing');play.textContent='Ⅱ';});audio.addEventListener('pause',function(){playing=false;mount.classList.remove('is-playing');play.textContent='▶';});
     audio.addEventListener('ended',function(){playing=false;if(advance&&cur<segs.length-1)load(cur+1,true,true);else status.textContent='Fin del relato.';});
     audio.addEventListener('error',function(){playing=false;status.textContent='No se pudo cargar el audio de este segmento.';});
