@@ -136,3 +136,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+# F3 gate trigger: strict forced alignment only.
