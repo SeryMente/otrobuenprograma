@@ -1,0 +1,44 @@
+name: Fetch full relato audio
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch-audio:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.head_commit.message != 'Fetch full relato audio v0.15' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download MP3 from source
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p assets/audio
+          curl -L --fail --retry 4 --retry-delay 2 \
+            -A "Mozilla/5.0" \
+            -e "https://vocaroo.com/" \
+            -o assets/audio/relato-obp-v015.mp3 \
+            "https://media1.vocaroo.com/mp3/16paAtlA2wPX"
+          test -s assets/audio/relato-obp-v015.mp3
+          echo "bytes=$(stat -c%s assets/audio/relato-obp-v015.mp3)"
+          file assets/audio/relato-obp-v015.mp3
+
+      - name: Validate audio and commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/audio/relato-obp-v015.mp3
+          if git diff --cached --quiet; then
+            echo "Audio already present and unchanged."
+            exit 0
+          fi
+          git commit -m "Fetch full relato audio v0.15"
+          git push origin main
