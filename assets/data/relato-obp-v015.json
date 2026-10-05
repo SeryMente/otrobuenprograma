@@ -3,7 +3,7 @@
   "audio": "assets/audio/relato-obp-v015.mp3",
   "duration": 1391,
   "timing": "estimated-text-sync",
-  "timingNote": "El audio definitivo dura 23:11 según el archivo MP3 local. El resaltado de palabras se genera mediante sincronización proporcional al texto y ajuste por pausas de puntuación; no se presenta como alineamiento fonético verificado. La fuente primaria temporal es Vocaroo; el espejo GitHub queda preparado como destino definitivo.",
+  "timingNote": "El audio definitivo dura 23:11 según el archivo MP3 recibido (16,695,648 bytes). El resaltado de palabras se genera mediante sincronización proporcional al texto y ajuste por pausas de puntuación; no se presenta como alineamiento fonético verificado. El MP3 permanente se sirve desde GitHub Pages y Vocaroo queda como respaldo.",
   "title": "Otro Buen Programa · relato sonoro",
   "scenes": [
     {
