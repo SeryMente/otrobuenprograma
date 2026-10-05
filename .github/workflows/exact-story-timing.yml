@@ -1,11 +1,6 @@
 name: Generate exact story word timing
 
-on:
-  push:
-    branches: [main]
-    paths:
-      - 'scripts/build_story_timing.py'
-  workflow_dispatch:
+on: [push, workflow_dispatch]
 
 permissions:
   contents: write
