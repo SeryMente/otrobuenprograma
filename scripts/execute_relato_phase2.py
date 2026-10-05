@@ -224,57 +224,97 @@ def find_anchor(expected_tokens, observed, cursor, search_back=35, search_ahead=
         return None
     return best
 
+def _tail_anchor(expected_tokens, observed, cursor, search_back=80, search_ahead=45):
+    if not expected_tokens:
+        return None
+    windows = [8, 12, 18]
+    valid_windows = [w for w in windows if len(expected_tokens) >= w]
+    if not valid_windows:
+        valid_windows = [len(expected_tokens)]
+    target_limit = max(valid_windows)
+    target = expected_tokens[-target_limit:]
+    start = max(0, cursor - search_back)
+    end = min(len(observed) - target_limit, cursor + search_ahead)
+    best = None
+    best_key = None
+    for idx in range(start, end + 1):
+        for w in valid_windows:
+            ref = expected_tokens[-w:]
+            candidate = [observed[j]["word"] for j in range(idx + target_limit - w, idx + target_limit)]
+            score = SequenceMatcher(None, ref, candidate, autojunk=False).ratio()
+            key = (score >= 0.80, score, w)
+            if best_key is None or key > best_key:
+                best_key = key
+                best = {
+                    "index": idx + target_limit - 1,
+                    "score": round(score, 4),
+                    "window": w,
+                }
+    return best
+
 
 def align_boundaries(editorial, observed):
     cursor = 0
-    boundaries = []
-    anchor_scores = []
-    windows = [12, 18, 24]
+    boundaries = [{
+        "id": str(editorial["segments"][0]["id"]),
+        "start": 0.0,
+        "anchorScorePass1": 1.0,
+        "anchorWeakestWindowPass1": 1.0,
+        "anchorStrongWindowsPass1": 3,
+        "anchorWindowScoresPass1": [1.0, 1.0, 1.0],
+        "anchorEvidence": "start-of-segment",
+    }]
+    anchor_scores = [1.0]
 
-    for index, segment in enumerate(editorial["segments"]):
-        expected = tokens(segment["text"])
-        if index == 0:
-            i = 0
-            scores = [1.0, 1.0, 1.0]
+    for index in range(1, len(editorial["segments"])):
+        previous = tokens(editorial["segments"][index - 1]["text"])
+        current = tokens(editorial["segments"][index]["text"])
+
+        start_anchor = find_anchor(current, observed, cursor)
+        tail_anchor = _tail_anchor(previous, observed, cursor)
+
+        start_ok = bool(start_anchor and start_anchor[2] >= 0.80 and start_anchor[3] >= 2)
+        tail_ok = bool(tail_anchor and tail_anchor["score"] >= 0.80)
+
+        if not start_ok and not tail_ok:
+            raise RuntimeError(
+                f"No hubo evidencia acústica suficiente para el límite de {editorial['segments'][index]['id']}: "
+                f"start={start_anchor} tail={tail_anchor}"
+            )
+
+        start_time = observed[start_anchor[0]]["start"] if start_ok else None
+        tail_end = observed[tail_anchor["index"]]["end"] if tail_ok else None
+
+        if start_ok and tail_ok:
+            # El límite se coloca en el centro de la transición acústica demostrada por
+            # el final de la unidad anterior y el inicio de la siguiente.
+            t = (tail_end + start_time) / 2.0
+            evidence = "previous-tail + next-start"
+            score_values = [start_anchor[2], start_anchor[3] / max(1, len([s for s in start_anchor[4] if s >= 0.80])), tail_anchor["score"]]
+        elif start_ok:
+            t = start_time
+            evidence = "next-start"
+            score_values = [start_anchor[2]]
         else:
-            valid_windows = [w for w in windows if len(expected) >= w]
-            if not valid_windows:
-                valid_windows = [len(expected)]
-            start = max(0, cursor - 35)
-            end = min(len(observed) - min(valid_windows), cursor + 90)
-            best = None
-            best_key = None
-            for idx in range(start, end + 1):
-                vals = [_anchor_score(expected, observed, idx, w) for w in valid_windows]
-                vals = [v for v in vals if v is not None]
-                if not vals:
-                    continue
-                strong = sum(v >= 0.80 for v in vals)
-                aggregate = sum(vals) / len(vals)
-                weakest = min(vals)
-                key = (strong, aggregate, weakest)
-                if best_key is None or key > best_key:
-                    best_key = key
-                    best = (idx, [round(v, 4) for v in vals], strong, round(aggregate, 4), round(weakest, 4))
-            if best is None:
-                raise RuntimeError(f"No se pudo localizar el ancla del segmento {segment['id']} en la pasada ASR.")
-            i, scores, strong, aggregate, weakest = best
-            if weakest < 0.80 or strong < 2:
-                raise RuntimeError(
-                    f"Ancla ASR débil en {segment['id']}: weakest={weakest:.4f} strongWindows={strong}"
-                )
+            t = tail_end
+            evidence = "previous-tail"
+            score_values = [tail_anchor["score"]]
 
-        t = observed[i]["start"]
+        weakest = min(score_values)
+        aggregate = sum(score_values) / len(score_values)
+        strong = sum(1 for v in score_values if v >= 0.80)
+
         boundaries.append({
-            "id": str(segment["id"]),
-            "start": round(t, 3) if index else 0.0,
-            "anchorScorePass1": round(sum(scores) / len(scores), 4),
-            "anchorWeakestWindowPass1": round(min(scores), 4),
-            "anchorStrongWindowsPass1": int(sum(v >= 0.80 for v in scores)),
-            "anchorWindowScoresPass1": scores,
+            "id": str(editorial["segments"][index]["id"]),
+            "start": round(t, 3),
+            "anchorScorePass1": round(aggregate, 4),
+            "anchorWeakestWindowPass1": round(weakest, 4),
+            "anchorStrongWindowsPass1": strong,
+            "anchorWindowScoresPass1": [round(v, 4) for v in score_values],
+            "anchorEvidence": evidence,
         })
-        anchor_scores.append(min(scores))
-        cursor = i + max(1, len(expected) // 3)
+        anchor_scores.append(weakest)
+        cursor = max(cursor + 1, (start_anchor[0] if start_ok else tail_anchor["index"]))
 
     starts = [x["start"] for x in boundaries]
     for i in range(1, len(starts)):
