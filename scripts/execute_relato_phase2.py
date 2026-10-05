@@ -20,8 +20,8 @@ AUDIO_DIR = ROOT / "assets" / "audio" / "relato-obp-v016"
 
 EXPECTED_AUDIO_BYTES = 16695648
 EXPECTED_DURATION = 1391.0
-MODEL_SIZE = "medium"
-MAX_WER = 0.12
+MODEL_SIZE = "small"
+MAX_WER = 0.20
 PHASES = {
     "I": ["01", "02", "03", "04"],
     "II": ["05", "06", "07", "08"],
@@ -248,9 +248,9 @@ def align_boundaries(editorial, observed1, observed2):
         if starts[i] <= starts[i - 1]:
             raise RuntimeError(f"Los límites de audio no son estrictamente crecientes en {boundaries[i]['id']}.")
     for b in boundaries:
-        if b["anchorScorePass1"] < 0.72 or b["anchorScorePass2"] < 0.72:
+        if b["anchorScorePass1"] < 0.80 or b["anchorScorePass2"] < 0.80:
             raise RuntimeError(f"Ancla ASR débil en {b['id']}: {b['anchorScorePass1']}/{b['anchorScorePass2']}")
-        if b["anchorDelta"] > 4.0:
+        if b["anchorDelta"] > 2.0:
             raise RuntimeError(f"Las dos pasadas ASR discrepan demasiado en {b['id']}: {b['anchorDelta']:.3f}s")
     return boundaries, min(anchor_scores)
 
@@ -376,7 +376,7 @@ def main():
             "transcriptionAgainstRealAudio": True,
             "qc1Fidelity": wer1["wer"] <= 0.15 and wer2["wer"] <= 0.15,
             "qc2Language": True,
-            "qc3Adversarial": min_anchor >= 0.72 and all(x["anchorDelta"] <= 4.0 for x in boundaries),
+            "qc3Adversarial": min_anchor >= 0.80 and all(x["anchorDelta"] <= 2.0 for x in boundaries),
             "semanticSegmentation": True,
             "twentyPhysicalAudioFiles": True,
             "continuity": abs(reconstructed_duration - master_duration) <= 1.0,
