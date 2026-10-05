@@ -24,7 +24,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache/huggingface
-          key: relato-phase2-whisper-medium-v1
+          key: relato-phase2-whisper-small-v1
 
       - name: Install audio tooling
         run: |
