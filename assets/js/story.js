@@ -99,6 +99,14 @@
     function setScenePreview(i){if(i<0)return;stops.forEach(function(s,j){s.classList.toggle('is-active',j===i);});chapters.forEach(function(c,j){c.classList.toggle('is-active',j===i);c.setAttribute('aria-current',j===i?'true':'false');});activeScene=i;activeWord=-1;nowLabel.textContent=scenes[i].title;}
     stops.forEach(function(s){io.observe(s);});
     makeTiming();audio.src=data.audio;audio.load();renderState();tryPlay();
+    fetch('assets/data/story-word-timing.json',{cache:'no-store'}).then(function(res){if(!res.ok)throw new Error('timing');return res.json();}).then(function(exact){
+      if(!exact||!Array.isArray(exact.words)||exact.words.length!==timing.length)return;
+      if(Number.isFinite(exact.duration)&&exact.duration>0){duration=exact.duration;audio.currentTime=Math.min(audio.currentTime||0,duration);}
+      timing=exact.words.map(function(w){return {scene:Number(w.scene),word:Number(w.word),start:Number(w.start),end:Number(w.end)};})
+        .filter(function(w){return Number.isFinite(w.scene)&&Number.isFinite(w.word)&&Number.isFinite(w.start)&&Number.isFinite(w.end);});
+      status.textContent='Sincronización palabra por palabra cargada · '+stamp(duration)+'.';
+      renderState();
+    }).catch(function(){ /* respaldo proporcional ya activo */ });
   }
 
   fetch(DATA_URL,{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('data');return r.json();}).then(build).catch(function(){mount.innerHTML='<div class="story-error"><strong>No se pudo cargar el relato.</strong><p>La página inferior permanece disponible.</p></div>';});
