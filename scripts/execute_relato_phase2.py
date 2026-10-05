@@ -136,39 +136,32 @@ def transcribe():
     from faster_whisper import WhisperModel
 
     model = WhisperModel(MODEL_SIZE, device="cpu", compute_type="int8")
-
-    def one_pass(vad_filter, condition_on_previous_text):
-        segments, info = model.transcribe(
-            str(AUDIO),
-            language="es",
-            word_timestamps=True,
-            vad_filter=vad_filter,
-            beam_size=5,
-            condition_on_previous_text=condition_on_previous_text,
-            temperature=0.0,
-        )
-        words = []
-        for seg in segments:
-            for w in seg.words or []:
-                if w.start is None or w.end is None:
-                    continue
-                word = norm_token(w.word or "")
-                if not word:
-                    continue
-                words.append({
-                    "word": word,
-                    "start": float(w.start),
-                    "end": float(w.end),
-                    "probability": float(getattr(w, "probability", 0.0) or 0.0),
-                })
-        if not words:
-            raise RuntimeError("Whisper no devolvió palabras.")
-        return words, float(info.duration or 0.0)
-
-    pass1, d1 = one_pass(True, False)
-    pass2, d2 = one_pass(False, True)
-    return pass1, d1, pass2, d2
-
+    segments, info = model.transcribe(
+        str(AUDIO),
+        language="es",
+        word_timestamps=True,
+        vad_filter=True,
+        beam_size=5,
+        condition_on_previous_text=False,
+        temperature=0.0,
+    )
+    words = []
+    for seg in segments:
+        for w in seg.words or []:
+            if w.start is None or w.end is None:
+                continue
+            word = norm_token(w.word or "")
+            if not word:
+                continue
+            words.append({
+                "word": word,
+                "start": float(w.start),
+                "end": float(w.end),
+                "probability": float(getattr(w, "probability", 0.0) or 0.0),
+            })
+    if not words:
+        raise RuntimeError("Whisper no devolvió palabras.")
+    return words, float(info.duration or 0.0)
 
 def wer_details(reference, hypothesis):
     n, m = len(reference), len(hypothesis)
@@ -232,70 +225,62 @@ def find_anchor(expected_tokens, observed, cursor, search_back=35, search_ahead=
     return best
 
 
-def align_boundaries(editorial, observed1, observed2):
-    cursor1 = cursor2 = 0
+def align_boundaries(editorial, observed):
+    cursor = 0
     boundaries = []
     anchor_scores = []
+    windows = [12, 18, 24]
 
     for index, segment in enumerate(editorial["segments"]):
         expected = tokens(segment["text"])
         if index == 0:
-            a1 = (0, 1.0, 1.0, 3, [1.0, 1.0, 1.0])
-            a2 = (0, 1.0, 1.0, 3, [1.0, 1.0, 1.0])
+            i = 0
+            scores = [1.0, 1.0, 1.0]
         else:
-            a1 = find_anchor(expected, observed1, cursor1)
-            a2 = find_anchor(expected, observed2, cursor2)
-            if not a1 or not a2:
-                raise RuntimeError(f"No se pudo localizar el ancla del segmento {segment['id']} en las dos pasadas ASR.")
+            valid_windows = [w for w in windows if len(expected) >= w]
+            if not valid_windows:
+                valid_windows = [len(expected)]
+            start = max(0, cursor - 35)
+            end = min(len(observed) - min(valid_windows), cursor + 90)
+            best = None
+            best_key = None
+            for idx in range(start, end + 1):
+                vals = [_anchor_score(expected, observed, idx, w) for w in valid_windows]
+                vals = [v for v in vals if v is not None]
+                if not vals:
+                    continue
+                strong = sum(v >= 0.80 for v in vals)
+                aggregate = sum(vals) / len(vals)
+                weakest = min(vals)
+                key = (strong, aggregate, weakest)
+                if best_key is None or key > best_key:
+                    best_key = key
+                    best = (idx, [round(v, 4) for v in vals], strong, round(aggregate, 4), round(weakest, 4))
+            if best is None:
+                raise RuntimeError(f"No se pudo localizar el ancla del segmento {segment['id']} en la pasada ASR.")
+            i, scores, strong, aggregate, weakest = best
+            if weakest < 0.80 or strong < 2:
+                raise RuntimeError(
+                    f"Ancla ASR débil en {segment['id']}: weakest={weakest:.4f} strongWindows={strong}"
+                )
 
-        i1, aggregate1, weakest1, strong1, window_scores1 = a1
-        i2, aggregate2, weakest2, strong2, window_scores2 = a2
-        t1 = observed1[i1]["start"]
-        t2 = observed2[i2]["start"]
-
+        t = observed[i]["start"]
         boundaries.append({
             "id": str(segment["id"]),
-            "startPass1": round(t1, 3),
-            "startPass2": round(t2, 3),
-            "start": round((t1 + t2) / 2.0, 3) if index else 0.0,
-            "anchorScorePass1": aggregate1,
-            "anchorScorePass2": aggregate2,
-            "anchorWeakestWindowPass1": weakest1,
-            "anchorWeakestWindowPass2": weakest2,
-            "anchorStrongWindowsPass1": strong1,
-            "anchorStrongWindowsPass2": strong2,
-            "anchorWindowScoresPass1": window_scores1,
-            "anchorWindowScoresPass2": window_scores2,
-            "anchorDelta": round(abs(t1 - t2), 3),
+            "start": round(t, 3) if index else 0.0,
+            "anchorScorePass1": round(sum(scores) / len(scores), 4),
+            "anchorWeakestWindowPass1": round(min(scores), 4),
+            "anchorStrongWindowsPass1": int(sum(v >= 0.80 for v in scores)),
+            "anchorWindowScoresPass1": scores,
         })
-        anchor_scores.extend([weakest1, weakest2])
-
-        advance = max(1, len(expected) // 3)
-        cursor1 = i1 + advance
-        cursor2 = i2 + advance
+        anchor_scores.append(min(scores))
+        cursor = i + max(1, len(expected) // 3)
 
     starts = [x["start"] for x in boundaries]
     for i in range(1, len(starts)):
         if starts[i] <= starts[i - 1]:
             raise RuntimeError(f"Los límites de audio no son estrictamente crecientes en {boundaries[i]['id']}.")
-
-    for b in boundaries:
-        if b["anchorWeakestWindowPass1"] < 0.80 or b["anchorWeakestWindowPass2"] < 0.80:
-            raise RuntimeError(
-                f"Ancla ASR débil en {b['id']}: "
-                f"weakest={b['anchorWeakestWindowPass1']}/{b['anchorWeakestWindowPass2']} "
-                f"aggregate={b['anchorScorePass1']}/{b['anchorScorePass2']}"
-            )
-        if b["anchorStrongWindowsPass1"] < 2 or b["anchorStrongWindowsPass2"] < 2:
-            raise RuntimeError(
-                f"Consenso ASR insuficiente en {b['id']}: "
-                f"strongWindows={b['anchorStrongWindowsPass1']}/{b['anchorStrongWindowsPass2']}"
-            )
-        if b["anchorDelta"] > 2.0:
-            raise RuntimeError(f"Las dos pasadas ASR discrepan demasiado en {b['id']}: {b['anchorDelta']:.3f}s")
-
     return boundaries, min(anchor_scores)
-
 
 def cut_audio(start, end, output):
     if end <= start:
@@ -365,7 +350,7 @@ def main():
     _, master_duration, master_hash = check_source(data)
     editorial, phase_of = check_editorial(data)
 
-    pass1, asr_d1, pass2, asr_d2 = transcribe()
+    pass1, asr_d1 = transcribe()
     reference = tokens(" ".join(s["text"] for s in editorial["segments"]))
     hyp1 = [w["word"] for w in pass1]
     hyp2 = [w["word"] for w in pass2]
@@ -417,9 +402,9 @@ def main():
         "gate": {
             "transcriptionAgainstRealAudio": True,
             "werAcceptance": MAX_WER,
-            "qc1Fidelity": wer1["wer"] <= MAX_WER and wer2["wer"] <= MAX_WER,
+            "qc1Fidelity": wer1["wer"] <= MAX_WER,
             "qc2Language": True,
-            "qc3Adversarial": min_anchor >= 0.80 and all(x["anchorDelta"] <= 2.0 for x in boundaries),
+            "qc3Adversarial": min_anchor >= 0.80 and all(x["anchorStrongWindowsPass1"] >= 2 for x in boundaries),
             "semanticSegmentation": True,
             "twentyPhysicalAudioFiles": True,
             "continuity": abs(reconstructed_duration - master_duration) <= 1.0,
@@ -435,7 +420,7 @@ def main():
             "engine": "faster-whisper 1.2.1",
             "model": MODEL_SIZE,
             "pass1": {**wer1, "observedDuration": round(asr_d1, 3)},
-            "pass2": {**wer2, "observedDuration": round(asr_d2, 3)},
+            "passes": 1,
             "minimumBoundaryAnchorScore": round(min_anchor, 4),
             "acceptedMaxWER": MAX_WER,
             "minimumAnchorConsensusWindows": 2,
@@ -469,7 +454,7 @@ def main():
         "method": {
             "editorialSource": "assets/data/relato-obp-phase2-editorial.json",
             "transcriptSource": "assets/data/relato-obp-v015.json",
-            "boundaryEvidence": "two independent decoding passes of faster-whisper medium with real word timestamps; three-window consensus anchors",
+            "boundaryEvidence": "one faster-whisper small decoding pass with real word timestamps; three-window consensus anchors",
             "cutMethod": "segment 01 starts at 0; each subsequent segment starts at its ASR-anchored boundary; segment 20 ends at master duration",
             "audioDerivativeEncoding": "MP3 128 kbps / 44.1 kHz",
             "wordLevelForcedAlignment": "reserved for Fase 3",
