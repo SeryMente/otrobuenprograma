@@ -1,7 +1,7 @@
 {
-  "version": "1.0",
+  "version": "1.1",
   "project": "Otro Gran Programa",
-  "status": "Fase 1 endurecida",
+  "status": "Fase 1 endurecida: alcance completo trazado",
   "fixedArchitecture": {
     "phases": 5,
     "segments": 20,
@@ -146,5 +146,98 @@
         }
       ]
     }
-  ]
+  ],
+  "phaseCoverage": {
+    "phase1": [
+      "inventory",
+      "legacy-cleanup",
+      "navigation-cleanup",
+      "project-order",
+      "name-normalization",
+      "scope-protection",
+      "5x20-freeze",
+      "traceability",
+      "baseline",
+      "hardening-gate"
+    ],
+    "phase2": [
+      "master-transcript",
+      "QC-1",
+      "QC-2",
+      "QC-3",
+      "editorial-separation",
+      "name-verification",
+      "semantic-segmentation",
+      "exact-cut-points",
+      "20-audio-files",
+      "audio-QC",
+      "continuity-QC"
+    ],
+    "phase3": [
+      "data-model",
+      "forced-alignment",
+      "timing-artifact",
+      "segmented-player",
+      "narrative-state",
+      "word-navigation",
+      "roadmap",
+      "auto-advance",
+      "scroll-control",
+      "visual-system",
+      "primary-transcript",
+      "mobile",
+      "autoplay-fallback",
+      "initial-review-fixes",
+      "accessibility",
+      "performance",
+      "legacy-unification",
+      "integrated-QA",
+      "production",
+      "cache-divergence",
+      "creative-polish"
+    ]
+  },
+  "originalReviewFindings": [
+    "Hero antiguo coexistía con el relato nuevo.",
+    "Reproductor antiguo coexistía con el nuevo.",
+    "El relato nuevo estaba añadido y no sustituía estructuralmente al hero.",
+    "Había 10 escenas, no 20 segmentos.",
+    "El timing era estimated-text-sync.",
+    "story-word-timing.json no existía.",
+    "El motor tenía fallback proporcional.",
+    "El MP3 real de 23:11 estaba disponible.",
+    "Había un estado de audio inconsistente.",
+    "Un overlay/PWA podía invadir el primer viewport móvil.",
+    "Móvil debía ser prioridad.",
+    "Las palabras debían ser navegables.",
+    "El seguimiento automático debía ceder al control manual.",
+    "El sistema visual debía usar aproximadamente 10–12 composiciones maestras.",
+    "La transcripción debía ser contenido primario.",
+    "El roadmap debía ser Fase → Segmento.",
+    "El audio debía actuar como reloj maestro.",
+    "Vocaroo debía mantenerse como fallback.",
+    "El resto del sitio no debía rehacerse innecesariamente.",
+    "Producción podía diferir por caché y debía verificarse contra main."
+  ],
+  "hardeningGate": {
+    "phase1Passed": true,
+    "checks": [
+      "Bloques solicitados eliminados.",
+      "Enlaces huérfanos hacia bloques eliminados ausentes.",
+      "Otro Gran Programa precede a Khora.",
+      "Reproductor antiguo ausente.",
+      "Nombre visible unificado.",
+      "Relato nuevo presente.",
+      "Contenido inferior no solicitado conservado.",
+      "Arquitectura 5x20 registrada.",
+      "Plan completo y trazabilidad almacenados."
+    ],
+    "explicitOutOfScopeForPhase1": [
+      "Transcripción maestra no certificada.",
+      "20 cortes físicos de audio todavía no generados.",
+      "Forced alignment todavía no producido.",
+      "Roadmap 5x20 todavía no implementado.",
+      "QA de producción todavía pendiente."
+    ]
+  }
 }
