@@ -192,66 +192,108 @@ def wer_details(reference, hypothesis):
     }
 
 
-def find_anchor(expected_tokens, observed, cursor, window=10, search_ahead=700):
+def _anchor_score(expected_tokens, observed, idx, window):
     target = expected_tokens[:window]
-    if not target:
+    if len(target) < max(6, window):
         return None
-    start = max(0, cursor)
-    end = min(len(observed) - len(target), cursor + search_ahead)
+    candidate = [observed[j]["word"] for j in range(idx, idx + len(target))]
+    return SequenceMatcher(None, target, candidate, autojunk=False).ratio()
+
+
+def find_anchor(expected_tokens, observed, cursor, search_back=35, search_ahead=90):
+    if not expected_tokens:
+        return None
+
+    windows = [12, 18, 24]
+    valid_windows = [w for w in windows if len(expected_tokens) >= w]
+    if not valid_windows:
+        valid_windows = [len(expected_tokens)]
+
+    start = max(0, cursor - search_back)
+    end = min(len(observed) - min(valid_windows), cursor + search_ahead)
     best = None
-    best_score = -1.0
-    expected_joined = " ".join(target)
+    best_key = None
+
     for idx in range(start, end + 1):
-        candidate = " ".join(observed[j]["word"] for j in range(idx, idx + len(target)))
-        score = SequenceMatcher(None, expected_joined, candidate).ratio()
-        if score > best_score:
-            best_score = score
-            best = idx
+        scores = [_anchor_score(expected_tokens, observed, idx, w) for w in valid_windows]
+        scores = [s for s in scores if s is not None]
+        if not scores:
+            continue
+        strong = sum(s >= 0.80 for s in scores)
+        aggregate = sum(scores) / len(scores)
+        weakest = min(scores)
+        key = (strong, aggregate, weakest)
+        if best_key is None or key > best_key:
+            best_key = key
+            best = (idx, round(aggregate, 4), round(weakest, 4), strong, [round(s, 4) for s in scores])
+
     if best is None:
         return None
-    return best, round(best_score, 4)
+    return best
 
 
 def align_boundaries(editorial, observed1, observed2):
     cursor1 = cursor2 = 0
     boundaries = []
     anchor_scores = []
+
     for index, segment in enumerate(editorial["segments"]):
         expected = tokens(segment["text"])
         if index == 0:
-            a1 = (0, 1.0)
-            a2 = (0, 1.0)
+            a1 = (0, 1.0, 1.0, 3, [1.0, 1.0, 1.0])
+            a2 = (0, 1.0, 1.0, 3, [1.0, 1.0, 1.0])
         else:
             a1 = find_anchor(expected, observed1, cursor1)
             a2 = find_anchor(expected, observed2, cursor2)
             if not a1 or not a2:
                 raise RuntimeError(f"No se pudo localizar el ancla del segmento {segment['id']} en las dos pasadas ASR.")
-        i1, score1 = a1
-        i2, score2 = a2
+
+        i1, aggregate1, weakest1, strong1, window_scores1 = a1
+        i2, aggregate2, weakest2, strong2, window_scores2 = a2
         t1 = observed1[i1]["start"]
         t2 = observed2[i2]["start"]
+
         boundaries.append({
             "id": str(segment["id"]),
             "startPass1": round(t1, 3),
             "startPass2": round(t2, 3),
             "start": round((t1 + t2) / 2.0, 3) if index else 0.0,
-            "anchorScorePass1": score1,
-            "anchorScorePass2": score2,
+            "anchorScorePass1": aggregate1,
+            "anchorScorePass2": aggregate2,
+            "anchorWeakestWindowPass1": weakest1,
+            "anchorWeakestWindowPass2": weakest2,
+            "anchorStrongWindowsPass1": strong1,
+            "anchorStrongWindowsPass2": strong2,
+            "anchorWindowScoresPass1": window_scores1,
+            "anchorWindowScoresPass2": window_scores2,
             "anchorDelta": round(abs(t1 - t2), 3),
         })
-        anchor_scores.extend([score1, score2])
-        cursor1 = i1 + max(1, len(expected) // 3)
-        cursor2 = i2 + max(1, len(expected) // 3)
+        anchor_scores.extend([weakest1, weakest2])
+
+        advance = max(1, len(expected) // 3)
+        cursor1 = i1 + advance
+        cursor2 = i2 + advance
 
     starts = [x["start"] for x in boundaries]
     for i in range(1, len(starts)):
         if starts[i] <= starts[i - 1]:
             raise RuntimeError(f"Los límites de audio no son estrictamente crecientes en {boundaries[i]['id']}.")
+
     for b in boundaries:
-        if b["anchorScorePass1"] < 0.75 or b["anchorScorePass2"] < 0.75:
-            raise RuntimeError(f"Ancla ASR débil en {b['id']}: {b['anchorScorePass1']}/{b['anchorScorePass2']}")
+        if b["anchorWeakestWindowPass1"] < 0.80 or b["anchorWeakestWindowPass2"] < 0.80:
+            raise RuntimeError(
+                f"Ancla ASR débil en {b['id']}: "
+                f"weakest={b['anchorWeakestWindowPass1']}/{b['anchorWeakestWindowPass2']} "
+                f"aggregate={b['anchorScorePass1']}/{b['anchorScorePass2']}"
+            )
+        if b["anchorStrongWindowsPass1"] < 2 or b["anchorStrongWindowsPass2"] < 2:
+            raise RuntimeError(
+                f"Consenso ASR insuficiente en {b['id']}: "
+                f"strongWindows={b['anchorStrongWindowsPass1']}/{b['anchorStrongWindowsPass2']}"
+            )
         if b["anchorDelta"] > 2.0:
             raise RuntimeError(f"Las dos pasadas ASR discrepan demasiado en {b['id']}: {b['anchorDelta']:.3f}s")
+
     return boundaries, min(anchor_scores)
 
 
@@ -394,6 +436,8 @@ def main():
             "pass1": {**wer1, "observedDuration": round(asr_d1, 3)},
             "pass2": {**wer2, "observedDuration": round(asr_d2, 3)},
             "minimumBoundaryAnchorScore": round(min_anchor, 4),
+            "minimumAnchorConsensusWindows": 2,
+            "anchorWindows": [12, 18, 24],
         },
         "audioQC": {
             "physicalDurationSum": physical_sum,
@@ -423,7 +467,7 @@ def main():
         "method": {
             "editorialSource": "assets/data/relato-obp-phase2-editorial.json",
             "transcriptSource": "assets/data/relato-obp-v015.json",
-            "boundaryEvidence": "two independent decoding passes of faster-whisper small with real word timestamps",
+            "boundaryEvidence": "two independent decoding passes of faster-whisper medium with real word timestamps; three-window consensus anchors",
             "cutMethod": "segment 01 starts at 0; each subsequent segment starts at its ASR-anchored boundary; segment 20 ends at master duration",
             "audioDerivativeEncoding": "MP3 128 kbps / 44.1 kHz",
             "wordLevelForcedAlignment": "reserved for Fase 3",
@@ -448,6 +492,7 @@ def main():
         "werPass1": wer1["wer"],
         "werPass2": wer2["wer"],
         "minimumBoundaryAnchorScore": min_anchor,
+        "minimumAnchorConsensusWindows": 2,
         "audioFiles": 20,
         "physicalVsMasterDelta": round(physical_sum - master_duration, 3),
         "reconstructedVsMasterDelta": round(reconstructed_duration - master_duration, 3),
