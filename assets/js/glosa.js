@@ -31,7 +31,15 @@
 
   var navLinks=Array.prototype.slice.call(document.querySelectorAll('.nav a'));
   if('IntersectionObserver' in window && navLinks.length){
+    function clearNavActive(){
+      navLinks.forEach(function(a){
+        a.classList.remove('active');
+        a.removeAttribute('aria-current');
+      });
+    }
     var spy=new IntersectionObserver(function(entries){
+      var y=window.scrollY||document.documentElement.scrollTop||0;
+      if(y<120){clearNavActive();return;}
       entries.forEach(function(e){
         if(e.isIntersecting){
           var id='#'+e.target.id;
@@ -44,6 +52,11 @@
       });
     },{rootMargin:'-45% 0px -50% 0px', threshold:0});
     navLinks.forEach(function(a){var el=document.querySelector(a.getAttribute('href')); if(el) spy.observe(el);});
+    window.addEventListener('scroll',function(){
+      var y=window.scrollY||document.documentElement.scrollTop||0;
+      if(y<120) clearNavActive();
+    },{passive:true});
+    clearNavActive();
   }
 
   var f=document.getElementById('fecha');
@@ -202,4 +215,14 @@
 
   build();
   renderPins();
+
+  /* En móvil, la pestaña Glosa no debe tapar la portada inicial. */
+  function syncGlosaTab(){
+    if(!tabBtn) return;
+    var mobile=window.matchMedia && window.matchMedia('(max-width:680px)').matches;
+    var y=window.scrollY||document.documentElement.scrollTop||0;
+    tabBtn.classList.toggle('is-landing-mobile',mobile && y<300);
+  }
+  window.addEventListener('scroll',syncGlosaTab,{passive:true});
+  syncGlosaTab();
 })();
