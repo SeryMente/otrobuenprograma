@@ -843,7 +843,7 @@ La revisión visual posterior al cierre de v1.6.0 encontró una desviación ineq
 Corrección aplicada:
 - retrato móvil 126 px de ancho con relación 16:9;
 - encuadre 60% 40% sobre la fotografía real;
-- título del hero liberado de nowrap, con ancho controlado y cuatro líneas en 320×568 y 390×844;
+- título del hero liberado de nowrap, con ancho controlado y tres líneas naturales con la copia vigente en 320×568 y 390×844;
 - suite de aceptación actualizada para comprobar ratio, wrapping y ausencia de overflow.
 
 **Estado:** corrección implementada en rama `fix/v1.6.1-mobile-visual`; pendiente de publicación después del gate técnico y visual.
