@@ -755,3 +755,9 @@ La batería browser detectó que el cierre del overlay no restauraba de forma de
 
 La evidencia mostró que el clic físico sobre el botón de cierre podía dejar el foco en `body` después de ocultar el propio botón. Se cancela el default del `pointerdown` del cierre y se ejecuta el cierre antes de que el navegador reasigne el foco al control que desaparece. El cierre por teclado continúa usando `click`.
 
+
+
+## 39. Checkpoint CP-06.19 — restauración de foco determinista
+
+El debug de navegador confirmó una carrera: al desbloquear el scroll, el evento de scroll podía volver a ocultar temporalmente el activador antes de la restauración de foco. El estado se restaura usando el `lastScrollY` conocido y el foco espera, como máximo, seis ciclos de 16 ms hasta que el activador vuelva a ser visible. No existe reintento infinito.
+
