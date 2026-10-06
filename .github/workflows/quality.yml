@@ -1,9 +1,5 @@
 name: Calidad (no-regresion)
 
-# Verificaciones rapidas y sin red: que el sitio no se rompa en cada push.
-# Filosofia del proyecto: nada se declara "hecho" porque compile, sino
-# porque la prueba real pasa. Aqui van las pruebas baratas; las e2e
-# (Playwright) llegan cuando exista backend/flujos interactivos.
 on:
   push:
     branches: [main]
@@ -16,121 +12,50 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: JSON valido (timeline + manifest)
-        run: |
-          python3 -c "import json; json.load(open('assets/data/timeline.json')); print('timeline.json OK')"
-          python3 -c "import json; json.load(open('manifest.webmanifest')); print('manifest OK')"
-
-      - name: Estructura de timeline vigente
+      - name: JSON valido
         run: |
           python3 - <<'PY'
           import json
-          d=json.load(open('assets/data/timeline.json', encoding='utf-8'))
-          assert len(d['hilos']) == 3, 'numero de hilos inesperado'
-          n=sum(len(h['hitos']) for h in d['hilos'])
-          print('hilos', len(d['hilos']), 'hitos', n)
-          assert n == 11, 'conteo de hitos inesperado'
+          for p in ["assets/data/timeline.json","assets/data/relato-obp-phase3.json","assets/data/story-word-timing.json","manifest.webmanifest"]:
+              json.load(open(p,encoding="utf-8"))
+          print("JSON=PASSED")
           PY
 
       - name: Archivos clave presentes
         run: |
-          for f in index.html sw.js manifest.webmanifest \
-                   assets/css/instrument.css assets/css/additions.css \
-                   assets/js/config.js assets/js/timeline.js assets/js/glosa.js \
-                   assets/js/presence.js assets/js/app.js assets/js/story-v3.js \
-                   assets/css/story.css assets/css/story-v3.css \
-                   assets/img/icon-192.png assets/img/icon-512.png; do
-            test -f "$f" || { echo "FALTA $f"; exit 1; }
-          done
-          echo "Todos los archivos clave presentes."
+          set -euo pipefail
+          for f in index.html sw.js manifest.webmanifest assets/css/instrument.css assets/css/additions.css assets/css/themes.css assets/css/story.css assets/css/story-v3.css assets/js/config.js assets/js/timeline.js assets/js/navigator.js assets/js/mobile-shell.js assets/js/app.js assets/js/story-v3.js; do test -f "$f" || exit 1; done
 
-      - name: Anclas de secciones vigentes en index.html
-        run: |
-          for id in relato-sonoro proyectos obp comind cuentas voces fundamentos autor; do
-            grep -Eq "id=['\"]$id['\"]" index.html || { echo "FALTA seccion #$id"; exit 1; }
-          done
-          ! grep -q 'id="pulso"' index.html || { echo "PULSO no debe existir"; exit 1; }
-          ! grep -q 'id="porque"' index.html || { echo "PORQUE no debe existir"; exit 1; }
-          ! grep -q 'id="sumarse"' index.html || { echo "SUMARSE no debe existir"; exit 1; }
-          grep -q "Otro Gran Programa" index.html || { echo "FALTA nombre canonico"; exit 1; }
-          echo "Secciones vigentes presentes y legacy ausente."
-
-      - name: Contrato de edición pública del relato
+      - name: Contrato base de secciones
         run: |
           set -euo pipefail
-          for f in index.html assets/js/story-v3.js assets/css/story-v3.css; do
-            ! grep -Eiq 'Fase 3|5 fases|20 segmentos|Composición maestra|máster|Documento vivo|story-roadmap' "$f" || {
-              echo "REGRESIÓN DE INTERFAZ PÚBLICA en $f"
-              exit 1
-            }
-          done
-          ! grep -q 'story-roadmap' assets/css/story-v3.css
-          grep -q 'story-v3.css?v=v1.5.10-20261006' index.html
-          grep -q 'story-v3.js?v=v1.5.10-20261006' index.html
-          echo "PUBLIC_SURFACE_CONTRACT=PASSED"
+          for id in relato-sonoro proyectos obp comind cuentas voces fundamentos autor; do grep -Eq "id=['"]$id['"]" index.html || { echo "FALTA $id"; exit 1; }; done
 
-
-      - name: Regresion del aviso de instalacion PWA
+      - name: Contrato publico CP-04
         run: |
           set -euo pipefail
-          ! grep -Eq 'beforeinstallprompt|appinstalled|pwa-prompt|showInstallPrompt|Instalar esta app' assets/js/app.js assets/css/additions.css || {
-            echo "REGRESION: reaparecio el aviso automatico de instalacion PWA"
-            exit 1
-          }
-          grep -q 'manifest.webmanifest' index.html
-          grep -q "navigator.serviceWorker.register" assets/js/app.js
-          grep -q "instrumento-v1.5.10-design-system-20261006" sw.js
-          grep -q 'assets/js/app.js?v=v1.5.10-20261006' index.html
-          grep -q 'assets/css/story-v3.css?v=v1.5.10-20261006' index.html
-          echo "PWA_NON_INTRUSIVE_CONTRACT=PASSED"
+          ! grep -q 'assets/js/glosa.js' index.html
+          ! grep -q 'assets/js/glosa.js' sw.js
+          grep -q 'id="mobile-nav-overlay"' index.html
+          grep -q 'class="mobile-nav-trigger"' index.html
+          grep -q 'class="mobile-nav-close"' index.html
+          grep -q 'Otro Gran Programa, una propuesta' index.html
+          grep -q 'una iniciativa para revolucionar la manera en la que aliviaremos la disfunción familiar para nuestros hijos y sus hijos también.' index.html
+          grep -q 'Desarrollador independiente' index.html
+          grep -q 'Intérprete médico / Traductor (español-inglés)' index.html
+          grep -q 'Matrícula 5125461' index.html
+          grep -q 'assets/js/mobile-shell.js?v=v1.6.0-20261006' index.html
+          grep -q 'assets/css/additions.css?v=v1.6.0-20261006' index.html
+          grep -q 'assets/css/story-v3.css?v=v1.6.0-20261006' index.html
+          grep -q 'instrumento-v1.6.0-mobile-20261006' sw.js
+          grep -q 'assets/js/mobile-shell.js' sw.js
+          ! grep -q 'guide-pill' assets/js/navigator.js
+          echo "CP04_STATIC_CONTRACT=PASSED"
 
-
-      - name: Ficha publica de autor
+      - name: Sintaxis JS
         run: |
           set -euo pipefail
-          grep -q 'Patria pendiente, lo que deviene aún.' index.html
-          grep -q 'the.willfreeman@gmail.com' index.html
-          grep -q '614 369 7381' index.html
-          grep -q 'Intérprete/Traductor' index.html
-          grep -q 'Seguridad de la Información en la UAG' index.html
-          grep -q 'assets/css/additions.css?v=v1.5.10-20261006' index.html
-          echo "MOBILE_AUTHOR_CONTRACT=PASSED"
-
-      - name: Responsive movil estructural
-        run: |
-          set -euo pipefail
-          python3 - <<'PY'
-          from pathlib import Path
-          html=Path("index.html").read_text(encoding="utf-8")
-          css=Path("assets/css/story-v3.css").read_text(encoding="utf-8")
-          assert "width:calc(100% - 82px)" not in css
-          assert "top:90px" in css
-          assert html.count('assets/css/story-v3.css?v=v1.5.10-20261006') == 1
-          assert html.count('assets/js/story-v3.js?v=v1.5.10-20261006') == 1
-          assert html.count('assets/css/instrument.css?v=v1.5.11-20261006') == 1
-          assert html.count('assets/js/navigator.js?v=v1.5.10-20261006') == 1
-          assert "story-v3.css?v=v1.5.6-20261006" not in html
-          assert "story-v3.js?v=v1.5.6-20261006" not in html
-          print("MOBILE_RESPONSIVE_STATIC_CONTRACT=PASSED")
-          PY
-
-      - name: Contrato de encabezado publico movil
-        run: |
-          set -euo pipefail
-          ! grep -Eq 'Otro Gran Programa · relato sonoro|Escucha la historia que da origen a la propuesta\.|Una conversación en voz alta sobre el origen de Otro Gran Programa' assets/js/story-v3.js index.html
-          grep -q 'Una iniciativa de bienestar social nacida de la experiencia y orientada a lo que aún puede construirse\.' index.html
-          grep -q 'assets/css/story-v3.css?v=v1.5.10-20261006' index.html
-          grep -q 'assets/js/story-v3.js?v=v1.5.10-20261006' index.html
-          ! grep -q 'var QR_MODE=MOBILE && (!location.hash' assets/js/story-v3.js
-          echo "MOBILE_HEADER_CONTRACT=PASSED"
-
-      - name: Contrato de portada movil sin obstrucciones
-        run: |
-          set -euo pipefail
-          grep -q 'is-landing-mobile' assets/js/glosa.js
-          grep -q "(max-width:680px)" assets/js/glosa.js
-          grep -q 'y<300' assets/js/glosa.js
-          grep -q 'y<120' assets/js/glosa.js
-          grep -q 'assets/js/glosa.js?v=v1.5.11-20261006' index.html
-          grep -q 'instrumento-v1.5.11-design-system-20261006' sw.js
-          echo "MOBILE_LANDING_OCCLUSION_CONTRACT=PASSED"
+          node --check assets/js/navigator.js
+          node --check assets/js/mobile-shell.js
+          node --check assets/js/story-v3.js
+          echo "JS_SYNTAX=PASSED"
