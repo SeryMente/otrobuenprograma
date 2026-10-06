@@ -761,3 +761,9 @@ La evidencia mostró que el clic físico sobre el botón de cierre podía dejar 
 
 El debug de navegador confirmó una carrera: al desbloquear el scroll, el evento de scroll podía volver a ocultar temporalmente el activador antes de la restauración de foco. El estado se restaura usando el `lastScrollY` conocido y el foco espera, como máximo, seis ciclos de 16 ms hasta que el activador vuelva a ser visible. No existe reintento infinito.
 
+
+
+## 40. Checkpoint CP-06.20 — cancelación completa del cierre físico
+
+El debug mostró que el foco se restauraba brevemente y luego volvía a `body`. Se cancela también el evento `click` del cierre, además de `pointerdown`, para impedir que la activación física del control ocultado reasigne el foco después de la restauración.
+
