@@ -16,12 +16,18 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Instalar Playwright
+      - name: Instalar Playwright core
+        run: npm install --no-save playwright-core@1.55.0
+      - name: Localizar Chromium/Chrome del runner
+        id: browser
+        shell: bash
         run: |
-          npm init -y
-          npm install --no-save playwright@1.55.0
-          npx playwright install --with-deps chromium
+          BROWSER="$(command -v google-chrome-stable || command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
+          test -n "$BROWSER"
+          echo "path=$BROWSER" >> "$GITHUB_OUTPUT"
       - name: Ejecutar auditoria real contra GitHub Pages
+        env:
+          BROWSER_PATH: ${{ steps.browser.outputs.path }}
         run: node scripts/qa_live_mobile.mjs
       - name: Subir capturas y mediciones
         if: always()
