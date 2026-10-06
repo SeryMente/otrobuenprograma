@@ -322,3 +322,13 @@ h2.section{border-top-color:#b9c4d8}
   h2.section{margin-top:48px;margin-bottom:22px}
   h2.section .ttl{font-size:clamp(1.95rem,9vw,2.55rem)}
 }
+
+
+/* ===== v1.5.11 · utilidades móviles fuera de la portada ===== */
+@media(max-width:680px){
+  .glosa-tab.is-landing-mobile{
+    opacity:0;
+    transform:translateX(100%);
+    pointer-events:none;
+  }
+}
