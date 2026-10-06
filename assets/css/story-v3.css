@@ -67,10 +67,9 @@ body{overflow-x:hidden}
 }
 @media(max-width:430px){
   .obp-hero,.story-intro,.story-end{max-width:100%;box-sizing:border-box}
-  .obp-hero{width:calc(100% - 32px)}
-  .story-intro{width:calc(100% - 30px);padding-left:0;padding-right:0}
-  .story-player{width:calc(100% - 82px);margin-left:10px;margin-right:72px;box-sizing:border-box}
-  .story-rail{width:calc(100% - 20px);box-sizing:border-box}
+  .story-intro{width:calc(100% - 24px);padding-left:0;padding-right:0}
+  .story-player{width:calc(100% - 14px);margin-left:auto;margin-right:auto;box-sizing:border-box}
+  .story-rail{width:calc(100% - 14px);box-sizing:border-box}
 }
 @media(max-width:380px){
  .obp-author-card{grid-template-columns:74px minmax(0,1fr)}
@@ -78,3 +77,9 @@ body{overflow-x:hidden}
  .story-rail{}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+
+/* ===== v1.5.4 · offset del reproductor bajo la barra móvil ===== */
+@media(max-width:820px){
+  .story-player{top:84px}
+}

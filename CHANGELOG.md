@@ -1,5 +1,15 @@
 # Changelog - Instrumento de comunicacion - Proyecto Vital
 
+## [v1.5.4] - 2026-10-06 - Corrección responsive móvil
+
+### Corregido
+- Incorporada explícitamente la hoja de estilos story-v3.css que corresponde a los controles generados por el relato sonoro.
+- Corregido el reproductor en pantallas de hasta 430 px: deja de aplicar un ancho artificialmente reducido y usa el ancho móvil disponible.
+- Rehecha la composición de entrada móvil: la fotografía del autor permanece centrada, contenida y prioritaria, pero la ficha deja de consumir una pantalla completa.
+- El hero móvil deja de centrar verticalmente todo el conjunto y pasa a una composición superior y compacta para que foto, identidad y comienzo de la propuesta convivan en el primer viewport.
+- Añadida prueba estructural específica para detectar la regresión de responsive móvil.
+- Ajustado el reproductor sticky para que no quede oculto detrás de la barra de navegación móvil.
+
 ## [v1.5.3] - 2026-10-06 - Ficha de autor móvil
 
 ### Cambiado

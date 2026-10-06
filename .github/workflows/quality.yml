@@ -79,8 +79,9 @@ jobs:
           }
           grep -q 'manifest.webmanifest' index.html
           grep -q "navigator.serviceWorker.register" assets/js/app.js
-          grep -q "instrumento-v1.5.3-mobile-author-20261006" sw.js
+          grep -q "instrumento-v1.5.4-mobile-responsive-20261006" sw.js
           grep -q 'assets/js/app.js?v=v1.5.2-20261006' index.html
+          grep -q 'assets/css/story-v3.css?v=v1.5.4-20261006' index.html
           echo "PWA_NON_INTRUSIVE_CONTRACT=PASSED"
 
 
@@ -92,5 +93,16 @@ jobs:
           grep -q '614 369 7381' index.html
           grep -q 'Intérprete/Traductor' index.html
           grep -q 'Seguridad de la Información en la UAG' index.html
-          grep -q 'assets/css/additions.css?v=v1.5.3-20261006' index.html
+          grep -q 'assets/css/additions.css?v=v1.5.4-20261006' index.html
           echo "MOBILE_AUTHOR_CONTRACT=PASSED"
+
+      - name: Responsive movil estructural
+        run: |
+          set -euo pipefail
+          ! grep -q 'width:calc(100% - 82px)' assets/css/story-v3.css || {
+            echo "REGRESION: reproductor movil vuelve a estrecharse en <=430px"
+            exit 1
+          }
+          grep -q 'assets/css/story-v3.css?v=v1.5.4-20261006' index.html
+          grep -q 'top:84px' assets/css/story-v3.css
+          echo "MOBILE_RESPONSIVE_CONTRACT=PASSED"
