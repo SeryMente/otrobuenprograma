@@ -1,5 +1,25 @@
 # Changelog - Instrumento de comunicacion - Proyecto Vital
 
+## [v1.6.0] - 2026-10-06 - Experiencia móvil F3
+
+### Cambiado
+- Unificada la navegación móvil en una barra superior esbelta con marca, Proyectos, Cuentas y Autor.
+- Al desplazarse, la barra completa se colapsa a un activador táctil discreto; el activador abre una navegación de pantalla completa con solo esas tres rutas y cierre.
+- Rediseñada la ficha del autor con orden profesional, firma editorial, formación compacta y matrícula UAG 5125461.
+- Ajustada la fotografía del autor a una composición más vertical y centrada.
+- Sustituido el hero redundante por «Otro Gran Programa, una propuesta» y el subtítulo acordado.
+- Retirada la superficie pública de Glosa.
+- Incorporado un micro-rail móvil persistente de 5 fases × 4 segmentos, independiente de la columna narrativa.
+- Consolidado el transporte narrativo móvil y el intento de autoplay inmediato audible con recuperación honesta ante bloqueo del navegador.
+- Preservada la composición de escritorio de tres columnas.
+- Añadido contrato E2E Playwright para 7 tamaños móviles, navegación/foco, rail, desktop y audio.
+
+### Calidad
+- Gate estático GitHub Actions: PASSED.
+- Gate E2E GitHub Actions: PASSED.
+- E2E local en RDC nueva: 11/11 passed en 22.1 s.
+- Plan canónico persistido en `docs/PLAN-F3-MOVIL-20261006.md`, incluyendo checkpoints CP-05 y CP-06.
+
 ## [v1.5.4] - 2026-10-06 - Corrección responsive móvil
 
 ### Corregido
