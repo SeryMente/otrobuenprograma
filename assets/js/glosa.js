@@ -215,4 +215,14 @@
 
   build();
   renderPins();
+
+  /* En móvil, la pestaña Glosa no debe tapar la portada inicial. */
+  function syncGlosaTab(){
+    if(!tabBtn) return;
+    var mobile=window.matchMedia && window.matchMedia('(max-width:680px)').matches;
+    var y=window.scrollY||document.documentElement.scrollTop||0;
+    tabBtn.classList.toggle('is-landing-mobile',mobile && y<300);
+  }
+  window.addEventListener('scroll',syncGlosaTab,{passive:true});
+  syncGlosaTab();
 })();
