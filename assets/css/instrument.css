@@ -281,3 +281,22 @@ html{overflow-x:clip}
 }
 .topbar{background:rgba(238,242,248,.92);border-bottom-color:#d4dce8}
 .sheet{box-shadow:0 1px 0 rgba(20,38,78,.03)}
+
+
+/* ===== v1.5.9 · sistema visual consolidado ===== */
+html{overflow-x:clip}
+body{background:#eef2f8}
+.sheet{border-color:rgba(20,38,78,.08);box-shadow:0 1px 0 rgba(20,38,78,.03)}
+h2.section{border-top-color:#b9c4d8}
+.glosa-tab{
+  top:50%;
+  padding:.58rem .38rem;
+  border-radius:6px 0 0 6px;
+  box-shadow:none;
+  opacity:.76;
+  font-size:.62rem;
+}
+.glosa-panel{box-shadow:-8px 0 26px rgba(10,10,10,.12)}
+@media(max-width:680px){
+  .glosa-tab{padding:.52rem .34rem;font-size:.58rem;opacity:.72}
+}
