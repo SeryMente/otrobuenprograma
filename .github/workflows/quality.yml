@@ -72,9 +72,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - name: Dependencias E2E
+        run: npm install --no-package-lock
       - run: nohup python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/ogp-http.log 2>&1 &
-      - run: npx --yes @playwright/test@1.56.0 install --with-deps chromium
-      - run: npx --yes @playwright/test@1.56.0 test --config=playwright.config.js
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test --config=playwright.config.js
       - name: Capturas QA
         if: always()
         uses: actions/upload-artifact@v4
