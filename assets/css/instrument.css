@@ -300,3 +300,25 @@ h2.section{border-top-color:#b9c4d8}
 @media(max-width:680px){
   .glosa-tab{padding:.52rem .34rem;font-size:.58rem;opacity:.72}
 }
+
+
+/* ===== v1.5.10 · jerarquía editorial móvil ===== */
+@media(max-width:720px){
+  h2.section{
+    grid-template-columns:1fr;
+    gap:7px;
+    align-items:start;
+  }
+  h2.section .num{
+    padding-top:0;
+    font-size:.65rem;
+  }
+  h2.section .ttl{
+    font-size:clamp(2rem,8.6vw,2.7rem);
+    line-height:1.02;
+  }
+}
+@media(max-width:430px){
+  h2.section{margin-top:48px;margin-bottom:22px}
+  h2.section .ttl{font-size:clamp(1.95rem,9vw,2.55rem)}
+}
