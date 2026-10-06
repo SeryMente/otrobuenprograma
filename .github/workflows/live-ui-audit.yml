@@ -1,0 +1,31 @@
+name: Live UI audit (mobile)
+
+on:
+  push:
+    branches: [audit/live-ui-20261006]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Instalar Playwright
+        run: |
+          npm init -y
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Ejecutar auditoria real contra GitHub Pages
+        run: node scripts/qa_live_mobile.mjs
+      - name: Subir capturas y mediciones
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-mobile-audit
+          path: artifacts/
