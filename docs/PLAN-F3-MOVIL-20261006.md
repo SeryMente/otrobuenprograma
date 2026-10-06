@@ -791,3 +791,9 @@ El navegador/runner puede completar la activación física del cierre después d
 
 La batería local demostró que el rail funciona (5 fases, 20 segmentos, `position:fixed`, opacidad 1), pero el test podía quedarse esperando actividad de red externa por usar `networkidle`. Se normaliza toda la suite a `domcontentloaded` y se esperan explícitamente los elementos que cada prueba necesita. Esto elimina falsos bloqueos sin relajar las aserciones.
 
+
+
+## 45. Checkpoint CP-06.25 — QA de audio corregido
+
+La batería E2E confirmó que el rail y desktop pasan. El único rojo restante fue del test de audio: `locator.waitFor()` esperaba visibilidad de un elemento `<audio>` que correctamente es no visual. Se cambia a `state:"attached"`; las aserciones de autoplay, preload, mute y source permanecen intactas.
+
