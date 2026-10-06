@@ -73,8 +73,8 @@ jobs:
         with:
           node-version: 20
       - run: nohup python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/ogp-http.log 2>&1 &
-      - run: npx --yes playwright@1.56.0 install --with-deps chromium
-      - run: npx --yes playwright@1.56.0 test --config=playwright.config.js
+      - run: npx --yes @playwright/test@1.56.0 install --with-deps chromium
+      - run: npx --yes @playwright/test@1.56.0 test --config=playwright.config.js
       - name: Capturas QA
         if: always()
         uses: actions/upload-artifact@v4
