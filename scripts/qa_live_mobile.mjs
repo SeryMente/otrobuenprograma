@@ -29,10 +29,10 @@ let failed=false;
 
 for(const vp of viewports){
   const page=await browser.newPage({viewport:{width:vp.width,height:vp.height},deviceScaleFactor:1});
-  await page.goto(base+'?live-audit='+Date.now()+'-'+vp.width,{waitUntil:'networkidle',timeout:90000});
+  await page.goto(base+'?live-audit='+Date.now()+'-'+vp.width,{waitUntil:'domcontentloaded',timeout:30000});
   await page.evaluate(async()=>{if(document.fonts?.ready)await document.fonts.ready;});
   await page.waitForSelector('#autor img',{state:'attached',timeout:15000});
-  await page.waitForTimeout(900);
+  await page.waitForTimeout(1800);
   await page.evaluate(()=>window.scrollTo(0,0));
   await page.waitForTimeout(150);
 
