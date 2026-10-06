@@ -5,6 +5,7 @@ for(const [width,height] of sizes){
   test("mobile "+width+"x"+height+" — no overflow / hero composition",async({page})=>{
     await page.setViewportSize({width,height}); await page.goto(URL,{waitUntil:"domcontentloaded"});
     await expect(page.locator("#obp-title")).toHaveText("Otro Gran Programa, una propuesta");
+    await page.screenshot({path:"test-results/mobile-"+width+"x"+height+".png",fullPage:false});
     const m=await page.evaluate(()=>{const d=document.documentElement,t=document.querySelector("#obp-title"),a=document.querySelector(".obp-author-portrait"),cs=getComputedStyle(t),r=t.getBoundingClientRect(),ar=a.getBoundingClientRect();return {overflow:d.scrollWidth-d.clientWidth,titleOverflow:t.scrollWidth-t.clientWidth,ws:cs.whiteSpace,lines:Math.round(r.height/parseFloat(cs.lineHeight)),ratio:ar.width/ar.height};});
     expect(m.overflow).toBeLessThanOrEqual(1); expect(m.titleOverflow).toBeLessThanOrEqual(1); expect(m.ws).not.toBe("nowrap"); expect(m.ratio).toBeGreaterThan(1.55); expect(m.ratio).toBeLessThan(1.98);
     if(width===320 || width===390) expect(m.lines).toBe(4);
