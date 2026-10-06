@@ -816,3 +816,21 @@ El debug temporal de RDC no forma parte del repositorio.
 
 **URL canónica:** https://serymente.github.io/otrobuenprograma/
 
+
+
+## 47. Checkpoint CP-06.27 — cierre publicado y verificado en vivo
+
+El PR #9 fue integrado en `main`.
+
+- Merge commit: `6dc14551b18871fe7c2ad7a668bcd651d21f80aa`.
+- Changelog v1.6.0 publicado en `CHANGELOG.md`.
+- Verificación directa de la URL canónica: **HTTP 200**.
+- HTML vivo confirma:
+  - título `Otro Gran Programa, una propuesta`;
+  - recursos versionados `v1.6.0-20261006`;
+  - navegación móvil `mobile-nav-overlay`.
+
+**URL canónica viva:** https://serymente.github.io/otrobuenprograma/
+
+**Estado:** IMPLEMENTACIÓN TERMINADA · PUBLICADA · VERIFICADA.
+
