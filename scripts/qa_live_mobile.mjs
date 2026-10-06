@@ -44,15 +44,16 @@ for(const vp of VIEWS){
 
   await page.screenshot({path:'artifacts/'+vp.name+'-inicio.png',fullPage:false});
   for(const sel of SECTIONS){
-    const el=await page.$(sel);
-    if(!el)continue;
-    const box=await el.boundingBox();
-    if(!box||box.height<20)continue;
-    const maxH=Math.min(box.height,Math.max(vp.height*1.15,600));
-    await page.screenshot({
-      path:'artifacts/'+vp.name+'-'+sel.replace(/[^a-z0-9]+/gi,'-').replace(/^-|-$/g,'')+'.png',
-      clip:{x:Math.max(0,box.x),y:Math.max(0,box.y),width:Math.min(box.width,vp.width),height:maxH}
-    }).catch(()=>{});
+    const safe=sel.replace(/[^a-z0-9]+/gi,'-').replace(/^-|-$/g,'');
+    const ok=await page.evaluate((s)=>{
+      const el=document.querySelector(s);
+      if(!el)return false;
+      el.scrollIntoView({block:'start',behavior:'instant'});
+      return true;
+    },sel);
+    if(!ok)continue;
+    await page.waitForTimeout(180);
+    await page.screenshot({path:'artifacts/'+vp.name+'-'+safe+'.png',fullPage:false}).catch(()=>{});
   }
 
   const structural=[
