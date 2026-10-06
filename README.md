@@ -2,7 +2,7 @@
 
 Documento vivo (sitio estatico) del Proyecto Vital. Tres hilos: **CoMind** (la protesis cognitiva), **Otro Buen Programa** (el esfuerzo hermano) y **el instrumento mismo** (esta obra).
 
-**Version:** `v0.9` - *corte del diseno* (2026-06-11). Pasa de pagina editorial a laboratorio: Glosa, linea de tiempo viva, voces que acompanan, pulso (estado al dia + cascada de presencia) y PWA instalable.
+**Version:** `v0.9` - *corte del diseno* (2026-06-11). Pasa de pagina editorial a laboratorio: Glosa, linea de tiempo viva, voces que acompanan, pulso (estado al dia + cascada de presencia) y PWA instalable sin aviso automatico de instalacion.
 
 ## Principio rector
 
@@ -30,7 +30,7 @@ assets/js/config.js        unica palanca de capacidades (flags)
 assets/js/timeline.js      render sincrono de la linea de tiempo
 assets/js/glosa.js         capa Glosa (comentario por elemento)
 assets/js/presence.js      pulso: estado + cascada de presencia/chat
-assets/js/app.js           registro SW + boton instalar + voces
+assets/js/app.js           registro SW + voces (sin aviso automatico de instalacion)
 assets/data/timeline.json  fuente canonica de hitos
 assets/img/*               iconos PWA
 docs/*                     decisiones tecnicas y de diseno
