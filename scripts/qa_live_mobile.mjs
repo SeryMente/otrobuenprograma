@@ -72,7 +72,9 @@ for(const vp of viewports){
         portraitHeight:getComputedStyle(portrait).height,
         cardDisplay:getComputedStyle(card).display,
         cardFlexDirection:getComputedStyle(card).flexDirection,
-        playerTop:getComputedStyle(player).top,
+      portraitObjectFit:getComputedStyle(img).objectFit,
+      guidePillVisible:!!document.querySelector('.guide-pill.is-visible'),
+      playerTop:getComputedStyle(player).top,
         playerWidth:getComputedStyle(player).width
       }
     };
