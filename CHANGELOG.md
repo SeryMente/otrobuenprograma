@@ -1,5 +1,19 @@
 # Changelog - Instrumento de comunicacion - Proyecto Vital
 
+## [v1.3] - 2026-10-05 - Experiencia móvil QR
+
+### Anadido
+- Portada de entrada con autor destacado y nombre oficial: Otro Gran Programa — Iniciativa de Bienestar Social.
+- Activación automática de la experiencia narrativa al cargar desde QR en móvil, con desplazamiento al primer segmento y tentativa de reproducción automática.
+- Fallback visible para navegadores que bloquean el autoplay de audio.
+- Roadmap Fase → Segmento convertido en navegación vertical persistente en el borde derecho, con adaptación específica para móvil.
+- Composición responsive del hero y ficha del autor para pantallas pequeñas.
+- Invalidación explícita de caché para los recursos narrativos de v1.3.
+
+### Cambiado
+- La identidad visible del sitio deja de presentar a Khora como título principal de la experiencia.
+- La experiencia narrativa pasa a priorizar móvil/QR como contexto de entrada.
+
 ## [v1.2] - 2026-10-05 - Fase 3 narrativa
 
 ### Anadido
