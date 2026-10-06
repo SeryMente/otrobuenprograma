@@ -703,3 +703,11 @@ Micro-rail 5×4, transporte compacto y autoplay inmediato best-effort incorporad
 
 **URL canónica:** https://serymente.github.io/otrobuenprograma/
 
+
+
+## 31. Checkpoint CP-06 — endurecimiento final de interacción
+
+Se fija el stacking del activador móvil por encima del transporte y se endurece la suite browser para no depender de recursos externos que prolonguen `networkidle`. La prueba del rail centra explícitamente el relato antes de validar visibilidad.
+
+**URL canónica:** https://serymente.github.io/otrobuenprograma/
+
