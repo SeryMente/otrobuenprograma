@@ -669,3 +669,29 @@ El código de producto sigue sin modificaciones por este ciclo de planificación
 Base: v1.5.11 · `909d23d98881867f1361d78c253272f75ae6eb6f`
 Objetivo: v1.6.0
 Repositorio: https://github.com/SeryMente/otrobuenprograma\n
+
+
+## 25. Checkpoint CP-01 — entrada a implementación
+
+**Estado:** IMPLEMENTACIÓN INICIADA.  
+**Base:** main @ 2ce62f5fce4ea46b742829bb3edb43d32da9c561 · v1.5.11.
+
+## 26. Checkpoint CP-02 — protocolo de entrega viva
+
+Cada estado utilizable del sprint se publicará en main y quedará registrado aquí con su URL canónica para revisión independiente del resultado.
+
+## 27. Checkpoint CP-03 — endurecimiento
+
+Se corrigieron antes de publicación la transición de scroll para evitar salto de layout, la exclusividad del overlay y el recálculo del hero después de cargar fuentes.
+
+## 28. Checkpoint CP-04 — primera entrega viva
+
+Esta entrega cubre shell móvil, navegación fullscreen, hero/autor, matrícula 5125461, retirada pública de Glosa y cache-busting/Service Worker v1.6.0.
+
+**URL canónica:** https://serymente.github.io/otrobuenprograma/  
+**Siguiente:** CP-05 — micro-rail + transporte/autoplay.
+
+## 29. Estado de persistencia
+
+La especificación del sprint, sus endurecimientos H1 y el protocolo de checkpoints permanecen dentro de este documento como referencia canónica del ciclo. No se considera completo un requisito hasta que exista evidencia en código, pruebas y publicación.
+
