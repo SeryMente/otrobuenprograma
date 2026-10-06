@@ -22,7 +22,18 @@ jobs:
         run: |
           set -euo pipefail
           for f in index.html sw.js manifest.webmanifest assets/css/instrument.css assets/css/additions.css assets/css/themes.css assets/css/story.css assets/css/story-v3.css assets/js/config.js assets/js/timeline.js assets/js/navigator.js assets/js/mobile-shell.js assets/js/app.js assets/js/story-v3.js scripts/qa_mobile_v16.spec.js; do test -f "$f"; done
-      - name: Contrato publico v1.6.0
+      - name: Visual mobile smoke contract
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          s=Path("assets/css/story-v3.css").read_text(encoding="utf-8")
+          assert "aspect-ratio:16/9" in s
+          assert "white-space:normal" in s
+          assert "object-position:60% 40%" in s
+          PY
+          ! grep -q "h.style.whiteSpace=\x27nowrap\x27" assets/js/mobile-shell.js
+          ! grep -q "h.style.textWrap=\x27nowrap\x27" assets/js/mobile-shell.js
+      - name: Contrato publico v1.6.1
         run: |
           set -euo pipefail
           ! grep -q 'assets/js/glosa.js' index.html
@@ -45,7 +56,7 @@ jobs:
           grep -q 'first-gesture' assets/js/story-v3.js
           grep -q 'mobile-nav-lock' assets/js/mobile-shell.js
           ! grep -q 'guide-pill' assets/js/navigator.js
-          grep -q 'instrumento-v1.6.0-mobile-20261006' sw.js
+          grep -q 'instrumento-v1.6.1-mobile-20261006' sw.js
           grep -q 'assets/js/mobile-shell.js' sw.js
           echo "PUBLIC_V16_STATIC_CONTRACT=PASSED"
       - name: Sintaxis JavaScript
@@ -81,6 +92,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ogp-v16-mobile-evidence
+          name: ogp-v161-mobile-evidence
           path: test-results/
           if-no-files-found: ignore

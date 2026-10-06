@@ -1,5 +1,18 @@
 # Changelog - Instrumento de comunicacion - Proyecto Vital
 
+## [v1.6.1] - 2026-10-06 - Corrección visual móvil post-publicación
+
+### Corregido
+- Corregida la desviación visual de la ficha del autor en 320×568 y 390×844: la fotografía deja de ocupar un bloque vertical de 126×200 px y pasa a una composición apaisada 16:9 de 126 px de ancho.
+- Liberado el hero móvil de la restricción artificial de una sola línea; el título recupera una composición editorial multilínea natural y queda contenido sin overflow.
+- Ajustado el encuadre de la fotografía a 60% 40% sobre el recurso público existente.
+- Endurecida la suite E2E para validar ratio de fotografía, wrapping natural del hero y captura de cada viewport probado.
+
+### Calidad
+- Corrección visual registrada en `docs/PLAN-F3-MOVIL-20261006.md`.
+- Se mantiene la publicación de GitHub Pages como superficie canónica; esta corrección no introduce dependencias ni cambia el contenido editorial.
+
+
 ## [v1.6.0] - 2026-10-06 - Experiencia móvil F3
 
 ### Cambiado
