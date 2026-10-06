@@ -1,0 +1,1 @@
+module.exports={testDir:"./scripts",testMatch:"qa_mobile_v16.spec.js",timeout:30000,reporter:"line"};
