@@ -2,7 +2,7 @@
   'use strict';
   var mount=document.getElementById('relato-sonoro');
   if(!mount)return;
-  var V='20261006-public-v158';
+  var V='v1.6.0-20261006';
   var ROOT=(location.hostname==='serymente.github.io')?'/otrobuenprograma/':'/';
   var MOBILE=window.matchMedia && window.matchMedia('(max-width:820px)').matches;
   var QR_MODE=MOBILE && (location.hash==='#relato-sonoro' || new URLSearchParams(location.search).has('qr'));
