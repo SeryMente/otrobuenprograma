@@ -773,3 +773,9 @@ El debug mostró que el foco se restauraba brevemente y luego volvía a `body`. 
 
 El debug confirmó que el foco restaurado era inmediatamente desplazado a `body` al ocultar el overlay que aún contenía el control enfocado. La secuencia se corrige: el overlay pasa a estado aria-hidden, se restaura el foco al activador mientras el nodo sigue montado y solo después se aplica `hidden`. Esto elimina la carrera en lugar de acumular reintentos.
 
+
+
+## 42. Checkpoint CP-06.22 — foco restaurado después del teardown
+
+El debug mostró que el navegador podía retirar el foco después de que el overlay dejara de estar visible. La transferencia final se agenda en el siguiente ciclo de eventos, después de `overlay.hidden=true`, para que el control desaparecido no pueda volver a desplazar el foco. Es un único callback acotado, no un polling.
+
