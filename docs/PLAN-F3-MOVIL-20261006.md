@@ -574,3 +574,100 @@ Repositorio: https://github.com/SeryMente/otrobuenprograma
 Base verificada: main @ 909d23d98881867f1361d78c253272f75ae6eb6f
 VersiÃ³n de partida: v1.5.11
 VersiÃ³n objetivo: v1.6.0
+
+
+## 20. Endurecimiento H1 — invariantes operativas
+
+Este bloque prevalece sobre cualquier redacción anterior menos precisa. No amplía el alcance funcional.
+
+**H1-01 · Estado de navegación.** La barra completa existe solo en TOP (`scrollY <= 8px`). Desde `scrollY > 8px`, la barra completa no vuelve a aparecer hasta regresar a TOP. El activador mínimo ocupa su lugar.
+
+**H1-02 · Activador.** La representación gráfica puede ser casi invisible, pero el objetivo táctil será de al menos 44×44 px y tendrá `aria-label` claro. Discreto no significa inaccesible.
+
+**H1-03 · Overlay.** Al abrir el menú móvil se bloquea el scroll del documento, se conserva un foco controlado dentro de la capa y se restaura el foco al activador al cerrar. Proyectos/Cuentas/Autor son las únicas opciones; `×` es el único control adicional.
+
+**H1-04 · Exclusión de capas.** Mientras el menú está abierto, el rail y el transporte no reciben interacción. Al cerrar, recuperan exactamente su estado anterior; no se reinicia el relato.
+
+**H1-05 · Rail independiente.** El micro-rail no participa en el grid ni modifica el ancho calculado de `.story-copy` o `.story-art`. Su geometría depende del viewport y de las safe areas, no de la capacidad horizontal restante del relato.
+
+**H1-06 · Rail determinista.** Los segmentos 01–20 se asignan a las fases I–V de cuatro segmentos cada una. No se crea una segunda lista manual de fases o segmentos. El motor narrativo mantiene una única variable de segmento activo.
+
+**H1-07 · Rail táctil.** Cada marcador visible podrá recibir toque dentro de un objetivo mínimo accesible, pero el dibujo seguirá ocupando solo una franja visual estrecha. El objetivo táctil no puede convertir el rail en una columna visual.
+
+**H1-08 · Transporte.** El reproductor móvil debe tener una única posición fija/pegajosa definida. No habrá dos barras de audio competidoras. Sus coordenadas y z-index deben dejar libre texto, rail y safe areas.
+
+**H1-09 · Hero.** El título debe permanecer en una sola línea. La aceptación no será visual subjetiva: en cada viewport de prueba, el título y su contenedor deben satisfacer `scrollWidth <= clientWidth`. No se permite ocultar texto ni truncarlo para cumplirlo.
+
+**H1-10 · Fotografía.** El encuadre se valida sobre la imagen real. No se admite una solución que dependa de un ancho único ni que desplace el rostro fuera del eje central al cambiar de viewport.
+
+**H1-11 · Glosa.** La retirada pública se comprueba por doble gate: ausencia de carga del módulo y ausencia de cualquier tab/pin/panel en el DOM ejecutado.
+
+**H1-12 · Matrícula.** El dato confirmado para la ficha del autor es 5125461. No queda como placeholder.
+
+---
+
+## 21. Endurecimiento H1 — contrato de autoplay
+
+El objetivo operativo es maximizar la probabilidad de iniciar la experiencia sin gesto, no fingir una capacidad que depende del navegador.
+
+Secuencia obligatoria:
+1. montar el primer segmento inmediatamente;
+2. asignar la fuente y solicitar carga;
+3. establecer `autoplay = true` antes del primer intento;
+4. llamar `play()` en cuanto la fuente permita intentarlo;
+5. aceptar únicamente una Promise resuelta o un evento `play` como evidencia de reproducción;
+6. ante `NotAllowedError`, registrar el bloqueo y permanecer listo;
+7. instalar un único recuperador temporal ligado al primer gesto natural del documento;
+8. retirar ese recuperador al primer éxito o al desmontaje;
+9. nunca repetir intentos en intervalos indefinidos.
+
+No se usará audio silenciado como sustituto del requisito del usuario: la experiencia debe intentar comenzar con sonido audible.
+
+Cuando exista `navigator.getAutoplayPolicy`, podrá consultarse como optimización diagnóstica; su ausencia no cambia el flujo.
+
+El fallback visible solo aparece después de un rechazo real de reproducción, no antes ni por el simple transcurso de un temporizador.
+
+**Referencia de plataforma:** los navegadores pueden bloquear autoplay audible y `play()` puede rechazar con `NotAllowedError`; el estado de la interfaz debe seguir el resultado real de la Promise/evento. MDN: https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Autoplay
+
+---
+
+## 22. Matriz mínima de aceptación H1
+
+| ID | Obligación | Prueba |
+|---|---|---|
+| H1-A | Topbar solo en `scrollY <= 8` | Playwright + captura |
+| H1-B | Overlay fullscreen + cierre + focus | Playwright |
+| H1-C | Rail 5×4 determinista | DOM + captura |
+| H1-D | Rail no reduce el ancho narrativo | medición de layout |
+| H1-E | Transporte no colisiona | bounding boxes |
+| H1-F | Título sin wrap/overflow | `scrollWidth <= clientWidth` |
+| H1-G | Foto centrada en 320–540 px | capturas |
+| H1-H | Glosa ausente | DOM + fuente cargada |
+| H1-I | Autoplay intentado en carga | instrumentación |
+| H1-J | Bloqueo de autoplay tratado sin falso estado | `NotAllowedError` |
+| H1-K | Primer gesto recupera audio | Playwright |
+| H1-L | Desktop no regresa al modo móvil | capturas + DOM |
+
+Se requiere evidencia visual para H1-A, H1-C, H1-E, H1-F y H1-G.
+
+---
+
+## 23. Regla de contención
+
+Un defecto no se compensará creando otra capa, otro botón, otro panel o una segunda implementación equivalente. La corrección debe actuar sobre la causa primaria.
+
+Se rechaza cualquier cambio que introduzca una capacidad no solicitada, una segunda fuente de verdad, una nueva dependencia o una nueva superficie de interacción.
+
+**Pregunta de revisión obligatoria por cambio:** ¿corrige una obligación ya definida en este plan? Si no, queda fuera.
+
+---
+
+## 24. Estado de endurecimiento
+
+**PLAN ENDURECIDO H1 · LISTO PARA IMPLEMENTACIÓN.**
+
+El código de producto sigue sin modificaciones por este ciclo de planificación.
+
+Base: v1.5.11 · `909d23d98881867f1361d78c253272f75ae6eb6f`
+Objetivo: v1.6.0
+Repositorio: https://github.com/SeryMente/otrobuenprograma\n
