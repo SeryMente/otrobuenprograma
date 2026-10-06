@@ -146,3 +146,5 @@ await fs.mkdir('artifacts',{recursive:true});
 await fs.writeFile('artifacts/live-mobile-audit.json',JSON.stringify({base,generatedAt:new Date().toISOString(),failed,results},null,2));
 console.log(JSON.stringify({failed,results},null,2));
 if(failed)process.exit(1);
+
+// final-live-check
