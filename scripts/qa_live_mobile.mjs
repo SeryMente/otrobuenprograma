@@ -2,7 +2,7 @@ import { chromium } from 'playwright-core';
 import fs from 'node:fs/promises';
 
 const BASE='https://serymente.github.io/otrobuenprograma/';
-// design audit current public v1.5.9-final
+// design audit current public v1.5.10-final
 const VIEWS=[
   {name:'320x568',width:320,height:568},
   {name:'390x844',width:390,height:844},
