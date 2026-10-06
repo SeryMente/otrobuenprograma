@@ -103,8 +103,11 @@ jobs:
             echo "REGRESION: reproductor movil vuelve a estrecharse en <=430px"
             exit 1
           }
-          grep -q 'assets/css/story-v3.css?v=v1.5.5-20261006' index.html
-          grep -q 'top:84px' assets/css/story-v3.css
+          grep -q 'assets/css/story-v3.css?v=v1.5.6-20261006' index.html
+          test "$(grep -o 'assets/css/story-v3.css?v=v1.5.6-20261006' index.html | wc -l)" -eq 1
+          ! grep -Eq 'story-v3\\.css\\?v=v1\\.5\\.[0-5]-20261006' index.html
+          ! grep -Eq 'story-v3\\.js\\?v=v1\\.5\\.[0-5]-20261006' index.html
+          grep -q 'top:90px' assets/css/story-v3.css
           echo "MOBILE_RESPONSIVE_CONTRACT=PASSED"
 
       - name: Contrato de encabezado publico movil
