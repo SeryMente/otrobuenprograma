@@ -1,5 +1,13 @@
 # Changelog - Instrumento de comunicacion - Proyecto Vital
 
+## [v1.5] - 2026-10-05 - Edición pública
+
+### Cambiado
+- Se retiraron de la interfaz pública las referencias de proceso y construcción: fases, segmentos como etiquetas técnicas, roadmap, timing, máster, composiciones maestras, conteos internos, build y versionado visible.
+- El relato ahora se presenta como una pieza pública terminada, centrada en la propuesta, la voz y la lectura.
+- La navegación permanece disponible de forma discreta mediante reproducción, avance y retroceso.
+- Invalidación explícita de caché para los recursos narrativos de v1.5.
+
 ## [v1.4] - 2026-10-05 - Roadmap móvil
 
 ### Cambiado
