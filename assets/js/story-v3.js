@@ -5,7 +5,7 @@
   var V='20261006-public-v151';
   var ROOT=(location.hostname==='serymente.github.io')?'/otrobuenprograma/':'/';
   var MOBILE=window.matchMedia && window.matchMedia('(max-width:820px)').matches;
-  var QR_MODE=MOBILE && (!location.hash || location.hash==='#relato-sonoro' || new URLSearchParams(location.search).has('qr'));
+  var QR_MODE=MOBILE && (location.hash==='#relato-sonoro' || new URLSearchParams(location.search).has('qr'));
   var URL_DATA=ROOT+'assets/data/relato-obp-phase3.json';
   function asset(path){return ROOT+String(path||'').replace(/^\/+/, '');}
     var VIS=[['welcome','Escuchar antes de interpretar'],['currents','Lo que ya existe y lo que se abre'],['relationship','La relación como campo'],['forgiveness','Perdón como práctica'],['scale','Una posición distinta'],['inclusion','Una pertenencia más amplia'],['dabrowski','Conflicto y desarrollo'],['structures','Cuando la estructura resiste'],['minds','Dos respuestas posibles'],['closing','Una propuesta que se integra']];
