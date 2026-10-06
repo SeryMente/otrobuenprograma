@@ -243,7 +243,7 @@
 /* ===================== NAVEGADOR GUIA PERMANENTE ===================== */
 /* Compensa el topbar sticky al saltar por anclas */
 section[id]{scroll-margin-top:74px}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;overflow-x:clip}
 
 /* --- Riel vertical (escritorio) --- */
 .guide{position:fixed;left:16px;top:50%;transform:translateY(-50%);z-index:60}
@@ -267,6 +267,10 @@ html{scroll-behavior:smooth}
 @media(max-width:1024px){
   .guide{display:none}
   .guide-pill{display:flex;align-items:center;gap:.4rem;position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:65;background:var(--ink,#0a0a0a);color:#fff;border-radius:var(--r-pill);padding:.34rem .4rem;box-shadow:0 10px 28px rgba(10,10,10,.30);max-width:calc(100vw - 24px)}
+}
+@media(max-width:1024px){
+  .guide-pill{visibility:hidden;opacity:0;pointer-events:none;transform:translateX(-50%) translateY(10px);transition:opacity .18s,transform .18s,visibility .18s}
+  .guide-pill.is-visible{visibility:visible;opacity:1;pointer-events:auto;transform:translateX(-50%)}
 }
 .guide-pill button{border:0;cursor:pointer;background:rgba(255,255,255,.16);color:#fff;border-radius:var(--r-pill);font:600 .72rem/1 var(--mono,'JetBrains Mono',monospace);padding:.46rem .6rem;display:inline-flex;align-items:center;gap:.3rem;flex:none}
 .guide-pill button:active{background:rgba(255,255,255,.28)}
