@@ -104,4 +104,5 @@ jobs:
             exit 1
           }
           grep -q 'assets/css/story-v3.css?v=v1.5.4-20261006' index.html
+          grep -q 'top:84px' assets/css/story-v3.css
           echo "MOBILE_RESPONSIVE_CONTRACT=PASSED"
