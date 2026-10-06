@@ -80,7 +80,7 @@ jobs:
           grep -q 'manifest.webmanifest' index.html
           grep -q "navigator.serviceWorker.register" assets/js/app.js
           grep -q "instrumento-v1.5.7-mobile-final-20261006" sw.js
-          grep -q 'assets/js/app.js?v=v1.5.2-20261006' index.html
+          grep -q 'assets/js/app.js?v=v1.5.7-20261006' index.html
           grep -q 'assets/css/story-v3.css?v=v1.5.6-20261006' index.html
           echo "PWA_NON_INTRUSIVE_CONTRACT=PASSED"
 
@@ -108,6 +108,7 @@ jobs:
           ! grep -Eq 'story-v3\\.css\\?v=v1\\.5\\.[0-5]-20261006' index.html
           ! grep -Eq 'story-v3\\.js\\?v=v1\\.5\\.[0-5]-20261006' index.html
           grep -q 'top:90px' assets/css/story-v3.css
+          test "$(grep -o 'assets/css/story-v3.css?v=v1.5.6-20261006' index.html | wc -l)" -eq 0
           echo "MOBILE_RESPONSIVE_CONTRACT=PASSED"
 
       - name: Contrato de encabezado publico movil
