@@ -99,18 +99,20 @@ jobs:
       - name: Responsive movil estructural
         run: |
           set -euo pipefail
-          ! grep -q 'width:calc(100% - 82px)' assets/css/story-v3.css || {
-            echo "REGRESION: reproductor movil vuelve a estrecharse en <=430px"
-            exit 1
-          }
-          grep -q 'assets/css/story-v3.css?v=v1.5.7-20261006' index.html
-          test "$(grep -o 'assets/css/story-v3.css?v=v1.5.7-20261006' index.html | wc -l)" -eq 1
-          ! grep -Eq 'story-v3\\.css\\?v=v1\\.5\\.[0-5]-20261006' index.html
-          ! grep -Eq 'story-v3\\.js\\?v=v1\\.5\\.[0-5]-20261006' index.html
-          grep -q 'top:90px' assets/css/story-v3.css
-          grep -q 'assets/css/instrument.css?v=v1.5.7-20261006' index.html
-          grep -q 'assets/js/navigator.js?v=v1.5.7-20261006' index.html
-          echo "MOBILE_RESPONSIVE_CONTRACT=PASSED"
+          python3 - <<'PY'
+          from pathlib import Path
+          html=Path("index.html").read_text(encoding="utf-8")
+          css=Path("assets/css/story-v3.css").read_text(encoding="utf-8")
+          assert "width:calc(100% - 82px)" not in css
+          assert "top:90px" in css
+          assert html.count('assets/css/story-v3.css?v=v1.5.7-20261006') == 1
+          assert html.count('assets/js/story-v3.js?v=v1.5.7-20261006') == 1
+          assert html.count('assets/css/instrument.css?v=v1.5.7-20261006') == 1
+          assert html.count('assets/js/navigator.js?v=v1.5.7-20261006') == 1
+          assert "story-v3.css?v=v1.5.6-20261006" not in html
+          assert "story-v3.js?v=v1.5.6-20261006" not in html
+          print("MOBILE_RESPONSIVE_STATIC_CONTRACT=PASSED")
+          PY
 
       - name: Contrato de encabezado publico movil
         run: |
