@@ -107,7 +107,7 @@ jobs:
           assert "top:90px" in css
           assert html.count('assets/css/story-v3.css?v=v1.5.10-20261006') == 1
           assert html.count('assets/js/story-v3.js?v=v1.5.10-20261006') == 1
-          assert html.count('assets/css/instrument.css?v=v1.5.10-20261006') == 1
+          assert html.count('assets/css/instrument.css?v=v1.5.11-20261006') == 1
           assert html.count('assets/js/navigator.js?v=v1.5.10-20261006') == 1
           assert "story-v3.css?v=v1.5.6-20261006" not in html
           assert "story-v3.js?v=v1.5.6-20261006" not in html
@@ -123,3 +123,14 @@ jobs:
           grep -q 'assets/js/story-v3.js?v=v1.5.10-20261006' index.html
           ! grep -q 'var QR_MODE=MOBILE && (!location.hash' assets/js/story-v3.js
           echo "MOBILE_HEADER_CONTRACT=PASSED"
+
+      - name: Contrato de portada movil sin obstrucciones
+        run: |
+          set -euo pipefail
+          grep -q 'is-landing-mobile' assets/js/glosa.js
+          grep -q "(max-width:680px)" assets/js/glosa.js
+          grep -q 'y<300' assets/js/glosa.js
+          grep -q 'y<120' assets/js/glosa.js
+          grep -q 'assets/js/glosa.js?v=v1.5.11-20261006' index.html
+          grep -q 'instrumento-v1.5.11-design-system-20261006' sw.js
+          echo "MOBILE_LANDING_OCCLUSION_CONTRACT=PASSED"
