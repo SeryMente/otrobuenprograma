@@ -1,5 +1,17 @@
 # Changelog - Instrumento de comunicacion - Proyecto Vital
 
+## [v1.5.2] - 2026-10-06 - Limpieza de superficie publica
+
+### Corregido
+- Retirado el aviso automatico de instalacion PWA que aparecia al abrir el instrumento.
+- Retirados los estilos CSS y el codigo JavaScript asociados exclusivamente a ese aviso.
+- Conservada la PWA: manifest, Service Worker, soporte offline e instalacion manual desde los controles del navegador siguen disponibles.
+- Invalidada la cache publica para que la limpieza sea visible inmediatamente tras la actualizacion.
+
+### No incluido
+- No se agrega backend, Supabase ni nuevas capacidades de comunicacion en este ciclo.
+
+
 ## [v1.5.1] - 2026-10-06 - Cierre técnico de la edición pública
 
 ### Corregido
