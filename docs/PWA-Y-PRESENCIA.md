@@ -6,7 +6,7 @@
 - `sw.js`: Service Worker con precache del app-shell. Estrategia:
   - **Navegacion:** network-first con fallback a cache (fresco con red, disponible sin red).
   - **Estaticos:** cache-first con revalidacion en segundo plano.
-- `app.js`: registra el SW al cargar y muestra el boton *Instalar* solo si el navegador dispara `beforeinstallprompt` (honesto: no promete instalacion donde no se puede).
+- `app.js`: registra el Service Worker al cargar. No muestra un aviso automatico para instalar la aplicacion; la instalacion queda a cargo de los controles del navegador (por ejemplo, "Agregar a pantalla de inicio").
 
 Requisito: origen seguro (https o localhost). GitHub Pages sirve https, asi que la instalacion funciona en produccion.
 

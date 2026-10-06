@@ -1,20 +1,15 @@
 # Changelog - Instrumento de comunicacion - Proyecto Vital
 
-## [v1.6] - 2026-10-06 - F4 · Comunicación con backend
+## [v1.5.2] - 2026-10-06 - Limpieza de superficie publica
 
-### Añadido
-- Adaptador Supabase opcional para sesión anónima, buzón persistente, chat Realtime y Glosa compartida.
-- Esquema SQL con RLS para pulso_chat_messages y glosas_compartidas.
-- Documentación operativa de F4 y gates de CI para sintaxis, RLS, Realtime y ausencia de secretos del lado cliente.
+### Corregido
+- Retirado el aviso automatico de instalacion PWA que aparecia al abrir el instrumento.
+- Retirados los estilos CSS y el codigo JavaScript asociados exclusivamente a ese aviso.
+- Conservada la PWA: manifest, Service Worker, soporte offline e instalacion manual desde los controles del navegador siguen disponibles.
+- Invalidada la cache publica para que la limpieza sea visible inmediatamente tras la actualizacion.
 
-### Cambiado
-- Pulso conserva el comportamiento local cuando el backend no está configurado y, al conectarlo, puede mostrar la conversación persistente y el estado live real.
-- Voces/Glosa usan datos compartidos cuando el backend está disponible.
-- El Service Worker cambia a namespace de caché F4 y precarga el adaptador.
-- La activación de IA, OAuth social, WhatsApp, push, sincronización en segundo plano y panel administrativo permanece fuera de este ciclo.
-
-### Estado
-Las credenciales y el proyecto Supabase son configuración externa y no se incluyen en GitHub. Hasta que exista esa configuración válida, pulso.chat.live permanece en false y la interfaz no simula presencia en vivo.
+### No incluido
+- No se agrega backend, Supabase ni nuevas capacidades de comunicacion en este ciclo.
 
 
 ## [v1.5.1] - 2026-10-06 - Cierre técnico de la edición pública
