@@ -31,6 +31,10 @@ Identidad anonima local: `glosa-anon-id`, `glosa-name`.
 - **Hoy (local):** las glosas viven en el navegador del visitante. Privadas a ese dispositivo.
 - **F4 (backend):** `glosa.storage = 'supabase'` -> glosas compartidas entre visitantes, con moderacion opcional (`moderation`, `requireApproval`).
 
+## F4 · backend compartido
+
+Con `glosa.storage = "supabase"`, `assets/js/backend.js` crea o recupera una sesion anonima y `glosa.js` usa el adaptador remoto para leer y publicar glosas compartidas. Las glosas locales previas se intentan sincronizar una sola vez por `client_id`; si el backend falla, el registro local se conserva.
+
 ## Honestidad
 
-No se simula comunidad: mientras sea local, la seccion "Voces que acompanan" lo dice explicitamente. Nada de "X personas comentaron" si no es real.
+No se simula comunidad: mientras el backend no este configurado o disponible, la seccion "Voces que acompanan" permanece en modo local. Nada de "X personas comentaron" si no es real.
