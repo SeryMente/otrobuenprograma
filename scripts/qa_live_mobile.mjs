@@ -2,6 +2,7 @@ import { chromium } from 'playwright-core';
 import fs from 'node:fs/promises';
 
 const base = 'https://serymente.github.io/otrobuenprograma/';
+// Final post-deploy certification pass.
 const viewports = [
   { name:'320x568', width:320, height:568 },
   { name:'360x800', width:360, height:800 },
