@@ -785,3 +785,9 @@ El debug mostró que el navegador podía retirar el foco después de que el over
 
 El navegador/runner puede completar la activación física del cierre después del callback inmediato. Se usa una única restitución diferida de 200 ms, después del teardown, para dejar que termine la cadena de pointer/click antes de devolver el foco al activador. No hay polling ni intervalos.
 
+
+
+## 44. Checkpoint CP-06.24 — E2E desacoplado de `networkidle`
+
+La batería local demostró que el rail funciona (5 fases, 20 segmentos, `position:fixed`, opacidad 1), pero el test podía quedarse esperando actividad de red externa por usar `networkidle`. Se normaliza toda la suite a `domcontentloaded` y se esperan explícitamente los elementos que cada prueba necesita. Esto elimina falsos bloqueos sin relajar las aserciones.
+
