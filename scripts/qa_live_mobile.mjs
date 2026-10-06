@@ -100,7 +100,9 @@ for(const vp of viewports){
     ['title stays inside hero copy',!snapshot.overlap.titleOutsideCopy],
     ['hero/story do not overlap',!snapshot.overlap.heroStory],
     ['single story-v3 resource chain',resourceCheck.length===2&&resourceCheck.filter(u=>u.includes('story-v3.css')).length===1&&resourceCheck.filter(u=>u.includes('story-v3.js')).length===1],
-    ['initial hero is materially visible',snapshot.hero&&snapshot.hero.top>=0&&snapshot.hero.bottom>Math.min(vp.height,400)]
+    ['initial hero is materially visible',snapshot.hero&&snapshot.hero.top>=0&&snapshot.hero.bottom>Math.min(vp.height,400)],
+    ['guide pill hidden on initial hero',!snapshot.guidePillVisible],
+    ['mobile author image is contained',vp.width>600||snapshot.css?.portraitObjectFit==='contain']
   ];
 
   await page.screenshot({path:'artifacts/'+vp.name+'-inicio.png',fullPage:false});
