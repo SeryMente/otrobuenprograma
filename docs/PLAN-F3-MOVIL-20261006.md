@@ -711,3 +711,9 @@ Se fija el stacking del activador móvil por encima del transporte y se endurece
 
 **URL canónica:** https://serymente.github.io/otrobuenprograma/
 
+
+
+## 32. Checkpoint CP-06.6 — corrección del gate E2E
+
+Actions confirmó que el job de estáticos pasó completo y Chromium se instaló correctamente. El primer E2E falló por configuración del runner: se solicitó un proyecto `chromium` inexistente en ausencia de `playwright.config`. Se corrige eliminando ese selector explícito; no se altera el producto para acomodar un error del test runner.
+
