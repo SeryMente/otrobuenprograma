@@ -3,12 +3,11 @@ name: Generate exact story word timing
 on:
   push:
     branches: [main]
-    paths-ignore:
-      - 'assets/data/story-word-timing.json'
-      - 'assets/data/relato-obp-phase3.json'
+    paths:
       - 'assets/data/relato-obp-phase2.json'
-      - 'assets/data/relato-obp-phase2-qc.json'
       - 'assets/audio/relato-obp-v016/**'
+      - 'scripts/build_story_timing.py'
+      - 'scripts/qa_phase3.py'
   workflow_dispatch:
 
 permissions:
