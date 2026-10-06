@@ -107,5 +107,11 @@
     window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
   }
 
+  function updatePillVisibility(){
+    var y=window.scrollY||document.documentElement.scrollTop||0;
+    pill.classList.toggle('is-visible',y>140);
+  }
+  window.addEventListener('scroll',updatePillVisibility,{passive:true});
   setActive(0);
+  updatePillVisibility();
 })();
