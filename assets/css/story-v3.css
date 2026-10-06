@@ -216,5 +216,5 @@ html.mobile-shell-scrolled .story-player{top:calc(6px + env(safe-area-inset-top)
 .story-micro-segment.is-current span{width:6px;height:6px;border-color:#d35f50;background:#d35f50;box-shadow:0 0 0 3px rgba(211,95,80,.12)}
 html.mobile-nav-open .story-micro-rail,html.mobile-nav-open .story-player{pointer-events:none}
 }
-@media(max-width:430px){.obp-author-portrait{width:126px;height:200px}.obp-author-signature{font-size:.84rem}}
+@media(max-width:430px){.obp-author-signature{font-size:.84rem}}
 @media(prefers-reduced-motion:reduce){.story-micro-rail{transition:none}}
