@@ -735,3 +735,11 @@ El runner seguía sin descubrir la suite aun con `.spec.js`. Se elimina la ambig
 
 La prueba local identificó que el CLI `playwright` no expone `playwright/test`; la API de pruebas pertenece a `@playwright/test`. Se corrigen el import y ambos comandos CI. No se modifica el producto.
 
+
+
+## 36. Checkpoint CP-06.16 — dependencia E2E persistente
+
+El runner necesita que `@playwright/test` exista como dependencia del proyecto para resolver `require("@playwright/test")`. Se añade un `package.json` mínimo y privado exclusivamente para QA, sin dependencias de producción. CI instala esa dependencia sin generar lockfile y usa los comandos oficiales de Playwright.
+
+Referencia: https://playwright.dev/docs/best-practices
+
