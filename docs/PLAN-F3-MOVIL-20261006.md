@@ -797,3 +797,22 @@ La batería local demostró que el rail funciona (5 fases, 20 segmentos, `positi
 
 La batería E2E confirmó que el rail y desktop pasan. El único rojo restante fue del test de audio: `locator.waitFor()` esperaba visibilidad de un elemento `<audio>` que correctamente es no visual. Se cambia a `state:"attached"`; las aserciones de autoplay, preload, mute y source permanecen intactas.
 
+
+
+## 46. Checkpoint CP-06.26 — E2E local completo VERDE
+
+RDC nueva: `PC10RCIF4EI4` · device `b89177bc-fb89-40d2-8a40-1b95f15471e4`.
+
+Suite completa ejecutada sobre `origin/checkpoint/v1.6.0-cp06`:
+
+- 7 viewport móviles: 240×320, 320×568, 360×800, 390×844, 412×915, 430×932, 540×960.
+- Navegación móvil, overlay, foco de apertura/cierre.
+- Micro-rail fijo: 5 fases / 20 segmentos.
+- Desktop: layout 3 columnas preservado.
+- Audio: autoplay inmediato best-effort, `preload=auto`, audible/no mute, source presente.
+- Resultado: **11 passed · 22.1 s · exit code 0**.
+
+El debug temporal de RDC no forma parte del repositorio.
+
+**URL canónica:** https://serymente.github.io/otrobuenprograma/
+
