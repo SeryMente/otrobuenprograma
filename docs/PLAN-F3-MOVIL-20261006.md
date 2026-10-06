@@ -717,3 +717,9 @@ Se fija el stacking del activador móvil por encima del transporte y se endurece
 
 Actions confirmó que el job de estáticos pasó completo y Chromium se instaló correctamente. El primer E2E falló por configuración del runner: se solicitó un proyecto `chromium` inexistente en ausencia de `playwright.config`. Se corrige eliminando ese selector explícito; no se altera el producto para acomodar un error del test runner.
 
+
+
+## 33. Checkpoint CP-06.13 — corrección de descubrimiento E2E
+
+La ejecución local en RDC reprodujo el fallo del CI: Chromium y Headless Shell se instalaron correctamente, pero Playwright devolvió `No tests found`. Causa: la suite estaba guardada como `.spec.mjs`, fuera del patrón de descubrimiento por defecto del runner. Se renombra a `.spec.js` y se actualiza el workflow. No se modifica la lógica de producto.
+
