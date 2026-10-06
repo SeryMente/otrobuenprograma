@@ -1,4 +1,4 @@
-import { test, expect } from "playwright/test";
+const { test, expect } = require("playwright/test");
 const URL="http://127.0.0.1:4173/";
 const sizes=[[240,320],[320,568],[360,800],[390,844],[412,915],[430,932],[540,960]];
 for(const [width,height] of sizes){
