@@ -12,8 +12,8 @@ La comparación visual posterior al cierre de v1.6.0 mostró que la composición
 | Fotografía del autor, alto | 200 px | 70.875 px (16:9) | −129.125 px |
 | Relación ancho/alto | 0.630 | 1.778 | +1.148 |
 | Restricción del título | nowrap | multilínea contenida | eliminación de restricción |
-| Líneas esperadas del hero en 320×568 | forzada a 1 línea | 4 | +3 líneas visibles |
-| Líneas esperadas del hero en 390×844 | forzada a 1 línea | 4 | +3 líneas visibles |
+| Líneas del hero en 320×568 | 1 forzada | 3 naturales | +2 líneas visibles |
+| Líneas del hero en 390×844 | 1 forzada | 3 naturales | +2 líneas visibles |
 
 El recorte apaisado reduce la altura ocupada por la foto en 64.6%. Ese ahorro pertenece directamente al presupuesto vertical del primer viewport: no se compensa con esconder contenido, truncar texto o reducir artificialmente la tipografía.
 
