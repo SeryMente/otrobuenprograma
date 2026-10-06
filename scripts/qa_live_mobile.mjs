@@ -1,4 +1,4 @@
-import { chromium } from 'playwright';
+import { chromium } from 'playwright-core';
 import fs from 'node:fs/promises';
 
 const base = 'https://serymente.github.io/otrobuenprograma/';
