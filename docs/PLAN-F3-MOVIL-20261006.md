@@ -723,3 +723,9 @@ Actions confirmó que el job de estáticos pasó completo y Chromium se instaló
 
 La ejecución local en RDC reprodujo el fallo del CI: Chromium y Headless Shell se instalaron correctamente, pero Playwright devolvió `No tests found`. Causa: la suite estaba guardada como `.spec.mjs`, fuera del patrón de descubrimiento por defecto del runner. Se renombra a `.spec.js` y se actualiza el workflow. No se modifica la lógica de producto.
 
+
+
+## 34. Checkpoint CP-06.14 — contrato explícito del runner
+
+El runner seguía sin descubrir la suite aun con `.spec.js`. Se elimina la ambigüedad configurando explícitamente `testDir`/ `testMatch` y usando CommonJS en la suite. Es infraestructura de QA únicamente.
+
