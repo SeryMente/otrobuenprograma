@@ -779,3 +779,9 @@ El debug confirmó que el foco restaurado era inmediatamente desplazado a `body`
 
 El debug mostró que el navegador podía retirar el foco después de que el overlay dejara de estar visible. La transferencia final se agenda en el siguiente ciclo de eventos, después de `overlay.hidden=true`, para que el control desaparecido no pueda volver a desplazar el foco. Es un único callback acotado, no un polling.
 
+
+
+## 43. Checkpoint CP-06.23 — ventana de restitución de foco
+
+El navegador/runner puede completar la activación física del cierre después del callback inmediato. Se usa una única restitución diferida de 200 ms, después del teardown, para dejar que termine la cadena de pointer/click antes de devolver el foco al activador. No hay polling ni intervalos.
+
