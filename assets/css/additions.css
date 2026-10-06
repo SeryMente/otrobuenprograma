@@ -279,7 +279,7 @@ html{scroll-behavior:smooth;overflow-x:clip}
 
 /* ===== v1.6.0 · shell móvil ===== */
 .mobile-nav-trigger[hidden],.mobile-nav-overlay[hidden]{display:none!important}
-.mobile-nav-trigger{display:none;align-items:center;justify-content:center;position:fixed;border:1px solid rgba(36,73,157,.16);background:rgba(255,255,255,.72);color:var(--ink,#0a0a0a);border-radius:999px;box-shadow:0 6px 18px rgba(10,10,10,.08);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);cursor:pointer}
+.mobile-nav-trigger{display:none;align-items:center;justify-content:center;position:fixed;z-index:90;border:1px solid rgba(36,73,157,.16);background:rgba(255,255,255,.72);color:var(--ink,#0a0a0a);border-radius:999px;box-shadow:0 6px 18px rgba(10,10,10,.08);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);cursor:pointer}
 .mobile-nav-trigger span{font:500 1.35rem/1 'Inter',system-ui,sans-serif;transform:translateY(-1px)}
 .mobile-nav-trigger:focus-visible{outline:3px solid var(--cobalt,#1a3a8f);outline-offset:3px}
 .mobile-nav-overlay{position:fixed;inset:0;z-index:220;display:grid;place-items:center;padding:calc(24px + env(safe-area-inset-top)) calc(24px + env(safe-area-inset-right)) calc(24px + env(safe-area-inset-bottom)) calc(24px + env(safe-area-inset-left));background:rgba(14,24,50,.975);color:#fff}

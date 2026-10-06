@@ -703,3 +703,116 @@ Micro-rail 5×4, transporte compacto y autoplay inmediato best-effort incorporad
 
 **URL canónica:** https://serymente.github.io/otrobuenprograma/
 
+
+
+## 31. Checkpoint CP-06 — endurecimiento final de interacción
+
+Se fija el stacking del activador móvil por encima del transporte y se endurece la suite browser para no depender de recursos externos que prolonguen `networkidle`. La prueba del rail centra explícitamente el relato antes de validar visibilidad.
+
+**URL canónica:** https://serymente.github.io/otrobuenprograma/
+
+
+
+## 32. Checkpoint CP-06.6 — corrección del gate E2E
+
+Actions confirmó que el job de estáticos pasó completo y Chromium se instaló correctamente. El primer E2E falló por configuración del runner: se solicitó un proyecto `chromium` inexistente en ausencia de `playwright.config`. Se corrige eliminando ese selector explícito; no se altera el producto para acomodar un error del test runner.
+
+
+
+## 33. Checkpoint CP-06.13 — corrección de descubrimiento E2E
+
+La ejecución local en RDC reprodujo el fallo del CI: Chromium y Headless Shell se instalaron correctamente, pero Playwright devolvió `No tests found`. Causa: la suite estaba guardada como `.spec.mjs`, fuera del patrón de descubrimiento por defecto del runner. Se renombra a `.spec.js` y se actualiza el workflow. No se modifica la lógica de producto.
+
+
+
+## 34. Checkpoint CP-06.14 — contrato explícito del runner
+
+El runner seguía sin descubrir la suite aun con `.spec.js`. Se elimina la ambigüedad configurando explícitamente `testDir`/ `testMatch` y usando CommonJS en la suite. Es infraestructura de QA únicamente.
+
+
+
+## 35. Checkpoint CP-06.15 — paquete correcto de Playwright Test
+
+La prueba local identificó que el CLI `playwright` no expone `playwright/test`; la API de pruebas pertenece a `@playwright/test`. Se corrigen el import y ambos comandos CI. No se modifica el producto.
+
+
+
+## 36. Checkpoint CP-06.16 — dependencia E2E persistente
+
+El runner necesita que `@playwright/test` exista como dependencia del proyecto para resolver `require("@playwright/test")`. Se añade un `package.json` mínimo y privado exclusivamente para QA, sin dependencias de producción. CI instala esa dependencia sin generar lockfile y usa los comandos oficiales de Playwright.
+
+Referencia: https://playwright.dev/docs/best-practices
+
+
+
+## 37. Checkpoint CP-06.17 — restauración de foco corregida
+
+La batería browser detectó que el cierre del overlay no restauraba de forma determinista el foco al activador. Se corrige el orden: desbloqueo, recalculo del estado de scroll y restauración en el siguiente frame sin alterar la posición. La prueba H1-03 permanece obligatoria.
+
+
+
+## 38. Checkpoint CP-06.18 — cierre de overlay sin secuestro de foco
+
+La evidencia mostró que el clic físico sobre el botón de cierre podía dejar el foco en `body` después de ocultar el propio botón. Se cancela el default del `pointerdown` del cierre y se ejecuta el cierre antes de que el navegador reasigne el foco al control que desaparece. El cierre por teclado continúa usando `click`.
+
+
+
+## 39. Checkpoint CP-06.19 — restauración de foco determinista
+
+El debug de navegador confirmó una carrera: al desbloquear el scroll, el evento de scroll podía volver a ocultar temporalmente el activador antes de la restauración de foco. El estado se restaura usando el `lastScrollY` conocido y el foco espera, como máximo, seis ciclos de 16 ms hasta que el activador vuelva a ser visible. No existe reintento infinito.
+
+
+
+## 40. Checkpoint CP-06.20 — cancelación completa del cierre físico
+
+El debug mostró que el foco se restauraba brevemente y luego volvía a `body`. Se cancela también el evento `click` del cierre, además de `pointerdown`, para impedir que la activación física del control ocultado reasigne el foco después de la restauración.
+
+
+
+## 41. Checkpoint CP-06.21 — transferencia de foco antes de desmontar overlay
+
+El debug confirmó que el foco restaurado era inmediatamente desplazado a `body` al ocultar el overlay que aún contenía el control enfocado. La secuencia se corrige: el overlay pasa a estado aria-hidden, se restaura el foco al activador mientras el nodo sigue montado y solo después se aplica `hidden`. Esto elimina la carrera en lugar de acumular reintentos.
+
+
+
+## 42. Checkpoint CP-06.22 — foco restaurado después del teardown
+
+El debug mostró que el navegador podía retirar el foco después de que el overlay dejara de estar visible. La transferencia final se agenda en el siguiente ciclo de eventos, después de `overlay.hidden=true`, para que el control desaparecido no pueda volver a desplazar el foco. Es un único callback acotado, no un polling.
+
+
+
+## 43. Checkpoint CP-06.23 — ventana de restitución de foco
+
+El navegador/runner puede completar la activación física del cierre después del callback inmediato. Se usa una única restitución diferida de 200 ms, después del teardown, para dejar que termine la cadena de pointer/click antes de devolver el foco al activador. No hay polling ni intervalos.
+
+
+
+## 44. Checkpoint CP-06.24 — E2E desacoplado de `networkidle`
+
+La batería local demostró que el rail funciona (5 fases, 20 segmentos, `position:fixed`, opacidad 1), pero el test podía quedarse esperando actividad de red externa por usar `networkidle`. Se normaliza toda la suite a `domcontentloaded` y se esperan explícitamente los elementos que cada prueba necesita. Esto elimina falsos bloqueos sin relajar las aserciones.
+
+
+
+## 45. Checkpoint CP-06.25 — QA de audio corregido
+
+La batería E2E confirmó que el rail y desktop pasan. El único rojo restante fue del test de audio: `locator.waitFor()` esperaba visibilidad de un elemento `<audio>` que correctamente es no visual. Se cambia a `state:"attached"`; las aserciones de autoplay, preload, mute y source permanecen intactas.
+
+
+
+## 46. Checkpoint CP-06.26 — E2E local completo VERDE
+
+RDC nueva: `PC10RCIF4EI4` · device `b89177bc-fb89-40d2-8a40-1b95f15471e4`.
+
+Suite completa ejecutada sobre `origin/checkpoint/v1.6.0-cp06`:
+
+- 7 viewport móviles: 240×320, 320×568, 360×800, 390×844, 412×915, 430×932, 540×960.
+- Navegación móvil, overlay, foco de apertura/cierre.
+- Micro-rail fijo: 5 fases / 20 segmentos.
+- Desktop: layout 3 columnas preservado.
+- Audio: autoplay inmediato best-effort, `preload=auto`, audible/no mute, source presente.
+- Resultado: **11 passed · 22.1 s · exit code 0**.
+
+El debug temporal de RDC no forma parte del repositorio.
+
+**URL canónica:** https://serymente.github.io/otrobuenprograma/
+
