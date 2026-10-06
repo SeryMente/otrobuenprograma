@@ -695,3 +695,11 @@ Esta entrega cubre shell móvil, navegación fullscreen, hero/autor, matrícula 
 
 La especificación del sprint, sus endurecimientos H1 y el protocolo de checkpoints permanecen dentro de este documento como referencia canónica del ciclo. No se considera completo un requisito hasta que exista evidencia en código, pruebas y publicación.
 
+
+
+## 30. Checkpoint CP-05 — segunda entrega viva
+
+Micro-rail 5×4, transporte compacto y autoplay inmediato best-effort incorporados.
+
+**URL canónica:** https://serymente.github.io/otrobuenprograma/
+
