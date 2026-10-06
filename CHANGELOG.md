@@ -1,5 +1,18 @@
 # Changelog - Instrumento de comunicacion - Proyecto Vital
 
+## [v1.5.1] - 2026-10-06 - Cierre técnico de la edición pública
+
+### Corregido
+- Eliminados del CSS público los estilos y reservas de espacio del roadmap que ya no forma parte de la interfaz.
+- Eliminadas referencias residuales de construcción en los selectores específicos de la experiencia pública.
+- Nueva versión explícita de los recursos narrativos y nuevo namespace del Service Worker para impedir que una sesión vieja conserve la edición anterior.
+- Reparado el pipeline de segmentación de Fase 2: importación de `os` y saneamiento del bloque de configuración de Whisper.
+- Reparado el pipeline de forced alignment: instalación explícita de `ffmpeg` antes de ejecutar WhisperX.
+- Añadida una prueba automática del contrato de edición pública para detectar regresiones de nomenclatura técnica y roadmap.
+
+### Nota de estado
+La sincronización palabra-voz certificada sigue siendo un esfuerzo independiente: este cierre no declara completado el forced alignment ni modifica el hecho de que los artefactos narrativos actuales pueden seguir en estado preliminar hasta que el pipeline de alineamiento pase su gate.
+
 ## [v1.5] - 2026-10-05 - Edición pública
 
 ### Cambiado
