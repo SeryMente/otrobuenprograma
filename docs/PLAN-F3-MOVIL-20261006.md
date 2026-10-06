@@ -767,3 +767,9 @@ El debug de navegador confirmó una carrera: al desbloquear el scroll, el evento
 
 El debug mostró que el foco se restauraba brevemente y luego volvía a `body`. Se cancela también el evento `click` del cierre, además de `pointerdown`, para impedir que la activación física del control ocultado reasigne el foco después de la restauración.
 
+
+
+## 41. Checkpoint CP-06.21 — transferencia de foco antes de desmontar overlay
+
+El debug confirmó que el foco restaurado era inmediatamente desplazado a `body` al ocultar el overlay que aún contenía el control enfocado. La secuencia se corrige: el overlay pasa a estado aria-hidden, se restaura el foco al activador mientras el nodo sigue montado y solo después se aplica `hidden`. Esto elimina la carrera en lugar de acumular reintentos.
+
