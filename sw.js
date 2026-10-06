@@ -7,7 +7,7 @@
    - Estaticos: stale-while-revalidate.
    No hay push ni sync en segundo plano: eso EXIGE backend (F4+).
    =================================================================== */
-var VERSION='instrumento-v1.3-qr-20261005';
+var VERSION='instrumento-v1.4-roadmap-20261005';
 var SHELL=[
   '.',
   'index.html',

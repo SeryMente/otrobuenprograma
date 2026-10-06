@@ -1,5 +1,18 @@
 # Changelog - Instrumento de comunicacion - Proyecto Vital
 
+## [v1.4] - 2026-10-05 - Roadmap móvil
+
+### Cambiado
+- El roadmap lateral móvil deja de mostrar simultáneamente los 20 segmentos y pasa a un rail compacto de cinco fases.
+- La fase activa conserva visible su segmento actual y despliega sus cuatro segmentos en un panel contextual bajo demanda.
+- Se amplían las áreas táctiles de los segmentos y se evita que el roadmap ocupe casi toda la altura del viewport.
+- Se conserva la navegación completa Fase → Segmento en escritorio.
+- Invalidación explícita de caché para los recursos narrativos de v1.4.
+
+### Corregido
+- Solapamiento visual del roadmap con el reproductor y el contenido narrativo en móviles de 360–412 px.
+- Exceso de altura del rail y compresión de los controles en pantallas pequeñas.
+
 ## [v1.3] - 2026-10-05 - Experiencia móvil QR
 
 ### Anadido
