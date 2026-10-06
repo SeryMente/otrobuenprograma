@@ -65,8 +65,8 @@ jobs:
             }
           done
           ! grep -q 'story-roadmap' assets/css/story-v3.css
-          grep -q 'story-v3.css?v=v1.5.6-20261006' index.html
-          grep -q 'story-v3.js?v=v1.5.6-20261006' index.html
+          grep -q 'story-v3.css?v=v1.5.7-20261006' index.html
+          grep -q 'story-v3.js?v=v1.5.7-20261006' index.html
           echo "PUBLIC_SURFACE_CONTRACT=PASSED"
 
 
@@ -81,7 +81,7 @@ jobs:
           grep -q "navigator.serviceWorker.register" assets/js/app.js
           grep -q "instrumento-v1.5.7-mobile-final-20261006" sw.js
           grep -q 'assets/js/app.js?v=v1.5.7-20261006' index.html
-          grep -q 'assets/css/story-v3.css?v=v1.5.6-20261006' index.html
+          grep -q 'assets/css/story-v3.css?v=v1.5.7-20261006' index.html
           echo "PWA_NON_INTRUSIVE_CONTRACT=PASSED"
 
 
@@ -93,7 +93,7 @@ jobs:
           grep -q '614 369 7381' index.html
           grep -q 'Intérprete/Traductor' index.html
           grep -q 'Seguridad de la Información en la UAG' index.html
-          grep -q 'assets/css/additions.css?v=v1.5.6-20261006' index.html
+          grep -q 'assets/css/additions.css?v=v1.5.7-20261006' index.html
           echo "MOBILE_AUTHOR_CONTRACT=PASSED"
 
       - name: Responsive movil estructural
@@ -103,12 +103,13 @@ jobs:
             echo "REGRESION: reproductor movil vuelve a estrecharse en <=430px"
             exit 1
           }
-          grep -q 'assets/css/story-v3.css?v=v1.5.6-20261006' index.html
-          test "$(grep -o 'assets/css/story-v3.css?v=v1.5.6-20261006' index.html | wc -l)" -eq 1
+          grep -q 'assets/css/story-v3.css?v=v1.5.7-20261006' index.html
+          test "$(grep -o 'assets/css/story-v3.css?v=v1.5.7-20261006' index.html | wc -l)" -eq 1
           ! grep -Eq 'story-v3\\.css\\?v=v1\\.5\\.[0-5]-20261006' index.html
           ! grep -Eq 'story-v3\\.js\\?v=v1\\.5\\.[0-5]-20261006' index.html
           grep -q 'top:90px' assets/css/story-v3.css
-          test "$(grep -o 'assets/css/story-v3.css?v=v1.5.6-20261006' index.html | wc -l)" -eq 0
+          grep -q 'assets/css/instrument.css?v=v1.5.7-20261006' index.html
+          grep -q 'assets/js/navigator.js?v=v1.5.7-20261006' index.html
           echo "MOBILE_RESPONSIVE_CONTRACT=PASSED"
 
       - name: Contrato de encabezado publico movil
@@ -116,6 +117,7 @@ jobs:
           set -euo pipefail
           ! grep -Eq 'Otro Gran Programa · relato sonoro|Escucha la historia que da origen a la propuesta\.|Una conversación en voz alta sobre el origen de Otro Gran Programa' assets/js/story-v3.js index.html
           grep -q 'Una iniciativa de bienestar social nacida de la experiencia y orientada a lo que aún puede construirse\.' index.html
-          grep -q 'assets/css/story-v3.css?v=v1.5.6-20261006' index.html
-          grep -q 'assets/js/story-v3.js?v=v1.5.6-20261006' index.html
+          grep -q 'assets/css/story-v3.css?v=v1.5.7-20261006' index.html
+          grep -q 'assets/js/story-v3.js?v=v1.5.7-20261006' index.html
+          ! grep -q 'var QR_MODE=MOBILE && (!location.hash' assets/js/story-v3.js
           echo "MOBILE_HEADER_CONTRACT=PASSED"
