@@ -38,6 +38,9 @@ for(const vp of viewports){
   const initialScrollY=await page.evaluate(()=>window.scrollY);
   const snapshot=await page.evaluate((vp)=>{
     const q=s=>document.querySelector(s);
+    const R=el=>{if(!el)return null;const r=el.getBoundingClientRect();return {left:+r.left.toFixed(2),top:+r.top.toFixed(2),right:+r.right.toFixed(2),bottom:+r.bottom.toFixed(2),width:+r.width.toFixed(2),height:+r.height.toFixed(2)}};
+    const intersects=(a,b)=>!!a&&!!b&&a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top;
+    const contained=(inner,outer)=>!!inner&&!!outer&&inner.left>=outer.left-1&&inner.right<=outer.right+1&&inner.top>=outer.top-1&&inner.bottom<=outer.bottom+1;
     const topbar=q('.topbar'), hero=q('.obp-hero'), card=q('.obp-author-card'), portrait=q('.obp-author-portrait'),
       body=q('.obp-author-body'), copy=q('.obp-hero-copy'), title=q('#obp-title'), deck=q('.obp-hero-dek'),
       story=q('#relato-sonoro'), player=q('.story-player'), nav=q('.nav'), brand=q('.brand'), img=portrait?.querySelector('img');
