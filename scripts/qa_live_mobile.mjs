@@ -79,6 +79,13 @@ for(const vp of viewports){
   },vp);
   snapshot.initialScrollY=initialScrollY;
 
+  snapshot.overflowCulprits=await page.evaluate(()=>{
+    const vw=document.documentElement.clientWidth;
+    return [...document.querySelectorAll('body *')].map(el=>{
+      const r=el.getBoundingClientRect();
+      return {tag:el.tagName,cls:String(el.className||''),id:el.id||'',left:+r.left.toFixed(2),right:+r.right.toFixed(2),width:+r.width.toFixed(2)};
+    }).filter(x=>x.left<-.5||x.right>vw+.5).sort((a,b)=>Math.max(b.right-vw,-b.left)-Math.max(a.right-vw,-a.left)).slice(0,12);
+  });
   const resourceCheck=await page.evaluate(()=>[...document.querySelectorAll('link[rel="stylesheet"],script[src]')].map(e=>e.href||e.src).filter(u=>u.includes('story-v3')));
   snapshot.storyAssetResources=resourceCheck;
 
