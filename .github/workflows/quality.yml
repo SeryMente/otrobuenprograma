@@ -31,6 +31,8 @@ jobs:
           assert "white-space:normal" in s
           assert "object-position:60% 40%" in s
           PY
+          ! grep -q "h.style.whiteSpace=\x27nowrap\x27" assets/js/mobile-shell.js
+          ! grep -q "h.style.textWrap=\x27nowrap\x27" assets/js/mobile-shell.js
       - name: Contrato publico v1.6.1
         run: |
           set -euo pipefail
