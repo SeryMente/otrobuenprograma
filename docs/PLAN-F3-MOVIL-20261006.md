@@ -594,7 +594,7 @@ Este bloque prevalece sobre cualquier redacción anterior menos precisa. No ampl
 
 **H1-08 · Transporte.** El reproductor móvil debe tener una única posición fija/pegajosa definida. No habrá dos barras de audio competidoras. Sus coordenadas y z-index deben dejar libre texto, rail y safe areas.
 
-**H1-09 · Hero.** El título debe permanecer en una sola línea. La aceptación no será visual subjetiva: en cada viewport de prueba, el título y su contenedor deben satisfacer `scrollWidth <= clientWidth`. No se permite ocultar texto ni truncarlo para cumplirlo.
+**H1-09 · Hero.** El título debe permanecer completamente contenido y legible, con composición multilínea editorial cuando el viewport lo requiera. En cada viewport de prueba, el título debe satisfacer `scrollWidth <= clientWidth`; no se permite ocultar, truncar ni forzar una sola línea.
 
 **H1-10 · Fotografía.** El encuadre se valida sobre la imagen real. No se admite una solución que dependa de un ancho único ni que desplace el rostro fuera del eje central al cambiar de viewport.
 
@@ -834,3 +834,18 @@ El PR #9 fue integrado en `main`.
 
 **Estado:** IMPLEMENTACIÓN TERMINADA · PUBLICADA · VERIFICADA.
 
+
+
+## 47.1 Checkpoint v1.6.1 — corrección visual post-publicación
+
+La revisión visual posterior al cierre de v1.6.0 encontró una desviación inequívoca en el primer viewport móvil: el retrato seguía siendo vertical (126×200 px en ≤430 px) y el hero había sido forzado a una sola línea. Esta combinación consume altura, degrada la jerarquía y contradice la composición editorial objetivo observada en 320×568 y 390×844.
+
+Corrección aplicada:
+- retrato móvil 126 px de ancho con relación 16:9;
+- encuadre 60% 40% sobre la fotografía real;
+- título del hero liberado de nowrap, con ancho controlado y cuatro líneas en 320×568 y 390×844;
+- suite de aceptación actualizada para comprobar ratio, wrapping y ausencia de overflow.
+
+**Estado:** corrección implementada en rama `fix/v1.6.1-mobile-visual`; pendiente de publicación después del gate técnico y visual.
+
+**Referencia técnica:** https://github.com/SeryMente/otrobuenprograma/blob/main/assets/css/story-v3.css
