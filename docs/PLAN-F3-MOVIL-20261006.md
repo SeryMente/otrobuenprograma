@@ -749,3 +749,9 @@ Referencia: https://playwright.dev/docs/best-practices
 
 La batería browser detectó que el cierre del overlay no restauraba de forma determinista el foco al activador. Se corrige el orden: desbloqueo, recalculo del estado de scroll y restauración en el siguiente frame sin alterar la posición. La prueba H1-03 permanece obligatoria.
 
+
+
+## 38. Checkpoint CP-06.18 — cierre de overlay sin secuestro de foco
+
+La evidencia mostró que el clic físico sobre el botón de cierre podía dejar el foco en `body` después de ocultar el propio botón. Se cancela el default del `pointerdown` del cierre y se ejecuta el cierre antes de que el navegador reasigne el foco al control que desaparece. El cierre por teclado continúa usando `click`.
+
