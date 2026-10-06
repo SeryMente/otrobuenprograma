@@ -163,3 +163,20 @@ body{overflow-x:hidden}
   .obp-author-portrait{box-shadow:0 10px 26px rgba(20,38,78,.10)}
   .obp-author-body{max-width:none}
 }
+
+
+/* ===== v1.5.9 · depuración visual del relato ===== */
+#relato-sonoro.story{background:
+  radial-gradient(circle at 15% 4%,rgba(65,108,202,.09),transparent 30rem),
+  radial-gradient(circle at 88% 18%,rgba(211,95,80,.045),transparent 26rem),
+  linear-gradient(180deg,#f3f6fc 0%,#fff 28rem,#f8f9fc 100%);
+}
+.story::before{opacity:.09}
+.story-player{box-shadow:0 14px 38px rgba(15,29,66,.16)}
+.story-copy{box-shadow:0 8px 24px rgba(20,38,78,.035)}
+.story-art{box-shadow:0 14px 38px rgba(20,34,67,.11)}
+.story-stop{opacity:.62}
+.story-stop.is-active{opacity:1}
+@media(max-width:820px){
+  .story-stop{opacity:.76}
+}
