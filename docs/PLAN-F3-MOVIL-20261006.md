@@ -548,15 +548,13 @@ La actualizaciÃ³n se podrÃ¡ considerar lista cuando:
 
 ---
 
-## 18. Ãšnico dato pendiente
+## 18. Dato de autor confirmado
 
-La matrÃ­cula de la Universidad AutÃ³noma de Guadalajara aÃºn no estÃ¡ incluida en este plan como valor definitivo.
+La matrÃ­cula de la Universidad AutÃ³noma de Guadalajara fue localizada y contrastada en Notion.
 
-Se reservarÃ¡ exactamente este campo:
+**MatrÃ­cula:** 5125461
 
-**MatrÃ­cula:** [PENDIENTE DE PROPORCIONAR]
-
-No se inventarÃ¡, inferirÃ¡ ni consultarÃ¡ por otra vÃ­a.
+Fuentes de contraste: Oficio CECEQ / VHT-CECEQ / 2026-05 y Espejo vital / situaciÃ³n actual.
 
 ---
 
