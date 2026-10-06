@@ -46,7 +46,6 @@ for(const vp of viewports){
       viewport:vp,
       scrollWidth:document.documentElement.scrollWidth,
       clientWidth:document.documentElement.clientWidth,
-      initialScrollY,
       topbar:RR(topbar),nav:RR(nav),brand:RR(brand),hero:RR(hero),card:RR(card),portrait:RR(portrait),body:RR(body),
       copy:RR(copy),title:RR(title),deck:RR(deck),story:RR(story),player:RR(player),
       naturalImage:{width:img?.naturalWidth||0,height:img?.naturalHeight||0,complete:!!img?.complete},
@@ -75,6 +74,7 @@ for(const vp of viewports){
       }
     };
   },vp);
+  snapshot.initialScrollY=initialScrollY;
 
   const resourceCheck=await page.evaluate(()=>[...document.querySelectorAll('link[rel="stylesheet"],script[src]')].map(e=>e.href||e.src).filter(u=>u.includes('story-v3')));
   snapshot.storyAssetResources=resourceCheck;
