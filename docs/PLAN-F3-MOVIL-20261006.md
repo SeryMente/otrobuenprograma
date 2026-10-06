@@ -729,3 +729,9 @@ La ejecución local en RDC reprodujo el fallo del CI: Chromium y Headless Shell 
 
 El runner seguía sin descubrir la suite aun con `.spec.js`. Se elimina la ambigüedad configurando explícitamente `testDir`/ `testMatch` y usando CommonJS en la suite. Es infraestructura de QA únicamente.
 
+
+
+## 35. Checkpoint CP-06.15 — paquete correcto de Playwright Test
+
+La prueba local identificó que el CLI `playwright` no expone `playwright/test`; la API de pruebas pertenece a `@playwright/test`. Se corrigen el import y ambos comandos CI. No se modifica el producto.
+
