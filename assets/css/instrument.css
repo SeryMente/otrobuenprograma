@@ -22,7 +22,7 @@
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0; background:var(--bg); color:var(--ink);
+body{margin:0; background:#eef2f8; color:var(--ink);
   font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
   font-size:var(--fs-base); line-height:1.68; font-weight:400;
   font-feature-settings:'cv11','ss01','tnum'; -webkit-font-smoothing:antialiased; text-rendering:geometricPrecision;}
@@ -272,3 +272,12 @@ html.js .glosa-able{position:relative}
 .glosa-form button.send:hover{filter:brightness(1.08)}
 @media(prefers-reduced-motion:reduce){.glosa-panel,.glosa-backdrop{transition:none}}
 
+
+
+/* ===== v1.5.7 · consolidación visual editorial ===== */
+html{overflow-x:clip}
+@media(max-width:680px){
+  .guide-pill{display:none!important}
+}
+.topbar{background:rgba(238,242,248,.92);border-bottom-color:#d4dce8}
+.sheet{box-shadow:0 1px 0 rgba(20,38,78,.03)}
