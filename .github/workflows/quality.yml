@@ -68,3 +68,17 @@ jobs:
           grep -q 'story-v3.css?v=v1.5.1-20261006' index.html
           grep -q 'story-v3.js?v=v1.5.1-20261006' index.html
           echo "PUBLIC_SURFACE_CONTRACT=PASSED"
+
+
+      - name: Regresion del aviso de instalacion PWA
+        run: |
+          set -euo pipefail
+          ! grep -Eq 'beforeinstallprompt|appinstalled|pwa-prompt|showInstallPrompt|Instalar esta app' assets/js/app.js assets/css/additions.css || {
+            echo "REGRESION: reaparecio el aviso automatico de instalacion PWA"
+            exit 1
+          }
+          grep -q 'manifest.webmanifest' index.html
+          grep -q "navigator.serviceWorker.register" assets/js/app.js
+          grep -q "instrumento-v1.5.2-public-clean-20261006" sw.js
+          grep -q 'assets/js/app.js?v=v1.5.2-20261006' index.html
+          echo "PWA_NON_INTRUSIVE_CONTRACT=PASSED"
