@@ -37,7 +37,7 @@ jobs:
           for f in index.html sw.js manifest.webmanifest \
                    assets/css/instrument.css assets/css/additions.css \
                    assets/js/config.js assets/js/timeline.js assets/js/glosa.js \
-                   assets/js/presence.js assets/js/app.js assets/js/story-v3.js \
+                   assets/js/presence.js assets/js/backend.js assets/js/app.js assets/js/story-v3.js \
                    assets/css/story.css assets/css/story-v3.css \
                    assets/img/icon-192.png assets/img/icon-512.png; do
             test -f "$f" || { echo "FALTA $f"; exit 1; }
@@ -68,3 +68,28 @@ jobs:
           grep -q 'story-v3.css?v=v1.5.1-20261006' index.html
           grep -q 'story-v3.js?v=v1.5.1-20261006' index.html
           echo "PUBLIC_SURFACE_CONTRACT=PASSED"
+
+
+      - name: Sintaxis JavaScript F4
+        run: |
+          set -euo pipefail
+          for f in assets/js/config.js assets/js/backend.js assets/js/glosa.js assets/js/presence.js assets/js/app.js; do
+            node --check "$f"
+          done
+          echo "JS_SYNTAX_F4=PASSED"
+
+      - name: Contrato backend F4
+        run: |
+          set -euo pipefail
+          test -f supabase/migrations/20261006_f4_communication.sql
+          grep -q 'provider: "supabase"' assets/js/config.js
+          grep -q 'storage: "supabase"' assets/js/config.js
+          grep -q 'anonymous: true' assets/js/config.js
+          grep -q 'pulso_chat_messages' supabase/migrations/20261006_f4_communication.sql
+          grep -q 'glosas_compartidas' supabase/migrations/20261006_f4_communication.sql
+          grep -q 'enable row level security' supabase/migrations/20261006_f4_communication.sql
+          grep -q 'supabase_realtime' supabase/migrations/20261006_f4_communication.sql
+          ! grep -Eiq 'service_role' index.html assets/js/*.js || { echo "SECRETO NO DEBE APARECER EN CLIENTE"; exit 1; }
+          grep -q '@supabase/supabase-js@2.117.2' index.html
+          grep -q 'assets/js/backend.js?v=v0.14-20261006' index.html
+          echo "F4_BACKEND_CONTRACT=PASSED"
