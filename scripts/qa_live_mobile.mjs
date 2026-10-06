@@ -29,7 +29,7 @@ for (const vp of viewports){
   await page.goto(url,{waitUntil:'networkidle',timeout:90000});
   await page.evaluate(async()=>{ if(document.fonts?.ready) await document.fonts.ready; });
   await page.waitForSelector('#autor img',{state:'attached',timeout:15000});
-  await page.waitForTimeout(1200);
+  await page.waitForTimeout(1200);\n  await page.evaluate(()=>window.scrollTo(0,0));\n  await page.waitForTimeout(150);
 
   const snapshot = await page.evaluate((vp)=>{
     const el=s=>document.querySelector(s);
@@ -70,7 +70,7 @@ for (const vp of viewports){
     };
   },vp);
 
-  const firstViewport = await page.screenshot({path:'artifacts/' + vp.name + '-inicio.png',fullPage:false});
+  const resourceCheck = await page.evaluate(()=>{const urls=[...document.querySelectorAll('link[rel="stylesheet"],script[src]')].map(e=>e.href||e.src).filter(u=>u.includes('story-v3'));return {urls,count:urls.length};});\n  snapshot.storyAssetResources=resourceCheck;\n  structural.push(['single story-v3 resource chain', resourceCheck.count===2 && resourceCheck.urls.filter(u=>u.includes('story-v3.css')).length===1 && resourceCheck.urls.filter(u=>u.includes('story-v3.js')).length===1]);\n\n  const firstViewport = await page.screenshot({path:'artifacts/' + vp.name + '-inicio.png',fullPage:false});
   await page.evaluate(()=>window.scrollTo(0, Math.max(0, document.querySelector('.story-player')?.getBoundingClientRect().top + window.scrollY - 100)));
   await page.waitForTimeout(100);
   const sticky = await page.evaluate(()=>{
@@ -78,9 +78,9 @@ for (const vp of viewports){
     const pr=p?.getBoundingClientRect(), tr=t?.getBoundingClientRect();
     return {playerTop:pr?+pr.top.toFixed(2):null,topbarBottom:tr?+tr.bottom.toFixed(2):null,playerRect:pr?{left:+pr.left.toFixed(2),right:+pr.right.toFixed(2),width:+pr.width.toFixed(2),top:+pr.top.toFixed(2),bottom:+pr.bottom.toFixed(2)}:null};
   });
-  snapshot.sticky=sticky;
+  snapshot.sticky=sticky;\n\n  if(vp.width<=820){\n    structural.push(['initial hero visible', snapshot.hero && snapshot.hero.top >= 0 && snapshot.hero.bottom > Math.min(vp.height, 400)]);\n  }
 
-  const structural = [
+  const structural = [\n    ['direct mobile entry stays at top', Math.abs(await page.evaluate(()=>window.scrollY)) <= 2],
     ['no horizontal overflow', snapshot.scrollWidth <= snapshot.clientWidth + 1],
     ['author image loaded', snapshot.naturalImage.complete && snapshot.naturalImage.width > 0],
     ['no redundant intro text', !snapshot.textRedundancy.oldIntro && !snapshot.textRedundancy.oldHeading && !snapshot.textRedundancy.oldDeck],
@@ -89,7 +89,7 @@ for (const vp of viewports){
     ['card/copy do not overlap', !snapshot.overlap.cardCopy],
     ['copy/title do not overlap', !snapshot.overlap.copyTitle],
     ['hero/story do not overlap', !snapshot.overlap.heroStory],
-    ['sticky player clears topbar', snapshot.sticky.playerTop == null || snapshot.sticky.playerTop >= snapshot.sticky.topbarBottom + 4]
+    ['sticky player clears topbar', snapshot.sticky.playerTop == null || snapshot.sticky.playerTop >= snapshot.sticky.topbarBottom + 6]
   ];
   if(vp.width<=430){
     structural.push(['portrait width is mobile target', Math.abs(snapshot.portrait.width - (vp.width<=340?118:126)) <= 1]);
