@@ -19,7 +19,7 @@ function intersects(a,b){
   return a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
 }
 
-const browser = await chromium.launch({headless:true});
+const browser = await chromium.launch({headless:true, executablePath:process.env.BROWSER_PATH});
 const results=[];
 let failed=false;
 
