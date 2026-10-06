@@ -2,8 +2,6 @@
 
 Decision (2026-06-11): el chat es una **cascada de presencia**, no una sola cosa.
 
-Estado F4 (2026-10-06): la integracion de backend esta implementada en el repositorio con Supabase como adaptador, persistencia del buzon, sesion anonima y Realtime para la conversacion. El backend queda configurado por credenciales externas; mientras no exista un proyecto/configuracion valida, el sitio conserva el fallback local y no declara presencia en vivo.
-
 ## Los tres niveles
 
 1. **Objetivo - chat en vivo, estilo WhatsApp, personalizado.**
