@@ -119,7 +119,7 @@ body{overflow-x:hidden}
 @media(max-width:340px){
   .obp-hero{width:calc(100% - 16px)}
   .obp-author-card{width:100%}
-  .obp-author-portrait{width:118px;height:148px}
+  .obp-author-portrait{width:118px;height:auto;aspect-ratio:auto}
   .obp-author-body h2{font-size:1.4rem}
   .obp-author-facts span{font-size:.58rem}
   .obp-author-contacts{font-size:.55rem}
