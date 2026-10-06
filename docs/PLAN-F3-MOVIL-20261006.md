@@ -743,3 +743,9 @@ El runner necesita que `@playwright/test` exista como dependencia del proyecto p
 
 Referencia: https://playwright.dev/docs/best-practices
 
+
+
+## 37. Checkpoint CP-06.17 — restauración de foco corregida
+
+La batería browser detectó que el cierre del overlay no restauraba de forma determinista el foco al activador. Se corrige el orden: desbloqueo, recalculo del estado de scroll y restauración en el siguiente frame sin alterar la posición. La prueba H1-03 permanece obligatoria.
+
