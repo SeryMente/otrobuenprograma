@@ -4,6 +4,9 @@ import fs from 'node:fs/promises';
 const base = 'https://serymente.github.io/otrobuenprograma/';
 // Final post-deploy certification pass. v1.5.8
 const viewports = [
+  { name:'1024x768', width:1024, height:768 },
+  { name:'1280x800', width:1280, height:800 },
+  { name:'1440x900', width:1440, height:900 },
   { name:'320x568', width:320, height:568 },
   { name:'360x800', width:360, height:800 },
   { name:'390x844', width:390, height:844 },
@@ -108,7 +111,7 @@ for(const vp of viewports){
     ['mobile author image is contained',vp.width>600||snapshot.css?.portraitObjectFit==='contain']
   ];
 
-  await page.screenshot({path:'artifacts/'+vp.name+'-inicio.png',fullPage:false});
+\n  const sectionShots=['.obp-hero','#relato-sonoro','#pagina-original','#proyectos','#obp','#comind','#cuentas','#voces','#gracias','#fundamentos'];\n  await page.evaluate(()=>window.scrollTo(0,0));\n  for(const sel of sectionShots){\n    const el=await page.$(sel);\n    if(el){\n      const box=await el.boundingBox();\n      if(box && box.height>10 && box.width>10){\n        const safe=sel.replace(/[^a-z0-9]+/gi,'-').replace(/^-|-$/g,'');\n        await page.screenshot({path:'artifacts/'+vp.name+'-'+safe+'.png',clip:{x:Math.max(0,box.x),y:Math.max(0,box.y),width:Math.min(box.width,vp.width),height:Math.min(box.height,Math.max(10,vp.height*2))}}).catch(()=>{});\n      }\n    }\n  }\n  await page.screenshot({path:'artifacts/'+vp.name+'-inicio.png',fullPage:false});
 
   await page.evaluate(()=>window.scrollTo(0,Math.max(0,document.querySelector('.story-player')?.getBoundingClientRect().top+window.scrollY-100)));
   await page.waitForTimeout(120);
