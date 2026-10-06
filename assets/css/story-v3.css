@@ -107,6 +107,7 @@ body{overflow-x:hidden}
   .obp-hero{width:calc(100% - 20px);padding:14px 0 26px;gap:16px}
   .obp-author-card{width:min(100%,300px)}
   .obp-author-portrait{width:126px;height:158px}
+  .obp-author-portrait img{object-fit:contain}
   .obp-author-body h2{font-size:1.5rem}
   .obp-author-lema{font-size:.88rem}
   .obp-author-facts span{font-size:.61rem;line-height:1.34}
