@@ -79,6 +79,18 @@ jobs:
           }
           grep -q 'manifest.webmanifest' index.html
           grep -q "navigator.serviceWorker.register" assets/js/app.js
-          grep -q "instrumento-v1.5.2-public-clean-20261006" sw.js
+          grep -q "instrumento-v1.5.3-mobile-author-20261006" sw.js
           grep -q 'assets/js/app.js?v=v1.5.2-20261006' index.html
           echo "PWA_NON_INTRUSIVE_CONTRACT=PASSED"
+
+
+      - name: Ficha publica de autor
+        run: |
+          set -euo pipefail
+          grep -q 'Patria pendiente, lo que deviene aún.' index.html
+          grep -q 'the.willfreeman@gmail.com' index.html
+          grep -q '614 369 7381' index.html
+          grep -q 'Intérprete/Traductor' index.html
+          grep -q 'Seguridad de la Información en la UAG' index.html
+          grep -q 'assets/css/additions.css?v=v1.5.3-20261006' index.html
+          echo "MOBILE_AUTHOR_CONTRACT=PASSED"

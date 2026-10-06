@@ -278,3 +278,29 @@ html{scroll-behavior:smooth}
 
 /* === Rediseno portafolio - Parte 1: Vision (hero) === */
 .hero-thesis{margin:.1rem 0 1.5rem;font-family:'Newsreader',Georgia,serif;font-style:italic;font-size:clamp(1.05rem,calc(0.95rem + 0.7vw),1.45rem);line-height:1.4;color:rgba(255,255,255,.86);letter-spacing:.01em}
+
+
+/* ===== v1.5.3 · ficha de autor compacta para experiencia movil ===== */
+.obp-author-lema{margin:0 0 10px;color:#24499d;font:600 .95rem/1.45 Newsreader,Georgia,serif;font-style:italic}
+.obp-author-contacts{display:flex;align-items:center;flex-wrap:wrap;gap:7px;color:#53627b;font:600 .67rem/1.35 'JetBrains Mono',monospace}
+.obp-author-contacts a{color:#24499d;text-decoration:none;overflow-wrap:anywhere}
+.obp-author-contacts a:hover{text-decoration:underline}
+@media(max-width:600px){
+  .obp-hero{grid-template-columns:1fr}
+  .obp-author-card{order:-1;display:flex;flex-direction:column;align-items:center;gap:10px;width:min(100%,360px);margin:0 auto;padding:12px;text-align:center}
+  .obp-author-portrait{width:156px;height:auto;aspect-ratio:4/5;flex:none;margin:0 auto}
+  .obp-author-body{width:100%}
+  .obp-author-body h2{margin:0 0 6px;font-size:1.55rem}
+  .obp-author-lema{margin:0 0 8px;font-size:.91rem}
+  .obp-author-facts{display:grid;gap:3px;margin:8px 0}
+  .obp-author-facts span{font-size:.57rem;line-height:1.35}
+  .obp-author-contacts{justify-content:center;gap:5px;font-size:.58rem;line-height:1.3}
+  .obp-author-contact{min-height:34px}
+}
+@media(max-width:380px){
+  .obp-author-card{width:min(100%,330px);padding:10px}
+  .obp-author-portrait{width:142px}
+  .obp-author-body h2{font-size:1.46rem}
+  .obp-author-lema{font-size:.86rem}
+  .obp-author-facts span,.obp-author-contacts{font-size:.54rem}
+}

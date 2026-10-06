@@ -1,5 +1,13 @@
 # Changelog - Instrumento de comunicacion - Proyecto Vital
 
+## [v1.5.3] - 2026-10-06 - Ficha de autor móvil
+
+### Cambiado
+- Rehecha la ficha visible del autor para la experiencia móvil: fotografía prioritaria, centrada y de tamaño contenido al entrar.
+- Sustituido el texto editorial secundario por una ficha compacta con lema, oficio, actividad profesional, formación y contacto.
+- Actualizados el lema a «Patria pendiente, lo que deviene aún.» y los datos de oficio/formación proporcionados para la edición pública.
+- Bump de caché de la hoja de estilos y del Service Worker para que la nueva composición móvil sustituya la anterior.
+
 ## [v1.5.2] - 2026-10-06 - Limpieza de superficie publica
 
 ### Corregido
