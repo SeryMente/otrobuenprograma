@@ -83,3 +83,43 @@ body{overflow-x:hidden}
 @media(max-width:820px){
   .story-player{top:84px}
 }
+
+
+/* ===== v1.5.5 · responsive canonico del encabezado movil ===== */
+@media(max-width:900px){
+  .obp-hero{grid-template-columns:1fr;align-content:start;width:min(100% - 24px,760px);min-height:auto;gap:18px;padding:18px 0 32px}
+  .obp-author-card{order:-1;display:flex;flex-direction:column;align-items:center;width:min(100%,420px);margin:0 auto;gap:8px;padding:0;text-align:center}
+  .obp-author-portrait{width:148px;height:185px;flex:none;margin:0 auto;aspect-ratio:4/5;border-radius:4px;box-shadow:0 12px 30px rgba(20,38,78,.12)}
+  .obp-author-body{width:100%;min-width:0}
+  .obp-author-body h2{margin:0 0 5px;font-size:1.72rem;line-height:1}
+  .obp-author-lema{margin:0 0 8px;font-size:.98rem;line-height:1.35}
+  .obp-author-facts{display:grid;gap:3px;margin:0 auto 8px;width:100%}
+  .obp-author-facts span{color:#53627b;font:600 .68rem/1.36 'Inter',system-ui,sans-serif;overflow-wrap:anywhere}
+  .obp-author-contacts{justify-content:center;gap:5px;width:100%;font:600 .63rem/1.35 'JetBrains Mono',monospace}
+  .obp-author-contacts a{max-width:100%;overflow-wrap:anywhere}
+  .obp-hero-copy{order:2;text-align:center;width:100%}
+  .obp-hero-kicker{margin-bottom:8px}
+  .obp-hero h1{max-width:100%;margin:0 0 12px;font-size:clamp(2.55rem,9.5vw,4.8rem);line-height:.92;letter-spacing:-.045em;text-wrap:balance}
+  .obp-hero-dek{max-width:36rem;margin:0 auto;font-size:.98rem;line-height:1.52}
+  .obp-hero-continue{display:none}
+}
+@media(max-width:430px){
+  .obp-hero{width:calc(100% - 20px);padding:14px 0 26px;gap:16px}
+  .obp-author-card{width:min(100%,300px)}
+  .obp-author-portrait{width:126px;height:158px}
+  .obp-author-body h2{font-size:1.5rem}
+  .obp-author-lema{font-size:.88rem}
+  .obp-author-facts span{font-size:.61rem;line-height:1.34}
+  .obp-author-contacts{font-size:.58rem}
+  .obp-hero-kicker{font-size:.57rem}
+  .obp-hero h1{font-size:clamp(2.35rem,12vw,4.1rem);line-height:.92}
+  .obp-hero-dek{font-size:.9rem}
+}
+@media(max-width:340px){
+  .obp-hero{width:calc(100% - 16px)}
+  .obp-author-card{width:100%}
+  .obp-author-portrait{width:118px;height:148px}
+  .obp-author-body h2{font-size:1.4rem}
+  .obp-author-facts span{font-size:.58rem}
+  .obp-author-contacts{font-size:.55rem}
+}

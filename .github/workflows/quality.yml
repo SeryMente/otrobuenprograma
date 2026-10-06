@@ -79,9 +79,9 @@ jobs:
           }
           grep -q 'manifest.webmanifest' index.html
           grep -q "navigator.serviceWorker.register" assets/js/app.js
-          grep -q "instrumento-v1.5.4-mobile-responsive-20261006" sw.js
+          grep -q "instrumento-v1.5.5-mobile-final-20261006" sw.js
           grep -q 'assets/js/app.js?v=v1.5.2-20261006' index.html
-          grep -q 'assets/css/story-v3.css?v=v1.5.4-20261006' index.html
+          grep -q 'assets/css/story-v3.css?v=v1.5.5-20261006' index.html
           echo "PWA_NON_INTRUSIVE_CONTRACT=PASSED"
 
 
@@ -93,7 +93,7 @@ jobs:
           grep -q '614 369 7381' index.html
           grep -q 'Intérprete/Traductor' index.html
           grep -q 'Seguridad de la Información en la UAG' index.html
-          grep -q 'assets/css/additions.css?v=v1.5.4-20261006' index.html
+          grep -q 'assets/css/additions.css?v=v1.5.5-20261006' index.html
           echo "MOBILE_AUTHOR_CONTRACT=PASSED"
 
       - name: Responsive movil estructural
@@ -103,6 +103,14 @@ jobs:
             echo "REGRESION: reproductor movil vuelve a estrecharse en <=430px"
             exit 1
           }
-          grep -q 'assets/css/story-v3.css?v=v1.5.4-20261006' index.html
+          grep -q 'assets/css/story-v3.css?v=v1.5.5-20261006' index.html
           grep -q 'top:84px' assets/css/story-v3.css
           echo "MOBILE_RESPONSIVE_CONTRACT=PASSED"
+
+      - name: Contrato de encabezado publico movil
+        run: |
+          set -euo pipefail
+          ! grep -Eq 'Otro Gran Programa · relato sonoro|Escucha la historia que da origen a la propuesta\.|Una conversación en voz alta sobre el origen de Otro Gran Programa' assets/js/story-v3.js index.html
+          grep -q 'Una iniciativa de bienestar social nacida de la experiencia y orientada a lo que aún puede construirse\.' index.html
+          grep -q 'assets/css/story-v3.css?v=v1.5.5-20261006' index.html
+          echo "MOBILE_HEADER_CONTRACT=PASSED"
