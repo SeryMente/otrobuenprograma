@@ -6,6 +6,9 @@ on:
     paths-ignore:
       - 'assets/data/story-word-timing.json'
       - 'assets/data/relato-obp-phase3.json'
+      - 'assets/data/relato-obp-phase2.json'
+      - 'assets/data/relato-obp-phase2-qc.json'
+      - 'assets/audio/relato-obp-v016/**'
   workflow_dispatch:
 
 permissions:
