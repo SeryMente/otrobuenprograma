@@ -1,5 +1,5 @@
 /* ===================================================================
-   Mobile shell · v1.6.0
+   Mobile shell · v1.6.1
    TOP / SCROLLED / OPEN
    =================================================================== */
 (function(){
@@ -18,7 +18,7 @@
   function openMenu(){if(!isMobile()||open)return;open=true;restoreFocus=trigger;overlay.hidden=false;overlay.setAttribute('aria-hidden','false');trigger.setAttribute('aria-expanded','true');document.documentElement.classList.add('mobile-nav-open');lockScroll();closeBtn.focus();document.addEventListener('keydown',onKeydown,true);}
   function close(){if(!open)return;open=false;overlay.setAttribute('aria-hidden','true');trigger.setAttribute('aria-expanded','false');document.documentElement.classList.remove('mobile-nav-open');document.removeEventListener('keydown',onKeydown,true);unlockScroll();setScrolled(lastScrollY>8);overlay.hidden=true;setTimeout(function(){if(restoreFocus&&document.contains(restoreFocus)&&!restoreFocus.hidden)restoreFocus.focus({preventScroll:true});},200);}
   trigger.addEventListener('click',openMenu);closeBtn.addEventListener('pointerdown',function(e){e.preventDefault();close();});closeBtn.addEventListener('click',function(e){e.preventDefault();close();});links.forEach(function(link){link.addEventListener('click',function(){close();});});
-  function fitHeroTitle(){var h=document.getElementById('obp-title');if(!h||!isMobile())return;h.style.whiteSpace='nowrap';h.style.textWrap='nowrap';var max=76,min=12;h.style.fontSize=max+'px';while(h.scrollWidth>h.clientWidth&&max>min){max-=1;h.style.fontSize=max+'px';}if(h.scrollWidth>h.clientWidth){var tracking=parseFloat(getComputedStyle(h).letterSpacing)||0,guard=0;while(h.scrollWidth>h.clientWidth&&tracking>-2&&guard<20){tracking-=.1;h.style.letterSpacing=tracking+'px';guard++;}}}
+  function fitHeroTitle(){var h=document.getElementById('obp-title');if(!h||!isMobile())return;h.style.whiteSpace='normal';h.style.textWrap='balance';h.style.fontSize='';h.style.letterSpacing='';}
   function viewport(){var mobile=isMobile();if(wasMobile!==mobile){wasMobile=mobile;if(!mobile&&open)close();}onScroll();fitHeroTitle();if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitHeroTitle).catch(function(){});}
   window.addEventListener('scroll',onScroll,{passive:true});window.addEventListener('resize',viewport,{passive:true});setScrolled(false);viewport();
 })();
