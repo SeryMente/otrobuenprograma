@@ -65,8 +65,8 @@ jobs:
             }
           done
           ! grep -q 'story-roadmap' assets/css/story-v3.css
-          grep -q 'story-v3.css?v=v1.5.8-20261006' index.html
-          grep -q 'story-v3.js?v=v1.5.8-20261006' index.html
+          grep -q 'story-v3.css?v=v1.5.9-20261006' index.html
+          grep -q 'story-v3.js?v=v1.5.9-20261006' index.html
           echo "PUBLIC_SURFACE_CONTRACT=PASSED"
 
 
@@ -79,9 +79,9 @@ jobs:
           }
           grep -q 'manifest.webmanifest' index.html
           grep -q "navigator.serviceWorker.register" assets/js/app.js
-          grep -q "instrumento-v1.5.8-mobile-final-20261006" sw.js
-          grep -q 'assets/js/app.js?v=v1.5.8-20261006' index.html
-          grep -q 'assets/css/story-v3.css?v=v1.5.8-20261006' index.html
+          grep -q "instrumento-v1.5.9-design-system-20261006" sw.js
+          grep -q 'assets/js/app.js?v=v1.5.9-20261006' index.html
+          grep -q 'assets/css/story-v3.css?v=v1.5.9-20261006' index.html
           echo "PWA_NON_INTRUSIVE_CONTRACT=PASSED"
 
 
@@ -93,7 +93,7 @@ jobs:
           grep -q '614 369 7381' index.html
           grep -q 'Intérprete/Traductor' index.html
           grep -q 'Seguridad de la Información en la UAG' index.html
-          grep -q 'assets/css/additions.css?v=v1.5.8-20261006' index.html
+          grep -q 'assets/css/additions.css?v=v1.5.9-20261006' index.html
           echo "MOBILE_AUTHOR_CONTRACT=PASSED"
 
       - name: Responsive movil estructural
@@ -105,10 +105,10 @@ jobs:
           css=Path("assets/css/story-v3.css").read_text(encoding="utf-8")
           assert "width:calc(100% - 82px)" not in css
           assert "top:90px" in css
-          assert html.count('assets/css/story-v3.css?v=v1.5.8-20261006') == 1
-          assert html.count('assets/js/story-v3.js?v=v1.5.8-20261006') == 1
-          assert html.count('assets/css/instrument.css?v=v1.5.8-20261006') == 1
-          assert html.count('assets/js/navigator.js?v=v1.5.8-20261006') == 1
+          assert html.count('assets/css/story-v3.css?v=v1.5.9-20261006') == 1
+          assert html.count('assets/js/story-v3.js?v=v1.5.9-20261006') == 1
+          assert html.count('assets/css/instrument.css?v=v1.5.9-20261006') == 1
+          assert html.count('assets/js/navigator.js?v=v1.5.9-20261006') == 1
           assert "story-v3.css?v=v1.5.6-20261006" not in html
           assert "story-v3.js?v=v1.5.6-20261006" not in html
           print("MOBILE_RESPONSIVE_STATIC_CONTRACT=PASSED")
@@ -119,7 +119,7 @@ jobs:
           set -euo pipefail
           ! grep -Eq 'Otro Gran Programa · relato sonoro|Escucha la historia que da origen a la propuesta\.|Una conversación en voz alta sobre el origen de Otro Gran Programa' assets/js/story-v3.js index.html
           grep -q 'Una iniciativa de bienestar social nacida de la experiencia y orientada a lo que aún puede construirse\.' index.html
-          grep -q 'assets/css/story-v3.css?v=v1.5.8-20261006' index.html
-          grep -q 'assets/js/story-v3.js?v=v1.5.8-20261006' index.html
+          grep -q 'assets/css/story-v3.css?v=v1.5.9-20261006' index.html
+          grep -q 'assets/js/story-v3.js?v=v1.5.9-20261006' index.html
           ! grep -q 'var QR_MODE=MOBILE && (!location.hash' assets/js/story-v3.js
           echo "MOBILE_HEADER_CONTRACT=PASSED"
