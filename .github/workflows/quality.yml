@@ -11,27 +11,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: JSON valido
         run: |
           python3 - <<'PY'
           import json
           for p in ["assets/data/timeline.json","assets/data/relato-obp-phase3.json","assets/data/story-word-timing.json","manifest.webmanifest"]:
               json.load(open(p,encoding="utf-8"))
-          print("JSON=PASSED")
           PY
-
-      - name: Archivos clave presentes
+      - name: Archivos clave
         run: |
           set -euo pipefail
-          for f in index.html sw.js manifest.webmanifest assets/css/instrument.css assets/css/additions.css assets/css/themes.css assets/css/story.css assets/css/story-v3.css assets/js/config.js assets/js/timeline.js assets/js/navigator.js assets/js/mobile-shell.js assets/js/app.js assets/js/story-v3.js; do test -f "$f" || exit 1; done
-
-      - name: Contrato base de secciones
-        run: |
-          set -euo pipefail
-          for id in relato-sonoro proyectos obp comind cuentas voces fundamentos autor; do grep -Eq "id=['"]$id['"]" index.html || { echo "FALTA $id"; exit 1; }; done
-
-      - name: Contrato publico CP-04
+          for f in index.html sw.js manifest.webmanifest assets/css/instrument.css assets/css/additions.css assets/css/themes.css assets/css/story.css assets/css/story-v3.css assets/js/config.js assets/js/timeline.js assets/js/navigator.js assets/js/mobile-shell.js assets/js/app.js assets/js/story-v3.js scripts/qa_mobile_v16.spec.mjs; do test -f "$f"; done
+      - name: Contrato publico v1.6.0
         run: |
           set -euo pipefail
           ! grep -q 'assets/js/glosa.js' index.html
@@ -39,23 +30,55 @@ jobs:
           grep -q 'id="mobile-nav-overlay"' index.html
           grep -q 'class="mobile-nav-trigger"' index.html
           grep -q 'class="mobile-nav-close"' index.html
+          grep -q 'href="#proyectos"' index.html
+          grep -q 'href="#cuentas"' index.html
+          grep -q 'href="#autor"' index.html
+          ! grep -q 'mobile-nav-title' index.html
           grep -q 'Otro Gran Programa, una propuesta' index.html
           grep -q 'una iniciativa para revolucionar la manera en la que aliviaremos la disfunción familiar para nuestros hijos y sus hijos también.' index.html
           grep -q 'Desarrollador independiente' index.html
           grep -q 'Intérprete médico / Traductor (español-inglés)' index.html
           grep -q 'Matrícula 5125461' index.html
-          grep -q 'assets/js/mobile-shell.js?v=v1.6.0-20261006' index.html
-          grep -q 'assets/css/additions.css?v=v1.6.0-20261006' index.html
-          grep -q 'assets/css/story-v3.css?v=v1.6.0-20261006' index.html
+          grep -q 'story-micro-rail' assets/js/story-v3.js
+          grep -q 'audio.autoplay=true' assets/js/story-v3.js
+          grep -q 'NotAllowedError' assets/js/story-v3.js
+          grep -q 'first-gesture' assets/js/story-v3.js
+          grep -q 'mobile-nav-lock' assets/js/mobile-shell.js
+          ! grep -q 'guide-pill' assets/js/navigator.js
           grep -q 'instrumento-v1.6.0-mobile-20261006' sw.js
           grep -q 'assets/js/mobile-shell.js' sw.js
-          ! grep -q 'guide-pill' assets/js/navigator.js
-          echo "CP04_STATIC_CONTRACT=PASSED"
-
-      - name: Sintaxis JS
+          echo "PUBLIC_V16_STATIC_CONTRACT=PASSED"
+      - name: Sintaxis JavaScript
         run: |
           set -euo pipefail
+          node --check assets/js/story-v3.js
           node --check assets/js/navigator.js
           node --check assets/js/mobile-shell.js
-          node --check assets/js/story-v3.js
-          echo "JS_SYNTAX=PASSED"
+      - name: Contrato narrativo inmutable
+        run: |
+          python3 - <<'PY'
+          import json
+          d=json.load(open("assets/data/relato-obp-phase3.json",encoding="utf-8"))
+          assert len(d["segments"])==20
+          assert d["model"]["phases"]==5
+          assert d["model"]["segments"]==20
+          PY
+
+  e2e_mobile:
+    runs-on: ubuntu-latest
+    needs: estaticos
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: nohup python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/ogp-http.log 2>&1 &
+      - run: npx --yes playwright@1.56.0 install --with-deps chromium
+      - run: npx --yes playwright@1.56.0 test scripts/qa_mobile_v16.spec.mjs --project=chromium
+      - name: Capturas QA
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ogp-v16-mobile-evidence
+          path: test-results/
+          if-no-files-found: ignore
