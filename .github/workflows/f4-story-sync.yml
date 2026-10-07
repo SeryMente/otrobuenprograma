@@ -9,6 +9,8 @@ on:
       - assets/audio/relato-obp-v016/**
       - scripts/build_story_timing.py
       - scripts/qa_phase3.py
+      - scripts/benchmark_sync_timing.py
+      - scripts/sync-benchmark.config.json
       - scripts/benchmark_story_timing.py
   workflow_dispatch:
 
@@ -48,7 +50,7 @@ jobs:
           python scripts/build_story_timing.py 2>&1 | tee artifacts/alignment.log
       - name: Benchmark
         run: |
-          python scripts/benchmark_story_timing.py --timing assets/data/story-word-timing.json --output artifacts/benchmark.json --require-certified
+          python scripts/benchmark_sync_timing.py --config scripts/sync-benchmark.config.json --output artifacts/benchmark.json --require-certified
       - name: Preserve generated timing evidence
         run: |
           cp assets/data/story-word-timing.json artifacts/story-word-timing.json
