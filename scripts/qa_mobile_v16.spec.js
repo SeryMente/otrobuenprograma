@@ -4,11 +4,11 @@ const sizes=[[240,320],[320,568],[360,800],[390,844],[412,915],[430,932],[540,96
 for(const [width,height] of sizes){
   test("mobile "+width+"x"+height+" — no overflow / hero composition",async({page})=>{
     await page.setViewportSize({width,height}); await page.goto(URL,{waitUntil:"domcontentloaded"});
-    await expect(page.locator("#obp-title")).toHaveText("Otro Gran Programa, una propuesta");
+    await expect(page.locator("#obp-title")).toHaveText("Otro Gran Programa");
     await page.screenshot({path:"test-results/mobile-"+width+"x"+height+".png",fullPage:false});
     const m=await page.evaluate(()=>{const d=document.documentElement,t=document.querySelector("#obp-title"),a=document.querySelector(".obp-author-portrait"),cs=getComputedStyle(t),r=t.getBoundingClientRect(),ar=a.getBoundingClientRect();return {overflow:d.scrollWidth-d.clientWidth,titleOverflow:t.scrollWidth-t.clientWidth,ws:cs.whiteSpace,lines:Math.round(r.height/parseFloat(cs.lineHeight)),ratio:ar.width/ar.height};});
-    expect(m.overflow).toBeLessThanOrEqual(1); expect(m.titleOverflow).toBeLessThanOrEqual(1); expect(m.ws).not.toBe("nowrap"); expect(m.ratio).toBeGreaterThan(1.55); expect(m.ratio).toBeLessThan(1.98);
-    if(width===320 || width===390){ expect(m.lines).toBeGreaterThanOrEqual(3); expect(m.lines).toBeLessThanOrEqual(4); }
+    expect(m.overflow).toBeLessThanOrEqual(1); expect(m.titleOverflow).toBeLessThanOrEqual(1); expect(m.ws).toBe("nowrap"); expect(m.ratio).toBeGreaterThan(0.5); expect(m.ratio).toBeLessThan(0.75);
+    if(width===240){ expect(m.lines).toBeGreaterThanOrEqual(1); expect(m.lines).toBeLessThanOrEqual(2); }
   });
 }
 test("mobile nav collapse + fullscreen focus",async({page})=>{
@@ -24,4 +24,24 @@ test("desktop remains desktop",async({page})=>{
 });
 test("audio is configured for immediate audible best-effort",async({page})=>{
   await page.setViewportSize({width:390,height:844}); await page.goto(URL,{waitUntil:"domcontentloaded"}); await page.locator(".story-audio").waitFor({state:"attached"}); const m=await page.evaluate(()=>{const a=document.querySelector(".story-audio");return {autoplay:a.autoplay,preload:a.preload,muted:a.muted,src:!!a.src};}); expect(m.autoplay).toBe(true); expect(m.preload).toBe("auto"); expect(m.muted).toBe(false); expect(m.src).toBe(true); await page.screenshot({path:"test-results/mobile-390.png"});
+});
+
+
+test("content after sound experience remains visible without Glosa",async({page})=>{
+  await page.setViewportSize({width:390,height:844}); await page.goto(URL,{waitUntil:"domcontentloaded"});
+  await expect(page.locator("#comind")).toBeAttached(); await expect(page.locator("#cuentas")).toBeAttached();
+  await expect(page.locator("#story-section-title")).toHaveText("una iniciativa para revolucionar la manera en la que aliviaremos la disfunción familiar para nuestros hijos y sus hijos también.");
+  await expect(page.locator(".story-context")).toHaveCount(0); await expect(page.locator(".story-label")).toHaveCount(0);
+  const storyText=await page.locator("#relato-sonoro").textContent(); expect(storyText).not.toContain("Relato"); expect(storyText).not.toContain("Fase"); expect(storyText).not.toContain("CONTEXTO");
+  await page.locator("#comind").scrollIntoViewIfNeeded(); await page.waitForTimeout(140); await expect(page.locator("#comind")).toHaveCSS("opacity","1");
+  await page.locator("#cuentas").scrollIntoViewIfNeeded(); await page.waitForTimeout(140); await expect(page.locator("#cuentas")).toHaveCSS("opacity","1");
+  await expect(page.locator("footer")).toHaveCount(0);
+});
+
+test("mobile roadmap exposes play-pause and intense-scroll return affordance",async({page})=>{
+  await page.setViewportSize({width:390,height:844}); await page.goto(URL,{waitUntil:"domcontentloaded"});
+  await page.locator("#relato-sonoro").scrollIntoViewIfNeeded();
+  await expect(page.locator(".story-micro-play")).toHaveCount(1); await expect(page.locator(".story-return-overlay")).toHaveCount(1);
+  await page.evaluate(()=>{const m=document.querySelector("#relato-sonoro"),a=m.querySelector(".story-audio");m.classList.add("is-in-story");a.dispatchEvent(new Event("play"));window.scrollTo(0,260);});
+  await page.waitForTimeout(80); await expect(page.locator(".story-return-overlay")).toBeVisible();
 });
