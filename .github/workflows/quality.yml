@@ -15,7 +15,7 @@ jobs:
         run: |
           python3 - <<'PY'
           import json
-          for p in ["assets/data/timeline.json","assets/data/relato-obp-phase3.json","assets/data/story-word-timing.json","manifest.webmanifest","scripts/sync-benchmark.config.json"]:
+          for p in ["assets/data/timeline.json","assets/data/relato-ogp-phase3.json","assets/data/story-word-timing.json","manifest.webmanifest","scripts/sync-benchmark.config.json"]:
               json.load(open(p,encoding="utf-8"))
           PY
       - name: Archivos clave
@@ -46,9 +46,9 @@ jobs:
           grep -q 'href="#autor"' index.html
           ! grep -q 'mobile-nav-title' index.html
           grep -q '<title>Otro Gran Programa</title>' index.html
-          grep -q 'id="obp-title">Otro Gran Programa</h1>' index.html
-          grep -q 'class="obp-author-card" id="autor">' index.html
-          grep -q 'class="obp-hero-dek"' index.html
+          grep -q 'id="ogp-title">Otro Gran Programa</h1>' index.html
+          grep -q 'class="ogp-author-card" id="autor">' index.html
+          grep -q 'class="ogp-hero-dek"' index.html
           grep -q 'una iniciativa para revolucionar la manera en la que aliviaremos la disfunción familiar para nuestros hijos y sus hijos también.' index.html
           ! grep -q 'id="story-section-title"' assets/js/story-v3.js
           ! grep -q 'class="story-player"' assets/js/story-v3.js
@@ -97,7 +97,7 @@ jobs:
         run: |
           python3 - <<'PY'
           import json
-          d=json.load(open("assets/data/relato-obp-phase3.json",encoding="utf-8"))
+          d=json.load(open("assets/data/relato-ogp-phase3.json",encoding="utf-8"))
           assert len(d["segments"])==20
           assert d["model"]["phases"]==5
           assert d["model"]["segments"]==20
