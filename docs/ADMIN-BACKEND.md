@@ -43,17 +43,12 @@ No poner allí secret keys, service-role keys, contraseñas de base de datos ni 
 
 ## Crear el primer administrador
 
-1. Crear el usuario inicial en **Authentication > Users** de Supabase.
-2. Ejecutar las migraciones del repositorio en orden.
-3. Desde una sesión administrativa de SQL Editor ejecutar el bootstrap interno:
+1. Abrir `/otrogranprograma/admin/primer-acceso.html`.
+2. El correo `the.willfreeman@gmail.com` aparece fijado y la contraseña inicial se registra mediante `auth.signUp` directamente contra Supabase Auth.
+3. Si Supabase exige confirmación de correo, confirmar el mensaje recibido.
+4. Iniciar sesión en `/otrogranprograma/admin/`; para el primer acceso confirmado, la consola invoca `ogp-admin-claim`, que sólo puede promover ese correo y sólo mientras no exista ningún administrador.
 
-```sql
-select private.bootstrap_admin_by_email('CORREO-DEL-ADMIN');
-```
-
-El bootstrap vive en el esquema privado y no se expone por PostgREST a clientes web.
-
-La consola utiliza `signInWithPassword` de Supabase Auth y valida el rol mediante `app_profiles` + RLS.
+El bootstrap SQL privado `private.bootstrap_admin_by_email` se conserva como mecanismo administrativo alternativo de recuperación y no se expone por PostgREST.
 
 ## Seguridad
 
@@ -136,4 +131,4 @@ La primera cuenta prevista para la consola es **the.willfreeman@gmail.com**. Par
 
 El correo aparece fijado en la interfaz y la contraseña se captura únicamente mediante Supabase Auth con `auth.signUp`. OGP no almacena, transmite a su propio backend ni registra la contraseña.
 
-Tras el alta, si el proyecto exige confirmación de correo, el titular debe confirmar el mensaje recibido. La promoción inicial a `admin` se realiza posteriormente mediante el bootstrap privado del backend; no se concede el rol privilegiado desde una página pública.
+Tras el alta, si el proyecto exige confirmación de correo, el titular debe confirmar el mensaje recibido. En el primer inicio de sesión confirmado, `ogp-admin-claim` reclama automáticamente el primer rol `admin` con las restricciones descritas.

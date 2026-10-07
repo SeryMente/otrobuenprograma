@@ -3,3 +3,6 @@ verify_jwt = false
 
 [functions.ogp-github-traffic]
 verify_jwt = false
+
+[functions.ogp-admin-claim]
+verify_jwt = false

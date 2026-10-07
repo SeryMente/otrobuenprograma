@@ -19,6 +19,18 @@
   }
   function requireAdmin(){if(!profile||profile.role!=="admin")throw new Error("not_admin");}
 
+  async function claimFirstAdmin(user){
+    if(!user?.email || user.email.toLowerCase()!=="the.willfreeman@gmail.com") return null;
+    try{
+      const r=await client.functions.invoke("ogp-admin-claim");
+      if(!r.error && r.data?.promoted){
+        await loadProfile(user.id);
+        return r.data;
+      }
+      return null;
+    }catch(_){return null;}
+  }
+
   function bindTabs(){
     document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{
       document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
@@ -118,6 +130,10 @@
 
   async function authenticate(user){
     currentUser=user; await loadProfile(user.id);
+    if(profile?.role!=="admin"){
+      await claimFirstAdmin(user);
+      await loadProfile(user.id);
+    }
     if(profile?.role!=="admin"){showAuth();msg.textContent="La cuenta está autenticada, pero no tiene rol admin.";return;}
     showDash(); bindTabs(); await refreshAll();
   }
