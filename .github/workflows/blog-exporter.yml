@@ -1,0 +1,43 @@
+name: Blog static exporter QA
+
+on:
+  push:
+    branches:
+      - "feat/blog-static-*"
+  pull_request:
+    branches:
+      - "feat/blog-static-*"
+  workflow_dispatch:
+
+jobs:
+  exporter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Sintaxis
+        run: node --check scripts/build-wordpress-blog.mjs
+
+      - name: Precondición de fuente
+        run: |
+          set -euo pipefail
+          if node scripts/build-wordpress-blog.mjs >/tmp/blog-build.log 2>&1; then
+            echo "El exportador debía rechazar una ejecución sin WORDPRESS_BASE_URL."
+            cat /tmp/blog-build.log
+            exit 1
+          fi
+          grep -q "WORDPRESS_BASE_URL is required" /tmp/blog-build.log
+
+      - name: Contrato del exportador
+        run: |
+          set -euo pipefail
+          grep -q "wp-json/wp/v2/posts" scripts/build-wordpress-blog.mjs
+          grep -q "BLOG_PUBLIC_BASE_URL" scripts/build-wordpress-blog.mjs
+          grep -q "assets/media" scripts/build-wordpress-blog.mjs
+          grep -q "sitemap.xml" scripts/build-wordpress-blog.mjs
+          grep -q "feed.xml" scripts/build-wordpress-blog.mjs
+          echo "BLOG_EXPORTER_CONTRACT=PASSED"
