@@ -9,7 +9,7 @@
 
   function setStatus(text,tone){status.textContent=text;status.dataset.tone=tone||"neutral";}
   function number(v){return new Intl.NumberFormat("es-MX").format(Number(v||0));}
-  function esc(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll(""","&quot;").replaceAll("'","&#039;");}
+  function esc(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");}
   function showAuth(){authView.classList.remove("hidden");dash.classList.add("hidden");}
   function showDash(){authView.classList.add("hidden");dash.classList.remove("hidden");identity.textContent=currentUser?.email||"";}
 
