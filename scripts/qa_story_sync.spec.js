@@ -407,13 +407,24 @@ test("I1 short pauses keep a visible continuity anchor without falsifying the ac
   await page.evaluate(
     async ({ audioSelector, time }) => {
       const audio = document.querySelector(audioSelector);
-      audio.currentTime = time;
-      await new Promise((resolve) => setTimeout(resolve, 250));
+      audio.pause();
+      await new Promise((resolve) => {
+        let done = false;
+        const finish = () => {
+          if (done) return;
+          done = true;
+          audio.removeEventListener("seeked", finish);
+          resolve();
+        };
+        audio.addEventListener("seeked", finish, { once: true });
+        audio.currentTime = time;
+        setTimeout(finish, 2000);
+      });
+      await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
       audio.pause();
     },
     { audioSelector: CONFIG.dom.audioSelector, time: target.time }
   );
-  await page.waitForTimeout(100);
 
   const result = await page.evaluate(() => ({
     activeWords: document.querySelectorAll('[data-sync-current-word="true"]').length,
@@ -472,6 +483,8 @@ test("I3 intraword progress follows the real word interval", async ({ page }) =>
           return {
             segmentId: String(segment.id),
             wordIndex: i,
+            start: Number(word.start),
+            end: Number(word.end),
             time: (Number(word.start) + Number(word.end)) / 2
           };
         }
@@ -482,10 +495,18 @@ test("I3 intraword progress follows the real word interval", async ({ page }) =>
 
   expect(target, "I3 benchmark requires a sufficiently long timed word").not.toBeNull();
   await loadAndPauseSegment(page, target.segmentId);
+  await page.waitForFunction(
+    ({ audioSelector, time }) => {
+      const audio = document.querySelector(audioSelector);
+      return !!audio && audio.seekable.length > 0 &&
+        audio.seekable.end(audio.seekable.length - 1) + 0.001 >= time;
+    },
+    { audioSelector: CONFIG.dom.audioSelector, time: target.time },
+    { timeout: 10000 }
+  );
   const observed = await seekAndRead(page, target.segmentId, target.wordIndex, {
-    start: target.time - 0.001,
-    end: target.time + 0.001,
-    word: target.time
+    start: target.start,
+    end: target.end
   });
   expect(observed.ok).toBe(true);
   expect(observed.seekStable).toBe(true);
