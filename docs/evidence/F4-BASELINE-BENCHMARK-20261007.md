@@ -7,9 +7,9 @@
 **Versión de producto:** v1.7.0  
 **Commit bajo prueba:** 7c8ffd52fdc4cdf1110391582819b62daa9f5ec9  
 **Workflow:** Calidad (no-regresion) · run 37645750736  
-**PR:** #17 · https://github.com/SeryMente/otrobuenprograma/pull/17  
-**Repositorio:** https://github.com/SeryMente/otrobuenprograma  
-**URL pública:** https://serymente.github.io/otrobuenprograma/
+**PR:** #17 · https://github.com/SeryMente/otrogranprograma/pull/17  
+**Repositorio:** https://github.com/SeryMente/otrogranprograma  
+**URL pública:** https://serymente.github.io/otrogranprograma/
 
 ## 1. Estado congelado
 
