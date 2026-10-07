@@ -59,7 +59,7 @@ railPhaseButtons.forEach(function(b){var target=String(b.dataset.segment),group=
 }
 function paint(){cards.forEach(function(c,i){var active=i===cur;c.classList.toggle('is-active',active);c.setAttribute('aria-current',active?'true':'false');c.setAttribute('data-sync-active-segment',active?'true':'false');});if(prev)prev.disabled=cur===0;if(next)next.disabled=cur===segs.length-1;paintRail();}
 function paintWords(){
-var stateKey=String(widx)+'|'+String(anchorIdx)+'|'+String(Math.ceil(anchorUntil/16));
+var stateKey=String(widx)+'|'+String(anchorIdx);
 if(lastPaintedState===stateKey)return;
 cards.forEach(function(c,ci){
   c.querySelectorAll('.story-word').forEach(function(b,i){
