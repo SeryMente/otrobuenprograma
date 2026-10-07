@@ -1,3 +1,11 @@
+## 2026-10-07 — F4 atención audiovisual
+
+- I1: continuidad visual durante pausas cortas, con ancla explícita y estela de palabras recientes.
+- I2: modulación prosódica mediante envolvente RMS suavizada.
+- I3: progreso intrapalabra derivado del reloj de audio.
+- Identidad: superficies HTML auditadas normalizadas a Otro Gran Programa.
+- Evidencia: `docs/evidence/F4-ATENCION-AUDIOVISUAL-20261007.md`.
+- No se declara certificación humana A/B sin observación real.
 ## [v1.7.0] - 2026-10-07 - Benchmark agnóstico de sincronización
 
 ### Arquitectura
