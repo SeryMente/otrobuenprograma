@@ -1,0 +1,5 @@
+[functions.ogp-analytics]
+verify_jwt = false
+
+[functions.ogp-github-traffic]
+verify_jwt = false
