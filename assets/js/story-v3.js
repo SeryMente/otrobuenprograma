@@ -1,7 +1,7 @@
 (function(){
 'use strict';
 var mount=document.getElementById('relato-sonoro');if(!mount)return;
-var V='v1.6.2-20261006';
+var V='v1.7.0-20261007';
 var ROOT=(location.hostname==='serymente.github.io')?'/otrobuenprograma/':'/';
 var MOBILE=window.matchMedia&&window.matchMedia('(max-width:820px)').matches;
 var URL_DATA=ROOT+'assets/data/relato-obp-phase3.json';
@@ -70,7 +70,7 @@ if(p&&p.then)p.then(function(){playing=true;mount.classList.add('is-playing');pl
 }
 function update(){
 var s=current(),d=Number(audio.duration)||Number(s.audioDuration)||0,t=Number(audio.currentTime)||0,r=d?Math.max(0,Math.min(1,t/d)):0;
-if(microProgress){microProgress.style.setProperty('--progress',(r*100)+'%');microProgress.parentElement.setAttribute('aria-valuenow',String(Math.round(r*100)));}
+if(microProgress){microProgress.style.setProperty('--progress',(r*100)+'%');microProgress.setAttribute('aria-valuenow',String(Math.round(r*100)));}
 if(microTime)microTime.textContent=fmt(t);
 setWordIndex(resolveWordIndex(t),t);window.__ogpSyncDiagnostics.frames++;
 }
