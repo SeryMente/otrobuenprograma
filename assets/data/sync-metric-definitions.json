@@ -1,0 +1,15 @@
+{
+ "M1":["Cobertura","Cuántas palabras tienen timing certificado."],
+ "M2":["Integridad textual","Confirma que el timing usa el texto canónico."],
+ "M3":["Monotonía","Comprueba que los tiempos avanzan en orden."],
+ "M4":["Intervalos válidos","Verifica inicio y fin válidos por palabra."],
+ "M5":["Desviación proporcional P50","Compara contra el reparto proporcional medio."],
+ "M6":["Desviación proporcional P95","Compara los casos de mayor diferencia."],
+ "M7":["Duración de palabra P95","Describe la duración de las palabras largas."],
+ "M8":["Score de alineamiento P10","Indica la confianza del alineamiento en el peor decil."],
+ "M9":["Latencia visual P95","Mide cuánto tarda el resaltado en seguir al audio."],
+ "M10":["Palabra incorrecta","Mide cuántas veces se resalta una palabra equivocada."],
+ "M11":["Palabra omitida","Mide cuántas veces falta el resaltado correcto."],
+ "M12":["Monotonía de transición","Comprueba que el resaltado no retroceda."],
+ "M13":["Estabilidad de seek","Confirma que el audio llegue estable al tiempo solicitado."]
+}
