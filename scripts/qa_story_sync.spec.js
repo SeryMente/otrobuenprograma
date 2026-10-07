@@ -350,7 +350,9 @@ test("generic sync benchmark — runtime clock at configured rate", async ({ pag
         M9_visual_latency_ms_p95: Number(percentileLocal(errors, .95).toFixed(3)),
         M9_visual_latency_ms_p99: Number(percentileLocal(errors, .99).toFixed(3)),
         M9_visual_latency_ms_max: Number(Math.max(0, ...errors).toFixed(3)),
-        M12_word_transition_monotonicity_pct: monotonic ? 100 : 0
+        M12_word_transition_monotonicity_pct: monotonic ? 100 : 0,
+        D1_dom_paint_ops_per_transition: Number(((Number(window.__ogpSyncDiagnostics.paintOps || 0)) / Math.max(1, transitions.length)).toFixed(3)),
+        D2_full_repaints: Number(window.__ogpSyncDiagnostics.fullRepaints || 0)
       };
     },
     {
