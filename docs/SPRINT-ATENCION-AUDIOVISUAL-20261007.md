@@ -1,149 +1,67 @@
-# Sprint de Atención Audiovisual
+# Sprint Ã‚Â· AtenciÃƒÂ³n audiovisual por correspondencia inmediata
 
-**Proyecto:** Otro Gran Programa
-**Repositorio canónico:** https://github.com/SeryMente/otrogranprograma
-**Estado:** PLANIFICADO · PREIMPLEMENTACIÓN
-**Fecha:** 2026-10-07
-**Objeto:** aumentar la atención sostenida voluntaria mediante una correspondencia audiovisual inmediata, continua y gratificante entre audio y transcripción, sin degradar legibilidad ni fidelidad temporal.
+**Proyecto:** Otro Gran Programa  
+**Repositorio canÃƒÂ³nico:** https://github.com/SeryMente/otrogranprograma  
+**URL pÃƒÂºblica canÃƒÂ³nica:** https://serymente.github.io/otrogranprograma/  
+**Estado:** estrategia endurecida; pendiente de ejecuciÃƒÂ³n
 
-## 1. Necesidad subyacente
+## Necesidad subyacente
 
-La necesidad no es hacer que el reproductor sea simplemente más llamativo ni maximizar una conducta compulsiva. La necesidad funcional es mantener al usuario orientado hacia el contenido mediante una señal visual que confirme, momento a momento, qué unidad lingüística está sonando.
+La necesidad no es volver la experiencia artificialmente "adictiva". Es lograr que escuchar y mirar se perciban como **una sola seÃƒÂ±al temporal**, con una recompensa inmediata por comprobar que voz y palabra visual coinciden. La persona debe poder anticipar el siguiente cambio, comprobarlo y seguir escuchando porque el seguimiento resulta claro, continuo y satisfactorio.
 
-La experiencia objetivo debe producir una sensación de seguimiento continuo:
+La hipÃƒÂ³tesis de hacer que la intensidad visual siga la intensidad de la voz es ÃƒÂºtil, pero insuficiente por sÃƒÂ­ sola: volumen no equivale a importancia y demasiada reactividad puede convertirse en ruido. El diseÃƒÂ±o se endurece en este orden:
 
-**oír → localizar → confirmar → anticipar → seguir**
+1. **Continuidad temporal:** nunca debe parecer que la correspondencia desaparece durante una pausa breve.
+2. **Correspondencia prosÃƒÂ³dica:** la energÃƒÂ­a vocal modula la presencia visual de manera suave y estable.
+3. **Seguimiento gratificante:** la progresiÃƒÂ³n visual dentro de cada palabra hace perceptible el "acierto" de tiempo real.
 
-La correspondencia visual debe ser suficientemente estable para que el usuario pueda confiar en ella y suficientemente viva para que seguirla resulte perceptualmente interesante.
+## EstÃƒÂ¡ndar final
 
-## 2. Hipótesis de diseño
+- Exactitud: **M10 = 0%, M11 = 0%, M12 = 100%, M13 = 100%**.
+- Latencia: **M9 P95 Ã¢â€°Â¤ 10 ms** como objetivo de producto; **Ã¢â€°Â¤ 5 ms** como excelencia.
+- Continuidad: sin huecos perceptibles durante silencios breves.
+- Prosodia: seÃƒÂ±al acÃƒÂºstica suavizada Ã¢â€ â€™ presencia visual; sin parpadeo ni jitter.
+- Legibilidad: el estÃƒÂ­mulo nunca compite con el texto.
+- No distracciÃƒÂ³n: la animaciÃƒÂ³n existe para reforzar el seguimiento.
+- ValidaciÃƒÂ³n: A/B con escucha real; no basta con que "se vea bonito".
+- Evidencia: cada iteraciÃƒÂ³n registra nÃƒÂºmeros, delta, decisiÃƒÂ³n, commit y publicaciÃƒÂ³n.
 
-La hipótesis inicial del sprint es que un resaltado binario que aparece y desaparece según actividad de voz produce una pérdida innecesaria de continuidad durante pausas, transiciones y zonas de baja energía.
+## IteraciÃƒÂ³n 1 Ã‚Â· Continuidad visual
 
-La propuesta endurecida separa tres canales:
+Eliminar el encendido/apagado entre palabras. La palabra activa conserva el foco; las palabras reciÃƒÂ©n pronunciadas dejan una estela breve. En una pausa corta, la ÃƒÂºltima palabra permanece como ancla visual y la transiciÃƒÂ³n anticipa la siguiente sin inventar contenido.
 
-1. **Canal semántico primario:** qué palabra está activa.
-2. **Canal temporal:** dónde se encuentra el usuario dentro de la secuencia y qué palabra viene después.
-3. **Canal prosódico secundario:** modulación sutil de la intensidad visual según la energía del habla, sin alterar la identificación de la palabra activa.
+**Gate:** exactitud intacta y continuidad perceptual superior a la versiÃƒÂ³n actual.
 
-La intensidad de voz no debe sustituir al estado activo. Debe modularlo.
+## IteraciÃƒÂ³n 2 Ã‚Â· Correspondencia prosÃƒÂ³dica
 
-## 3. Estándar de calidad del sprint
+Calcular una envolvente acÃƒÂºstica suavizada y trasladarla a luminancia/glow/presencia. La respuesta tendrÃƒÂ¡ attack/release, lÃƒÂ­mites y suavizado para evitar jitter. MÃƒÂ¡s energÃƒÂ­a vocal aumenta presencia; menos energÃƒÂ­a la reduce, pero no la elimina.
 
-El resultado no se considera aceptable por ser atractivo. Debe cumplir simultáneamente:
+**Gate:** correlaciÃƒÂ³n acÃƒÂºstico-visual fuerte, jitter bajo, legibilidad intacta.
 
-- **Fidelidad:** la palabra visualmente dominante debe corresponder al audio real.
-- **Continuidad:** no debe desaparecer el estado visual solo porque exista una pausa breve o una zona de baja energía.
-- **Previsibilidad:** el movimiento del foco debe ser suave y no saltar arbitrariamente.
-- **Legibilidad:** la animación no puede dificultar la lectura del texto.
-- **Baja latencia:** la actualización visual debe sentirse prácticamente simultánea con el audio.
-- **Robustez:** pausas, palabras cortas, palabras largas y cambios rápidos de ritmo no deben romper el seguimiento.
-- **Accesibilidad:** debe existir comportamiento razonable con reducción de movimiento y contraste suficiente.
-- **Control del usuario:** el sistema debe facilitar seguir, pausar, reanudar y abandonar el seguimiento sin fricción.
-- **No dependencia de estímulo compulsivo:** no se usarán destellos rápidos, parpadeos ni microanimaciones constantes cuyo único objetivo sea forzar interacción.
+## IteraciÃƒÂ³n 3 Ã‚Â· Seguimiento gratificante
 
-## 4. Métricas y criterios
+Introducir una progresiÃƒÂ³n intrapalabra sutil durante el intervalo real de cada palabra. El avance visual confirma al oyente que la correspondencia continÃƒÂºa acertando. El bucle perceptual buscado es:
 
-El sprint usará, como mínimo:
+**escuchar Ã¢â€ â€™ ver coincidir Ã¢â€ â€™ anticipar Ã¢â€ â€™ comprobar Ã¢â€ â€™ continuar**
 
-- **Precisión de alineamiento visible:** porcentaje de palabras activas que coinciden con la ventana temporal de la palabra real.
-- **Latencia visual:** diferencia entre el inicio temporal esperado de la palabra y el cambio perceptible de estado.
-- **Continuidad de foco:** porcentaje del tiempo hablado en que existe una palabra activa válida.
-- **Falsos activos:** palabras resaltadas fuera de su intervalo válido.
-- **Transiciones defectuosas:** saltos, regresiones o desapariciones no justificadas.
-- **Carga visual:** inspección cualitativa de legibilidad y estabilidad.
-- **Experiencia percibida:** prueba manual estructurada con observación de si el usuario puede seguir el audio por la vista sin esfuerzo adicional.
+**Gate:** mejora de preferencia y/o permanencia frente a la versiÃƒÂ³n previa en una comparaciÃƒÂ³n A/B, sin degradar ningÃƒÂºn gate tÃƒÂ©cnico.
 
-### Umbrales de aceptación
+## DecisiÃƒÂ³n
 
-- precisión visible ≥ 98 % en la muestra de QA seleccionada;
-- continuidad de foco ≥ 99 % durante habla;
-- falsos activos ≤ 1 %;
-- ninguna regresión funcional del reproductor;
-- cero parpadeos rápidos o comportamientos que puedan resultar molestos;
-- compatibilidad con `prefers-reduced-motion`;
-- todas las pruebas críticas existentes siguen pasando.
+**MEJORA:** publicar.  
+**FUNCIONAL SIN MEJORA:** no promover; registrar.  
+**FALLA:** corregir dentro del mismo ciclo; no publicar.
 
-Estos umbrales son **criterios internos de ingeniería de esta iteración**, no afirmaciones de eficacia clínica.
+## OperaciÃƒÂ³n
 
-## 5. Iteración 1 — Ancla persistente
+**CAMBIO Ã¢â€ â€™ BENCHMARK Ã¢â€ â€™ NÃƒÅ¡MEROS Ã¢â€ â€™ DELTA Ã¢â€ â€™ DECISIÃƒâ€œN Ã¢â€ â€™ EVIDENCIA Ã¢â€ â€™ LIVE**
 
-**Objetivo:** eliminar el patrón actual de resaltado → desaparición → resaltado y establecer una palabra activa persistente como ancla visual.
+No se ejecuta una iteraciÃƒÂ³n posterior mientras la actual no haya terminado.
 
-**Cambio conceptual:** la palabra actual mantiene un estado visual estable durante toda su ventana temporal. Durante pausas breves se conserva el ancla o una transición neutral; no se devuelve inmediatamente la interfaz a estado vacío.
+## LÃƒÂ­mite de diseÃƒÂ±o
 
-**Requisitos:**
+La meta es sostener **atenciÃƒÂ³n voluntaria, comprensiÃƒÂ³n y continuidad de escucha** mediante una correspondencia audiovisual excelente. No se diseÃƒÂ±an mecanismos para explotar compulsiones, ansiedad o dependencia del estÃƒÂ­mulo.
 
-- estado activo inequívoco;
-- transición suave entre palabras;
-- desplazamiento automático opcional sin imponerlo;
-- ninguna pérdida de sincronización por pausas cortas;
-- soporte de teclado y reducción de movimiento.
+## Fidelidad sonora
 
-**Criterio de salida:** la experiencia debe permitir seguir una frase completa mirando la transcripción sin encontrar huecos visuales innecesarios.
-
-## 6. Iteración 2 — Continuidad predictiva
-
-**Objetivo:** convertir el resaltado en un cursor audiovisual continuo, no en una sucesión de estados discretos.
-
-**Cambio conceptual:** añadir una transición temporal entre palabra anterior, palabra actual y siguiente. El foco debe anticipar de forma mínima la continuidad del discurso sin inventar tiempos.
-
-**Requisitos:**
-
-- interpolación controlada entre estados;
-- tratamiento especial de palabras de duración muy corta;
-- no retroceder visualmente;
-- no adelantar de manera que la palabra equivocada domine;
-- conservar una trayectoria estable al aumentar la velocidad del habla.
-
-**Criterio de salida:** el usuario debe percibir que el foco viaja con el habla en vez de saltar de palabra en palabra.
-
-## 7. Iteración 3 — Modulación prosódica de alta calidad
-
-**Objetivo:** explorar la propuesta de usar la intensidad de voz como segundo canal visual, sin contaminar la fidelidad semántica.
-
-**Cambio conceptual:** la palabra activa mantiene identidad constante, mientras una capa secundaria modula suavemente brillo, halo, grosor o profundidad visual según energía/prosodia.
-
-**Requisitos:**
-
-- la semántica del estado activo no depende de la amplitud;
-- la modulación debe ser continua y acotada;
-- voz fuerte no implica cambio de palabra;
-- silencios no deben provocar desaparición abrupta;
-- evitar ruido visual por respiraciones, golpes, clipping o fluctuaciones pequeñas;
-- normalizar la señal para que la comparación entre segmentos no dependa de una escala absoluta de volumen.
-
-**Criterio de salida:** la modulación debe aumentar la sensación de sincronía sin reducir precisión, legibilidad o tranquilidad visual. Si el efecto se percibe decorativo, confuso o fatigante, se descarta aunque sea técnicamente correcto.
-
-## 8. Regla de decisión entre iteraciones
-
-Cada iteración produce:
-
-**CAMBIO → MÉTRICAS → OBSERVACIÓN → DECISIÓN → EVIDENCIA**
-
-No se avanza por inercia.
-
-La siguiente iteración solo se conserva si:
-
-**mejora perceptible + no regresión técnica + cumplimiento de umbrales**
-
-Cuando una hipótesis no mejora el seguimiento, se revierte y se conserva la evidencia del descarte.
-
-## 9. Definición de éxito del sprint
-
-El sprint se considera exitoso únicamente cuando el reproductor consigue una correspondencia visual:
-
-- precisa;
-- continua;
-- suave;
-- perceptualmente inmediata;
-- legible;
-- accesible;
-- estable durante pausas y cambios de ritmo;
-- y suficientemente interesante como para facilitar la permanencia voluntaria del usuario en el contenido.
-
-La palabra activa siempre sigue siendo la señal primaria. La prosodia únicamente la enriquece.
-
-## 10. No implementación todavía
-
-Este documento define el estándar y las tres iteraciones antes de comenzar la ejecución. El siguiente ciclo de trabajo debe iniciar por la Iteración 1 y registrar evidencia contra los criterios anteriores.
+Las fuentes de transcripciÃƒÂ³n conservan literalmente las palabras realmente pronunciadas. Esa conservaciÃƒÂ³n es evidencia de audio, no branding. Los metadatos, rutas, identificadores y superficies de comunicaciÃƒÂ³n sÃƒÂ­ deben usar exclusivamente **Otro Gran Programa / OGP**.
