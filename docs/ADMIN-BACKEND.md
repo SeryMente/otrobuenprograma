@@ -136,4 +136,4 @@ La primera cuenta prevista para la consola es **the.willfreeman@gmail.com**. Par
 
 El correo aparece fijado en la interfaz y la contraseña se captura únicamente mediante Supabase Auth con `auth.signUp`. OGP no almacena, transmite a su propio backend ni registra la contraseña.
 
-Tras el alta, si el proyecto exige confirmación de correo, el titular debe confirmar el mensaje recibido. La promoción inicial a `admin` se realiza posteriormente mediante el bootstrap privado del backend; no se concede el rol privilegiado desde una página pública.
+Tras el alta, si el proyecto exige confirmación de correo, el titular debe confirmar el mensaje recibido. En el primer inicio de sesión confirmado, la consola solicita una función backend protegida que reclama el primer rol `admin` únicamente para ese correo y sólo si todavía no existe ningún administrador. El privilegio no se concede desde una página pública sin autenticación.
