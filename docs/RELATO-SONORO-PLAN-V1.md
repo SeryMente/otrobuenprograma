@@ -181,16 +181,16 @@ Solo se considera terminado cuando la producción pública demuestra la cadena c
 La experiencia no se declarará terminada mientras exista cualquier combinación de: transcripción no auditada; sincronización proporcional; audio no segmentado; roadmap no jerárquico; duplicación de motores; inconsistencia entre fuente canónica y producción; UI heredada no resuelta; contenido visual sustituyendo a la voz; regresiones del resto del sitio.
 
 ## Fuente de verdad
-Repositorio: SeryMente/otrobuenprograma
+Repositorio: SeryMente/otrogranprograma
 Rama de trabajo/cierre: main
-Máster sonoro: assets/audio/relato-obp-v015.mp3
-Arquitectura canónica: assets/data/relato-obp-architecture-v1.json
+Máster sonoro: assets/audio/relato-ogp-v015.mp3
+Arquitectura canónica: assets/data/relato-ogp-architecture-v1.json
 Plan canónico: docs/RELATO-SONORO-PLAN-V1.md
 
 ## Estado de ejecución — 2026-10-05
 La Fase 2 está dividida en dos estados de evidencia para no confundir segmentación editorial con alineamiento físico:
 
-- **Completado:** segmentación semántica 5×20, preservando literalmente la transcripción canónica de `relato-obp-v015.json`; se generó `assets/data/relato-obp-phase2-editorial.json`. El nombre hablado “Otro Buen Programa” se conserva en la transcripción y el nombre visible es “Otro Gran Programa”.
+- **Completado:** segmentación semántica 5×20, preservando literalmente la transcripción canónica de `relato-ogp-v015.json`; se generó `assets/data/relato-ogp-phase2-editorial.json`. El nombre hablado “Otro Gran Programa” se conserva en la transcripción y el nombre visible es “Otro Gran Programa”.
 - **Implementado para ejecución reproducible:** `scripts/execute_relato_phase2.py` y `.github/workflows/execute-relato-phase2.yml`, con verificación de bytes/duración/hash del máster, ASR contra el MP3 real, cortes físicos y QC.
 - **Bloqueo de evidencia:** la certificación de transcripción contra audio, timestamps físicos y los 20 MP3 derivados todavía no puede marcarse como pasada porque las ejecuciones de ASR han sufrido dos fallos distintos: cola de runners de GitHub y la incompatibilidad de `faster-whisper 1.2.1` con PyAV 19. El pipeline ya quedó corregido fijando `av<19`.
 - **No permitido:** convertir el timing proporcional anterior en sustituto del alineamiento físico. Mientras el máster no haya sido transcrito/verificado y cortado sobre sus timestamps reales, Fase 2 no se considera cerrada.
