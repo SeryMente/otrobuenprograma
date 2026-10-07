@@ -2,10 +2,10 @@
 ## v1.6.0 Â· Experiencia mÃ³vil: navegaciÃ³n mÃ­nima, roadmap persistente y arranque sonoro
 
 **Ciclo:** C20261006-1606
-**Proyecto:** Otro Buen Programa (OGP)
+**Proyecto:** Otro Gran Programa (OGP)
 **ConversaciÃ³n:** CONV-F3-3
 **Base canÃ³nica:** v1.5.11 Â· `909d23d98881867f1361d78c253272f75ae6eb6f`
-**Base remota:** `main` de https://github.com/SeryMente/otrobuenprograma
+**Base remota:** `main` de https://github.com/SeryMente/otrogranprograma
 **Estado de este documento:** PLANIFICACIÃ“N â€” sin cambios de cÃ³digo
 **VersiÃ³n objetivo:** v1.6.0
 **PropÃ³sito del ciclo:** corregir la composiciÃ³n mÃ³vil y la entrada a la experiencia sin volver a introducir ruido, redundancia ni superficies de interfaz no solicitadas.
@@ -103,7 +103,7 @@ La barra mÃ³vil NO reaparecerÃ¡ durante scroll intermedio salvo cuando el us
 
 Esto sustituye la pÃ­ldora mÃ³vil actualmente generada por `navigator.js`.
 
-**Fase tÃ©cnica de implementaciÃ³n:** https://github.com/SeryMente/otrobuenprograma
+**Fase tÃ©cnica de implementaciÃ³n:** https://github.com/SeryMente/otrogranprograma
 
 ---
 
@@ -154,7 +154,7 @@ Estrategia:
 
 No se generarÃ¡ una nueva imagen: se trabajarÃ¡ sobre el recurso fotogrÃ¡fico pÃºblico existente.
 
-**Fase tÃ©cnica de implementaciÃ³n:** https://github.com/SeryMente/otrobuenprograma
+**Fase tÃ©cnica de implementaciÃ³n:** https://github.com/SeryMente/otrogranprograma
 ## 7. Identidad del sitio y eliminaciÃ³n de redundancias
 
 La entrada debe dejar de decir:
@@ -212,7 +212,7 @@ La implementaciÃ³n deberÃ¡ evitar que el transporte fijo tape:
 
 Se usarÃ¡n env(safe-area-inset-*) donde proceda.
 
-**Fase tÃ©cnica:** https://github.com/SeryMente/otrobuenprograma
+**Fase tÃ©cnica:** https://github.com/SeryMente/otrogranprograma
 
 ---
 
@@ -260,11 +260,11 @@ InteracciÃ³n:
 - el rail no abre paneles adicionales;
 - labels completos se reservan para accesibilidad y no para saturar la pantalla.
 
-La fuente de verdad serÃ¡ relato-obp-phase3.json: sus campos phase + orden de id serÃ¡n suficientes para construir el rail.
+La fuente de verdad serÃ¡ relato-ogp-phase3.json: sus campos phase + orden de id serÃ¡n suficientes para construir el rail.
 
 No se duplicarÃ¡ manualmente el contenido de fases en HTML.
 
-**Fase tÃ©cnica:** https://github.com/SeryMente/otrobuenprograma
+**Fase tÃ©cnica:** https://github.com/SeryMente/otrogranprograma
 
 ---
 
@@ -318,7 +318,7 @@ No se falsearÃ¡ el estado diciendo que el audio estÃ¡ reproduciÃ©ndose cua
 
 La existencia del atributo autoplay tampoco debe tratarse como garantÃ­a: los agentes de usuario pueden ignorarlo.
 
-**Fase tÃ©cnica:** https://github.com/SeryMente/otrobuenprograma
+**Fase tÃ©cnica:** https://github.com/SeryMente/otrogranprograma
 
 ---
 
@@ -496,7 +496,7 @@ DespuÃ©s comenzarÃ¡ la implementaciÃ³n en este orden:
 
 Cada etapa deberÃ¡ producir evidencia antes de continuar con la siguiente cuando una modificaciÃ³n pueda afectar la anterior.
 
-**Fase tÃ©cnica:** https://github.com/SeryMente/otrobuenprograma
+**Fase tÃ©cnica:** https://github.com/SeryMente/otrogranprograma
 
 ---
 
@@ -568,7 +568,7 @@ El Ãºnico cambio persistente del ciclo de planificaciÃ³n es este documento, 
 
 ## Referencia tÃ©cnica del repositorio
 
-Repositorio: https://github.com/SeryMente/otrobuenprograma
+Repositorio: https://github.com/SeryMente/otrogranprograma
 Base verificada: main @ 909d23d98881867f1361d78c253272f75ae6eb6f
 VersiÃ³n de partida: v1.5.11
 VersiÃ³n objetivo: v1.6.0
@@ -668,7 +668,7 @@ El código de producto sigue sin modificaciones por este ciclo de planificación
 
 Base: v1.5.11 · `909d23d98881867f1361d78c253272f75ae6eb6f`
 Objetivo: v1.6.0
-Repositorio: https://github.com/SeryMente/otrobuenprograma\n
+Repositorio: https://github.com/SeryMente/otrogranprograma\n
 
 
 ## 25. Checkpoint CP-01 — entrada a implementación
@@ -688,7 +688,7 @@ Se corrigieron antes de publicación la transición de scroll para evitar salto 
 
 Esta entrega cubre shell móvil, navegación fullscreen, hero/autor, matrícula 5125461, retirada pública de Glosa y cache-busting/Service Worker v1.6.0.
 
-**URL canónica:** https://serymente.github.io/otrobuenprograma/  
+**URL canónica:** https://serymente.github.io/otrogranprograma/  
 **Siguiente:** CP-05 — micro-rail + transporte/autoplay.
 
 ## 29. Estado de persistencia
@@ -701,7 +701,7 @@ La especificación del sprint, sus endurecimientos H1 y el protocolo de checkpoi
 
 Micro-rail 5×4, transporte compacto y autoplay inmediato best-effort incorporados.
 
-**URL canónica:** https://serymente.github.io/otrobuenprograma/
+**URL canónica:** https://serymente.github.io/otrogranprograma/
 
 
 
@@ -709,7 +709,7 @@ Micro-rail 5×4, transporte compacto y autoplay inmediato best-effort incorporad
 
 Se fija el stacking del activador móvil por encima del transporte y se endurece la suite browser para no depender de recursos externos que prolonguen `networkidle`. La prueba del rail centra explícitamente el relato antes de validar visibilidad.
 
-**URL canónica:** https://serymente.github.io/otrobuenprograma/
+**URL canónica:** https://serymente.github.io/otrogranprograma/
 
 
 
@@ -814,7 +814,7 @@ Suite completa ejecutada sobre `origin/checkpoint/v1.6.0-cp06`:
 
 El debug temporal de RDC no forma parte del repositorio.
 
-**URL canónica:** https://serymente.github.io/otrobuenprograma/
+**URL canónica:** https://serymente.github.io/otrogranprograma/
 
 
 
@@ -830,7 +830,7 @@ El PR #9 fue integrado en `main`.
   - recursos versionados `v1.6.0-20261006`;
   - navegación móvil `mobile-nav-overlay`.
 
-**URL canónica viva:** https://serymente.github.io/otrobuenprograma/
+**URL canónica viva:** https://serymente.github.io/otrogranprograma/
 
 **Estado:** IMPLEMENTACIÓN TERMINADA · PUBLICADA · VERIFICADA.
 
@@ -848,7 +848,7 @@ Corrección aplicada:
 
 **Estado:** corrección integrada en `main` mediante PR #10 y publicada; los gates de calidad y deployment resultaron satisfactorios.
 
-**Referencia técnica:** https://github.com/SeryMente/otrobuenprograma/blob/main/assets/css/story-v3.css
+**Referencia técnica:** https://github.com/SeryMente/otrogranprograma/blob/main/assets/css/story-v3.css
 
 
 ## 47.2 Checkpoint v1.6.2 — reparación de regresión de contenido y refinamiento narrativo móvil
@@ -877,7 +877,7 @@ La suite móvil comprueba explícitamente que `#comind` y `#cuentas` siguen pres
 Este bloque prevalece sobre cualquier regla visual anterior del H1-09 que fuerce una sola línea en anchos donde la composición no la pueda sostener. El criterio es una sola línea por defecto; únicamente en anchos extremadamente estrechos se permite una segunda línea, sin overflow ni reducción ilegible de tipografía.
 
 **Versión de implementación:** v1.6.2
-**Referencia canónica:** https://github.com/SeryMente/otrobuenprograma
+**Referencia canónica:** https://github.com/SeryMente/otrogranprograma
 **Estado final:** IMPLEMENTADO EN `main` · PR #11 MERGED · GATES VERDES · PAGES DEPLOYED
 
 
@@ -900,8 +900,8 @@ La suite local ejecutada contra la rama resultó en **13/13 PASS**, incluyendo l
 La regresión crítica no se resolvió ocultando o reintroduciendo Glosa: se aisló la dependencia equivocada y el motor `.reveal` pasó a `assets/js/app.js`, de modo que el contenido editorial conserva su visibilidad independientemente de Glosa.
 
 **Versión final:** v1.6.2
-**PR:** https://github.com/SeryMente/otrobuenprograma/pull/11
-**Commit:** https://github.com/SeryMente/otrobuenprograma/commit/a5bcc98dbb4ae1dae1030fc4536c1a50cd1e6de9
+**PR:** https://github.com/SeryMente/otrogranprograma/pull/11
+**Commit:** https://github.com/SeryMente/otrogranprograma/commit/a5bcc98dbb4ae1dae1030fc4536c1a50cd1e6de9
 **Estado:** CERRADO · PUBLICADO · VERIFICADO
 
 ---
@@ -910,8 +910,8 @@ La regresión crítica no se resolvió ocultando o reintroduciendo Glosa: se ais
 
 **Fecha:** 2026-10-07  
 **Versión evaluada:** v1.6.2  
-**URL pública:** https://serymente.github.io/otrobuenprograma/  
-**URL canónica:** https://github.com/SeryMente/otrobuenprograma
+**URL pública:** https://serymente.github.io/otrogranprograma/  
+**URL canónica:** https://github.com/SeryMente/otrogranprograma
 
 El cierre técnico de v1.6.2 fue correcto en integridad de contenido y gates automatizados, pero la revisión posterior detectó una diferencia entre la expectativa visual y la implementación publicada. Este delta define el trabajo que continúa en F4.
 
@@ -935,4 +935,4 @@ La retroalimentación post-sprint pasa a ser requisito de entrada del sprint sig
 
 F4/v1.7.0 se define como continuación directa de este delta: corregirá la integración visual todavía incompleta y establecerá la sincronización palabra-voz como subsistema medible, reproducible y certificable.
 
-**Plan F4:** https://github.com/SeryMente/otrobuenprograma/blob/main/docs/PLAN-F4-SINCRONIZACION-NARRATIVA-20261007.md
+**Plan F4:** https://github.com/SeryMente/otrogranprograma/blob/main/docs/PLAN-F4-SINCRONIZACION-NARRATIVA-20261007.md
