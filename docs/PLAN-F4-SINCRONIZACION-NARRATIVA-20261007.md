@@ -780,3 +780,43 @@ El benchmark se considerará portable cuando:
 6. genere métricas comparables para cualquier proyecto compatible con el contrato.
 
 **Fase técnica:** https://github.com/SeryMente/otrobuenprograma
+## 24. P1.1 · Dashboard orientado a perfección cuantitativa
+
+**Fecha:** 2026-10-07  
+**Branch:** https://github.com/SeryMente/otrobuenprograma/tree/iter/p1-sync-dom-20261007  
+**PR:** https://github.com/SeryMente/otrobuenprograma/pull/20  
+**URL pública canónica:** https://serymente.github.io/otrobuenprograma/
+
+El dashboard de cada iteración queda definido como instrumento de decisión, no como simple visualizador de métricas.
+
+### Contrato de lectura
+
+- **IGP:** indica qué tan cerca está el sistema del ideal.
+- **Déficit:** indica cuántos puntos faltan para 100.000.
+- **Gates:** indican si el estado puede certificarse.
+- **Δ IGP:** indica si la iteración avanzó respecto a B1.
+- **Métrica:** muestra valor, objetivo, calidad normalizada, peso y una sola frase explicativa.
+- **Diagnóstico:** permanece visible cuando ayuda a entender el sistema, pero no entra al IGP si no existe un ideal suficientemente definido.
+
+### Algoritmo
+
+El IGP utiliza media geométrica ponderada:
+
+IGP = 100 × Π(qᵢ ^ wᵢ)
+
+con Σwᵢ = 1.
+
+La media geométrica evita que una fortaleza oculte completamente una debilidad.
+
+La especificación reutilizable queda en:
+- assets/js/igp.js;
+- assets/data/sync-igp-config.json;
+- docs/architecture/IGP-v1.md.
+
+### P1.1
+
+El snapshot del dashboard corresponde al workflow 37655198400 y conserva M10=0%, M11=0%, M12=100% y M13=100%.
+
+M9 P95 pasó de 14.994 ms en B1 a 15.698 ms; por tanto, P1 no se declara mejora de latencia.
+
+**Fase técnica:** https://github.com/SeryMente/otrobuenprograma/tree/iter/p1-sync-dom-20261007
