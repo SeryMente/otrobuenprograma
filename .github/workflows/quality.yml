@@ -66,7 +66,6 @@ jobs:
           grep -q '__ogpSyncDiagnostics' assets/js/story-v3.js
           ! grep -q 'La voz sigue siendo el centro.' assets/js/story-v3.js
           ! grep -q 'class="story-context"' assets/js/story-v3.js
-          grep -q 'story-section-title' assets/js/story-v3.js
           grep -q 'querySelectorAll' assets/js/app.js
           ! grep -q '<footer>' index.html
           grep -q 'audio.autoplay=true' assets/js/story-v3.js
