@@ -21,7 +21,7 @@ jobs:
       - name: Archivos clave
         run: |
           set -euo pipefail
-          for f in index.html sw.js manifest.webmanifest assets/css/instrument.css assets/css/additions.css assets/css/themes.css assets/css/story.css assets/css/story-v3.css assets/js/config.js assets/js/timeline.js assets/js/navigator.js assets/js/mobile-shell.js assets/js/app.js assets/js/story-v3.js scripts/qa_mobile_v16.spec.js; do test -f "$f"; done
+          for f in index.html sw.js manifest.webmanifest assets/css/instrument.css assets/css/additions.css assets/css/themes.css assets/css/story.css assets/css/story-v3.css assets/js/config.js assets/js/timeline.js assets/js/navigator.js assets/js/mobile-shell.js assets/js/app.js assets/js/story-v3.js scripts/qa_mobile_v16.spec.js scripts/qa_story_sync.spec.js scripts/benchmark_story_timing.py; do test -f "$f"; done
       - name: Content-safe and visual smoke contract
         run: |
           python3 - <<'PY'
@@ -33,7 +33,7 @@ jobs:
           assert ".story-return-overlay" in s
           PY
           ! grep -q "fitHeroTitle" assets/js/mobile-shell.js
-      - name: Contrato publico v1.6.2
+      - name: Contrato publico v1.7.0
         run: |
           set -euo pipefail
           ! grep -q 'assets/js/glosa.js' index.html
@@ -47,16 +47,25 @@ jobs:
           ! grep -q 'mobile-nav-title' index.html
           grep -q '<title>Otro Gran Programa</title>' index.html
           grep -q 'id="obp-title">Otro Gran Programa</h1>' index.html
+          grep -q 'class="obp-author-card" id="autor">' index.html
+          grep -q 'class="obp-hero-dek"' index.html
           grep -q 'una iniciativa para revolucionar la manera en la que aliviaremos la disfunción familiar para nuestros hijos y sus hijos también.' index.html
+          ! grep -q 'id="story-section-title"' assets/js/story-v3.js
+          ! grep -q 'class="story-player"' assets/js/story-v3.js
+          grep -q 'story-micro-controls' assets/js/story-v3.js
+          grep -q 'story-micro-prev' assets/js/story-v3.js
+          grep -q 'story-micro-next' assets/js/story-v3.js
           grep -q 'Desarrollador independiente' index.html
           grep -q 'Intérprete médico / Traductor (español-inglés)' index.html
           grep -q 'Matrícula 5125461' index.html
           grep -q 'story-micro-rail' assets/js/story-v3.js
           grep -q 'story-micro-play' assets/js/story-v3.js
+          grep -q 'story-micro-progress' assets/js/story-v3.js
           grep -q 'story-return-overlay' assets/js/story-v3.js
+          grep -q 'requestAnimationFrame' assets/js/story-v3.js
+          grep -q '__ogpSyncDiagnostics' assets/js/story-v3.js
           ! grep -q 'La voz sigue siendo el centro.' assets/js/story-v3.js
           ! grep -q 'class="story-context"' assets/js/story-v3.js
-          grep -q 'story-section-title' assets/js/story-v3.js
           grep -q 'querySelectorAll' assets/js/app.js
           ! grep -q '<footer>' index.html
           grep -q 'audio.autoplay=true' assets/js/story-v3.js
@@ -64,9 +73,10 @@ jobs:
           grep -q 'first-gesture' assets/js/story-v3.js
           grep -q 'mobile-nav-lock' assets/js/mobile-shell.js
           ! grep -q 'guide-pill' assets/js/navigator.js
-          grep -q 'instrumento-v1.6.2-mobile-20261006' sw.js
+          grep -q 'instrumento-v1.7.0-sync-20261007' sw.js
           grep -q 'assets/js/mobile-shell.js' sw.js
-          echo "PUBLIC_V16_STATIC_CONTRACT=PASSED"
+          grep -q 'scripts/qa_story_sync.spec.js' .github/workflows/quality.yml
+          echo "PUBLIC_V17_STATIC_CONTRACT=PASSED"
       - name: Sintaxis JavaScript
         run: |
           set -euo pipefail
@@ -97,10 +107,12 @@ jobs:
       - run: nohup python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/ogp-http.log 2>&1 &
       - run: npx playwright install --with-deps chromium
       - run: npx playwright test --config=playwright.config.js
+      - name: Story timing benchmark
+        run: python3 scripts/benchmark_story_timing.py --output test-results/benchmark-story-timing.json
       - name: Capturas QA
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ogp-v162-mobile-evidence
+          name: ogp-v170-mobile-sync-evidence
           path: test-results/
           if-no-files-found: ignore

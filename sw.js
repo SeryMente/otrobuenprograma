@@ -1,7 +1,7 @@
 /* ===================================================================
-   sw.js · Service Worker · v1.6.2
+   sw.js · Service Worker · v1.7.0
    =================================================================== */
-var VERSION='instrumento-v1.6.2-mobile-20261006';
+var VERSION='instrumento-v1.7.0-sync-20261007';
 var SHELL=['.','index.html','manifest.webmanifest','assets/css/instrument.css','assets/css/additions.css','assets/css/themes.css','assets/css/story-v3.css','assets/js/config.js','assets/js/theme.js','assets/js/timeline.js','assets/js/presence.js','assets/js/cuentas.js','assets/js/navigator.js','assets/js/mobile-shell.js','assets/js/app.js','assets/js/story-v3.js','assets/data/timeline.json','assets/data/necesidades.json','assets/data/movimientos.json','assets/data/relato-obp-phase3.json','assets/data/story-word-timing.json','assets/img/icon-192.png','assets/img/icon-512.png','assets/img/apple-touch-icon.png'];
 self.addEventListener('install',function(e){self.skipWaiting();e.waitUntil(caches.open(VERSION).then(function(c){return Promise.all(SHELL.map(function(u){return c.add(u).catch(function(){});}));}));});
 self.addEventListener('activate',function(e){e.waitUntil(caches.keys().then(function(keys){return Promise.all(keys.filter(function(k){return k!==VERSION;}).map(function(k){return caches.delete(k);}));}).then(function(){return self.clients.claim();}));});

@@ -64,7 +64,7 @@ def main():
         audio_path = ROOT / s["audio"]
         if not audio_path.exists():
             raise RuntimeError(f"Falta audio {s['id']}: {audio_path}")
-        print(json.dumps({"segment":s["id"],"step":"align"}, ensure_ascii=False), flush=True)
+        print(json.dumps({"segment":s["id"],"step":"align","duration":s["audioDuration"],"words":len(tokens(s["text"]))}, ensure_ascii=False), flush=True)
         audio = whisperx.load_audio(str(audio_path))
         result = whisperx.align(
             [{"start":0.0,"end":float(s["audioDuration"]),"text":s["text"]}],
@@ -78,12 +78,19 @@ def main():
 
         local = []
         for i, w in enumerate(aligned):
-            local.append({
+            start=float(w["start"]); end=float(w["end"])
+            if start < 0 or end <= start or end > float(s["audioDuration"]) + 0.075:
+                raise RuntimeError(f"Segmento {s['id']}: intervalo fuera de rango en palabra {i+1}: {start}–{end}")
+            item={
                 "index": i,
                 "word": str(w["word"]).strip(),
-                "start": round(float(w["start"]), 3),
-                "end": round(float(w["end"]), 3),
-            })
+                "start": round(start, 3),
+                "end": round(end, 3),
+            }
+            if "score" in w:
+                try: item["score"]=round(float(w["score"]), 6)
+                except (TypeError, ValueError): pass
+            local.append(item)
         total += len(local)
         timing_segments.append({"id":s["id"],"phase":s["phase"],"words":local})
 
@@ -91,6 +98,7 @@ def main():
         "version": 1,
         "phase": "Fase 3",
         "status": "forced-alignment-certified",
+        "certification": {"aligner": "WhisperX CTC", "runtimeClock": "HTMLMediaElement.currentTime + requestAnimationFrame", "referenceType": "canonical transcript + physical segment audio"},
         "method": "WhisperX CTC forced alignment against canonical segment transcript and segment audio",
         "sourceAudio": "assets/audio/relato-obp-v015.mp3",
         "sourcePhase2": "assets/data/relato-obp-phase2.json",

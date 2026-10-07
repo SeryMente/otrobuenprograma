@@ -30,7 +30,8 @@ test("audio is configured for immediate audible best-effort",async({page})=>{
 test("content after sound experience remains visible without Glosa",async({page})=>{
   await page.setViewportSize({width:390,height:844}); await page.goto(URL,{waitUntil:"domcontentloaded"});
   await expect(page.locator("#comind")).toBeAttached(); await expect(page.locator("#cuentas")).toBeAttached();
-  await expect(page.locator("#story-section-title")).toHaveText("una iniciativa para revolucionar la manera en la que aliviaremos la disfunción familiar para nuestros hijos y sus hijos también.");
+  await expect(page.locator(".obp-hero-dek")).toHaveText("una iniciativa para revolucionar la manera en la que aliviaremos la disfunción familiar para nuestros hijos y sus hijos también.");
+  await expect(page.locator("#relato-sonoro .story-player")).toHaveCount(0);
   await expect(page.locator(".story-context")).toHaveCount(0); await expect(page.locator(".story-label")).toHaveCount(0);
   const storyText=await page.locator("#relato-sonoro").textContent(); expect(storyText).not.toContain("Relato"); expect(storyText).not.toContain("Fase"); expect(storyText).not.toContain("CONTEXTO");
   await page.locator("#comind").scrollIntoViewIfNeeded(); await page.waitForTimeout(140); await expect(page.locator("#comind")).toHaveCSS("opacity","1");
