@@ -81,6 +81,7 @@
 
     if (consent.analytics) {
       ensureIdentity();
+      bindCtas();
       drainQueue();
       track("page_view");
       startEngagementTracking();
@@ -281,6 +282,8 @@
   }
 
   function bindCtas() {
+    if (state.ctaBound) return;
+    state.ctaBound = true;
     document.addEventListener("click", function (event) {
       const target = event.target.closest("a,button");
       if (!target || !state.consent?.analytics) return;
