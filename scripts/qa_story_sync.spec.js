@@ -313,7 +313,7 @@ test("generic sync benchmark — runtime clock at configured rate", async ({ pag
     { audioSelector: CONFIG.dom.audioSelector, playbackRate: CONFIG.runtime.playbackRate }
   );
 
-  await page.locator(".story-micro-play").click();
+  await page.locator(CONFIG.dom.playControlSelector).click();
   const durationMs = Math.max(1000, Number(CONFIG.runtime.durationSec) * 1000);
   await page.waitForTimeout(durationMs);
   await page.evaluate((audioSelector) => document.querySelector(audioSelector)?.pause(), CONFIG.dom.audioSelector);
