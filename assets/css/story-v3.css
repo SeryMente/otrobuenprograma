@@ -441,3 +441,20 @@ html.mobile-nav-open .story-return-overlay{pointer-events:none;opacity:0}
   }
   .story-word.is-current::after{transition:none}
 }
+
+
+/* v1.18.0 · formato enriquecido de transcripción derivado del canon */
+.story-word.rich-strong{
+  font-weight:800;
+}
+.story-word.rich-underline{
+  text-decoration-line:underline;
+  text-decoration-thickness:1.5px;
+  text-underline-offset:.18em;
+}
+.story-word.rich-strong.rich-underline{
+  font-weight:800;
+  text-decoration-line:underline;
+  text-decoration-thickness:1.5px;
+  text-underline-offset:.18em;
+}
