@@ -405,9 +405,10 @@ test("I1 short pauses keep a visible continuity anchor without falsifying the ac
 
   await loadAndPauseSegment(page, target.segmentId);
   await page.evaluate(
-    ({ audioSelector, time }) => {
+    async ({ audioSelector, time }) => {
       const audio = document.querySelector(audioSelector);
       audio.currentTime = time;
+      await new Promise((resolve) => setTimeout(resolve, 250));
       audio.pause();
     },
     { audioSelector: CONFIG.dom.audioSelector, time: target.time }
@@ -482,9 +483,10 @@ test("I3 intraword progress follows the real word interval", async ({ page }) =>
   expect(target, "I3 benchmark requires a sufficiently long timed word").not.toBeNull();
   await loadAndPauseSegment(page, target.segmentId);
   await page.evaluate(
-    ({ audioSelector, time }) => {
+    async ({ audioSelector, time }) => {
       const audio = document.querySelector(audioSelector);
       audio.currentTime = time;
+      await new Promise((resolve) => setTimeout(resolve, 250));
       audio.pause();
     },
     { audioSelector: CONFIG.dom.audioSelector, time: target.time }
