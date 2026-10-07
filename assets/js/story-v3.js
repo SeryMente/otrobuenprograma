@@ -1,7 +1,7 @@
 (function(){
 'use strict';
 var mount=document.getElementById('relato-sonoro');if(!mount)return;
-var V='v1.12.0-20261007';
+var V='v1.13.0-20261007';
 var ROOT=(location.hostname==='serymente.github.io')?'/otrogranprograma/':'/';
 var MOBILE=window.matchMedia&&window.matchMedia('(max-width:820px)').matches;
 var URL_DATA=ROOT+'assets/data/relato-ogp-phase3.json';
@@ -100,7 +100,7 @@ function scheduleNextWord(){
  var ws=current().words||[],t=Number(audio.currentTime)||0,next=widx+1;
  while(next<ws.length&&Number(ws[next].end)<=t)next++;
  if(next>=ws.length)return;
- var delay=Math.max(0,((Number(ws[next].start)-t)*1000/(Number(audio.playbackRate)||1))-3);
+ var delay=Math.max(0,((Number(ws[next].start)-t)*1000/(Number(audio.playbackRate)||1))-8);
  wordTimerId=setTimeout(function(){
    wordTimerId=0;
    if(!playing)return;
