@@ -1,0 +1,256 @@
+{
+  "version": "1.2",
+  "project": "Otro Gran Programa",
+  "status": "Fase 1 endurecida: trazabilidad integral revisada",
+  "fixedArchitecture": {
+    "phases": 5,
+    "segments": 20,
+    "rule": "1 segmento = 1 idea central",
+    "primaryContent": "transcripción",
+    "complementaryContent": [
+      "visual",
+      "contexto editorial"
+    ],
+    "audioModel": "1 MP3 maestro inmutable + 20 MP3 derivados",
+    "syncModel": "forced alignment / alineamiento fonético palabra por palabra",
+    "navigation": "roadmap jerárquico Fase → Segmento"
+  },
+  "phases": [
+    {
+      "id": "F1",
+      "title": "Puerta y propósito",
+      "segments": [
+        {
+          "id": "01",
+          "title": "La puerta de entrada",
+          "idea": "El código QR, el encuentro y la invitación a observar el desarrollo de la iniciativa."
+        },
+        {
+          "id": "02",
+          "title": "Quién soy y desde dónde hablo",
+          "idea": "Presentación del autor, su oficio y el contexto desde el que surge la propuesta."
+        },
+        {
+          "id": "03",
+          "title": "Qué es Otro Gran Programa",
+          "idea": "Definición de la iniciativa como una enseñanza espiritual entendida como desarrollo personal."
+        },
+        {
+          "id": "04",
+          "title": "La intención de competir",
+          "idea": "Decisión explícita de desarrollar una alternativa al programa de doce pasos."
+        }
+      ]
+    },
+    {
+      "id": "F2",
+      "title": "Por qué hace falta otra opción",
+      "segments": [
+        {
+          "id": "05",
+          "title": "Gratitud por lo que ya existe",
+          "idea": "Reconocimiento del valor que el programa de doce pasos ha tenido para muchas personas, incluido el autor."
+        },
+        {
+          "id": "06",
+          "title": "La necesidad de una alternativa",
+          "idea": "Conclusión de que hace falta otra posibilidad sin perder las aportaciones de la existente."
+        },
+        {
+          "id": "07",
+          "title": "El fundamento de Un Curso de Milagros",
+          "idea": "Presentación de Un Curso de Milagros como sustrato de la propuesta."
+        },
+        {
+          "id": "08",
+          "title": "La relación como campo de desarrollo",
+          "idea": "El desarrollo personal ocurre especialmente en la relación con otros."
+        }
+      ]
+    },
+    {
+      "id": "F3",
+      "title": "Cómo podría funcionar",
+      "segments": [
+        {
+          "id": "09",
+          "title": "El perdón como entrenamiento",
+          "idea": "Papel del pensamiento de perdón dentro de la propuesta."
+        },
+        {
+          "id": "10",
+          "title": "Grupos de ayuda mutua",
+          "idea": "Posibilidad de traducir la enseñanza a estructuras prácticas semejantes a los grupos existentes."
+        },
+        {
+          "id": "11",
+          "title": "Una posición distinta en la escala",
+          "idea": "Ubicación de una propuesta basada en Un Curso de Milagros hacia el extremo no dual."
+        },
+        {
+          "id": "12",
+          "title": "Una pertenencia más inclusiva",
+          "idea": "Ampliación del concepto de pertenencia y de quién puede formar parte."
+        }
+      ]
+    },
+    {
+      "id": "F4",
+      "title": "La desintegración positiva",
+      "segments": [
+        {
+          "id": "13",
+          "title": "La teoría de la desintegración positiva",
+          "idea": "Presentación del marco intelectual de Casimir Dąbrowski y su lugar en la iniciativa."
+        },
+        {
+          "id": "14",
+          "title": "El conflicto moral",
+          "idea": "Tesis de que el desarrollo de la personalidad puede producirse mediante conflictos morales."
+        },
+        {
+          "id": "15",
+          "title": "Cuando la realidad contradice lo aprendido",
+          "idea": "Choque entre enseñanzas recibidas y lo que la persona observa efectivamente en el mundo."
+        },
+        {
+          "id": "16",
+          "title": "Las razones para conformarse",
+          "idea": "Comprender las razones legítimas por las que una persona puede adaptarse a estructuras existentes."
+        }
+      ]
+    },
+    {
+      "id": "F5",
+      "title": "Dos respuestas y una necesidad social",
+      "segments": [
+        {
+          "id": "17",
+          "title": "La decisión de romper con lo establecido",
+          "idea": "Otra respuesta ante el conflicto: cuestionar la estructura y elegir un valor diferente."
+        },
+        {
+          "id": "18",
+          "title": "Dos mentalidades en el mismo lugar",
+          "idea": "Coexistencia de ambas respuestas dentro de los centros de tratamiento."
+        },
+        {
+          "id": "19",
+          "title": "Por qué necesitamos distinguirlas",
+          "idea": "Importancia de reconocer las dos formas de respuesta para ambos grupos."
+        },
+        {
+          "id": "20",
+          "title": "Integrar la teoría en Otro Gran Programa",
+          "idea": "Conclusión: incorporar la desintegración positiva como elemento inicial de la propuesta."
+        }
+      ]
+    }
+  ],
+  "phaseCoverage": {
+    "phase1": [
+      "inventory",
+      "legacy-cleanup",
+      "navigation-cleanup",
+      "project-order",
+      "name-normalization",
+      "scope-protection",
+      "5x20-freeze",
+      "traceability",
+      "baseline",
+      "hardening-gate",
+      "audio-source-integrity",
+      "24-to-10-12-visual-consolidation-baseline"
+    ],
+    "phase2": [
+      "master-transcript",
+      "QC-1",
+      "QC-2",
+      "QC-3",
+      "editorial-separation",
+      "name-verification",
+      "semantic-segmentation",
+      "exact-cut-points",
+      "20-audio-files",
+      "audio-QC",
+      "continuity-QC"
+    ],
+    "phase3": [
+      "data-model",
+      "forced-alignment",
+      "timing-artifact",
+      "segmented-player",
+      "narrative-state",
+      "word-navigation",
+      "roadmap",
+      "auto-advance",
+      "scroll-control",
+      "visual-system",
+      "primary-transcript",
+      "mobile",
+      "autoplay-fallback",
+      "initial-review-fixes",
+      "accessibility",
+      "performance",
+      "legacy-unification",
+      "integrated-QA",
+      "production",
+      "cache-divergence",
+      "creative-polish"
+    ]
+  },
+  "originalReviewFindings": [
+    "Hero antiguo coexistía con el relato nuevo.",
+    "Reproductor antiguo coexistía con el nuevo.",
+    "El relato nuevo estaba añadido y no sustituía estructuralmente al hero.",
+    "Había 10 escenas, no 20 segmentos.",
+    "El timing era estimated-text-sync.",
+    "story-word-timing.json no existía.",
+    "El motor tenía fallback proporcional.",
+    "El MP3 real de 23:11 estaba disponible.",
+    "Había un estado de audio inconsistente.",
+    "Un overlay/PWA podía invadir el primer viewport móvil.",
+    "Móvil debía ser prioridad.",
+    "Las palabras debían ser navegables.",
+    "El seguimiento automático debía ceder al control manual.",
+    "El sistema visual debía usar aproximadamente 10–12 composiciones maestras.",
+    "La transcripción debía ser contenido primario.",
+    "El roadmap debía ser Fase → Segmento.",
+    "El audio debía actuar como reloj maestro.",
+    "Vocaroo debía mantenerse como fallback.",
+    "El resto del sitio no debía rehacerse innecesariamente.",
+    "Producción podía diferir por caché y debía verificarse contra main.",
+    "Se detectaron dos archivos de audio WEBM/WEBa idénticos y truncados; se rechazaron como fuente maestra.",
+    "La propuesta inicial de 24 estaciones conceptuales debía condensarse visualmente en aproximadamente 10–12 composiciones maestras.",
+    "En desktop se buscaba transcripción | línea/nodo | visual; palabras pasadas atenuadas y palabra activa destacada."
+  ],
+  "hardeningGate": {
+    "phase1Passed": true,
+    "checks": [
+      "Bloques solicitados eliminados.",
+      "Enlaces huérfanos hacia bloques eliminados ausentes.",
+      "Otro Gran Programa precede a Khora.",
+      "Reproductor antiguo ausente.",
+      "Nombre visible unificado.",
+      "Relato nuevo presente.",
+      "Contenido inferior no solicitado conservado.",
+      "Arquitectura 5x20 registrada.",
+      "Plan completo y trazabilidad almacenados."
+    ],
+    "explicitOutOfScopeForPhase1": [
+      "Transcripción maestra no certificada.",
+      "20 cortes físicos de audio todavía no generados.",
+      "Forced alignment todavía no producido.",
+      "Roadmap 5x20 todavía no implementado.",
+      "QA de producción todavía pendiente."
+    ]
+  },
+  "completenessAssertions": [
+    "Todos los 16 ámbitos explícitos del plan original tienen destino en Fase 1, 2 o 3.",
+    "Los hallazgos accionables de la revisión inicial tienen destino explícito.",
+    "Las decisiones editoriales de 5 Fases × 20 segmentos están congeladas.",
+    "La decisión 24 estaciones conceptuales → 10–12 composiciones maestras está preservada.",
+    "La integridad de las fuentes de audio y el rechazo de fuentes duplicadas/truncadas forman parte del control del proyecto.",
+    "La divergencia repo/producción por caché está tratada como control de producción, no como evidencia de estado de main."
+  ]
+}
