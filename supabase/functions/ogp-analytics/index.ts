@@ -60,6 +60,41 @@ function json(body: unknown, status: number, origin: string | null): Response {
   });
 }
 
+const rateWindows = new Map<string, { startedAt: number; count: number }>();
+const RATE_WINDOW_MS = 60_000;
+const RATE_MAX_REQUESTS = 60;
+
+async function requestRateKey(req: Request): Promise<string | null> {
+  const raw =
+    req.headers.get('cf-connecting-ip') ??
+    req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ??
+    req.headers.get('x-real-ip');
+
+  if (!raw) return null;
+
+  const bytes = new TextEncoder().encode(raw);
+  const digest = await crypto.subtle.digest('SHA-256', bytes);
+  return Array.from(new Uint8Array(digest))
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+
+function checkRateLimit(key: string | null): boolean {
+  if (!key) return true;
+
+  const now = Date.now();
+  const current = rateWindows.get(key);
+
+  if (!current || now - current.startedAt >= RATE_WINDOW_MS) {
+    rateWindows.set(key, { startedAt: now, count: 1 });
+    return true;
+  }
+
+  if (current.count >= RATE_MAX_REQUESTS) return false;
+  current.count += 1;
+  return true;
+}
+
 function cleanString(value: unknown, max = MAX_STRING): string | null {
   if (typeof value !== 'string') return null;
   const s = value.trim();
@@ -109,14 +144,26 @@ function normaliseEvent(raw: IncomingEvent) {
   };
 }
 
+function gaClientIdFromVisitor(visitorId: string | null | undefined): string {
+  if (visitorId) {
+    const hex = visitorId.replace(/-/g, '').slice(0, 16);
+    const left = Number.parseInt(hex.slice(0, 8), 16) >>> 0;
+    const right = Number.parseInt(hex.slice(8, 16), 16) >>> 0;
+    return \`${left}.${right}\`;
+  }
+
+  const a = crypto.getRandomValues(new Uint32Array(1))[0] >>> 0;
+  const b = crypto.getRandomValues(new Uint32Array(1))[0] >>> 0;
+  return \`${a}.${b}\`;
+}
+
 async function forwardToGa4(events: IncomingEvent[]) {
   const measurementId = Deno.env.get('GA4_MEASUREMENT_ID');
   const apiSecret = Deno.env.get('GA4_API_SECRET');
 
   if (!measurementId || !apiSecret) return { forwarded: false, reason: 'GA4 not configured' };
 
-  const clientId = events.find((e) => e.ga?.client_id)?.ga?.client_id
-    ?? crypto.randomUUID();
+  const clientId = gaClientIdFromVisitor(events.find((e) => e.visitor_id)?.visitor_id);
 
   const payloadEvents = events.map((e) => ({
     name: e.event_name,
@@ -174,6 +221,11 @@ Deno.serve(async (req) => {
 
   if (origin !== ALLOWED_ORIGIN) {
     return json({ error: 'origin_not_allowed' }, 403, origin);
+  }
+
+  const rateKey = await requestRateKey(req);
+  if (!checkRateLimit(rateKey)) {
+    return json({ error: 'rate_limited' }, 429, origin);
   }
 
   if (req.method !== 'POST') {
