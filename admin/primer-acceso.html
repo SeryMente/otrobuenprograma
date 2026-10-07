@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#08141f">
+  <title>OGP · Primer acceso</title>
+  <link rel="stylesheet" href="admin.css">
+  <style>
+    .setup-card{max-width:560px;margin:7vh auto 0}
+    .password-meter{height:6px;border-radius:999px;background:#1d2a38;overflow:hidden;margin-top:6px}
+    .password-meter span{display:block;height:100%;width:0;background:#88d498;transition:width .2s}
+    .help{font-size:.85rem;line-height:1.5}
+    .error{color:#ff9f9f}.ok{color:#9fe0aa}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <section class="auth-card setup-card">
+      <div class="eyebrow">OTRO GRAN PROGRAMA · PRIMER ACCESO</div>
+      <h1>Establecer contraseña</h1>
+      <p class="muted">La cuenta administrativa usa Supabase Auth. La contraseña se envía directamente a Supabase y no se guarda en OGP.</p>
+
+      <form id="setup-form" class="stack" autocomplete="on">
+        <label>Correo
+          <input id="email" type="email" value="the.willfreeman@gmail.com" readonly>
+        </label>
+
+        <label>Contraseña inicial
+          <input id="password" type="password" autocomplete="new-password" minlength="12" required>
+        </label>
+        <div class="password-meter" aria-hidden="true"><span id="meter"></span></div>
+        <p id="strength" class="help muted">Usa al menos 12 caracteres. Una frase larga y única es preferible.</p>
+
+        <label>Repetir contraseña
+          <input id="password2" type="password" autocomplete="new-password" minlength="12" required>
+        </label>
+
+        <button class="primary" type="submit" id="submit">Registrar contraseña</button>
+        <p id="message" class="message" role="alert"></p>
+      </form>
+
+      <div class="security-note">
+        Primera cuenta reservada para <strong>the.willfreeman@gmail.com</strong>.
+        Después del registro, completa la verificación de correo si Supabase la solicita.
+      </div>
+
+      <p class="help"><a href="./">← Volver a administración</a></p>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.min.js"></script>
+  <script src="../assets/js/backend-config.js"></script>
+  <script>
+    (function () {
+      "use strict";
+
+      const email = "the.willfreeman@gmail.com";
+      const cfg = window.OGP_BACKEND_CONFIG;
+      const client = window.supabase.createClient(cfg.supabaseUrl, cfg.supabasePublishableKey);
+
+      const form = document.getElementById("setup-form");
+      const password = document.getElementById("password");
+      const password2 = document.getElementById("password2");
+      const meter = document.getElementById("meter");
+      const strength = document.getElementById("strength");
+      const message = document.getElementById("message");
+      const submit = document.getElementById("submit");
+
+      function score(value) {
+        let n = 0;
+        if (value.length >= 12) n++;
+        if (value.length >= 16) n++;
+        if (/[a-z]/.test(value) && /[A-Z]/.test(value)) n++;
+        if (/\d/.test(value)) n++;
+        if (/[^A-Za-z0-9]/.test(value)) n++;
+        return Math.min(n, 5);
+      }
+
+      password.addEventListener("input", function () {
+        const n = score(password.value);
+        meter.style.width = (n * 20) + "%";
+        strength.textContent =
+          n >= 4 ? "Fortaleza alta." :
+          n >= 3 ? "Fortaleza adecuada; una frase más larga mejora la resistencia." :
+          "Usa al menos 12 caracteres y evita reutilizar contraseñas.";
+      });
+
+      form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        message.textContent = "";
+        message.className = "message";
+
+        if (password.value.length < 12) {
+          message.textContent = "La contraseña debe tener al menos 12 caracteres.";
+          message.classList.add("error");
+          return;
+        }
+        if (password.value !== password2.value) {
+          message.textContent = "Las contraseñas no coinciden.";
+          message.classList.add("error");
+          return;
+        }
+
+        submit.disabled = true;
+        submit.textContent = "Registrando…";
+
+        const { data, error } = await client.auth.signUp({
+          email: email,
+          password: password.value,
+          options: {
+            emailRedirectTo: window.location.origin + "/otrogranprograma/admin/"
+          }
+        });
+
+        if (error) {
+          message.textContent =
+            error.message.toLowerCase().includes("already") || error.status === 422
+              ? "La cuenta ya existe. Usa el acceso normal o el procedimiento de recuperación."
+              : "No fue posible registrar la cuenta: " + error.message;
+          message.classList.add("error");
+          submit.disabled = false;
+          submit.textContent = "Registrar contraseña";
+          return;
+        }
+
+        password.value = "";
+        password2.value = "";
+        message.textContent = data.session
+          ? "Cuenta creada. Ya puedes continuar al panel."
+          : "Cuenta creada. Revisa el correo de confirmación de Supabase y, después, entra al panel administrativo.";
+        message.classList.add("ok");
+        submit.textContent = data.session ? "Ir al panel" : "Registro completado";
+        if (data.session) {
+          setTimeout(function () {
+            window.location.href = "./";
+          }, 900);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
