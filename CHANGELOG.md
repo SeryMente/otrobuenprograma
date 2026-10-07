@@ -1,3 +1,13 @@
+## [v1.7.0] - 2026-10-07 - Benchmark agnóstico de sincronización
+
+### Arquitectura
+- Separado el motor de benchmarking del contenido y de la estructura de Otro Gran Programa.
+- Añadido contrato `Sync Benchmark Contract v1` para experiencias texto–audio arbitrarias.
+- Añadido motor JS reutilizable, benchmark offline configurable y adaptador JSON.
+- Incorporado contrato DOM `data-sync-*` para desacoplar el benchmark de clases y componentes visuales.
+- El benchmark deja de asumir 20 segmentos, 2,206 palabras, IDs específicos, cuatro segmentos por fase o nombres de audio.
+- Añadida compatibilidad metodológica con eliminación, adición, sustitución y reordenamiento de segmentos.
+
 ## [v1.7.0] - 2026-10-07 - Línea de base cuantitativa F4
 
 ### Calidad

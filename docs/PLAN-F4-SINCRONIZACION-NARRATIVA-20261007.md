@@ -730,3 +730,53 @@ Una mejora solo se reconoce cuando:
 No se rebajarán umbrales para convertir un resultado fallido en aprobado.
 
 **Fase técnica:** https://github.com/SeryMente/otrobuenprograma
+
+
+## 23. Contrato universal de benchmarking · portable entre proyectos
+
+**Fecha:** 2026-10-07  
+**Contrato:** Sync Benchmark Contract v1  
+**Documento:** docs/architecture/SYNC-BENCHMARK-CONTRACT-v1.md  
+**URL canónica:** https://github.com/SeryMente/otrobuenprograma  
+**URL pública:** https://serymente.github.io/otrobuenprograma/
+
+Se establece una separación permanente entre:
+
+**motor universal de benchmark** → **adaptador de proyecto** → **datos del proyecto**.
+
+### Componentes
+
+- Motor JS: `scripts/lib/sync-benchmark.js`.
+- Benchmark offline: `scripts/benchmark_sync_timing.py`.
+- Configuración/adaptador OGP: `scripts/sync-benchmark.config.json`.
+- Contrato DOM: atributos `data-sync-*`.
+
+### Invariante
+
+El benchmark no depende de:
+- número de segmentos;
+- IDs concretos;
+- número de palabras;
+- nombre de archivos;
+- idioma;
+- fases;
+- orden histórico de los segmentos;
+- proyecto OGP.
+
+### Consecuencia
+
+Una sustitución de audio, eliminación de segmentos, adición de segmentos, cambio de orden o creación de un proyecto completamente distinto debe resolverse cambiando datos/configuración/adaptador, no reescribiendo el motor de medición.
+
+La matriz B1 continúa siendo específica de OGP. El **contrato de benchmarking** es la pieza reutilizable.
+
+### Criterio de aceptación arquitectónica
+
+El benchmark se considerará portable cuando:
+1. descubra sus segmentos desde el timing artifact;
+2. identifique cada observación por `segmentId + wordIndex`;
+3. calcule las muestras según el tamaño real del segmento;
+4. no utilice IDs o conteos codificados;
+5. permita configurar selectores y fuentes sin modificar el motor;
+6. genere métricas comparables para cualquier proyecto compatible con el contrato.
+
+**Fase técnica:** https://github.com/SeryMente/otrobuenprograma

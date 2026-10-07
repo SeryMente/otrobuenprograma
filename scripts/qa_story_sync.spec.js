@@ -2,9 +2,189 @@ const { test, expect } = require("@playwright/test");
 const fs = require("fs");
 const path = require("path");
 
-const URL = "http://127.0.0.1:4173/";
-const timingPath = path.join(process.cwd(), "assets", "data", "story-word-timing.json");
-const phase3Path = path.join(process.cwd(), "assets", "data", "relato-obp-phase3.json");
+const {
+  percentile,
+  sampleIndices,
+  selectorFromTemplate,
+  chooseRuntimeSegment,
+  normalizeTiming,
+  mappingReport
+} = require("./lib/sync-benchmark");
+
+const CONFIG = JSON.parse(
+  fs.readFileSync(path.join(process.cwd(), "scripts", "sync-benchmark.config.json"), "utf8")
+);
+const URL = process.env.SYNC_BENCHMARK_URL || CONFIG.site.url;
+const timingPath = path.join(process.cwd(), CONFIG.timing.path);
+
+function selector(template, id) {
+  return selectorFromTemplate(template, id);
+}
+
+async function loadAndPauseSegment(page, id) {
+  await page.locator(selector(CONFIG.dom.segmentControlSelector, id)).click();
+  await page.waitForFunction(
+    ({ activeSelector, audioSelector, id }) => {
+      const active = document.querySelector(activeSelector);
+      const audio = document.querySelector(audioSelector);
+      return !!active &&
+        active.dataset.syncSegmentId === String(id) &&
+        !!audio &&
+        audio.readyState >= 3 &&
+        Number.isFinite(audio.duration) &&
+        audio.seekable.length > 0;
+    },
+    {
+      activeSelector: CONFIG.dom.activeSegmentSelector,
+      audioSelector: CONFIG.dom.audioSelector,
+      id: String(id)
+    },
+    { timeout: 15000 }
+  );
+  await page.evaluate((audioSelector) => {
+    const audio = document.querySelector(audioSelector);
+    audio.pause();
+  }, CONFIG.dom.audioSelector);
+}
+
+async function isolateCurrentMedia(page) {
+  if (CONFIG.media.mode !== "blob") return;
+
+  await page.evaluate(async (audioSelector) => {
+    const audio = document.querySelector(audioSelector);
+    if (!audio) throw new Error("Sync contract: audio element not found.");
+
+    const src = audio.currentSrc || audio.src;
+    if (!src) throw new Error("Sync contract: active audio has no source.");
+
+    const response = await fetch(src, { cache: "no-store" });
+    if (!response.ok) throw new Error("Sync contract: audio fetch failed.");
+
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+
+    if (window.__syncBenchmarkObjectUrl) {
+      URL.revokeObjectURL(window.__syncBenchmarkObjectUrl);
+    }
+    window.__syncBenchmarkObjectUrl = url;
+
+    audio.pause();
+    audio.src = url;
+    audio.load();
+
+    await new Promise((resolve, reject) => {
+      const onReady = () => {
+        cleanup();
+        resolve();
+      };
+      const onError = () => {
+        cleanup();
+        reject(new Error("Sync contract: isolated audio could not be decoded."));
+      };
+      const cleanup = () => {
+        audio.removeEventListener("loadedmetadata", onReady);
+        audio.removeEventListener("error", onError);
+      };
+      audio.addEventListener("loadedmetadata", onReady, { once: true });
+      audio.addEventListener("error", onError, { once: true });
+    });
+  }, CONFIG.dom.audioSelector);
+
+  await page.waitForFunction(
+    (audioSelector) => {
+      const audio = document.querySelector(audioSelector);
+      return !!audio && audio.readyState >= 3 && audio.seekable.length > 0;
+    },
+    CONFIG.dom.audioSelector
+  );
+}
+
+async function seekAndRead(page, segmentId, wordIndex, word) {
+  return page.evaluate(
+    async ({ activeSegmentSelector, audioSelector, currentWordSelector, seekToleranceMs, stableFrames, segmentId, wordIndex, targetTime }) => {
+      const audio = document.querySelector(audioSelector);
+      if (!audio) return { ok: false, reason: "audio-missing" };
+
+      const seekToleranceSec = seekToleranceMs / 1000;
+      const seekableEnd = audio.seekable.length ? audio.seekable.end(audio.seekable.length - 1) : -1;
+      if (seekableEnd + 0.001 < targetTime) {
+        return {
+          ok: false,
+          reason: "target-not-seekable",
+          seekEvent: false,
+          seekStable: false,
+          currentTime: Number(audio.currentTime.toFixed(3)),
+          timeErrorMs: Math.round(Math.abs(audio.currentTime - targetTime) * 1000),
+          observedSegment: null,
+          observedWord: null
+        };
+      }
+
+      audio.pause();
+      let seekEvent = false;
+      const seekPromise = new Promise((resolve) => {
+        const onSeeked = () => {
+          seekEvent = true;
+          audio.removeEventListener("seeked", onSeeked);
+          resolve();
+        };
+        audio.addEventListener("seeked", onSeeked, { once: true });
+        setTimeout(() => {
+          audio.removeEventListener("seeked", onSeeked);
+          resolve();
+        }, 2000);
+      });
+
+      audio.currentTime = targetTime;
+      await seekPromise;
+
+      const deadline = performance.now() + 1500;
+      let stable = 0;
+      while (performance.now() < deadline) {
+        const currentTime = Number(audio.currentTime);
+        const activeSegment = document.querySelector(activeSegmentSelector);
+        const currentWord = document.querySelector(currentWordSelector);
+        const sameSegment = activeSegment &&
+          String(activeSegment.dataset.syncSegmentId) === String(segmentId);
+        const sameTime = Number.isFinite(currentTime) &&
+          Math.abs(currentTime - targetTime) <= seekToleranceSec;
+
+        if (sameSegment && sameTime) stable += 1;
+        else stable = 0;
+
+        if (stable >= stableFrames) break;
+        await new Promise((resolve) => requestAnimationFrame(resolve));
+      }
+
+      const activeSegment = document.querySelector(activeSegmentSelector);
+      const currentWord = document.querySelector(currentWordSelector);
+      const currentTime = Number(audio.currentTime);
+
+      return {
+        ok: true,
+        seekEvent,
+        seekStable: Number.isFinite(currentTime) &&
+          Math.abs(currentTime - targetTime) <= seekToleranceSec,
+        currentTime: Number.isFinite(currentTime) ? Number(currentTime.toFixed(3)) : null,
+        timeErrorMs: Number.isFinite(currentTime) ? Number((Math.abs(currentTime - targetTime) * 1000).toFixed(3)) : null,
+        observedSegment: currentWord ? String(currentWord.closest("[data-sync-segment-id]")?.dataset.syncSegmentId || currentWord.dataset.segment || "") : null,
+        observedWord: currentWord ? Number(currentWord.dataset.syncWordIndex ?? currentWord.dataset.word) : null,
+        expectedWord: Number(wordIndex),
+        expectedSegment: String(segmentId)
+      };
+    },
+    {
+      activeSegmentSelector: CONFIG.dom.activeSegmentSelector,
+      audioSelector: CONFIG.dom.audioSelector,
+      currentWordSelector: CONFIG.dom.currentWordSelector,
+      seekToleranceMs: CONFIG.sampling.seekToleranceMs,
+      stableFrames: CONFIG.sampling.stableFrames,
+      segmentId: String(segmentId),
+      wordIndex,
+      targetTime: (Number(word.start) + Number(word.end)) / 2
+    }
+  );
+}
 
 test("F4 transport is embedded in the right roadmap", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
@@ -38,252 +218,162 @@ test("F4 hero composition is Author then title then subtitle", async ({ page }) 
   );
 });
 
-async function loadAndPauseSegment(page, id) {
-  const segmentButton = page.locator('.story-micro-segment[data-segment="' + id + '"]');
-  await segmentButton.click();
-  await page.waitForFunction((segmentId) => {
-    const a = document.querySelector(".story-audio");
-    const active = document.querySelector(".story-stop.is-active");
-    return !!a &&
-      !!active &&
-      active.dataset.segment === String(segmentId) &&
-      a.readyState >= 3 &&
-      Number.isFinite(a.duration) &&
-      a.seekable.length > 0;
-  }, id, { timeout: 10000 });
-  await page.evaluate(() => document.querySelector(".story-audio").pause());
-  await page.waitForFunction(() => {
-    const a = document.querySelector(".story-audio");
-    return !!a && a.paused;
-  });
-}
-
-async function seekAndRead(page, targetTime, expectedSegment) {
-  return page.evaluate(async ({ targetTime, expectedSegment }) => {
-    const a = document.querySelector(".story-audio");
-    if (!a) return { ok: false, reason: "no-audio" };
-
-    a.pause();
-    if (!a.seekable.length || a.seekable.end(a.seekable.length - 1) + 0.001 < targetTime) {
-      return {
-        ok: true,
-        expectedSegment: String(expectedSegment),
-        observedSegment: null,
-        observedWord: null,
-        currentTime: Number(Number(a.currentTime).toFixed(3)),
-        timeErrorMs: Number(Math.abs(Number(a.currentTime) - targetTime).toFixed(3)) * 1000,
-        paused: a.paused,
-        seekStable: false
-      };
-    }
-
-    let seekEvent = false;
-    const seekPromise = new Promise((resolve) => {
-      const onSeeked = () => {
-        seekEvent = true;
-        a.removeEventListener("seeked", onSeeked);
-        resolve();
-      };
-      a.addEventListener("seeked", onSeeked, { once: true });
-      setTimeout(() => {
-        a.removeEventListener("seeked", onSeeked);
-        resolve();
-      }, 1500);
-    });
-    a.currentTime = targetTime;
-    await seekPromise;
-    const deadline = performance.now() + 1500;
-    let stableFrames = 0;
-    while (performance.now() < deadline) {
-      const current = Number(a.currentTime);
-      const active = document.querySelector(".story-stop.is-active .story-word.is-current");
-      const stable = Math.abs(current - targetTime) <= 0.08;
-      const sameSegment = active && String(active.dataset.segment) === String(expectedSegment);
-      if (stable && sameSegment) stableFrames += 1;
-      else stableFrames = 0;
-      if (stableFrames >= 2) break;
-      await new Promise((r) => requestAnimationFrame(r));
-    }
-
-    const active = document.querySelector(".story-stop.is-active .story-word.is-current");
-    const current = Number(a.currentTime);
-    return {
-      ok: true,
-      expectedSegment: String(expectedSegment),
-      observedSegment: active ? String(active.dataset.segment) : null,
-      observedWord: active ? Number(active.dataset.word) : null,
-      currentTime: Number.isFinite(current) ? Number(current.toFixed(3)) : null,
-      timeErrorMs: Number.isFinite(current) ? Number(Math.abs(current - targetTime).toFixed(3)) * 1000 : null,
-      paused: a.paused,
-      seekEvent,
-      seekStable: Number.isFinite(current) && Math.abs(current - targetTime) <= 0.08
-    };
-  }, { targetTime, expectedSegment });
-}
-
-test("F4 deterministic sampled word mapping benchmark", async ({ page }) => {
-  test.setTimeout(120000);
+test("generic sync benchmark — deterministic mapping", async ({ page }) => {
+  test.setTimeout(180000);
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto(URL, { waitUntil: "domcontentloaded" });
-  await page.locator("#relato-sonoro").scrollIntoViewIfNeeded();
 
-  const timing = JSON.parse(fs.readFileSync(timingPath, "utf8"));
-  const phase3 = JSON.parse(fs.readFileSync(phase3Path, "utf8"));
-  const audioById = Object.fromEntries(phase3.segments.map((s) => [String(s.id), s.audio]));
+  const timing = normalizeTiming(JSON.parse(fs.readFileSync(timingPath, "utf8")));
   const samples = [];
 
-  for (const seg of timing.segments) {
-    const words = seg.words || [];
-    const indices = [...new Set([
-      0,
-      Math.floor(words.length * 0.2),
-      Math.floor(words.length * 0.4),
-      Math.floor(words.length * 0.6),
-      Math.floor(words.length * 0.8),
-      Math.max(0, words.length - 1)
-    ])].filter((i) => i >= 0 && i < words.length).sort((a,b) => a-b);
-
-    await loadAndPauseSegment(page, String(seg.id));
-
-    await page.evaluate(async (src) => {
-      const a = document.querySelector(".story-audio");
-      const response = await fetch(src, { cache: "no-store" });
-      if (!response.ok) throw new Error("No se pudo cargar el audio de prueba.");
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
-      a.pause();
-      a.src = url;
-      a.load();
-      await new Promise((resolve, reject) => {
-        const ok = () => { cleanup(); resolve(); };
-        const fail = () => { cleanup(); reject(new Error("No se pudo decodificar el audio de prueba.")); };
-        const cleanup = () => {
-          a.removeEventListener("loadedmetadata", ok);
-          a.removeEventListener("error", fail);
-        };
-        a.addEventListener("loadedmetadata", ok, { once: true });
-        a.addEventListener("error", fail, { once: true });
-      });
-      await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-    }, audioById[String(seg.id)]);
+  for (const segment of timing) {
+    const indices = sampleIndices(segment.words, CONFIG.sampling.pointsPerSegment);
+    await loadAndPauseSegment(page, segment.id);
+    await isolateCurrentMedia(page);
 
     for (const index of indices) {
-      const word = words[index];
-      const targetTime = (Number(word.start) + Number(word.end)) / 2;
-      const observed = await seekAndRead(page, targetTime, String(seg.id));
+      const word = segment.words[index];
+      const result = await seekAndRead(page, segment.id, index, word);
+      const observedSegment = result.observedSegment;
+      const observedWord = Number.isFinite(result.observedWord) ? result.observedWord : null;
+      const correct = result.ok &&
+        result.seekStable &&
+        observedSegment === String(segment.id) &&
+        observedWord === index;
       samples.push({
-        segment: String(seg.id),
+        segment: String(segment.id),
         expected: index,
-        observed: observed.observedSegment === String(seg.id) ? observed.observedWord : null,
-        observedSegment: observed.observedSegment,
-        currentTime: observed.currentTime,
-        timeErrorMs: observed.timeErrorMs,
-        seekStable: observed.seekStable === true,
-        seekEvent: observed.seekEvent === true
+        observed: observedWord,
+        observedSegment,
+        currentTime: result.currentTime,
+        timeErrorMs: result.timeErrorMs,
+        seekStable: result.seekStable === true,
+        seekEvent: result.seekEvent === true,
+        correct,
+        wrong: !!result.ok && result.seekStable === true && observedSegment === String(segment.id) && observedWord !== index,
+        missed: !correct && !(result.ok && result.seekStable === true && observedSegment === String(segment.id))
       });
     }
   }
 
-  const unstableSeeks = samples.filter((s) => !s.seekStable);
-  const missed = samples.filter((s) => s.observed === null);
-  const wrong = samples.filter((s) => s.observed !== null && s.observed !== s.expected);
-  const correct = samples.filter((s) => s.observed === s.expected);
+  const metrics = mappingReport(samples);
   const report = {
-    benchmark: "F4 deterministic seek benchmark",
+    schemaVersion: 1,
+    benchmark: "generic-sync-benchmark",
     metric: "runtime_word_mapping",
-    mediaMode: "same-origin segment fetched as Blob URL to isolate sync engine from HTTP range/streaming behavior",
-    samples: samples.length,
-    correct: correct.length,
-    missed: missed.length,
-    wrong: wrong.length,
-    correctRatePct: Number((correct.length / samples.length * 100).toFixed(4)),
-    M10_wrong_word_rate_pct: Number((wrong.length / samples.length * 100).toFixed(4)),
-    M11_missed_word_rate_pct: Number((missed.length / samples.length * 100).toFixed(4)),
-    M13_seek_stability_pct: Number(((samples.length - unstableSeeks.length) / samples.length * 100).toFixed(4)),
-    seekEventRatePct: Number((samples.filter((s) => s.seekEvent).length / samples.length * 100).toFixed(4)),
-    wrongExamples: wrong.slice(0, 20),
-    missedExamples: missed.slice(0, 20),
-    probeTimeErrorMsP95: Number(percentile(samples.map((s) => Number(s.timeErrorMs) || 0), 0.95).toFixed(3)),
-    unstableSeekExamples: unstableSeeks.slice(0, 20)
+    contract: CONFIG.dom,
+    timingSource: CONFIG.timing.path,
+    mediaMode: CONFIG.media.mode,
+    sampling: CONFIG.sampling,
+    metrics: {
+      ...metrics,
+      M10_wrong_word_rate_pct: metrics.wrongWordRatePct,
+      M11_missed_word_rate_pct: metrics.missedWordRatePct,
+      M13_seek_stability_pct: metrics.seekStabilityPct
+    },
+    wrongExamples: samples.filter((s) => s.wrong).slice(0, 20),
+    missedExamples: samples.filter((s) => s.missed).slice(0, 20)
   };
 
-  fs.mkdirSync(path.dirname("test-results/story-sync-deterministic-benchmark.json"), { recursive: true });
+  fs.mkdirSync(path.dirname("test-results"), { recursive: true });
   fs.writeFileSync(
-    "test-results/story-sync-deterministic-benchmark.json",
+    "test-results/sync-benchmark-deterministic.json",
     JSON.stringify(report, null, 2)
   );
 
-  console.log("STORY_SYNC_DETERMINISTIC_BENCHMARK=" + JSON.stringify(report));
+  console.log("SYNC_BENCHMARK_DETERMINISTIC=" + JSON.stringify(report));
 
-  expect(wrong.length, JSON.stringify(wrong.slice(0, 10))).toBe(0);
-  expect(missed.length, JSON.stringify(missed.slice(0, 10))).toBe(0);
-  expect(unstableSeeks.length, JSON.stringify(unstableSeeks.slice(0, 10))).toBe(0);
+  expect(metrics.wrongWordRatePct).toBe(0);
+  expect(metrics.missedWordRatePct).toBe(0);
+  expect(metrics.seekStabilityPct).toBe(100);
 });
 
-function percentile(values, p) {
-  if (!values.length) return 0;
-  const s = [...values].sort((a, b) => a - b);
-  const k = (s.length - 1) * p;
-  const f = Math.floor(k);
-  const c = Math.ceil(k);
-  return f === c ? s[f] : s[f] + (s[c] - s[f]) * (k - f);
-}
-
-test("F4 runtime word clock benchmark at 1x", async ({ page }) => {
+test("generic sync benchmark — runtime clock at configured rate", async ({ page }) => {
+  test.setTimeout(60000);
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto(URL, { waitUntil: "domcontentloaded" });
-  await page.locator("#relato-sonoro").scrollIntoViewIfNeeded();
 
-  await loadAndPauseSegment(page, "04");
+  const timing = normalizeTiming(JSON.parse(fs.readFileSync(timingPath, "utf8")));
+  const segment = chooseRuntimeSegment(timing, CONFIG.runtime.segmentStrategy);
+  if (!segment || segment.words.length < 2) {
+    throw new Error("Runtime benchmark requires a segment with at least two timed words.");
+  }
 
-  await page.evaluate(() => {
-    const a = document.querySelector(".story-audio");
-    a.pause();
-    a.currentTime = 0;
-    a.playbackRate = 1;
-    window.__ogpSyncDiagnostics.transitions.length = 0;
-    window.__ogpSyncDiagnostics.frames = 0;
-  });
+  await loadAndPauseSegment(page, segment.id);
 
-  await page.locator(".story-micro-play").click();
-  await page.waitForTimeout(15000);
-  await page.evaluate(() => document.querySelector(".story-audio").pause());
+  await page.evaluate(
+    ({ audioSelector, playbackRate }) => {
+      const audio = document.querySelector(audioSelector);
+      audio.pause();
+      audio.currentTime = 0;
+      audio.playbackRate = playbackRate;
+      window.__ogpSyncDiagnostics.transitions.length = 0;
+      window.__ogpSyncDiagnostics.frames = 0;
+    },
+    { audioSelector: CONFIG.dom.audioSelector, playbackRate: CONFIG.runtime.playbackRate }
+  );
 
-  const result = await page.evaluate(async () => {
-    const timing = await fetch("assets/data/story-word-timing.json", { cache: "no-store" }).then((r) => r.json());
-    const seg = timing.segments.find((s) => String(s.id) === "04");
-    const starts = Object.fromEntries(seg.words.map((w) => [String(w.index), Number(w.start)]));
-    const transitions = (window.__ogpSyncDiagnostics.transitions || [])
-      .filter((t) => String(t.segment) === "04" && Number(t.to) >= 0)
-      .map((t) => ({
-        index: Number(t.to),
-        errorMs: Math.max(0, Number((Number(t.audioTime) - Number(starts[String(t.to)])) * 1000))
-      }));
-    const errors = transitions.map((t) => t.errorMs);
-    const pct = (arr, p) => {
-      if (!arr.length) return 0;
-      const s = [...arr].sort((a,b) => a-b);
-      const k = (s.length - 1) * p;
-      const f = Math.floor(k), c = Math.ceil(k);
-      return f === c ? s[f] : s[f] + (s[c] - s[f]) * (k - f);
-    };
-    const monotonic = transitions.every((t, i, a) => i === 0 || t.index > a[i - 1].index);
-    return {
-      transitions: transitions.length,
-      frames: Number(window.__ogpSyncDiagnostics.frames || 0),
-      M9_visual_latency_ms_p50: Number(pct(errors, .50).toFixed(3)),
-      M9_visual_latency_ms_p95: Number(pct(errors, .95).toFixed(3)),
-      M9_visual_latency_ms_p99: Number(pct(errors, .99).toFixed(3)),
-      M9_visual_latency_ms_max: Number(Math.max(0, ...errors).toFixed(3)),
-      M12_word_transition_monotonicity_pct: monotonic ? 100 : 0
-    };
-  });
+  await page.locator(CONFIG.dom.playControlSelector).click();
+  const durationMs = Math.max(1000, Number(CONFIG.runtime.durationSec) * 1000);
+  await page.waitForTimeout(durationMs);
+  await page.evaluate((audioSelector) => document.querySelector(audioSelector)?.pause(), CONFIG.dom.audioSelector);
 
-  fs.mkdirSync(path.dirname("test-results/story-sync-runtime-benchmark.json"), { recursive: true });
-  fs.writeFileSync("test-results/story-sync-runtime-benchmark.json", JSON.stringify(result, null, 2));
-  console.log("STORY_SYNC_RUNTIME_BENCHMARK=" + JSON.stringify(result));
+  const result = await page.evaluate(
+    ({ timingSegments, segmentId, currentWordSelector }) => {
+      const segment = timingSegments.find((s) => String(s.id) === String(segmentId));
+      const starts = Object.fromEntries(segment.words.map((w) => [String(w.index), Number(w.start)]));
+      const transitions = (window.__ogpSyncDiagnostics.transitions || [])
+        .filter((t) => String(t.segment) === String(segmentId) && Number(t.to) >= 0)
+        .map((t) => ({
+          index: Number(t.to),
+          errorMs: Math.max(0, (Number(t.audioTime) - Number(starts[String(t.to)])) * 1000),
+          performanceTime: Number(t.performanceTime) || null
+        }));
 
-  expect(result.transitions).toBeGreaterThan(12);
+      const errors = transitions.map((t) => t.errorMs);
+      const monotonic = transitions.every((t, i, arr) => i === 0 || t.index > arr[i - 1].index);
+      const percentileLocal = (values, p) => {
+        if (!values.length) return 0;
+        const sorted = [...values].sort((a, b) => a - b);
+        const k = (sorted.length - 1) * p;
+        const f = Math.floor(k);
+        const c = Math.ceil(k);
+        return f === c ? sorted[f] : sorted[f] + (sorted[c] - sorted[f]) * (k - f);
+      };
+
+      return {
+        segment: String(segmentId),
+        transitions: transitions.length,
+        frames: Number(window.__ogpSyncDiagnostics.frames || 0),
+        currentWordPresent: !!document.querySelector(currentWordSelector),
+        M9_visual_latency_ms_p50: Number(percentileLocal(errors, .5).toFixed(3)),
+        M9_visual_latency_ms_p95: Number(percentileLocal(errors, .95).toFixed(3)),
+        M9_visual_latency_ms_p99: Number(percentileLocal(errors, .99).toFixed(3)),
+        M9_visual_latency_ms_max: Number(Math.max(0, ...errors).toFixed(3)),
+        M12_word_transition_monotonicity_pct: monotonic ? 100 : 0
+      };
+    },
+    {
+      timingSegments: timing,
+      segmentId: String(segment.id),
+      currentWordSelector: CONFIG.dom.currentWordSelector
+    }
+  );
+
+  fs.mkdirSync(path.dirname("test-results"), { recursive: true });
+  fs.writeFileSync(
+    "test-results/sync-benchmark-runtime.json",
+    JSON.stringify(result, null, 2)
+  );
+
+  console.log("SYNC_BENCHMARK_RUNTIME=" + JSON.stringify(result));
+
+  const expectedTransitions = Math.min(
+    Number(CONFIG.runtime.minTransitions),
+    Math.max(1, segment.words.length - 1)
+  );
+
+  expect(result.transitions).toBeGreaterThanOrEqual(expectedTransitions);
   expect(result.M9_visual_latency_ms_p95).toBeLessThanOrEqual(50);
   expect(result.M12_word_transition_monotonicity_pct).toBe(100);
 });
