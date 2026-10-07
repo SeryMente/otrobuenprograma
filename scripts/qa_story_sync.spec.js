@@ -204,16 +204,16 @@ test("F4 hero composition is Author then title then subtitle", async ({ page }) 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(URL, { waitUntil: "domcontentloaded" });
   const order = await page.evaluate(() => {
-    const hero = document.querySelector(".obp-hero");
+    const hero = document.querySelector(".ogp-hero");
     return [...hero.children].map((el) => ({
       cls: el.className,
       text: el.textContent.trim().slice(0, 80)
     }));
   });
-  expect(order[0].cls).toContain("obp-author-card");
-  expect(order[1].cls).toContain("obp-hero-copy");
-  await expect(page.locator("#obp-title")).toHaveText("Otro Gran Programa");
-  await expect(page.locator(".obp-hero-dek")).toHaveText(
+  expect(order[0].cls).toContain("ogp-author-card");
+  expect(order[1].cls).toContain("ogp-hero-copy");
+  await expect(page.locator("#ogp-title")).toHaveText("Otro Gran Programa");
+  await expect(page.locator(".ogp-hero-dek")).toHaveText(
     "una iniciativa para revolucionar la manera en la que aliviaremos la disfunción familiar para nuestros hijos y sus hijos también."
   );
 });
