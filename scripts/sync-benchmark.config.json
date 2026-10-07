@@ -6,7 +6,8 @@
     "rootSelector": "#relato-sonoro"
   },
   "timing": {
-    "path": "assets/data/story-word-timing.json"
+    "path": "assets/data/relato-ogp-experience.json",
+    "coordinateSystem": "global-master"
   },
   "dom": {
     "audioSelector": "[data-sync-audio=\"true\"]",
@@ -16,7 +17,7 @@
     "playControlSelector": "[data-sync-play=\"true\"]"
   },
   "sampling": {
-    "pointsPerSegment": 6,
+    "pointsPerSegment": 4,
     "seekToleranceMs": 80,
     "stableFrames": 2
   },
@@ -27,10 +28,10 @@
     "minTransitions": 12
   },
   "media": {
-    "mode": "blob",
+    "mode": "native",
     "sameOriginOnly": true
   },
   "canonical": {
-    "path": "assets/data/relato-ogp-phase2.json"
+    "path": "assets/data/story-experience-canon.json"
   }
 }

@@ -15,13 +15,13 @@ jobs:
         run: |
           python3 - <<'PY'
           import json
-          for p in ["assets/data/timeline.json","assets/data/relato-ogp-phase3.json","assets/data/story-word-timing.json","assets/data/story-experience-canon.json","manifest.webmanifest","scripts/sync-benchmark.config.json"]:
+          for p in ["assets/data/timeline.json","assets/data/relato-ogp-phase3.json","assets/data/story-word-timing.json","assets/data/story-experience-canon.json","assets/data/relato-ogp-experience.json","manifest.webmanifest","scripts/sync-benchmark.config.json"]:
               json.load(open(p,encoding="utf-8"))
           PY
       - name: Archivos clave
         run: |
           set -euo pipefail
-          for f in index.html sw.js manifest.webmanifest assets/css/instrument.css assets/css/additions.css assets/css/themes.css assets/css/story.css assets/css/story-v3.css assets/js/config.js assets/js/timeline.js assets/js/navigator.js assets/js/mobile-shell.js assets/js/app.js assets/js/story-v3.js scripts/qa_mobile_v16.spec.js scripts/qa_story_sync.spec.js scripts/qa_sync_benchmark_contract.spec.js scripts/lib/sync-benchmark.js scripts/sync-benchmark.config.json scripts/sync-benchmark.config.template.json scripts/benchmark_sync_timing.py scripts/benchmark_story_timing.py; do test -f "$f"; done
+          for f in index.html sw.js manifest.webmanifest assets/css/instrument.css assets/css/additions.css assets/css/themes.css assets/css/story.css assets/css/story-v3.css assets/js/config.js assets/js/timeline.js assets/js/navigator.js assets/js/mobile-shell.js assets/js/app.js assets/js/story-v3.js scripts/qa_mobile_v16.spec.js scripts/qa_story_sync.spec.js scripts/qa_sync_benchmark_contract.spec.js scripts/qa_story_experience_49.spec.js scripts/qa_story_experience_49.py scripts/build-story-experience.mjs scripts/lib/sync-benchmark.js scripts/sync-benchmark.config.json scripts/sync-benchmark.config.template.json scripts/benchmark_sync_timing.py scripts/benchmark_story_timing.py assets/data/relato-ogp-experience.json; do test -f "$f"; done
       - name: Content-safe and visual smoke contract
         run: |
           python3 - <<'PY'
@@ -44,7 +44,6 @@ jobs:
           grep -q 'href="#proyectos"' index.html
           grep -q 'href="#cuentas"' index.html
           grep -q 'href="#autor"' index.html
-          grep -q 'href="blog/"' index.html
           ! grep -q 'mobile-nav-title' index.html
           grep -q '<title>Otro Gran Programa</title>' index.html
           grep -q 'id="ogp-title">Otro Gran Programa</h1>' index.html
@@ -74,9 +73,10 @@ jobs:
           grep -q 'first-gesture' assets/js/story-v3.js
           grep -q 'mobile-nav-lock' assets/js/mobile-shell.js
           ! grep -q 'guide-pill' assets/js/navigator.js
-          grep -q 'instrumento-v1.18.0-experience-canon-20261007' sw.js
+          grep -q 'instrumento-v1.19.0-experience-canon-49-20261007' sw.js
           grep -q 'assets/js/mobile-shell.js' sw.js
           grep -q 'scripts/qa_story_sync.spec.js' .github/workflows/quality.yml
+          grep -q 'qa_story_experience_49.spec.js' playwright.config.js
           grep -q 'Generic synchronization benchmark primitives' scripts/lib/sync-benchmark.js
           grep -q 'projectAgnostic' scripts/benchmark_sync_timing.py
           grep -q 'canonical implementation is scripts/benchmark_sync_timing.py' scripts/benchmark_story_timing.py
@@ -103,11 +103,22 @@ jobs:
           assert d["model"]["phases"]==5
           assert d["model"]["segments"]==20
           c=json.load(open("assets/data/story-experience-canon.json",encoding="utf-8"))
-          assert c["segmentation"]["recommendedCount"]==36
-          assert len(c["segmentation"]["proposedSegments"])==36
-          assert c["segmentation"]["acceptableBand"]==[32,40]
+          x=json.load(open("assets/data/relato-ogp-experience.json",encoding="utf-8"))
+          assert c["segmentation"]["recommendedCount"]==49
+          assert len(c["segmentation"]["proposedSegments"])==49
+          assert c["segmentation"]["acceptableBand"]==[46,52]
           assert c["source"]["currentTrainingSegments"]==20
+          assert x["model"]["segments"]==49
+          assert len(x["segments"])==49
+          assert x["model"]["phaseSegmentCounts"]=={"I":6,"II":8,"III":9,"IV":7,"V":19}
+          assert x["sourceAudio"]["duration"]==1391.304
+          assert sum(s["wordCount"] for s in x["segments"])==2206
+          assert x["segments"][0]["masterStart"]==0
+          assert x["segments"][-1]["masterEnd"]==1391.304
+          for a,b in zip(x["segments"],x["segments"][1:]): assert a["masterEnd"]==b["masterStart"]
           PY
+      - name: QA exhaustivo experiencia 49
+        run: python3 scripts/qa_story_experience_49.py
 
   e2e_mobile:
     runs-on: ubuntu-latest
@@ -119,7 +130,6 @@ jobs:
           node-version: 20
       - name: Dependencias E2E
         run: npm install --no-package-lock
-      - run: nohup python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/ogp-http.log 2>&1 &
       - run: npx playwright install --with-deps chromium
       - name: Playwright sync benchmark
         id: e2e

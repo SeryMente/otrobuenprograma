@@ -1,1 +1,1 @@
-module.exports={testDir:"./scripts",testMatch:["qa_mobile_v16.spec.js","qa_story_sync.spec.js","qa_sync_benchmark_contract.spec.js"],timeout:30000,reporter:"line"};
+module.exports={testDir:"./scripts",testMatch:["qa_mobile_v16.spec.js","qa_story_sync.spec.js","qa_sync_benchmark_contract.spec.js","qa_story_experience_49.spec.js"],timeout:30000,reporter:"line",webServer:{command:"python scripts/serve_static_range.py 4173",url:"http://127.0.0.1:4173/",timeout:10000,reuseExistingServer:false}};
