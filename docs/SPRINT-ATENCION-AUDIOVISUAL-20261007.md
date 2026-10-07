@@ -154,3 +154,34 @@ El sprint termina únicamente cuando las tres iteraciones han sido ejecutadas o 
 **audio ↔ palabra ↔ pantalla ↔ continuidad ↔ prosodia ↔ navegación ↔ producción**
 
 como una sola experiencia coherente.
+
+
+## Estado de implementación · 2026-10-07
+
+### I1 · Continuidad visual
+**Implementada:** sí.
+
+El motor mantiene una palabra reciente como ancla durante pausas de hasta 240 ms, sin marcarla falsamente como palabra actualmente pronunciada. Las palabras recientes conservan además una estela visual atenuada.
+
+**Comprobación de datos:** el corpus contiene 2,206 palabras y 1,646 pausas interpalabra de duración ≤240 ms.
+
+### I2 · Correspondencia prosódica
+**Implementada:** sí.
+
+Se añadió una ruta Web Audio con AnalyserNode, cálculo RMS, normalización y suavizado attack/release. La energía se expone como variable visual continua y modula presencia del arte, copia y foco de la palabra.
+
+### I3 · Seguimiento gratificante
+**Implementada:** sí.
+
+Cada palabra activa expone --word-progress, derivado exclusivamente de audio.currentTime respecto de su intervalo real de timing. La progresión visual avanza dentro de la palabra y permanece ligada al reloj de audio.
+
+### Integridad de identidad
+**Implementada:** sí para las superficies auditadas. Las copias HTML trabajo.html y original.html ya no contienen el rótulo de marca legado. Las fuentes sonoras conservan literalmente las palabras pronunciadas cuando forman parte de la evidencia auditiva.
+
+### Versionado
+- I1: v1.8.0-20261007
+- I2–I3: v1.10.0-20261007
+- Los recursos públicos reciben claves de caché correspondientes a v1.10.0-20261007.
+
+### Límite de evidencia
+Esta documentación no convierte una implementación en una certificación humana. El benchmark técnico debe comprobar M10/M11/M12/M13 y M9 con la suite existente; la aceptación perceptual A/B requiere escucha real. No se registra como PASS una prueba que no haya sido realmente ejecutada.
