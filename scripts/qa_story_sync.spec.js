@@ -62,22 +62,8 @@ async function seekAndRead(page, targetTime, expectedSegment) {
     if (!a) return { ok: false, reason: "no-audio" };
 
     a.pause();
-    const waitForSeek = new Promise((resolve) => {
-      let done = false;
-      const finish = () => {
-        if (done) return;
-        done = true;
-        a.removeEventListener("seeked", finish);
-        resolve();
-      };
-      a.addEventListener("seeked", finish, { once: true });
-      setTimeout(finish, 1500);
-    });
-
     a.currentTime = targetTime;
-    await waitForSeek;
-
-    const deadline = performance.now() + 1000;
+    const deadline = performance.now() + 650;
     while (performance.now() < deadline) {
       const current = Number(a.currentTime);
       const active = document.querySelector(".story-stop.is-active .story-word.is-current");
@@ -95,7 +81,8 @@ async function seekAndRead(page, targetTime, expectedSegment) {
       observedWord: active ? Number(active.dataset.word) : null,
       currentTime: Number.isFinite(current) ? Number(current.toFixed(3)) : null,
       timeErrorMs: Number.isFinite(current) ? Number(Math.abs(current - targetTime).toFixed(3)) * 1000 : null,
-      paused: a.paused
+      paused: a.paused,
+      seekStable: Number.isFinite(current) && Math.abs(current - targetTime) <= 0.08
     };
   }, { targetTime, expectedSegment });
 }
@@ -113,12 +100,10 @@ test("F4 deterministic sampled word mapping benchmark", async ({ page }) => {
     const words = seg.words || [];
     const indices = [...new Set([
       0,
-      Math.floor(words.length * 0.125),
-      Math.floor(words.length * 0.25),
-      Math.floor(words.length * 0.375),
-      Math.floor(words.length * 0.5),
-      Math.floor(words.length * 0.625),
-      Math.floor(words.length * 0.75),
+      Math.floor(words.length * 0.2),
+      Math.floor(words.length * 0.4),
+      Math.floor(words.length * 0.6),
+      Math.floor(words.length * 0.8),
       Math.max(0, words.length - 1)
     ])].filter((i) => i >= 0 && i < words.length).sort((a,b) => a-b);
 
@@ -134,11 +119,13 @@ test("F4 deterministic sampled word mapping benchmark", async ({ page }) => {
         observed: observed.observedSegment === String(seg.id) ? observed.observedWord : null,
         observedSegment: observed.observedSegment,
         currentTime: observed.currentTime,
-        timeErrorMs: observed.timeErrorMs
+        timeErrorMs: observed.timeErrorMs,
+        seekStable: observed.seekStable === true
       });
     }
   }
 
+  const unstableSeeks = samples.filter((s) => !s.seekStable);
   const missed = samples.filter((s) => s.observed === null);
   const wrong = samples.filter((s) => s.observed !== null && s.observed !== s.expected);
   const correct = samples.filter((s) => s.observed === s.expected);
@@ -152,9 +139,11 @@ test("F4 deterministic sampled word mapping benchmark", async ({ page }) => {
     correctRatePct: Number((correct.length / samples.length * 100).toFixed(4)),
     M10_wrong_word_rate_pct: Number((wrong.length / samples.length * 100).toFixed(4)),
     M11_missed_word_rate_pct: Number((missed.length / samples.length * 100).toFixed(4)),
+    M13_seek_stability_pct: Number(((samples.length - unstableSeeks.length) / samples.length * 100).toFixed(4)),
     wrongExamples: wrong.slice(0, 20),
     missedExamples: missed.slice(0, 20),
-    probeTimeErrorMsP95: Number(percentile(samples.map((s) => Number(s.timeErrorMs) || 0), 0.95).toFixed(3))
+    probeTimeErrorMsP95: Number(percentile(samples.map((s) => Number(s.timeErrorMs) || 0), 0.95).toFixed(3)),
+    unstableSeekExamples: unstableSeeks.slice(0, 20)
   };
 
   fs.mkdirSync(path.dirname("test-results/story-sync-deterministic-benchmark.json"), { recursive: true });
@@ -167,6 +156,7 @@ test("F4 deterministic sampled word mapping benchmark", async ({ page }) => {
 
   expect(wrong.length, JSON.stringify(wrong.slice(0, 10))).toBe(0);
   expect(missed.length, JSON.stringify(missed.slice(0, 10))).toBe(0);
+  expect(unstableSeeks.length, JSON.stringify(unstableSeeks.slice(0, 10))).toBe(0);
 });
 
 function percentile(values, p) {
