@@ -149,12 +149,12 @@ function gaClientIdFromVisitor(visitorId: string | null | undefined): string {
     const hex = visitorId.replace(/-/g, '').slice(0, 16);
     const left = Number.parseInt(hex.slice(0, 8), 16) >>> 0;
     const right = Number.parseInt(hex.slice(8, 16), 16) >>> 0;
-    return \`${left}.${right}\`;
+    return String(left) + '.' + String(right);
   }
 
   const a = crypto.getRandomValues(new Uint32Array(1))[0] >>> 0;
   const b = crypto.getRandomValues(new Uint32Array(1))[0] >>> 0;
-  return \`${a}.${b}\`;
+  return String(a) + '.' + String(b);
 }
 
 async function forwardToGa4(events: IncomingEvent[]) {
@@ -170,7 +170,7 @@ async function forwardToGa4(events: IncomingEvent[]) {
     params: {
       page_location: e.path,
       page_referrer: e.referrer ?? undefined,
-      session_id: e.ga?.session_id ?? e.session_id ?? undefined,
+      session_id: e.session_id ? Number.parseInt(e.session_id.replace(/-/g, '').slice(0, 12), 16).toString() : undefined,
       engagement_time_msec: e.ga?.engagement_time_msec ?? undefined,
       campaign_source: e.campaign_source ?? undefined,
       campaign_medium: e.campaign_medium ?? undefined,
