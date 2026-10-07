@@ -1,0 +1,40 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "preferredVersions": {
+    "php": "8.2",
+    "wp": "latest"
+  },
+  "landingPage": "/",
+  "login": true,
+  "siteOptions": {
+    "blogname": "Ser y Mente — Blog",
+    "blogdescription": "Laboratorio editorial basado en el módulo original de Ser y Mente.",
+    "permalink_structure": "/blog/%postname%/"
+  },
+  "steps": [
+    {
+      "step": "installTheme",
+      "themeData": {
+        "resource": "bundled",
+        "path": "/theme.zip"
+      },
+      "options": {
+        "activate": true
+      }
+    },
+    {
+      "step": "installPlugin",
+      "pluginData": {
+        "resource": "bundled",
+        "path": "/plugin.zip"
+      },
+      "options": {
+        "activate": true
+      }
+    },
+    {
+      "step": "runPHP",
+      "code": "<?php\nrequire '/wordpress/wp-load.php';\n\n$demo_posts = [\n  ['Primer artículo — contenido pendiente', 'Este registro es un espacio de prueba para conservar la composición visual del módulo de Ser y Mente mientras recuperamos el contenido original.'],\n  ['Segundo artículo — contenido pendiente', 'El módulo conserva la consulta dinámica de publicaciones y la proporción visual original.'],\n  ['Tercer artículo — contenido pendiente', 'Aquí se incorporará el material editorial recuperado del activo original.'],\n  ['Cuarto artículo — contenido pendiente', 'Las imágenes definitivas se incorporarán cuando se recupere el conjunto original de medios.'],\n  ['Quinto artículo — contenido pendiente', 'Este contenido provisional no representa una publicación histórica de Ser y Mente.'],\n  ['Sexto artículo — contenido pendiente', 'La prioridad de esta instancia es fidelidad estructural antes de modificar diseño o contenido.']\n];\nforeach ($demo_posts as [$title, $content]) {\n  $existing = get_page_by_title($title, OBJECT, 'post');\n  if (!$existing) {\n    wp_insert_post([\n      'post_title' => $title,\n      'post_content' => '<p>' . esc_html($content) . '</p>',\n      'post_status' => 'publish',\n      'post_type' => 'post'\n    ]);\n  }\n}\n\n$page = get_page_by_path('blog');\nif (!$page) {\n  $page_id = wp_insert_post([\n    'post_title' => 'Blog',\n    'post_name' => 'blog',\n    'post_content' => '[custom_blog_section]',\n    'post_status' => 'publish',\n    'post_type' => 'page'\n  ]);\n} else {\n  $page_id = $page->ID;\n  wp_update_post(['ID' => $page_id, 'post_content' => '[custom_blog_section]']);\n}\nupdate_option('show_on_front', 'page');\nupdate_option('page_on_front', (int) $page_id);\n\nwp_set_current_user(1);\nwp_set_auth_cookie(1);\necho 'Ser y Mente Blog Playground ready';"
+    }
+  ]
+}
