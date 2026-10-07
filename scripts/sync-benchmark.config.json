@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "projectRole": "adapter configuration only; benchmark engine remains generic",
+  "site": {
+    "url": "http://127.0.0.1:4173/",
+    "rootSelector": "#relato-sonoro"
+  },
+  "timing": {
+    "path": "assets/data/story-word-timing.json"
+  },
+  "dom": {
+    "audioSelector": "[data-sync-audio=\"true\"]",
+    "segmentControlSelector": "[data-sync-segment-control=\"{id}\"]",
+    "activeSegmentSelector": "[data-sync-active-segment=\"true\"]",
+    "currentWordSelector": "[data-sync-current-word=\"true\"]"
+  },
+  "sampling": {
+    "pointsPerSegment": 6,
+    "seekToleranceMs": 80,
+    "stableFrames": 2
+  },
+  "runtime": {
+    "segmentStrategy": "max-word-count",
+    "durationSec": 15,
+    "playbackRate": 1,
+    "minTransitions": 12
+  },
+  "media": {
+    "mode": "blob",
+    "sameOriginOnly": true
+  }
+}
