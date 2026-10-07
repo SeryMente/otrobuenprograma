@@ -35,6 +35,7 @@
         <button class="tab" data-panel="traffic">Tráfico</button>
         <button class="tab" data-panel="events">Eventos</button>
         <button class="tab" data-panel="integrations">Integraciones</button>
+        <button class="tab" data-panel="users">Usuarios</button>
         <button class="tab" data-panel="access">Acceso</button>
       </nav>
 
@@ -65,6 +66,12 @@
             <article class="card"><span class="dot pending"></span><h3>Google Analytics 4</h3><p class="muted">Measurement Protocol desde backend. El secreto nunca llega al navegador.</p><code>GA4_MEASUREMENT_ID · GA4_API_SECRET</code></article>
             <article class="card"><span class="dot pending"></span><h3>GitHub Traffic</h3><p class="muted">Collector diario para conservar el histórico fuera de la ventana de GitHub.</p><code>SeryMente/otrogranprograma</code></article>
           </div>
+        </section>
+
+        <section id="panel-users" class="panel">
+          <div class="panel-head"><div><div class="eyebrow">AUTORIZACIÓN</div><h2>Usuarios</h2></div><button id="refresh-users" class="ghost">Actualizar</button></div>
+          <article class="card table-card"><div class="table-scroll"><table><thead><tr><th>Email</th><th>Nombre</th><th>Rol</th><th>Alta</th><th>Acción</th></tr></thead><tbody id="users-body"></tbody></table></div></article>
+          <p class="muted">Las cuentas se crean y autentican en Supabase Auth. Esta consola administra únicamente el perfil de aplicación y su rol.</p>
         </section>
 
         <section id="panel-access" class="panel">
