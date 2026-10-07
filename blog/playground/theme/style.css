@@ -1,0 +1,68 @@
+/*
+Theme Name: Ser y Mente Blog Lab
+Theme URI: https://github.com/SeryMente/serymente
+Author: OGP / Ser y Mente reconstruction
+Version: 0.1.0
+*/
+
+:root {
+  --sym-text: #233650;
+  --sym-bg: #ffffff;
+  --sym-muted: #555;
+  --sym-border: #dddddd;
+}
+
+html, body {
+  background: var(--sym-bg) !important;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  color: var(--sym-text);
+  font-family: Inter, Arial, sans-serif;
+  line-height: 1.6;
+}
+
+a {
+  color: inherit;
+}
+
+.site-header,
+.site-footer,
+.wp-block-post-title,
+.entry-title {
+  font-family: Overpass, Arial, sans-serif;
+}
+
+.site-header {
+  padding: 28px 20px 12px;
+  text-align: center;
+}
+
+.site-brand {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  line-height: 1.05;
+}
+
+.site-tagline {
+  margin: 10px auto 0;
+  max-width: 760px;
+  color: var(--sym-muted);
+}
+
+.site-main {
+  width: 100%;
+}
+
+.site-footer {
+  padding: 36px 20px 50px;
+  text-align: center;
+  color: var(--sym-muted);
+}
+
+.wrap {
+  width: min(1200px, calc(100% - 40px));
+  margin: 0 auto;
+}

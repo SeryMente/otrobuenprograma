@@ -1,0 +1,115 @@
+/* Source-faithful reconstruction of Ser y Mente blog-section-1.css */
+body, html {
+    background-color: #fff !important;
+    margin: 0;
+    padding: 0;
+}
+header, .header-container {
+    background-color: transparent !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+.blog-section-1 {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 30px;
+    margin: 50px auto 0 auto;
+    max-width: 900px;
+    padding: 30px 20px;
+    background-color: #fff !important;
+    border: none !important;
+}
+.left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    grid-column: 1 / 2;
+}
+.center-post {
+    grid-column: 2 / 3;
+    grid-row: 1 / 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    position: relative;
+    border-radius: 0;
+    box-shadow: none;
+}
+.right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    grid-column: 3 / 4;
+}
+.post {
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+}
+.post img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+}
+.post.large-post img {
+    height: 450px;
+    object-fit: cover;
+}
+.post.small-post img {
+    height: 220px;
+    object-fit: cover;
+}
+.post h2,
+.post h3 {
+    font-family: 'Overpass', sans-serif;
+    margin: 10px 0;
+    font-size: 1.5rem;
+    line-height: 1.3;
+}
+.post p {
+    font-family: 'Inter', sans-serif;
+    color: #233650;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-top: 8px;
+}
+.blog-section-1 .post h3 {
+    font-size: 1.2rem;
+}
+.blog-section-1 .post p {
+    font-size: 0.95rem;
+}
+.blog-section-1::before,
+.blog-section-1::after,
+header::before,
+header::after {
+    content: none !important;
+    display: none !important;
+}
+@media (max-width: 1024px) {
+    .blog-section-1 {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        gap: 20px;
+        max-width: 100%;
+    }
+    .center-post {
+        grid-row: auto;
+    }
+    .post.large-post img {
+        height: 300px;
+    }
+}
+.blog-lab-note {
+    max-width: 900px;
+    margin: 28px auto 0;
+    padding: 0 20px;
+    color: #555;
+    font: 14px/1.6 Inter, Arial, sans-serif;
+}
