@@ -97,16 +97,23 @@ function clearWordTimer(){if(wordTimerId){clearTimeout(wordTimerId);wordTimerId=
 function scheduleNextWord(){
  clearWordTimer();
  if(!playing)return;
- var ws=current().words||[],t=Number(audio.currentTime)||0,next=widx+1;
- while(next<ws.length&&Number(ws[next].end)<=t)next++;
- if(next>=ws.length)return;
- var delay=Math.max(0,((Number(ws[next].start)-t)*1000/(Number(audio.playbackRate)||1))-8);
- wordTimerId=setTimeout(function(){
-   wordTimerId=0;
-   if(!playing)return;
-   update();
-   scheduleNextWord();
- },Math.min(delay,250));
+ var ws=current().words||[],next=widx+1;
+ var rate=Number(audio.playbackRate)||1;
+ function arm(){
+   if(!playing||next>=ws.length)return;
+   var now=Number(audio.currentTime)||0;
+   var target=Number(ws[next].start);
+   var deltaMs=(target-now)*1000/rate;
+   if(deltaMs<=0){
+     wordTimerId=0;
+     update();
+     scheduleNextWord();
+     return;
+   }
+   var delay=deltaMs>28?Math.max(8,deltaMs-18):Math.max(1,Math.min(4,deltaMs/2));
+   wordTimerId=setTimeout(function(){wordTimerId=0;arm();},Math.min(delay,250));
+ }
+ arm();
 }
 function syncMicroPlay(){if(!play)return;play.textContent=playing?'Ⅱ':'▶';play.setAttribute('aria-label',playing?'Pausar':'Reproducir');play.title=playing?'Pausar':'Reproducir';}
 function hideReturnOverlay(){if(!returnOverlay)return;returnOverlay.hidden=true;if(intenseOverlayTimer){clearTimeout(intenseOverlayTimer);intenseOverlayTimer=0;}}
