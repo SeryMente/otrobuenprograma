@@ -70,7 +70,7 @@
       const message = document.getElementById("message");
       const submit = document.getElementById("submit");
       const resend = document.getElementById("resend");
-      const isLocalHost = /^(localhost|127\\.0\\.0\\.1|\\[::1\\])$/i.test(window.location.hostname);
+      const isLocalHost = /^(localhost|127\.0\.0\.1|\[::1\])$/i.test(window.location.hostname);
 
       if (isLocalHost) {
         submit.disabled = true;
