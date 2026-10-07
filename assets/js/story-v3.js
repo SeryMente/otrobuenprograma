@@ -1,11 +1,12 @@
 (function(){
 'use strict';
 var mount=document.getElementById('relato-sonoro');if(!mount)return;
-var V='v1.6.0-20261006';
+var V='v1.6.2-20261006';
 var ROOT=(location.hostname==='serymente.github.io')?'/otrobuenprograma/':'/';
 var MOBILE=window.matchMedia&&window.matchMedia('(max-width:820px)').matches;
 var URL_DATA=ROOT+'assets/data/relato-obp-phase3.json';
 var VIS=[['welcome','Escuchar antes de interpretar'],['currents','Lo que ya existe y lo que se abre'],['relationship','La relación como campo'],['forgiveness','Perdón como práctica'],['scale','Una posición distinta'],['inclusion','Una pertenencia más amplia'],['dabrowski','Conflicto y desarrollo'],['structures','Cuando la estructura resiste'],['minds','Dos respuestas posibles'],['closing','Una propuesta que se integra']];
+var STORY_TITLE="una iniciativa para revolucionar la manera en la que aliviaremos la disfunción familiar para nuestros hijos y sus hijos también.";
 function esc(v){return String(v==null?'':v).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 function fmt(t){t=Number(t);if(!Number.isFinite(t)||t<0)return'0:00';var s=Math.round(t);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');}
 function asset(path){return ROOT+String(path||'').replace(/^\/+/,'');}
@@ -28,26 +29,26 @@ function buildRail(segs){
 var groups={},order=[];
 segs.forEach(function(s){var phase=String(s.phase||'');if(!groups[phase]){groups[phase]=[];order.push(phase);}groups[phase].push(s);});
 order.sort(function(a,b){return Number(groups[a][0].id)-Number(groups[b][0].id);});
-if(order.length!==5)throw new Error('El roadmap requiere cinco fases.');
-order.forEach(function(p){groups[p].sort(function(a,b){return Number(a.id)-Number(b.id);});if(groups[p].length!==4)throw new Error('Cada fase del roadmap requiere cuatro segmentos.');});
-var html='<nav class="story-micro-rail" aria-label="Progreso del relato"><ol>';
-order.forEach(function(p){
-var items=groups[p];
-html+='<li class="story-micro-phase" data-phase="'+esc(p)+'"><button class="story-micro-phase-label" type="button" data-segment="'+esc(items[0].id)+'" aria-label="Fase '+esc(p)+', segmento '+esc(items[0].id)+'">'+esc(p)+'</button><div class="story-micro-segments">';
-items.forEach(function(s){html+='<button class="story-micro-segment" type="button" data-segment="'+esc(s.id)+'" aria-label="Segmento '+esc(s.id)+', fase '+esc(p)+'"><span aria-hidden="true"></span></button>';});
-html+='</div></li>';
-});
-return html+'</ol></nav>';
+if(order.length!==5)throw new Error('El roadmap requiere cinco etapas.');
+order.forEach(function(p){groups[p].sort(function(a,b){return Number(a.id)-Number(b.id);});if(groups[p].length!==4)throw new Error('Cada etapa requiere cuatro segmentos.');});
+var html='<nav class="story-micro-rail" aria-label="Progreso de la experiencia"><ol>';
+order.forEach(function(p){var items=groups[p];html+='<li class="story-micro-phase" data-phase="'+esc(p)+'"><button class="story-micro-phase-label" type="button" data-segment="'+esc(items[0].id)+'" aria-label="Sección '+esc(p)+', segmento '+esc(items[0].id)+'">'+esc(p)+'</button><div class="story-micro-segments">';items.forEach(function(s){html+='<button class="story-micro-segment" type="button" data-segment="'+esc(s.id)+'" aria-label="Segmento '+esc(s.id)+', sección '+esc(p)+'"><span aria-hidden="true"></span></button>';});html+='</div></li>';});
+html+='</ol><button class="story-micro-play" type="button" aria-label="Reproducir" title="Reproducir" aria-controls="relato-sonoro">▶</button></nav>';return html;
 }
 function render(data){
 var segs=(data.segments||[]).slice().sort(function(a,b){return Number(a.id)-Number(b.id);});
 if(segs.length!==20)throw new Error('No se pudo preparar el relato.');
-mount.innerHTML='<div class="story-player" aria-label="Reproductor narrativo"><button class="story-prev" type="button" aria-label="Anterior">←</button><button class="story-play" type="button" aria-label="Reproducir">▶</button><div class="story-player-main"><div class="story-player-line"><strong class="story-now">La puerta de entrada</strong><span class="story-time">0:00 / 0:00</span></div><div class="story-wave" role="slider" tabindex="0" aria-label="Posición del relato" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="story-bars" aria-hidden="true">'+Array.from({length:34},function(_,i){return '<i style="--i:'+i+'"></i>';}).join('')+'</div><span class="story-progress"></span></div></div><button class="story-next" type="button" aria-label="Siguiente">→</button><button class="story-follow-toggle" type="button" aria-pressed="true">Seguir voz</button><button class="story-auto-advance" type="button" aria-pressed="true">Autoavance</button><div class="story-status" role="status">Preparando relato…</div></div><div class="story-rail">'+segs.map(function(s,i){var v=VIS[Math.floor(i/2)];return '<article class="story-stop" id="story-stop-'+esc(s.id)+'" data-segment="'+esc(s.id)+'"><div class="story-copy"><span class="story-label">Relato · Fase '+esc(s.phase||'')+'</span><h2>'+esc(s.title)+'</h2><p class="story-transcript" aria-label="Texto del relato">'+s.words.map(function(w,j){return '<button class="story-word" type="button" data-segment="'+esc(s.id)+'" data-word="'+j+'">'+esc(w.word)+'</button> ';}).join('')+'</p></div><div class="story-art">'+art(v[0],v[1],s.id)+'</div><aside class="story-context" aria-label="Contexto"><span>CONTEXTO</span><p>'+esc(s.context||s.idea)+'</p></aside><div class="story-segment-meta"><button type="button" data-play-segment="'+esc(s.id)+'">Escuchar este fragmento</button></div></article>';}).join('')+'</div>'+buildRail(segs)+'<div class="story-end"><p>La voz sigue siendo el centro.</p></div><audio class="story-audio" preload="auto" playsinline></audio><div class="obp-qr-autoplay-hint" role="status">El sonido está listo. Este navegador necesita un toque para comenzar.<button type="button">Iniciar experiencia</button></div>';
-var audio=mount.querySelector('.story-audio'),play=mount.querySelector('.story-play'),prev=mount.querySelector('.story-prev'),next=mount.querySelector('.story-next'),followBtn=mount.querySelector('.story-follow-toggle'),autoBtn=mount.querySelector('.story-auto-advance'),now=mount.querySelector('.story-now'),time=mount.querySelector('.story-time'),wave=mount.querySelector('.story-wave'),prog=mount.querySelector('.story-progress'),status=mount.querySelector('.story-status'),hint=mount.querySelector('.obp-qr-autoplay-hint'),rail=mount.querySelector('.story-micro-rail');
+mount.innerHTML='<header class="story-intro" aria-labelledby="story-section-title"><h2 id="story-section-title">una iniciativa para revolucionar la manera en la que aliviaremos la disfunción familiar para nuestros hijos y sus hijos también.</h2></header><div class="story-player" aria-label="Reproductor narrativo"><button class="story-prev" type="button" aria-label="Anterior">←</button><button class="story-play" type="button" aria-label="Reproducir">▶</button><div class="story-player-main"><div class="story-player-line"><strong class="story-now">La puerta de entrada</strong><span class="story-time">0:00 / 0:00</span></div><div class="story-wave" role="slider" tabindex="0" aria-label="Posición del relato" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="story-bars" aria-hidden="true">'+Array.from({length:34},function(_,i){return '<i style="--i:'+i+'"></i>';}).join('')+'</div><span class="story-progress"></span></div></div><button class="story-next" type="button" aria-label="Siguiente">→</button><button class="story-follow-toggle" type="button" aria-pressed="true">Seguir voz</button><button class="story-auto-advance" type="button" aria-pressed="true">Autoavance</button><div class="story-status" role="status">Preparando relato…</div></div><div class="story-rail">'+segs.map(function(s,i){var v=VIS[Math.floor(i/2)];return '<article class="story-stop" id="story-stop-'+esc(s.id)+'" data-segment="'+esc(s.id)+'"><div class="story-copy"><h2>'+esc(s.title)+'</h2><p class="story-transcript" aria-label="Texto del relato">'+s.words.map(function(w,j){return '<button class="story-word" type="button" data-segment="'+esc(s.id)+'" data-word="'+j+'">'+esc(w.word)+'</button> ';}).join('')+'</p></div><div class="story-art">'+art(v[0],v[1],s.id)+'</div><div class="story-segment-meta"><button type="button" data-play-segment="'+esc(s.id)+'">Escuchar este fragmento</button></div></article>';}).join('')+'</div>'+buildRail(segs)+'<button class="story-return-overlay" type="button" hidden>Volver a la narración</button><audio class="story-audio" preload="auto" playsinline></audio><div class="obp-qr-autoplay-hint" role="status">El sonido está listo. Este navegador necesita un toque para comenzar.<button type="button">Iniciar experiencia</button></div>';
+var audio=mount.querySelector('.story-audio'),play=mount.querySelector('.story-play'),prev=mount.querySelector('.story-prev'),next=mount.querySelector('.story-next'),followBtn=mount.querySelector('.story-follow-toggle'),autoBtn=mount.querySelector('.story-auto-advance'),now=mount.querySelector('.story-now'),time=mount.querySelector('.story-time'),wave=mount.querySelector('.story-wave'),prog=mount.querySelector('.story-progress'),status=mount.querySelector('.story-status'),hint=mount.querySelector('.obp-qr-autoplay-hint'),rail=mount.querySelector('.story-micro-rail'),microPlay=mount.querySelector('.story-micro-play'),returnOverlay=mount.querySelector('.story-return-overlay');
 var cards=[].slice.call(mount.querySelectorAll('.story-stop')),railPhaseButtons=[].slice.call(mount.querySelectorAll('.story-micro-phase-label')),railSegmentButtons=[].slice.call(mount.querySelectorAll('.story-micro-segment'));
-var cur=0,widx=-1,follow=true,advance=true,playing=false,manual=0,lastScroll=0,gestureRecovery=false;
+var cur=0,widx=-1,follow=true,advance=true,playing=false,manual=0,lastScroll=0,gestureRecovery=false,suppressFollowUntil=0,scrollY0=window.scrollY||0,scrollT0=Date.now(),intenseOverlayTimer=0;
 audio.preload='auto';audio.autoplay=true;audio.setAttribute('autoplay','');
 function current(){return segs[cur];}
+function syncMicroPlay(){if(!microPlay)return;microPlay.textContent=playing?'Ⅱ':'▶';microPlay.setAttribute('aria-label',playing?'Pausar':'Reproducir');microPlay.title=playing?'Pausar':'Reproducir';}
+function hideReturnOverlay(){if(!returnOverlay)return;returnOverlay.hidden=true;if(intenseOverlayTimer){clearTimeout(intenseOverlayTimer);intenseOverlayTimer=0;}}
+function showReturnOverlay(){if(!returnOverlay||!playing||!follow)return;returnOverlay.hidden=false;if(intenseOverlayTimer)clearTimeout(intenseOverlayTimer);intenseOverlayTimer=setTimeout(function(){returnOverlay.hidden=true;intenseOverlayTimer=0;},7000);}
+function releaseFollowForMotion(intense){var nowTs=Date.now();manual=nowTs+(intense?1100:650);suppressFollowUntil=nowTs+(intense?5000:900);if(intense)showReturnOverlay();}
+function returnToNarration(){if(!returnOverlay)return;hideReturnOverlay();suppressFollowUntil=0;manual=Date.now()+900;var target=widx>=0?cards[cur].querySelector('[data-word="'+widx+'"]'):null;if(!target)target=cards[cur];if(target)target.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'center'});}
 function clearGestureRecovery(){if(!gestureRecovery)return;gestureRecovery=false;document.removeEventListener('pointerdown',recoverFromGesture,true);document.removeEventListener('touchstart',recoverFromGesture,true);document.removeEventListener('keydown',recoverFromGesture,true);}
 function installGestureRecovery(){if(gestureRecovery)return;gestureRecovery=true;document.addEventListener('pointerdown',recoverFromGesture,true);document.addEventListener('touchstart',recoverFromGesture,true);document.addEventListener('keydown',recoverFromGesture,true);}
 function recoverFromGesture(){clearGestureRecovery();start('first-gesture');}
@@ -63,15 +64,17 @@ function start(reason){
 if(!audio.src)return;
 var p;
 try{p=audio.play();}catch(e){p=Promise.reject(e);}
-if(p&&p.then)p.then(function(){playing=true;mount.classList.add('is-playing');play.textContent='Ⅱ';play.setAttribute('aria-label','Pausar');status.textContent=reason==='first-gesture'?'Reproduciendo.':'Reproduciendo este fragmento.';clearGestureRecovery();if(hint)hint.classList.remove('is-visible');}).catch(function(err){playing=false;mount.classList.remove('is-playing');play.textContent='▶';play.setAttribute('aria-label','Reproducir');if(err&&err.name==='NotAllowedError'){status.textContent='El navegador bloqueó el inicio automático. El audio está listo.';if(hint)hint.classList.add('is-visible');installGestureRecovery();}else{status.textContent='No se pudo iniciar el audio todavía.';}});
+if(p&&p.then)p.then(function(){playing=true;mount.classList.add('is-playing');play.textContent='Ⅱ';play.setAttribute('aria-label','Pausar');status.textContent=reason==='first-gesture'?'Reproduciendo.':'Reproduciendo esta parte.';syncMicroPlay();clearGestureRecovery();if(hint)hint.classList.remove('is-visible');}).catch(function(err){playing=false;mount.classList.remove('is-playing');play.textContent='▶';play.setAttribute('aria-label','Reproducir');syncMicroPlay();if(err&&err.name==='NotAllowedError'){status.textContent='El navegador bloqueó el inicio automático. El audio está listo.';if(hint)hint.classList.add('is-visible');installGestureRecovery();}else{status.textContent='No se pudo iniciar el audio todavía.';}});
 }
 function update(){
 var s=current(),d=Number(audio.duration)||Number(s.audioDuration)||0,t=Number(audio.currentTime)||0,r=d?Math.max(0,Math.min(1,t/d)):0;
 prog.style.width=(r*100)+'%';wave.setAttribute('aria-valuenow',String(Math.round(r*100)));time.textContent=fmt(t)+' / '+fmt(d);
 var ws=s.words||[],lo=0,hi=ws.length-1,hit=-1;while(lo<=hi){var m=(lo+hi)>>1;if(t<Number(ws[m].start))hi=m-1;else{hit=m;lo=m+1;}}if(hit>=0)widx=hit;paintWords();
-var n=Date.now();if(widx>=0&&follow&&playing&&n>manual&&n-lastScroll>900){var el=cards[cur].querySelector('[data-word="'+widx+'"]');if(el){lastScroll=n;el.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'center'});}}
+var n=Date.now();if(widx>=0&&follow&&playing&&n>manual&&n>suppressFollowUntil&&n-lastScroll>900){var el=cards[cur].querySelector('[data-word="'+widx+'"]');if(el){lastScroll=n;el.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'center'});}}
 }
 play.addEventListener('click',function(){if(audio.paused)start('manual');else audio.pause();});
+if(microPlay)microPlay.addEventListener('click',function(){if(audio.paused)start('manual');else audio.pause();});
+if(returnOverlay)returnOverlay.addEventListener('click',returnToNarration);
 prev.addEventListener('click',function(){if(cur>0){manual=Date.now()+1200;load(cur-1,true,true);}});
 next.addEventListener('click',function(){if(cur<segs.length-1){manual=Date.now()+1200;load(cur+1,true,true);}});
 followBtn.addEventListener('click',function(){follow=!follow;followBtn.setAttribute('aria-pressed',String(follow));followBtn.textContent=follow?'Seguir voz':'Pausar seguimiento';});
@@ -82,20 +85,24 @@ mount.querySelectorAll('[data-play-segment]').forEach(function(b){b.addEventList
 railPhaseButtons.forEach(function(b){b.addEventListener('click',function(){var i=segs.findIndex(function(s){return String(s.id)===String(b.dataset.segment);});if(i>=0){manual=Date.now()+1200;load(i,true,true);}});});
 railSegmentButtons.forEach(function(b){b.addEventListener('click',function(){var i=segs.findIndex(function(s){return String(s.id)===String(b.dataset.segment);});if(i>=0){manual=Date.now()+1200;load(i,true,true);}});});
 mount.querySelectorAll('.story-word').forEach(function(b){b.addEventListener('click',function(){var i=segs.findIndex(function(s){return String(s.id)===String(b.dataset.segment);}),wi=Number(b.dataset.word);if(i<0)return;if(i!==cur)load(i,false,true);var w=segs[i].words[wi];if(w){audio.currentTime=Number(w.start);manual=Date.now()+1200;start('word');update();}});});
-audio.addEventListener('loadedmetadata',function(){status.textContent='Relato listo · '+fmt(audio.duration);update();});
+audio.addEventListener('loadedmetadata',function(){status.textContent='Experiencia lista · '+fmt(audio.duration);update();syncMicroPlay();});
 audio.addEventListener('timeupdate',update);
-audio.addEventListener('play',function(){playing=true;mount.classList.add('is-playing');play.textContent='Ⅱ';play.setAttribute('aria-label','Pausar');if(hint)hint.classList.remove('is-visible');clearGestureRecovery();});
-audio.addEventListener('pause',function(){playing=false;mount.classList.remove('is-playing');play.textContent='▶';play.setAttribute('aria-label','Reproducir');});
-audio.addEventListener('ended',function(){playing=false;if(advance&&cur<segs.length-1)load(cur+1,true,true);else status.textContent='Fin del relato.';});
-audio.addEventListener('error',function(){playing=false;status.textContent='No se pudo cargar este audio.';if(hint)hint.classList.remove('is-visible');clearGestureRecovery();});
+audio.addEventListener('play',function(){playing=true;mount.classList.add('is-playing');play.textContent='Ⅱ';play.setAttribute('aria-label','Pausar');syncMicroPlay();if(hint)hint.classList.remove('is-visible');clearGestureRecovery();});
+audio.addEventListener('pause',function(){playing=false;mount.classList.remove('is-playing');play.textContent='▶';play.setAttribute('aria-label','Reproducir');syncMicroPlay();});
+audio.addEventListener('ended',function(){playing=false;if(advance&&cur<segs.length-1)load(cur+1,true,true);else status.textContent='Fin de la experiencia.';});
+audio.addEventListener('error',function(){playing=false;syncMicroPlay();status.textContent='No se pudo cargar el audio de la experiencia.';if(hint)hint.classList.remove('is-visible');clearGestureRecovery();});
 if(hint){var hintBtn=hint.querySelector('button');if(hintBtn)hintBtn.addEventListener('click',function(){hint.classList.remove('is-visible');start('manual');});}
-window.addEventListener('wheel',function(){manual=Date.now()+2800;},{passive:true});window.addEventListener('touchmove',function(){manual=Date.now()+2800;},{passive:true});
-load(0,false,false);paint();
+function handleMotionScroll(){var y=window.scrollY||document.documentElement.scrollTop||0,nowTs=Date.now(),dy=Math.abs(y-scrollY0),dt=Math.max(16,nowTs-scrollT0),velocity=dy/dt;if(dy>0){var intense=dy>=120||(dt<=120&&dy>=60)||(velocity>=1.5&&dy>=45);releaseFollowForMotion(intense);}scrollY0=y;scrollT0=nowTs;}
+window.addEventListener('scroll',handleMotionScroll,{passive:true});
+window.addEventListener('wheel',function(e){var d=Math.abs(Number(e.deltaY)||0);if(d>=70)releaseFollowForMotion(true);else if(d>4)releaseFollowForMotion(false);},{passive:true});
+window.addEventListener('touchmove',function(e){var t=e.touches&&e.touches[0],d=t&&window.__obpLastTouchY!=null?Math.abs(t.clientY-window.__obpLastTouchY):0;if(t)window.__obpLastTouchY=t.clientY;if(d>=24)releaseFollowForMotion(d>=70);},{passive:true});
+window.addEventListener('touchend',function(){window.__obpLastTouchY=null;},{passive:true});
+load(0,false,false);paint();syncMicroPlay();
 if('IntersectionObserver' in window){
 var storyObserver=new IntersectionObserver(function(entries){entries.forEach(function(entry){mount.classList.toggle('is-in-story',entry.isIntersecting);});},{rootMargin:'-20% 0px -20% 0px',threshold:0.01});
 storyObserver.observe(mount);
 }else mount.classList.add('is-in-story');
 if(MOBILE)start('initial-autoplay');
 }
-fetch(URL_DATA+'?v='+V,{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('No se pudo cargar los datos del relato.');return r.json();}).then(render).catch(function(e){mount.innerHTML='<div class="story-error"><strong>No se pudo cargar el relato sonoro.</strong><p>'+esc(e.message)+'</p></div>';});
+fetch(URL_DATA+'?v='+V,{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('No se pudo cargar los datos del relato.');return r.json();}).then(render).catch(function(e){mount.innerHTML='<div class="story-error"><strong>No se pudo cargar la experiencia sonora.</strong><p>'+esc(e.message)+'</p></div>';});
 })();
