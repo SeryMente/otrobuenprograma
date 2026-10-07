@@ -1,7 +1,7 @@
 (function(){
 'use strict';
 var mount=document.getElementById('relato-sonoro');if(!mount)return;
-var V='v1.13.0-20261007';
+var V='v1.15.0-20261007';
 var ROOT=(location.hostname==='serymente.github.io')?'/otrogranprograma/':'/';
 var MOBILE=window.matchMedia&&window.matchMedia('(max-width:820px)').matches;
 var URL_DATA=ROOT+'assets/data/relato-ogp-phase3.json';
@@ -190,7 +190,7 @@ function start(reason){
 if(!audio.src)return;
 var p;
 try{p=audio.play();}catch(e){p=Promise.reject(e);}
-if(p&&p.then)p.then(function(){playing=true;mount.classList.add('is-playing');ensureProsody();if(audioContext&&audioContext.state==='suspended'){audioContext.resume().catch(function(){});}play.textContent='Ⅱ';play.setAttribute('aria-label','Pausar');if(status)status.textContent=reason==='first-gesture'?'Reproduciendo.':'Reproduciendo esta parte.';syncMicroPlay();clearGestureRecovery();if(hint)hint.classList.remove('is-visible');}).catch(function(err){playing=false;mount.classList.remove('is-playing');play.textContent='▶';play.setAttribute('aria-label','Reproducir');syncMicroPlay();if(err&&err.name==='NotAllowedError'){status.textContent='El navegador bloqueó el inicio automático. El audio está listo.';if(hint)hint.classList.add('is-visible');installGestureRecovery();}else{if(status)status.textContent='No se pudo iniciar el audio todavía.';}});
+if(p&&p.then)p.then(function(){playing=true;mount.classList.add('is-playing');ensureProsody();if(audioContext&&audioContext.state==='suspended'){audioContext.resume().catch(function(){});}play.textContent='Ⅱ';play.setAttribute('aria-label','Pausar');if(status)status.textContent=reason==='first-gesture'?'Reproduciendo.':'Reproduciendo esta parte.';syncMicroPlay();clearGestureRecovery();if(hint)hint.classList.remove('is-visible');update();startVisualClock();scheduleNextWord();}).catch(function(err){playing=false;mount.classList.remove('is-playing');play.textContent='▶';play.setAttribute('aria-label','Reproducir');syncMicroPlay();if(err&&err.name==='NotAllowedError'){status.textContent='El navegador bloqueó el inicio automático. El audio está listo.';if(hint)hint.classList.add('is-visible');installGestureRecovery();}else{if(status)status.textContent='No se pudo iniciar el audio todavía.';}});
 }
 function update(){
 var s=current(),d=Number(audio.duration)||Number(s.audioDuration)||0,t=Number(audio.currentTime)||0,r=d?Math.max(0,Math.min(1,t/d)):0;
@@ -218,7 +218,7 @@ audio.addEventListener('loadedmetadata',function(){if(status)status.textContent=
 audio.addEventListener('timeupdate',update);
 audio.addEventListener('seeking',function(){clearWordTimer();update();});
 audio.addEventListener('seeked',update);
-audio.addEventListener('play',function(){playing=true;mount.classList.add('is-playing');syncMicroPlay();if(hint)hint.classList.remove('is-visible');clearGestureRecovery();startVisualClock();});
+audio.addEventListener('play',function(){playing=true;mount.classList.add('is-playing');syncMicroPlay();if(hint)hint.classList.remove('is-visible');clearGestureRecovery();ensureProsody();if(audioContext&&audioContext.state==='suspended'){audioContext.resume().catch(function(){});}update();startVisualClock();scheduleNextWord();});
 audio.addEventListener('pause',function(){clearWordTimer();playing=false;mount.classList.remove('is-playing');syncMicroPlay();stopVisualClock();});
 audio.addEventListener('ended',function(){clearWordTimer();playing=false;stopVisualClock();if(advance&&cur<segs.length-1)load(cur+1,true,true);else if(status)status.textContent='Fin de la experiencia.';});
 audio.addEventListener('error',function(){playing=false;stopVisualClock();syncMicroPlay();if(status)status.textContent='No se pudo cargar el audio de la experiencia.';if(hint)hint.classList.remove('is-visible');clearGestureRecovery();});
