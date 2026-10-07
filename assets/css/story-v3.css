@@ -391,3 +391,57 @@ html.mobile-nav-open .story-return-overlay{pointer-events:none;opacity:0}
   .story-word.is-current::after,
   .story-word.is-continuity-anchor::after{transition:none;animation:none}
 }
+
+/* I2 · prosodia: presencia modulada por envolvente acústica suavizada. */
+#relato-sonoro{
+  --ogp-voice-energy:0;
+}
+#relato-sonoro.is-playing .story-stop.is-active .story-art{
+  transform:translateY(calc((var(--ogp-voice-energy) - .5) * -2px))
+    scale(calc(1 + var(--ogp-voice-energy) * .012));
+  filter:saturate(calc(.94 + var(--ogp-voice-energy) * .16))
+    brightness(calc(.98 + var(--ogp-voice-energy) * .08));
+  box-shadow:
+    0 14px 38px rgba(20,34,67,.11),
+    0 0 calc(12px + var(--ogp-voice-energy) * 22px)
+      rgba(239,180,95,.12);
+}
+#relato-sonoro.is-playing .story-stop.is-active .story-copy{
+  box-shadow:
+    0 8px 24px rgba(20,38,78,.035),
+    0 0 calc(8px + var(--ogp-voice-energy) * 10px)
+      rgba(36,73,157,.05);
+}
+#relato-sonoro.is-playing .story-word.is-current{
+  box-shadow:
+    0 0 0 2px var(--story-blue),
+    0 4px calc(14px + var(--ogp-voice-energy) * 12px)
+      rgba(36,73,157,.18);
+}
+
+/* I3 · progreso intrapalabra: la confirmación avanza dentro de la palabra. */
+.story-word.is-current::after{
+  width:calc(10% + var(--word-progress,0) * 90%);
+  transition:width .04s linear,opacity .12s ease;
+  opacity:.62;
+}
+.story-word.is-continuity-anchor::after{
+  width:100%;
+  opacity:.30;
+}
+.story-word.is-current{
+  background:
+    linear-gradient(90deg,
+      rgba(36,73,157,.98) 0%,
+      rgba(36,73,157,.98) calc(var(--word-progress,0) * 100%),
+      rgba(36,73,157,.70) calc(var(--word-progress,0) * 100%),
+      rgba(36,73,157,.70) 100%);
+}
+@media(prefers-reduced-motion:reduce){
+  #relato-sonoro.is-playing .story-stop.is-active .story-art,
+  #relato-sonoro.is-playing .story-stop.is-active .story-copy{
+    transform:none;
+    filter:none;
+  }
+  .story-word.is-current::after{transition:none}
+}
