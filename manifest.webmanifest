@@ -1,8 +1,8 @@
 {
   "name": "Instrumento de comunicacion - Proyecto Vital",
   "short_name": "Instrumento",
-  "description": "Documento vivo del Proyecto Vital: protesis cognitiva, OBP y la obra misma. linea de tiempo, voces y pulso.",
-  "id": "/otrobuenprograma/",
+  "description": "Documento vivo del Proyecto Vital: protesis cognitiva, OGP y la obra misma. linea de tiempo, voces y pulso.",
+  "id": "/otrogranprograma/",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",
