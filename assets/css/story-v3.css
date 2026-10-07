@@ -353,3 +353,41 @@ html.mobile-nav-open .story-return-overlay{pointer-events:none;opacity:0}
   .ogp-hero-dek{font-size:.88rem}
 }
 @media(prefers-reduced-motion:reduce){.story-micro-rail{transition:none}}
+
+/* I1 · continuidad perceptual: la palabra no desaparece durante una pausa breve. */
+.story-word.is-echo{
+  color:#526681;
+  opacity:.72;
+  box-shadow:0 0 0 1px rgba(36,73,157,.06);
+}
+.story-word.is-continuity-anchor{
+  color:#fff;
+  background:linear-gradient(90deg,rgba(36,73,157,.98),rgba(36,73,157,.78));
+  box-shadow:0 0 0 2px rgba(36,73,157,.78),0 5px 18px rgba(36,73,157,.16);
+  transition:background .18s ease,box-shadow .18s ease,opacity .18s ease;
+}
+.story-word.is-current{
+  position:relative;
+  color:#fff;
+  background:var(--story-blue);
+  box-shadow:0 0 0 2px var(--story-blue),0 4px 18px rgba(36,73,157,.18);
+}
+.story-word.is-current::after,
+.story-word.is-continuity-anchor::after{
+  content:"";
+  display:block;
+  position:absolute;
+  left:8%;
+  right:8%;
+  bottom:-2px;
+  height:2px;
+  border-radius:999px;
+  background:currentColor;
+  opacity:.32;
+  transform-origin:left center;
+  animation:none;
+}
+@media(prefers-reduced-motion:reduce){
+  .story-word.is-current::after,
+  .story-word.is-continuity-anchor::after{transition:none;animation:none}
+}
