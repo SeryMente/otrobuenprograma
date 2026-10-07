@@ -3,9 +3,9 @@ import json, re, unicodedata
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-PHASE2 = ROOT / "assets" / "data" / "relato-obp-phase2.json"
+PHASE2 = ROOT / "assets" / "data" / "relato-ogp-phase2.json"
 OUT_TIMING = ROOT / "assets" / "data" / "story-word-timing.json"
-OUT_PHASE3 = ROOT / "assets" / "data" / "relato-obp-phase3.json"
+OUT_PHASE3 = ROOT / "assets" / "data" / "relato-ogp-phase3.json"
 
 VISUALS = [
     ("welcome", "Escuchar antes de interpretar"),
@@ -100,8 +100,8 @@ def main():
         "status": "forced-alignment-certified",
         "certification": {"aligner": "WhisperX CTC", "runtimeClock": "HTMLMediaElement.currentTime + requestAnimationFrame", "referenceType": "canonical transcript + physical segment audio"},
         "method": "WhisperX CTC forced alignment against canonical segment transcript and segment audio",
-        "sourceAudio": "assets/audio/relato-obp-v015.mp3",
-        "sourcePhase2": "assets/data/relato-obp-phase2.json",
+        "sourceAudio": "assets/audio/relato-ogp-v015.mp3",
+        "sourcePhase2": "assets/data/relato-ogp-phase2.json",
         "segments": timing_segments,
         "wordCount": total,
         "proportionalTiming": False,
