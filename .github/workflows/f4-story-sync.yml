@@ -10,11 +10,14 @@ on:
       - scripts/build_story_timing.py
       - scripts/qa_phase3.py
       - scripts/benchmark_story_timing.py
-      - .github/workflows/f4-story-sync.yml
   workflow_dispatch:
 
 permissions:
   contents: write
+
+concurrency:
+  group: f4-story-sync
+  cancel-in-progress: false
 
 jobs:
   align:
@@ -64,12 +67,12 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git fetch origin main
-          git rebase origin/main
           git add assets/data/story-word-timing.json assets/data/relato-obp-phase3.json
           if git diff --cached --quiet; then
             echo 'No timing changes to promote.'
             exit 0
           fi
           git commit -m 'feat(v1.7.0): promote S1 forced alignment timing'
-          git push origin main
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
