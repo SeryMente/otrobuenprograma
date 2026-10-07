@@ -607,3 +607,24 @@ No se considera iniciada la implementación de producto hasta que el plan sea el
 
 **URL pública:** https://serymente.github.io/otrobuenprograma/
 **URL del repositorio:** https://github.com/SeryMente/otrobuenprograma
+
+
+## 17. Checkpoint operativo F4-S0 · control publicado
+
+**Fecha:** 2026-10-07
+**Commit de publicación:** 525418c94eee3f23d8b97381897aabfa55ef7188
+**URL pública:** https://serymente.github.io/otrobuenprograma/
+**Resultado:** GitHub Pages desplegado correctamente; baseline S0 persistido en docs/evidence/F4-S0-BASELINE.md.
+
+S0 se considera un checkpoint de control, no una mejora certificada de sincronización. La fuente de timing continúa siendo provisional/proporcional hasta que S1 produzca un artefacto forced-aligned y sus métricas superen el baseline.
+
+## 18. Escalamiento de exigencia · nivel +10
+
+A partir de este punto la barra de calidad queda elevada diez niveles. Una iteración solo puede llamarse **mejora significativa** cuando exista evidencia comparativa contra el baseline o contra la iteración inmediatamente anterior, no cuando la interfaz simplemente parezca más fluida.
+
+Reglas adicionales:
+- ningún fallback proporcional puede sustituir silenciosamente al forced alignment;
+- ningún timing candidato puede promocionarse sin benchmark reproducible;
+- cada mejora significativa debe generar un checkpoint público y una entrada persistente en este plan;
+- la URL pública debe acompañar cada checkpoint publicado;
+- los umbrales solo pueden endurecerse durante el sprint, nunca relajarse para convertir un fallo en aprobación.
