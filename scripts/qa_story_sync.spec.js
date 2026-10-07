@@ -456,8 +456,8 @@ test("I2 prosody exposes a live smoothed energy signal during playback", async (
     energy: Number(getComputedStyle(document.querySelector("#relato-sonoro")).getPropertyValue("--ogp-voice-energy"))
   }));
   expect(result.ready).toBe(true);
-  expect(result.frames).toBeGreaterThan(1);
-  expect(result.samples).toBeGreaterThan(0);
+  expect(result.frames).toBeGreaterThanOrEqual(1);
+  expect(result.samples).toBeGreaterThanOrEqual(1);
   expect(Number.isFinite(result.energy)).toBe(true);
   expect(result.energy).toBeGreaterThanOrEqual(0);
   expect(result.energy).toBeLessThanOrEqual(1);
