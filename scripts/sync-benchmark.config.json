@@ -31,6 +31,6 @@
     "sameOriginOnly": true
   },
   "canonical": {
-    "path": "assets/data/relato-obp-phase2.json"
+    "path": "assets/data/relato-ogp-phase2.json"
   }
 }
