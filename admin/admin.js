@@ -148,7 +148,13 @@
   form.addEventListener("submit",async e=>{e.preventDefault();msg.textContent="";if(!ready){msg.textContent="Backend no configurado.";return;}try{
     if(!client)await boot();
     const r=await client.auth.signInWithPassword({email:document.getElementById("email").value.trim(),password:document.getElementById("password").value});
-    if(r.error)msg.textContent="No se pudo iniciar sesión. Verifica las credenciales.";
+    if(r.error){
+      if(r.error.code==="email_not_confirmed" || /email not confirmed/i.test(r.error.message||"")){
+        msg.innerHTML='El registro de contraseña fue realizado, pero el correo aún no está confirmado. <a href="./primer-acceso.html">Reenviar correo de confirmación</a>.';
+      }else{
+        msg.textContent="No se pudo iniciar sesión. Verifica las credenciales.";
+      }
+    }
   }catch(err){console.error(err);msg.textContent="No se pudo iniciar sesión.";}});
 
   document.getElementById("signout").addEventListener("click",async()=>{if(client)await client.auth.signOut();});
