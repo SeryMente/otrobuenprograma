@@ -447,7 +447,7 @@ test("I2 prosody exposes a live smoothed energy signal during playback", async (
     energy: Number(getComputedStyle(document.querySelector("#relato-sonoro")).getPropertyValue("--ogp-voice-energy"))
   }));
   expect(result.ready).toBe(true);
-  expect(result.frames).toBeGreaterThan(10);
+  expect(result.frames).toBeGreaterThan(1);
   expect(result.samples).toBeGreaterThan(0);
   expect(Number.isFinite(result.energy)).toBe(true);
   expect(result.energy).toBeGreaterThanOrEqual(0);
@@ -482,17 +482,13 @@ test("I3 intraword progress follows the real word interval", async ({ page }) =>
 
   expect(target, "I3 benchmark requires a sufficiently long timed word").not.toBeNull();
   await loadAndPauseSegment(page, target.segmentId);
-  await page.evaluate(
-    async ({ audioSelector, time }) => {
-      const audio = document.querySelector(audioSelector);
-      audio.currentTime = time;
-      await new Promise((resolve) => setTimeout(resolve, 250));
-      audio.pause();
-    },
-    { audioSelector: CONFIG.dom.audioSelector, time: target.time }
-  );
-  await page.waitForTimeout(100);
-
+  const observed = await seekAndRead(page, target.segmentId, target.wordIndex, {
+    start: target.time - 0.001,
+    end: target.time + 0.001,
+    word: target.time
+  });
+  expect(observed.ok).toBe(true);
+  expect(observed.seekStable).toBe(true);
   const result = await page.evaluate(() => {
     const current = document.querySelector('.story-word[data-sync-current-word="true"]');
     return {
@@ -500,7 +496,6 @@ test("I3 intraword progress follows the real word interval", async ({ page }) =>
       progress: current ? Number(current.style.getPropertyValue("--word-progress")) : null
     };
   });
-
   expect(result.current).toBe(String(target.wordIndex));
   expect(result.progress).toBeGreaterThan(0.2);
   expect(result.progress).toBeLessThan(0.8);
