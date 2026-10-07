@@ -52,15 +52,15 @@
       ]
     },
     {
-      "id": "obp",
-      "nombre": "Otro Buen Programa - el esfuerzo hermano",
+      "id": "ogp",
+      "nombre": "Otro Gran Programa - el esfuerzo hermano",
       "tipo": "proyecto",
       "hitos": [
         {
           "n": 6, "estado": "hecho", "fecha": "2026-06",
           "titulo": "El vacio, documentado con fuentes primarias",
           "detalle": "Banco de estadisticas con fuentes primarias: +2,500 centros residenciales, 84% privados y solo 7% en norma; predominio casi total del modelo unico; sin red establecida de alternativas en Mexico.",
-          "sentido": "OBP no parte de una opinion, parte de un hueco real y medible en el pais. La cifra sostiene la causa."
+          "sentido": "OGP no parte de una opinion, parte de un hueco real y medible en el pais. La cifra sostiene la causa."
         },
         {
           "n": 7, "estado": "hecho", "fecha": "2026-06-10",
