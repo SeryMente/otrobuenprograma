@@ -12,14 +12,21 @@ def main():
  assert p3["status"]=="timing-and-narrative-model-certified"
  assert p3["model"]["wordClock"]=="audio-derived forced alignment"
  assert len(p3["segments"])==20 and len(tm["segments"])==20
+ assert "certification" in tm and tm["certification"]["aligner"]=="WhisperX CTC"
  total=0; visuals=set()
  for s in p3["segments"]:
   assert len(toks(s["text"]))==len(s["words"]),s["id"]
   assert (ROOT/s["audio"]).exists(),s["audio"]
   visuals.add(s["visualKey"])
+  tmseg=next(x for x in tm["segments"] if str(x["id"])==str(s["id"]))
+  assert len(tmseg["words"])==len(s["words"])
   last=-1.0
   for i,w in enumerate(s["words"]):
    assert w["index"]==i
+   tw=tmseg["words"][i]
+   assert str(tw["word"]).strip()==str(w["word"]).strip()
+   assert abs(float(tw["start"])-float(w["start"]))<0.001
+   assert abs(float(tw["end"])-float(w["end"]))<0.001
    a,b=float(w["start"]),float(w["end"])
    assert a>=0 and b>a and a>=last
    last=b
