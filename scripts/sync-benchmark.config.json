@@ -12,7 +12,8 @@
     "audioSelector": "[data-sync-audio=\"true\"]",
     "segmentControlSelector": "[data-sync-segment-control=\"{id}\"]",
     "activeSegmentSelector": "[data-sync-active-segment=\"true\"]",
-    "currentWordSelector": "[data-sync-current-word=\"true\"]"
+    "currentWordSelector": "[data-sync-current-word=\"true\"]",
+    "playControlSelector": "[data-sync-play=\"true\"]"
   },
   "sampling": {
     "pointsPerSegment": 6,
