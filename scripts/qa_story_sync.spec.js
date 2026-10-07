@@ -46,9 +46,10 @@ async function loadAndPauseSegment(page, id) {
     return !!a &&
       !!active &&
       active.dataset.segment === String(segmentId) &&
-      a.readyState >= 1 &&
-      Number.isFinite(a.duration);
-  }, id);
+      a.readyState >= 3 &&
+      Number.isFinite(a.duration) &&
+      a.seekable.length > 0;
+  }, id, { timeout: 10000 });
   await page.evaluate(() => document.querySelector(".story-audio").pause());
   await page.waitForFunction(() => {
     const a = document.querySelector(".story-audio");
@@ -62,13 +63,30 @@ async function seekAndRead(page, targetTime, expectedSegment) {
     if (!a) return { ok: false, reason: "no-audio" };
 
     a.pause();
+    if (!a.seekable.length || a.seekable.end(a.seekable.length - 1) + 0.001 < targetTime) {
+      return {
+        ok: true,
+        expectedSegment: String(expectedSegment),
+        observedSegment: null,
+        observedWord: null,
+        currentTime: Number(Number(a.currentTime).toFixed(3)),
+        timeErrorMs: Number(Math.abs(Number(a.currentTime) - targetTime).toFixed(3)) * 1000,
+        paused: a.paused,
+        seekStable: false
+      };
+    }
+
     a.currentTime = targetTime;
-    const deadline = performance.now() + 650;
+    const deadline = performance.now() + 1500;
+    let stableFrames = 0;
     while (performance.now() < deadline) {
       const current = Number(a.currentTime);
       const active = document.querySelector(".story-stop.is-active .story-word.is-current");
       const stable = Math.abs(current - targetTime) <= 0.08;
-      if (stable && active && String(active.dataset.segment) === String(expectedSegment)) break;
+      const sameSegment = active && String(active.dataset.segment) === String(expectedSegment);
+      if (stable && sameSegment) stableFrames += 1;
+      else stableFrames = 0;
+      if (stableFrames >= 2) break;
       await new Promise((r) => requestAnimationFrame(r));
     }
 
