@@ -5,7 +5,7 @@
 **Versión:** 1  
 **Fecha:** 2026-10-07  
 **Proyecto de referencia:** Otro Gran Programa  
-**Repositorio de referencia:** https://github.com/SeryMente/otrobuenprograma
+**Repositorio de referencia:** https://github.com/SeryMente/otrogranprograma
 
 ## 1. Propósito
 
@@ -289,4 +289,4 @@ No:
 
 El benchmark queda definido como una **pieza metodológica reutilizable**, y Otro Gran Programa pasa a ser únicamente una implementación de referencia del contrato.
 
-**URL canónica:** https://github.com/SeryMente/otrobuenprograma
+**URL canónica:** https://github.com/SeryMente/otrogranprograma
