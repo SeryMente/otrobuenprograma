@@ -1,5 +1,5 @@
 /* ===================================================================
-   assets/js/app.js  -  Cableado v0.9 (aditivo, no toca lo de v0.7/v0.8)
+   assets/js/app.js  -  Cableado v1.6.2 (aditivo, no toca lo de v0.7/v0.8)
    1) Registro del service worker (PWA: instalable + offline).
    2) Voces que acompanan: agrega las glosas locales en una seccion.
    =================================================================== */
@@ -43,4 +43,19 @@
       document.addEventListener('visibilitychange',function(){ if(!document.hidden) render(); });
     }
   }
+  /* ---------- 4) Motor de revelado editorial (independiente de Glosa) ---------- */
+  var reveals=document.querySelectorAll('.reveal');
+  if(reveals.length){
+    if('IntersectionObserver' in window){
+      var io=new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+        });
+      },{rootMargin:'0px 0px -8% 0px',threshold:0.08});
+      reveals.forEach(function(el){io.observe(el);});
+    }else{
+      reveals.forEach(function(el){el.classList.add('in');});
+    }
+  }
+
 })();
