@@ -1,7 +1,7 @@
 (function(){
 'use strict';
 var mount=document.getElementById('relato-sonoro');if(!mount)return;
-var V='v1.10.0-20261007';
+var V='v1.10.1-20261007';
 var ROOT=(location.hostname==='serymente.github.io')?'/otrogranprograma/':'/';
 var MOBILE=window.matchMedia&&window.matchMedia('(max-width:820px)').matches;
 var URL_DATA=ROOT+'assets/data/relato-ogp-phase3.json';
@@ -110,7 +110,7 @@ cards.forEach(function(c,ci){
   c.querySelectorAll('.story-word').forEach(function(b,i){
     var same=ci===cur;
     var active=same&&i===widx;
-    var anchor=same&&widx<0&&i===anchorIdx&&Date.now()<anchorUntil;
+    var anchor=same&&widx<0&&i===anchorIdx;
     var echo=same&&i<=(widx>=0?widx:anchorIdx)&&i>=(Math.max(0,(widx>=0?widx:anchorIdx)-RECENT_ECHO_WORDS+1));
     b.classList.toggle('is-past',same&&i<(widx>=0?widx:anchorIdx));
     b.classList.toggle('is-current',active);
@@ -140,7 +140,7 @@ return {active:-1,anchor:-1,gapMs:0};
 function setWordState(state,t){
 var nextIndex=state.active,from=widx,changed=nextIndex!==widx,anchorChanged=state.anchor!==anchorIdx;
 widx=nextIndex;anchorIdx=state.anchor;
-anchorUntil=anchorIdx>=0?Number(t)*1000+CONTINUITY_HOLD_MS:0;
+anchorUntil=anchorIdx>=0?CONTINUITY_HOLD_MS:0;
 paintWords();
 if(anchorIdx>=0){
  window.__ogpSyncDiagnostics.continuityAnchors++;
