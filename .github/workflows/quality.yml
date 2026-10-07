@@ -15,13 +15,13 @@ jobs:
         run: |
           python3 - <<'PY'
           import json
-          for p in ["assets/data/timeline.json","assets/data/relato-obp-phase3.json","assets/data/story-word-timing.json","manifest.webmanifest"]:
+          for p in ["assets/data/timeline.json","assets/data/relato-obp-phase3.json","assets/data/story-word-timing.json","manifest.webmanifest","scripts/sync-benchmark.config.json"]:
               json.load(open(p,encoding="utf-8"))
           PY
       - name: Archivos clave
         run: |
           set -euo pipefail
-          for f in index.html sw.js manifest.webmanifest assets/css/instrument.css assets/css/additions.css assets/css/themes.css assets/css/story.css assets/css/story-v3.css assets/js/config.js assets/js/timeline.js assets/js/navigator.js assets/js/mobile-shell.js assets/js/app.js assets/js/story-v3.js scripts/qa_mobile_v16.spec.js scripts/qa_story_sync.spec.js scripts/benchmark_story_timing.py; do test -f "$f"; done
+          for f in index.html sw.js manifest.webmanifest assets/css/instrument.css assets/css/additions.css assets/css/themes.css assets/css/story.css assets/css/story-v3.css assets/js/config.js assets/js/timeline.js assets/js/navigator.js assets/js/mobile-shell.js assets/js/app.js assets/js/story-v3.js scripts/qa_mobile_v16.spec.js scripts/qa_story_sync.spec.js scripts/lib/sync-benchmark.js scripts/sync-benchmark.config.json scripts/benchmark_sync_timing.py; do test -f "$f"; done
       - name: Content-safe and visual smoke contract
         run: |
           python3 - <<'PY'
@@ -76,6 +76,11 @@ jobs:
           grep -q 'instrumento-v1.7.0-sync-20261007' sw.js
           grep -q 'assets/js/mobile-shell.js' sw.js
           grep -q 'scripts/qa_story_sync.spec.js' .github/workflows/quality.yml
+          grep -q 'data-sync-audio' assets/js/story-v3.js
+          grep -q 'data-sync-segment-id' assets/js/story-v3.js
+          grep -q 'data-sync-active-segment' assets/js/story-v3.js
+          grep -q 'data-sync-current-word' assets/js/story-v3.js
+          grep -q 'data-sync-play' assets/js/story-v3.js
           echo "PUBLIC_V17_STATIC_CONTRACT=PASSED"
       - name: Sintaxis JavaScript
         run: |
@@ -110,9 +115,9 @@ jobs:
         id: e2e
         continue-on-error: true
         run: npx playwright test --config=playwright.config.js
-      - name: Story timing benchmark
+      - name: Generic story timing benchmark
         if: always()
-        run: python3 scripts/benchmark_story_timing.py --output test-results/benchmark-story-timing.json
+        run: python3 scripts/benchmark_sync_timing.py --config scripts/sync-benchmark.config.json --output test-results/benchmark-sync-timing.json --require-certified
       - name: Capturas QA
         if: always()
         uses: actions/upload-artifact@v4
