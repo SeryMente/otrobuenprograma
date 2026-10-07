@@ -73,9 +73,10 @@ jobs:
           grep -q 'first-gesture' assets/js/story-v3.js
           grep -q 'mobile-nav-lock' assets/js/mobile-shell.js
           ! grep -q 'guide-pill' assets/js/navigator.js
-          grep -q 'instrumento-v1.7.0-sync-20261007' sw.js
+          grep -q 'instrumento-v1.7.1-sync-20261007' sw.js
           grep -q 'assets/js/mobile-shell.js' sw.js
           grep -q 'scripts/qa_story_sync.spec.js' .github/workflows/quality.yml
+          test -f sync-dashboard.html
           grep -q 'Generic synchronization benchmark primitives' scripts/lib/sync-benchmark.js
           grep -q 'projectAgnostic' scripts/benchmark_sync_timing.py
           grep -q 'canonical implementation is scripts/benchmark_sync_timing.py' scripts/benchmark_story_timing.py
@@ -93,6 +94,7 @@ jobs:
           node --check assets/js/mobile-shell.js
           node --check assets/js/app.js
           node --check scripts/lib/sync-benchmark.js
+          node --check assets/js/story-v3.js
       - name: Contrato narrativo inmutable
         run: |
           python3 - <<'PY'
