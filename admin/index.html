@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#08141f">
+  <title>OGP · Administración</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div class="shell">
+    <section id="auth-view" class="auth-card">
+      <div class="eyebrow">OTRO GRAN PROGRAMA · CONTROL</div>
+      <h1>Administración</h1>
+      <p class="muted">Acceso privado a telemetría, tráfico, usuarios e integraciones.</p>
+      <form id="login-form" class="stack">
+        <label>Email<input id="email" type="email" autocomplete="username" required></label>
+        <label>Contraseña<input id="password" type="password" autocomplete="current-password" required></label>
+        <button class="primary" type="submit">Entrar</button>
+        <p id="login-message" class="message" role="alert"></p>
+      </form>
+      <div class="security-note">Supabase Auth + RLS. La interfaz no sustituye la autorización del backend.</div>
+    </section>
+
+    <section id="dashboard-view" class="dashboard hidden">
+      <header class="header">
+        <div><div class="eyebrow">OGP · BACKEND</div><h1>Centro de control</h1></div>
+        <div class="header-actions"><span id="identity" class="identity"></span><button id="signout" class="ghost">Salir</button></div>
+      </header>
+      <div id="system-status" class="status">Iniciando…</div>
+
+      <nav class="tabs" aria-label="Administración">
+        <button class="tab active" data-panel="overview">Resumen</button>
+        <button class="tab" data-panel="traffic">Tráfico</button>
+        <button class="tab" data-panel="events">Eventos</button>
+        <button class="tab" data-panel="integrations">Integraciones</button>
+        <button class="tab" data-panel="access">Acceso</button>
+      </nav>
+
+      <main>
+        <section id="panel-overview" class="panel active">
+          <div class="panel-head"><div><div class="eyebrow">ÚLTIMOS 30 DÍAS</div><h2>Vista general</h2></div><button id="refresh-overview" class="ghost">Actualizar</button></div>
+          <div id="metric-grid" class="metric-grid"></div>
+          <article class="card"><div class="card-head"><h3>Tendencia diaria</h3><span class="muted">UTC · vistas</span></div><div class="chart"><canvas id="timeseries" height="300"></canvas></div></article>
+        </section>
+
+        <section id="panel-traffic" class="panel">
+          <div class="panel-head"><div><div class="eyebrow">GITHUB + WEB</div><h2>Tráfico</h2></div><button id="refresh-traffic" class="ghost">Actualizar</button></div>
+          <div class="two-col">
+            <article class="card"><div class="card-head"><h3>GitHub Traffic</h3><span id="github-traffic-status" class="muted">Sin snapshots</span></div><div id="github-traffic-table"></div></article>
+            <article class="card"><div class="card-head"><h3>Sitio OGP</h3><span class="muted">30 días</span></div><div id="site-traffic-summary"></div></article>
+          </div>
+        </section>
+
+        <section id="panel-events" class="panel">
+          <div class="panel-head"><div><div class="eyebrow">INSPECTOR</div><h2>Eventos recientes</h2></div><button id="refresh-events" class="ghost">Actualizar</button></div>
+          <article class="card table-card"><div class="table-scroll"><table><thead><tr><th>Hora</th><th>Evento</th><th>Página</th><th>Dispositivo</th><th>Visitante</th></tr></thead><tbody id="events-body"></tbody></table></div></article>
+        </section>
+
+        <section id="panel-integrations" class="panel">
+          <div class="panel-head"><div><div class="eyebrow">SISTEMA</div><h2>Integraciones</h2></div></div>
+          <div class="integration-grid">
+            <article class="card"><span id="supabase-state" class="dot"></span><h3>Supabase</h3><p class="muted">Auth, Postgres, RLS y Edge Functions.</p><code id="supabase-origin"></code></article>
+            <article class="card"><span class="dot pending"></span><h3>Google Analytics 4</h3><p class="muted">Measurement Protocol desde backend. El secreto nunca llega al navegador.</p><code>GA4_MEASUREMENT_ID · GA4_API_SECRET</code></article>
+            <article class="card"><span class="dot pending"></span><h3>GitHub Traffic</h3><p class="muted">Collector diario para conservar el histórico fuera de la ventana de GitHub.</p><code>SeryMente/otrogranprograma</code></article>
+          </div>
+        </section>
+
+        <section id="panel-access" class="panel">
+          <div class="panel-head"><div><div class="eyebrow">IDENTIDAD</div><h2>Acceso</h2></div></div>
+          <div class="two-col">
+            <article class="card"><h3>Sesión actual</h3><dl id="access-facts" class="facts"></dl></article>
+            <article class="card"><h3>Modelo de roles</h3><dl class="facts"><div><dt>admin</dt><dd>control total de la consola</dd></div><div><dt>editor</dt><dd>reservado para futuras operaciones editoriales</dd></div><div><dt>viewer</dt><dd>acceso restringido de consulta</dd></div></dl></article>
+          </div>
+        </section>
+      </main>
+      <footer>OGP Backend · preparado para migración posterior al dominio .com</footer>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3/dist/umd/supabase.min.js"></script>
+  <script src="../assets/js/backend-config.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
