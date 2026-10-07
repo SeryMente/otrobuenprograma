@@ -3,8 +3,8 @@
 **Versión de producto:** v1.7.0-S0
 **Sprint:** F4 · Sincronización narrativa
 **Fecha:** 2026-10-07
-**URL pública:** https://serymente.github.io/otrobuenprograma/
-**Repositorio:** https://github.com/SeryMente/otrobuenprograma
+**URL pública:** https://serymente.github.io/otrogranprograma/
+**Repositorio:** https://github.com/SeryMente/otrogranprograma
 
 ## Objetivo modesto
 
@@ -50,5 +50,5 @@ Después comienza S1: forced alignment real.
 
 ## Evidencia canónica
 
-- Timing: https://github.com/SeryMente/otrobuenprograma/blob/main/assets/data/story-word-timing.json
-- Plan F4: https://github.com/SeryMente/otrobuenprograma/blob/main/docs/PLAN-F4-SINCRONIZACION-NARRATIVA-20261007.md
+- Timing: https://github.com/SeryMente/otrogranprograma/blob/main/assets/data/story-word-timing.json
+- Plan F4: https://github.com/SeryMente/otrogranprograma/blob/main/docs/PLAN-F4-SINCRONIZACION-NARRATIVA-20261007.md
