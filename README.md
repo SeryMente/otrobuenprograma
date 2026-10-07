@@ -1,8 +1,16 @@
-# Instrumento de comunicacion - Proyecto Vital
+# Instrumento de comunicación — Otro Gran Programa
 
 Documento vivo (sitio estatico) del Proyecto Vital. Tres hilos: **CoMind** (la protesis cognitiva), **Otro Gran Programa** (el esfuerzo hermano) y **el instrumento mismo** (esta obra).
 
-**Version:** `v0.9` - *corte del diseno* (2026-06-11). Pasa de pagina editorial a laboratorio: Glosa, linea de tiempo viva, voces que acompanan, pulso (estado al dia + cascada de presencia) y PWA instalable sin aviso automatico de instalacion.
+**Versión histórica:** `v0.9` — *corte del diseño* (2026-06-11). Pasa de pagina editorial a laboratorio: Glosa, linea de tiempo viva, voces que acompanan, pulso (estado al dia + cascada de presencia) y PWA instalable sin aviso automatico de instalacion.
+
+## Identidad canónica
+
+**Proyecto:** Otro Gran Programa (OGP)  
+**Repositorio:** `SeryMente/otrogranprograma`  
+**URL pública canónica:** `https://serymente.github.io/otrogranprograma/`
+
+Toda referencia operativa del instrumento debe conservar esta identidad. Las cadenas habladas en las fuentes de audio son datos y no se alteran por branding.
 
 ## Principio rector
 
