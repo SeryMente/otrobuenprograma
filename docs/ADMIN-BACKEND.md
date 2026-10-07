@@ -86,3 +86,44 @@ https://supabase.com/docs/guides/database/postgres/row-level-security
 https://supabase.com/docs/guides/functions/deploy
 https://supabase.com/docs/guides/functions/secrets
 https://supabase.com/docs/reference/javascript/auth-signinwithpassword
+
+## Collector diario de GitHub
+
+Secretos de la Edge Function:
+
+- `GITHUB_TRAFFIC_TOKEN`: fine-grained personal access token limitado al repositorio `SeryMente/otrogranprograma`, con `Administration: read`.
+- `GITHUB_TRAFFIC_COLLECTOR_TOKEN`: secreto interno aleatorio que autoriza al Cron a invocar el collector.
+
+El collector consulta:
+
+- `/traffic/views?per=day`
+- `/traffic/clones?per=day`
+- `/traffic/popular/referrers`
+- `/traffic/popular/paths`
+
+y archiva los datos diarios en `github_traffic_daily`.
+
+Supabase Cron + pg_net puede invocar una Edge Function de forma programada. La recomendación actual de Supabase es guardar los secretos de invocación en Vault y utilizar Cron para el POST periódico.
+
+Ejemplo de configuración posterior al aprovisionamiento:
+
+```sql
+select cron.schedule(
+  'ogp-github-traffic-daily',
+  '15 0 * * *',
+  $$
+    select net.http_post(
+      url := (select decrypted_secret from vault.decrypted_secrets where name = 'ogp_project_url') || '/functions/v1/ogp-github-traffic',
+      headers := jsonb_build_object(
+        'Content-Type', 'application/json',
+        'x-ogp-collector-token', (select decrypted_secret from vault.decrypted_secrets where name = 'ogp_collector_token')
+      ),
+      body := '{}'::jsonb
+    )
+  $$
+);
+```
+
+El valor de `ogp_project_url` y `ogp_collector_token` se crean en Vault después de crear el proyecto.
+
+El token de GitHub no se coloca en Vault para el Cron: es un secreto de la Edge Function (`GITHUB_TRAFFIC_TOKEN`).
