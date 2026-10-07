@@ -101,6 +101,7 @@ async function seekAndRead(page, targetTime, expectedSegment) {
 }
 
 test("F4 deterministic sampled word mapping benchmark", async ({ page }) => {
+  test.setTimeout(120000);
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto(URL, { waitUntil: "domcontentloaded" });
   await page.locator("#relato-sonoro").scrollIntoViewIfNeeded();
@@ -194,7 +195,7 @@ test("F4 runtime word clock benchmark at 1x", async ({ page }) => {
   });
 
   await page.locator(".story-micro-play").click();
-  await page.waitForTimeout(10000);
+  await page.waitForTimeout(15000);
   await page.evaluate(() => document.querySelector(".story-audio").pause());
 
   const result = await page.evaluate(async () => {
@@ -231,7 +232,7 @@ test("F4 runtime word clock benchmark at 1x", async ({ page }) => {
   fs.writeFileSync("test-results/story-sync-runtime-benchmark.json", JSON.stringify(result, null, 2));
   console.log("STORY_SYNC_RUNTIME_BENCHMARK=" + JSON.stringify(result));
 
-  expect(result.transitions).toBeGreaterThan(10);
+  expect(result.transitions).toBeGreaterThan(12);
   expect(result.M9_visual_latency_ms_p95).toBeLessThanOrEqual(50);
   expect(result.M12_word_transition_monotonicity_pct).toBe(100);
 });
