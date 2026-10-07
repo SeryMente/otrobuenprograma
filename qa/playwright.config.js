@@ -9,7 +9,7 @@ export default defineConfig({
     trace: "retain-on-failure"
   },
   webServer: {
-    command: "python -m http.server 4317 --bind 127.0.0.1",
+    command: "python -m http.server 4317 --bind 127.0.0.1 --directory ..",
     url: "http://127.0.0.1:4317",
     reuseExistingServer: false,
     timeout: 15_000
