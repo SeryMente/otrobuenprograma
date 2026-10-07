@@ -4,9 +4,9 @@ const sizes=[[240,320],[320,568],[360,800],[390,844],[412,915],[430,932],[540,96
 for(const [width,height] of sizes){
   test("mobile "+width+"x"+height+" — no overflow / hero composition",async({page})=>{
     await page.setViewportSize({width,height}); await page.goto(URL,{waitUntil:"domcontentloaded"});
-    await expect(page.locator("#obp-title")).toHaveText("Otro Gran Programa");
+    await expect(page.locator("#ogp-title")).toHaveText("Otro Gran Programa");
     await page.screenshot({path:"test-results/mobile-"+width+"x"+height+".png",fullPage:false});
-    const m=await page.evaluate(()=>{const d=document.documentElement,t=document.querySelector("#obp-title"),a=document.querySelector(".obp-author-portrait"),cs=getComputedStyle(t),r=t.getBoundingClientRect(),ar=a.getBoundingClientRect();return {overflow:d.scrollWidth-d.clientWidth,titleOverflow:t.scrollWidth-t.clientWidth,ws:cs.whiteSpace,lines:Math.round(r.height/parseFloat(cs.lineHeight)),ratio:ar.width/ar.height};});
+    const m=await page.evaluate(()=>{const d=document.documentElement,t=document.querySelector("#ogp-title"),a=document.querySelector(".ogp-author-portrait"),cs=getComputedStyle(t),r=t.getBoundingClientRect(),ar=a.getBoundingClientRect();return {overflow:d.scrollWidth-d.clientWidth,titleOverflow:t.scrollWidth-t.clientWidth,ws:cs.whiteSpace,lines:Math.round(r.height/parseFloat(cs.lineHeight)),ratio:ar.width/ar.height};});
     expect(m.overflow).toBeLessThanOrEqual(1); expect(m.titleOverflow).toBeLessThanOrEqual(1); expect(m.ratio).toBeGreaterThan(0.5); expect(m.ratio).toBeLessThan(0.75);
     if(width<=340){ expect(m.ws).toBe("normal"); expect(m.lines).toBeGreaterThanOrEqual(1); expect(m.lines).toBeLessThanOrEqual(2); } else { expect(m.ws).toBe("nowrap"); expect(m.lines).toBe(1); }
   });
@@ -30,7 +30,7 @@ test("audio is configured for immediate audible best-effort",async({page})=>{
 test("content after sound experience remains visible without Glosa",async({page})=>{
   await page.setViewportSize({width:390,height:844}); await page.goto(URL,{waitUntil:"domcontentloaded"});
   await expect(page.locator("#comind")).toBeAttached(); await expect(page.locator("#cuentas")).toBeAttached();
-  await expect(page.locator(".obp-hero-dek")).toHaveText("una iniciativa para revolucionar la manera en la que aliviaremos la disfunción familiar para nuestros hijos y sus hijos también.");
+  await expect(page.locator(".ogp-hero-dek")).toHaveText("una iniciativa para revolucionar la manera en la que aliviaremos la disfunción familiar para nuestros hijos y sus hijos también.");
   await expect(page.locator("#relato-sonoro .story-player")).toHaveCount(0);
   await expect(page.locator(".story-context")).toHaveCount(0); await expect(page.locator(".story-label")).toHaveCount(0);
   const storyText=await page.locator("#relato-sonoro").textContent(); expect(storyText).not.toContain("Relato"); expect(storyText).not.toContain("Fase"); expect(storyText).not.toContain("CONTEXTO");
