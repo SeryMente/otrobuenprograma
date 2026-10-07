@@ -47,6 +47,42 @@ async function loadAndPauseSegment(page, id) {
   }, CONFIG.dom.audioSelector);
 }
 
+async function seekAndFlushDeterministic(page, time) {
+  const targetTime = Number(time);
+  await page.evaluate(({ audioSelector, time }) => {
+    const audio = document.querySelector(audioSelector);
+    if (!audio) throw new Error("Sync contract: audio element not found.");
+    audio.pause();
+    audio.currentTime = Number(time);
+  }, {
+    audioSelector: CONFIG.dom.audioSelector,
+    time: targetTime
+  });
+
+  await page.waitForFunction(
+    ({ audioSelector, time }) => {
+      const audio = document.querySelector(audioSelector);
+      return !!audio &&
+        Number.isFinite(audio.currentTime) &&
+        Math.abs(audio.currentTime - Number(time)) < 0.01;
+    },
+    {
+      audioSelector: CONFIG.dom.audioSelector,
+      time: targetTime
+    },
+    { timeout: 5000 }
+  );
+
+  await page.evaluate((audioSelector) => {
+    const audio = document.querySelector(audioSelector);
+    audio.dispatchEvent(new Event("timeupdate"));
+  }, CONFIG.dom.audioSelector);
+
+  await page.evaluate(() => new Promise((resolve) => {
+    requestAnimationFrame(() => requestAnimationFrame(resolve));
+  }));
+}
+
 async function isolateCurrentMedia(page) {
   if (CONFIG.media.mode !== "blob") return;
 
@@ -404,26 +440,7 @@ test("I1 short pauses keep a visible continuity anchor without falsifying the ac
   expect(target, "I1 benchmark requires at least one short inter-word pause").not.toBeNull();
 
   await loadAndPauseSegment(page, target.segmentId);
-  await page.evaluate(
-    ({ audioSelector, time }) => {
-      const audio = document.querySelector(audioSelector);
-      audio.pause();
-      audio.currentTime = time;
-      audio.dispatchEvent(new Event("timeupdate"));
-      audio.dispatchEvent(new Event("seeking"));
-      audio.dispatchEvent(new Event("seeked"));
-      audio.dispatchEvent(new Event("timeupdate"));
-    },
-    { audioSelector: CONFIG.dom.audioSelector, time: target.time }
-  );
-  await page.waitForFunction(
-    ({ audioSelector }) => {
-      const audio = document.querySelector(audioSelector);
-      return !!audio && Math.abs(audio.currentTime - window.__ogpSyncDiagnostics.lastForcedTime) < 0.01;
-    },
-    { audioSelector: CONFIG.dom.audioSelector },
-    { timeout: 3000 }
-  ).catch(() => {});
+  await seekAndFlushDeterministic(page, target.time);
   const result = await page.evaluate(() => ({
     activeWords: document.querySelectorAll('[data-sync-current-word="true"]').length,
     anchors: document.querySelectorAll('[data-sync-continuity-anchor="true"]').length,
@@ -493,18 +510,7 @@ test("I3 intraword progress follows the real word interval", async ({ page }) =>
 
   expect(target, "I3 benchmark requires a sufficiently long timed word").not.toBeNull();
   await loadAndPauseSegment(page, target.segmentId);
-  await page.evaluate(
-    ({ audioSelector, time }) => {
-      const audio = document.querySelector(audioSelector);
-      audio.pause();
-      audio.currentTime = time;
-      audio.dispatchEvent(new Event("timeupdate"));
-      audio.dispatchEvent(new Event("seeking"));
-      audio.dispatchEvent(new Event("seeked"));
-      audio.dispatchEvent(new Event("timeupdate"));
-    },
-    { audioSelector: CONFIG.dom.audioSelector, time: target.time }
-  );
+  await seekAndFlushDeterministic(page, target.time);
   const result = await page.evaluate(() => {
     const current = document.querySelector('.story-word[data-sync-current-word="true"]');
     return {
