@@ -1,3 +1,21 @@
+## [v1.6.2] - 2026-10-06 - Reparación de regresión de contenido y narrativa móvil
+
+### Corregido
+- Restaurado el motor de revelado editorial fuera de glosa.js; el contenido posterior a la experiencia sonora vuelve a ser visible sin reactivar Glosa.
+- Conservado íntegramente el contenido de Khora, Otro Gran Programa, Cuentas Claras, agradecimientos y fundamentos.
+- La portada móvil ahora presenta únicamente Otro Gran Programa como título y el texto largo pasa al título de la sección sonora.
+- Eliminadas de la superficie visible las etiquetas Relato y Fase, así como los recuadros de Contexto.
+- Eliminado el cierre de la experiencia y la firma inferior con lema obsoleto.
+- Añadido control discreto de play/pause al micro-roadmap.
+- El seguimiento automático se desprende ante desplazamientos intensos y ofrece un overlay para regresar al punto narrativo.
+- Fotografía móvil restaurada a composición vertical, más alta y estrecha, con encuadre centrado en el rostro.
+- Service Worker/cache-busting actualizado a v1.6.2.
+
+### Calidad
+- QA ampliado para detectar pérdida de contenido posterior a la experiencia sonora y comprobar la visibilidad real de Khora y Cuentas Claras.
+- QA ampliado para comprobar ausencia de las etiquetas eliminadas y probar el retorno tras scroll intenso.
+- GitHub Actions mantiene gates estáticos, sintaxis, integridad narrativa y E2E móvil.
+
 # Changelog - Instrumento de comunicacion - Proyecto Vital
 
 ## [v1.6.1] - 2026-10-06 - Corrección visual móvil post-publicación
