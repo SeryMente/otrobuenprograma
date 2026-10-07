@@ -12,6 +12,12 @@ Documento vivo (sitio estatico) del Proyecto Vital. Tres hilos: **CoMind** (la p
 
 Toda referencia operativa del instrumento debe conservar esta identidad. Las cadenas habladas en las fuentes de audio son datos y no se alteran por branding.
 
+## Modelo canónico de experiencia
+
+La arquitectura editorial de la experiencia sonora se gobierna por `assets/data/story-experience-canon.json`. El objeto establece **36 segmentos** como objetivo para este corpus, la regla de una idea preponderante por segmento, la política de transcripción enriquecida y la estrategia de contenido complementario procedural-first.
+
+Documento operativo asociado: `docs/SPRINT-SEGMENTACION-CANONICA-Y-CONTENIDO-20261007.md`.
+
 ## Principio rector
 
 **Arranque zero-backend con transicion seamless.** Todo lo de la v0.9 corre 100% en el navegador, sin servidor. Las capacidades que exigen backend (chat en vivo 24/7, voces de todos los visitantes, login, push) estan *cableadas pero apagadas* en `assets/js/config.js`, listas para encenderse en la fase F4 sin reescribir la interfaz.
