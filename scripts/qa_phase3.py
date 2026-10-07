@@ -2,7 +2,7 @@
 import json,re
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
-P3=ROOT/"assets/data/relato-obp-phase3.json"; TM=ROOT/"assets/data/story-word-timing.json"; JS=ROOT/"assets/js/story-v3.js"
+P3=ROOT/"assets/data/relato-ogp-phase3.json"; TM=ROOT/"assets/data/story-word-timing.json"; JS=ROOT/"assets/js/story-v3.js"
 def toks(x): return re.findall(r"\S+",x or "")
 def main():
  p3=json.loads(P3.read_text(encoding="utf-8")); tm=json.loads(TM.read_text(encoding="utf-8")); js=JS.read_text(encoding="utf-8")
