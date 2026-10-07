@@ -35,4 +35,4 @@ No se considera cerrado el cambio mientras 320×568 y 390×844 no cumplan simult
 4. jerarquía del hero iniciando inmediatamente después de la ficha;
 5. rail/transporte sin intrusión sobre el contenido visible.
 
-Referencia de implementación: https://github.com/SeryMente/otrobuenprograma/blob/main/assets/css/story-v3.css
+Referencia de implementación: https://github.com/SeryMente/otrogranprograma/blob/main/assets/css/story-v3.css
