@@ -4,10 +4,10 @@ on:
   push:
     branches: [main]
     paths:
-      - 'assets/audio/relato-obp-v015.mp3'
-      - 'assets/data/relato-obp-v015.json'
-      - 'assets/data/relato-obp-phase2-editorial.json'
-      - 'assets/data/relato-obp-architecture-v1.json'
+      - 'assets/audio/relato-ogp-v015.mp3'
+      - 'assets/data/relato-ogp-v015.json'
+      - 'assets/data/relato-ogp-phase2-editorial.json'
+      - 'assets/data/relato-ogp-architecture-v1.json'
       - 'scripts/execute_relato_phase2.py'
   workflow_dispatch:
 
@@ -45,12 +45,12 @@ jobs:
       - name: Verify generated artifacts
         run: |
           set -euo pipefail
-          test -s assets/data/relato-obp-phase2.json
-          test -s assets/data/relato-obp-phase2-qc.json
-          test "$(find assets/audio/relato-obp-v016 -maxdepth 1 -type f -name 'segment-*.mp3' | wc -l)" -eq 20
+          test -s assets/data/relato-ogp-phase2.json
+          test -s assets/data/relato-ogp-phase2-qc.json
+          test "$(find assets/audio/relato-ogp-v016 -maxdepth 1 -type f -name 'segment-*.mp3' | wc -l)" -eq 20
           python3 - <<'PY'
           import json
-          qc=json.load(open("assets/data/relato-obp-phase2-qc.json",encoding="utf-8"))
+          qc=json.load(open("assets/data/relato-ogp-phase2-qc.json",encoding="utf-8"))
           assert qc["status"] == "passed"
           assert all(qc["gate"].values()), qc["gate"]
           print("STRICT_PHASE2_GATE=PASSED")
@@ -61,7 +61,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/data/relato-obp-phase2.json assets/data/relato-obp-phase2-qc.json assets/audio/relato-obp-v016/
+          git add assets/data/relato-ogp-phase2.json assets/data/relato-ogp-phase2-qc.json assets/audio/relato-ogp-v016/
           git diff --cached --quiet && { echo "No hay artefactos nuevos."; exit 1; }
           git commit -m "Execute Fase 2 relato sonoro v1.1"
           git push origin main
