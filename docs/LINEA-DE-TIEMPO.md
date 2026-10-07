@@ -2,7 +2,7 @@
 
 ## Que es
 
-Una cronologia narrada de los hitos del proyecto, en tres hilos paralelos: **CoMind** (la protesis), **Otro Buen Programa** y **el instrumento mismo**. Cada hito lleva estado (Hecho / En curso / Por venir), fecha, detalle tecnico y una linea de *Sentido* que explica por que importa.
+Una cronologia narrada de los hitos del proyecto, en tres hilos paralelos: **CoMind** (la protesis), **Otro Gran Programa** y **el instrumento mismo**. Cada hito lleva estado (Hecho / En curso / Por venir), fecha, detalle tecnico y una linea de *Sentido* que explica por que importa.
 
 ## Fuente de datos
 
@@ -23,4 +23,4 @@ Se usa la copia inline para render **sincrono** (sin esperar `fetch`, funciona o
 
 ## Los 11 hitos (v0.9)
 
-Hilo CoMind: 1 taller montado, 2 esqueleto, 3 segundo cerebro al bolsillo (A1-A5), 4 prueba contra la realidad, 5 de guardar a entender. Hilo OBP: 6 vacio documentado, 7 premisa a prueba, 8 comunicacion institucional. Hilo instrumento: 9 documento vivo, 10 como crecer sin romperse, 11 las capas que vienen.
+Hilo CoMind: 1 taller montado, 2 esqueleto, 3 segundo cerebro al bolsillo (A1-A5), 4 prueba contra la realidad, 5 de guardar a entender. Hilo OGP: 6 vacio documentado, 7 premisa a prueba, 8 comunicacion institucional. Hilo instrumento: 9 documento vivo, 10 como crecer sin romperse, 11 las capas que vienen.
