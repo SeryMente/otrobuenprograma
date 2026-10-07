@@ -40,6 +40,7 @@ test("F4 hero composition is Author then title then subtitle", async ({ page }) 
 test("F4 sampled word mapping has zero wrong-word hits", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto(URL, { waitUntil: "domcontentloaded" });
+  await page.locator("#relato-sonoro").scrollIntoViewIfNeeded();
   const timing = JSON.parse(fs.readFileSync(timingPath, "utf8"));
   const samples = [];
 
@@ -109,6 +110,7 @@ test("F4 sampled word mapping has zero wrong-word hits", async ({ page }) => {
 test("F4 runtime word clock measures highlight boundary latency", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto(URL, { waitUntil: "domcontentloaded" });
+  await page.locator("#relato-sonoro").scrollIntoViewIfNeeded();
 
   await page.locator('.story-micro-segment[data-segment="01"]').click();
   await page.waitForFunction(() => {
