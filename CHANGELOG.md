@@ -1,3 +1,19 @@
+## [v1.7.0] - 2026-10-07 - Línea de base cuantitativa F4
+
+### Calidad
+- Establecida la línea de base B1 de sincronización con benchmark reproducible en Chromium.
+- M1–M4: 100.0%.
+- M9 P95: 14.994 ms a 1×.
+- M10: 0.0000%.
+- M11: 0.0000%.
+- M12: 100.0%.
+- M13: 100.0%.
+- 120/120 probes deterministas correctos.
+- 14 transiciones y 953 frames en el benchmark runtime.
+- Evidencia persistida en `docs/evidence/F4-BASELINE-BENCHMARK-20261007.md`.
+- El benchmark offline confirma 2,206/2,206 palabras con forced alignment certificado.
+
+
 ## [v1.7.0] - 2026-10-07 - F4: sincronización narrativa y transporte integrado
 
 ### Cambiado
