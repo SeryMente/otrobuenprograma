@@ -15,7 +15,7 @@ jobs:
         run: |
           python3 - <<'PY'
           import json
-          for p in ["assets/data/timeline.json","assets/data/relato-ogp-phase3.json","assets/data/story-word-timing.json","manifest.webmanifest","scripts/sync-benchmark.config.json"]:
+          for p in ["assets/data/timeline.json","assets/data/relato-ogp-phase3.json","assets/data/story-word-timing.json","assets/data/story-experience-canon.json","manifest.webmanifest","scripts/sync-benchmark.config.json"]:
               json.load(open(p,encoding="utf-8"))
           PY
       - name: Archivos clave
@@ -101,6 +101,11 @@ jobs:
           assert len(d["segments"])==20
           assert d["model"]["phases"]==5
           assert d["model"]["segments"]==20
+          c=json.load(open("assets/data/story-experience-canon.json",encoding="utf-8"))
+          assert c["segmentation"]["recommendedCount"]==36
+          assert len(c["segmentation"]["proposedSegments"])==36
+          assert c["segmentation"]["acceptableBand"]==[32,40]
+          assert c["source"]["currentTrainingSegments"]==20
           PY
 
   e2e_mobile:
