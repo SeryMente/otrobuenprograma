@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 test("analytics is opt-in and emits only after consent", async ({ page }) => {
   const received = [];
-  await page.route("**/mock-analytics", async (route) => {
+  await page.route("**/mock-analytics**", async (route) => {
     const request = route.request();
     received.push(JSON.parse(request.postData() || "{}"));
     await route.fulfill({
