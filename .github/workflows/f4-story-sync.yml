@@ -46,6 +46,10 @@ jobs:
       - name: Benchmark
         run: |
           python scripts/benchmark_story_timing.py --timing assets/data/story-word-timing.json --output artifacts/benchmark.json --require-certified
+      - name: Preserve generated timing evidence
+        run: |
+          cp assets/data/story-word-timing.json artifacts/story-word-timing.json
+          cp assets/data/relato-obp-phase3.json artifacts/relato-obp-phase3.json
       - name: Phase 3 gate
         run: python scripts/qa_phase3.py
       - name: Upload evidence
@@ -60,6 +64,8 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin main
+          git rebase origin/main
           git add assets/data/story-word-timing.json assets/data/relato-obp-phase3.json
           if git diff --cached --quiet; then
             echo 'No timing changes to promote.'
