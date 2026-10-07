@@ -5,8 +5,8 @@
 **Proyecto:** Otro Gran Programa (OGP)
 **Conversación:** CONV-ACTUAL
 **Base canónica:** v1.6.2 · `2d6cdfdfb45b996b5ab7eb386c6bc120bddc454d`
-**URL canónica:** https://github.com/SeryMente/otrobuenprograma
-**URL pública:** https://serymente.github.io/otrobuenprograma/
+**URL canónica:** https://github.com/SeryMente/otrogranprograma
+**URL pública:** https://serymente.github.io/otrogranprograma/
 **Estado:** PLANIFICACIÓN — sin cambios de producto
 **Versión objetivo:** v1.7.0
 **Sprint precedente:** F3 · v1.6.2
@@ -26,7 +26,7 @@ La regla de F4 será:
 
 No se aceptará volver a un timing proporcional, interpolado o ajustado manualmente sin evidencia de audio.
 
-**Fase técnica:** https://github.com/SeryMente/otrobuenprograma
+**Fase técnica:** https://github.com/SeryMente/otrogranprograma
 
 ---
 
@@ -92,7 +92,7 @@ La aceptación no se basará únicamente en «el código funciona». Se comparar
 
 **expectativa documentada → implementación → evidencia → delta → corrección.**
 
-**Fase técnica:** https://github.com/SeryMente/otrobuenprograma
+**Fase técnica:** https://github.com/SeryMente/otrogranprograma
 
 ---
 
@@ -138,7 +138,7 @@ El transporte debe conservar accesibilidad aunque su representación visual sea 
 
 No se esconderán funcionalidades detrás de gestos no evidentes.
 
-**Fase técnica:** https://github.com/SeryMente/otrobuenprograma
+**Fase técnica:** https://github.com/SeryMente/otrogranprograma
 
 ---
 
@@ -149,7 +149,7 @@ El repositorio contiene actualmente:
 - 20 segmentos;
 - 2,206 palabras;
 - 1,391.304 segundos de audio maestro;
-- segmentos derivados en `assets/audio/relato-obp-v016/`.
+- segmentos derivados en `assets/audio/relato-ogp-v016/`.
 
 Sin embargo, el artefacto publicado `assets/data/story-word-timing.json` declara explícitamente:
 
@@ -165,7 +165,7 @@ Conclusión:
 
 > F4 no parte de cero; parte de una arquitectura parcialmente preparada, pero debe reemplazar el timing proporcional publicado por un artefacto de alineamiento físico verificable y por un reloj de reproducción que no dependa únicamente de `timeupdate`.
 
-**Fase técnica:** https://github.com/SeryMente/otrobuenprograma
+**Fase técnica:** https://github.com/SeryMente/otrogranprograma
 
 ---
 
@@ -203,7 +203,7 @@ Si WhisperX falla:
 
 Un fallo de alineamiento será visible como fallo del pipeline, no transformado en una falsa aprobación.
 
-**Fase técnica:** https://github.com/SeryMente/otrobuenprograma
+**Fase técnica:** https://github.com/SeryMente/otrogranprograma
 
 ---
 
@@ -244,7 +244,7 @@ La sincronización visual y el seguimiento de pantalla se desacoplarán:
 - el scroll automático será independiente y más lento;
 - se mantendrá el comportamiento de F3: scroll moderado acompaña; scroll intenso libera el seguimiento y muestra el retorno a narración.
 
-**Fase técnica:** https://github.com/SeryMente/otrobuenprograma
+**Fase técnica:** https://github.com/SeryMente/otrogranprograma
 
 ---
 
@@ -318,7 +318,7 @@ Repetir los indicadores visuales al menos en:
 - salto a segmento;
 - siguiente/anterior.
 
-**Fase técnica:** https://github.com/SeryMente/otrobuenprograma
+**Fase técnica:** https://github.com/SeryMente/otrogranprograma
 
 ---
 
@@ -354,7 +354,7 @@ Inicialmente:
 
 La certificación final no podrá apoyarse únicamente en el promedio global.
 
-**Fase técnica:** https://github.com/SeryMente/otrobuenprograma
+**Fase técnica:** https://github.com/SeryMente/otrogranprograma
 
 ---
 
@@ -372,7 +372,7 @@ Medir:
 Salida:
 `benchmark-baseline.json`
 
-**Fase técnica:** https://github.com/SeryMente/otrobuenprograma
+**Fase técnica:** https://github.com/SeryMente/otrogranprograma
 
 ### Iteración S1 — Forced alignment puro
 Generar timestamps con WhisperX sobre los 20 segmentos.
@@ -385,7 +385,7 @@ Salida:
 Criterio:
 - mejora cuantificable respecto a S0.
 
-**Fase técnica:** https://github.com/SeryMente/otrobuenprograma
+**Fase técnica:** https://github.com/SeryMente/otrogranprograma
 
 ### Iteración S2 — Calibración de alineamiento
 Revisar outliers:
@@ -401,7 +401,7 @@ Salida:
 - nueva versión de timing;
 - benchmark comparativo S1 → S2.
 
-**Fase técnica:** https://github.com/SeryMente/otrobuenprograma
+**Fase técnica:** https://github.com/SeryMente/otrogranprograma
 
 ### Iteración S3 — Reloj visual de alta frecuencia
 Sustituir la dependencia primaria de `timeupdate` por `requestAnimationFrame`.
@@ -412,7 +412,7 @@ Salida:
 - benchmark de runtime;
 - evidencia de reproducciones completas.
 
-**Fase técnica:** https://github.com/SeryMente/otrobuenprograma
+**Fase técnica:** https://github.com/SeryMente/otrogranprograma
 
 ### Iteración S4 — Casos difíciles
 Atacar únicamente los segmentos/palabras que fallen los umbrales.
@@ -421,7 +421,7 @@ Regla:
 - no reescribir lo que ya funciona;
 - toda modificación debe demostrar mejora o se revierte.
 
-**Fase técnica:** https://github.com/SeryMente/otrobuenprograma
+**Fase técnica:** https://github.com/SeryMente/otrogranprograma
 
 ### Iteración S5 — Certificación
 Ejecutar:
@@ -435,7 +435,7 @@ Solo después:
 - promover timing a canónico;
 - publicar v1.7.0.
 
-**Fase técnica:** https://github.com/SeryMente/otrobuenprograma
+**Fase técnica:** https://github.com/SeryMente/otrogranprograma
 
 ---
 
@@ -488,7 +488,7 @@ F4 deberá reducir el riesgo de atasco mediante:
 
 El commit a `main` será una operación de promoción, no un efecto secundario del cálculo.
 
-**Fase técnica:** https://github.com/SeryMente/otrobuenprograma
+**Fase técnica:** https://github.com/SeryMente/otrogranprograma
 
 ---
 
@@ -509,7 +509,7 @@ Al finalizar el sprint deben existir, como mínimo:
 
 Se preservarán las versiones anteriores para poder comparar resultados.
 
-**Fase técnica:** https://github.com/SeryMente/otrobuenprograma
+**Fase técnica:** https://github.com/SeryMente/otrogranprograma
 
 ---
 
@@ -543,7 +543,7 @@ Se preservarán las versiones anteriores para poder comparar resultados.
 - cada iteración es comparable con la anterior;
 - ninguna modificación se conserva si no demuestra mejora.
 
-**Fase técnica:** https://github.com/SeryMente/otrobuenprograma
+**Fase técnica:** https://github.com/SeryMente/otrogranprograma
 
 ---
 
@@ -562,7 +562,7 @@ La certificación final deberá distinguir:
 - precisión temporal del runtime;
 - precisión perceptual del highlight.
 
-**Fase técnica:** https://github.com/SeryMente/otrobuenprograma
+**Fase técnica:** https://github.com/SeryMente/otrogranprograma
 
 ---
 
@@ -581,7 +581,7 @@ La certificación final deberá distinguir:
 
 Cada etapa debe producir evidencia antes de comprometer la siguiente.
 
-**Fase técnica:** https://github.com/SeryMente/otrobuenprograma
+**Fase técnica:** https://github.com/SeryMente/otrogranprograma
 
 ---
 
@@ -605,15 +605,15 @@ No se considera iniciada la implementación de producto hasta que el plan sea el
 
 **Última versión publicada:** v1.6.2 — Reparación de regresión de contenido y narrativa móvil.
 
-**URL pública:** https://serymente.github.io/otrobuenprograma/
-**URL del repositorio:** https://github.com/SeryMente/otrobuenprograma
+**URL pública:** https://serymente.github.io/otrogranprograma/
+**URL del repositorio:** https://github.com/SeryMente/otrogranprograma
 
 
 ## 17. Checkpoint operativo F4-S0 · control publicado
 
 **Fecha:** 2026-10-07
 **Commit de publicación:** 525418c94eee3f23d8b97381897aabfa55ef7188
-**URL pública:** https://serymente.github.io/otrobuenprograma/
+**URL pública:** https://serymente.github.io/otrogranprograma/
 **Resultado:** GitHub Pages desplegado correctamente; baseline S0 persistido en docs/evidence/F4-S0-BASELINE.md.
 
 S0 se considera un checkpoint de control, no una mejora certificada de sincronización. La fuente de timing continúa siendo provisional/proporcional hasta que S1 produzca un artefacto forced-aligned y sus métricas superen el baseline.
@@ -630,7 +630,7 @@ Reglas adicionales:
 - los umbrales solo pueden endurecerse durante el sprint, nunca relajarse para convertir un fallo en aprobación.
 ## 19. S1 · forced alignment obtenido — candidato significativo
 
-**Run:** https://github.com/SeryMente/otrobuenprograma/actions/runs/37561377683  
+**Run:** https://github.com/SeryMente/otrogranprograma/actions/runs/37561377683  
 **Fecha:** 2026-10-07  
 **Resultado técnico:** alignment exitoso; benchmark exitoso; gate narrativo exitoso; promoción fallida únicamente por rechazo de fast-forward durante un push concurrente.
 
@@ -648,11 +648,11 @@ Reglas adicionales:
 
 **Corrección de promoción:** el siguiente run preservará ambos JSON como artefactos antes de cualquier push y hará rebase contra origin/main antes de promover, evitando repetir el fallo de concurrencia.
 
-**URL pública de referencia actual:** https://serymente.github.io/otrobuenprograma/
+**URL pública de referencia actual:** https://serymente.github.io/otrogranprograma/
 ## 20. Checkpoint público S1 · forced alignment certificado
 
-**Commit:** https://github.com/SeryMente/otrobuenprograma/commit/194ff69068f1a5e0e376e8af2c1f4c0f1b28666a
-**URL pública:** https://serymente.github.io/otrobuenprograma/
+**Commit:** https://github.com/SeryMente/otrogranprograma/commit/194ff69068f1a5e0e376e8af2c1f4c0f1b28666a
+**URL pública:** https://serymente.github.io/otrogranprograma/
 **Estado:** PUBLICADO
 
 S1 reemplazó el timing proporcional por alineamiento WhisperX CTC contra el audio físico y el transcript canónico. El artefacto `assets/data/story-word-timing.json` contiene 2,206 palabras y quedó marcado `forced-alignment-certified` con `proportionalTiming: false`.
@@ -687,10 +687,10 @@ Solo después de superar estos gates se podrá declarar una mejora de runtime y 
 
 **Fecha:** 2026-10-07  
 **Commit probado:** 7c8ffd52fdc4cdf1110391582819b62daa9f5ec9  
-**Workflow:** https://github.com/SeryMente/otrobuenprograma/actions/runs/37645750736  
-**PR:** https://github.com/SeryMente/otrobuenprograma/pull/17  
+**Workflow:** https://github.com/SeryMente/otrogranprograma/actions/runs/37645750736  
+**PR:** https://github.com/SeryMente/otrogranprograma/pull/17  
 **Evidencia:** docs/evidence/F4-BASELINE-BENCHMARK-20261007.md  
-**URL pública:** https://serymente.github.io/otrobuenprograma/
+**URL pública:** https://serymente.github.io/otrogranprograma/
 
 B1 queda establecido como referencia cuantitativa para las siguientes iteraciones.
 
@@ -729,7 +729,7 @@ Una mejora solo se reconoce cuando:
 
 No se rebajarán umbrales para convertir un resultado fallido en aprobado.
 
-**Fase técnica:** https://github.com/SeryMente/otrobuenprograma
+**Fase técnica:** https://github.com/SeryMente/otrogranprograma
 
 
 ## 23. Contrato universal de benchmarking · portable entre proyectos
@@ -737,8 +737,8 @@ No se rebajarán umbrales para convertir un resultado fallido en aprobado.
 **Fecha:** 2026-10-07  
 **Contrato:** Sync Benchmark Contract v1  
 **Documento:** docs/architecture/SYNC-BENCHMARK-CONTRACT-v1.md  
-**URL canónica:** https://github.com/SeryMente/otrobuenprograma  
-**URL pública:** https://serymente.github.io/otrobuenprograma/
+**URL canónica:** https://github.com/SeryMente/otrogranprograma  
+**URL pública:** https://serymente.github.io/otrogranprograma/
 
 Se establece una separación permanente entre:
 
@@ -779,4 +779,4 @@ El benchmark se considerará portable cuando:
 5. permita configurar selectores y fuentes sin modificar el motor;
 6. genere métricas comparables para cualquier proyecto compatible con el contrato.
 
-**Fase técnica:** https://github.com/SeryMente/otrobuenprograma
+**Fase técnica:** https://github.com/SeryMente/otrogranprograma
