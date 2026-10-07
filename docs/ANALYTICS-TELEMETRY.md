@@ -12,7 +12,7 @@ Objetivo: medir tráfico y conversión del sitio público sin convertir OGP en u
 
 OGP tendrá dos fuentes de telemetría:
 
-1. **GitHub-native**: tráfico del repositorio, clones, vistas, visitantes únicos y referidores que GitHub expone en sus métricas de tráfico. GitHub limita esta telemetría a los últimos 14 días.
+1.**GitHub-native**: tráfico del repositorio, clones, vistas, visitantes únicos y referidores que GitHub expone en sus métricas de tráfico. GitHub limita esta telemetría a los últimos 14 días.
 2. **Web propia**: eventos del sitio publicado en GitHub Pages, enviados a un backend propio y, opcionalmente, replicados a GA4 mediante Measurement Protocol.
 
 No se intentará instrumentar la página `github.com/SeryMente/otrogranprograma`; GitHub controla ese HTML. La instrumentación propia corresponde al sitio GitHub Pages:
@@ -25,7 +25,7 @@ No se usará una huella de hardware como identificador primario.
 
 ### Permitido
 
-- `visitor_id`: UUID aleatorio de primera parte, creado con consentimiento para analytics.
+- `visitor_id`: UUID aleatorio de primera parte, creado al comenzar la analítica bajo consentimiento tácito cuando resulte aplicable o tras una aceptación expresa.
 - `session_id`: UUID efímero con expiración corta.
 - `user_id`: solamente cuando exista autenticación explícita y el usuario haya aceptado su uso para analítica.
 - Preferencias y señales de producto necesarias para análisis: página, evento, campaña, referrer, idioma, zona horaria declarada por el navegador, viewport y capacidades generales.
@@ -47,19 +47,23 @@ Para deduplicación o seguridad se puede usar, como máximo, un HMAC con secreto
 
 La instrumentación debe diseñarse bajo minimización, finalidad, transparencia, proporcionalidad y seguridad.
 
+Para el tratamiento first-party de medición estadística de OGP, el sitio adopta **consentimiento tácito por defecto cuando jurídicamente resulte aplicable**. Esto significa que la analítica se activa sin un banner de aceptación interactivo después de poner a disposición el aviso de privacidad simplificado. El sitio ofrece simultáneamente un mecanismo visible y persistente de oposición que detiene nuevos eventos e identificadores.
+
 El sitio debe disponer de:
 
-- aviso de privacidad simplificado visible antes o al activar la analítica;
+- aviso de privacidad simplificado disponible antes del tratamiento;
 - vínculo al aviso integral;
-- separación entre analítica necesaria/estadística y marketing/publicidad;
-- mecanismo de rechazo y revocación;
-- registro de la elección del visitante;
+- separación entre analítica estadística first-party y marketing/publicidad;
+- mecanismo sencillo de oposición y revocación;
+- registro local de la elección/oposición;
 - retención definida por categoría de dato;
 - procedimiento para solicitudes de derechos ARCO.
 
-Para visitantes sujetos a regímenes más estrictos de cookies/seguimiento, el modo recomendado es **opt-in** para analytics/marketing antes de crear cookies o identificadores persistentes.
+El aviso simplificado identifica al responsable, domicilio, categorías de datos y finalidades, e indica dónde consultar el aviso integral. La analítica no se recorta por defecto: conserva rutas, referrer, UTM, visitor/session UUID, dispositivo y navegador en categorías, idioma, zona horaria, scroll, tiempo activo y CTA/conversión conforme al esquema del backend.
 
-Este documento es una especificación técnica; no sustituye una revisión jurídica aplicable a los países desde los que OGP reciba visitantes.
+**Nota jurídica de alcance:** la modalidad tácita no se debe extender automáticamente a datos sensibles, finalidades que exijan consentimiento expreso o terceros/marketing cuando la legislación aplicable requiera una base distinta. Este diseño es México-first y no pretende resolver por sí solo requisitos de otras jurisdicciones.
+
+Este documento es una especificación técnica; no sustituye una revisión jurídica profesional aplicable a OGP.
 
 ## 4. Eventos mínimos
 
