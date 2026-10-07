@@ -14,7 +14,7 @@ Toda referencia operativa del instrumento debe conservar esta identidad. Las cad
 
 ## Modelo canónico de experiencia
 
-La arquitectura editorial de la experiencia sonora se gobierna por `assets/data/story-experience-canon.json`. El objeto establece **36 segmentos** como objetivo para este corpus, la regla de una idea preponderante por segmento, la política de transcripción enriquecida y la estrategia de contenido complementario procedural-first.
+La arquitectura editorial de la experiencia sonora se gobierna por `assets/data/story-experience-canon.json`. El objeto establece **49 segmentos** como arquitectura editorial canónica para este corpus, la regla de una idea preponderante por segmento, la política de transcripción enriquecida y la estrategia de contenido complementario procedural-first. El runtime ejecutable vive en `assets/data/relato-ogp-experience.json` y usa un único audio maestro.
 
 Documento operativo asociado: `docs/SPRINT-SEGMENTACION-CANONICA-Y-CONTENIDO-20261007.md`.
 
