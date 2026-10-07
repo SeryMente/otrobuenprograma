@@ -76,8 +76,8 @@ jobs:
           grep -q 'instrumento-v1.7.0-sync-20261007' sw.js
           grep -q 'assets/js/mobile-shell.js' sw.js
           grep -q 'scripts/qa_story_sync.spec.js' .github/workflows/quality.yml
-          grep -q 'generic-sync-benchmark' scripts/lib/sync-benchmark.js
-          grep -q '"projectAgnostic": true' scripts/benchmark_sync_timing.py
+          grep -q 'Generic synchronization benchmark primitives' scripts/lib/sync-benchmark.js
+          grep -q 'projectAgnostic' scripts/benchmark_sync_timing.py
           grep -q 'data-sync-audio' assets/js/story-v3.js
           grep -q 'data-sync-segment-id' assets/js/story-v3.js
           grep -q 'data-sync-active-segment' assets/js/story-v3.js
