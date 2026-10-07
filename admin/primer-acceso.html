@@ -70,6 +70,14 @@
       const message = document.getElementById("message");
       const submit = document.getElementById("submit");
       const resend = document.getElementById("resend");
+      const isLocalHost = /^(localhost|127\\.0\\.0\\.1|\\[::1\\])$/i.test(window.location.hostname);
+
+      if (isLocalHost) {
+        submit.disabled = true;
+        resend.disabled = true;
+        message.textContent = "Esta pantalla de primer acceso solo puede operar desde el sitio público. Abre https://serymente.github.io/otrogranprograma/admin/primer-acceso.html";
+        message.classList.add("error");
+      }
 
       function score(value) {
         let n = 0;
@@ -92,6 +100,7 @@
 
 
       resend.addEventListener("click", async function () {
+        if (isLocalHost) return;
         message.textContent = "";
         message.className = "message";
         resend.disabled = true;
@@ -109,6 +118,7 @@
 
       form.addEventListener("submit", async function (event) {
         event.preventDefault();
+        if (isLocalHost) return;
         message.textContent = "";
         message.className = "message";
 
