@@ -29,5 +29,8 @@
   "media": {
     "mode": "blob",
     "sameOriginOnly": true
+  },
+  "canonical": {
+    "path": "assets/data/relato-obp-phase2.json"
   }
 }
