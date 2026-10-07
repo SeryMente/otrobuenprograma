@@ -681,3 +681,52 @@ Objetivo inicial y estricto: demostrar que el highlight llega a la frontera temp
 - M12 monotonicidad de transición = 100%.
 
 Solo después de superar estos gates se podrá declarar una mejora de runtime y publicar el siguiente checkpoint.
+
+
+## 22. Baseline B1 congelado · benchmark cuantitativo reproducible
+
+**Fecha:** 2026-10-07  
+**Commit probado:** 7c8ffd52fdc4cdf1110391582819b62daa9f5ec9  
+**Workflow:** https://github.com/SeryMente/otrobuenprograma/actions/runs/37645750736  
+**PR:** https://github.com/SeryMente/otrobuenprograma/pull/17  
+**Evidencia:** docs/evidence/F4-BASELINE-BENCHMARK-20261007.md  
+**URL pública:** https://serymente.github.io/otrobuenprograma/
+
+B1 queda establecido como referencia cuantitativa para las siguientes iteraciones.
+
+### Matriz B1
+
+- M1: 100.0%.
+- M2: 100.0%.
+- M3: 100.0%.
+- M4: 100.0%.
+- M5 P50: 4,192.622 ms.
+- M6 P95: 14,938.081 ms.
+- M7 P95: 700.000 ms.
+- M8 P10: 0.60050; cobertura 100.0%.
+- M9 P50: 7.376 ms.
+- M9 P95: 14.994 ms.
+- M9 P99: 16.185 ms.
+- M9 máximo: 16.483 ms.
+- M10: 0.0000%.
+- M11: 0.0000%.
+- M12: 100.0%.
+- M13: 100.0%.
+- Seek events: 100.0%.
+- Muestra determinista: 120 puntos.
+- Transiciones runtime: 14.
+- Frames runtime: 953.
+
+### Regla de benchmark permanente
+
+Toda iteración posterior deberá reportar los mismos indicadores antes de agregar otros.
+
+Una mejora solo se reconoce cuando:
+- conserva los gates ya aprobados;
+- mejora al menos un indicador objetivo o reduce una brecha documentada;
+- deja evidencia reproducible;
+- publica el nuevo checkpoint.
+
+No se rebajarán umbrales para convertir un resultado fallido en aprobado.
+
+**Fase técnica:** https://github.com/SeryMente/otrobuenprograma
