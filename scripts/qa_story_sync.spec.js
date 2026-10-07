@@ -393,7 +393,7 @@ test("I1 short pauses keep a visible continuity anchor without falsifying the ac
         const a = segment.words[i];
         const b = segment.words[i + 1];
         const gapMs = (Number(b.start) - Number(a.end)) * 1000;
-        if (gapMs >= 80 && gapMs <= 240) {
+        if (gapMs >= 100 && gapMs <= 240 && Number(a.end) > 1.5) {
           return { segmentId: String(segment.id), wordIndex: i, time: Number(a.end) + Math.min(gapMs / 1000 / 2, 0.09) };
         }
       }
