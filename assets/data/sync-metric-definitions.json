@@ -1,109 +1,96 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "definitions": {
     "M1": {
       "name": "Cobertura",
       "unit": "%",
       "direction": "higher",
       "target": "100%",
-      "what": "¿Todas las palabras del texto canónico tienen timing?",
-      "read": "100% significa que no faltan palabras con marca temporal."
+      "phrase": "Mide cuántas palabras tienen timing certificado."
     },
     "M2": {
       "name": "Integridad textual",
       "unit": "%",
       "direction": "higher",
       "target": "100%",
-      "what": "¿El texto sincronizado coincide con el texto canónico?",
-      "read": "100% significa que el timing corresponde al texto que realmente debemos mostrar."
+      "phrase": "Confirma que el timing usa exactamente el texto canónico."
     },
     "M3": {
       "name": "Monotonía",
       "unit": "%",
       "direction": "higher",
       "target": "100%",
-      "what": "¿Los tiempos respetan el orden de las palabras?",
-      "read": "100% significa que no hay retrocesos temporales entre palabras consecutivas."
+      "phrase": "Comprueba que los tiempos avanzan siempre en orden."
     },
     "M4": {
       "name": "Intervalos válidos",
       "unit": "%",
       "direction": "higher",
       "target": "100%",
-      "what": "¿Cada palabra tiene un intervalo temporal válido?",
-      "read": "100% significa start/end válidos y dentro de la duración disponible."
+      "phrase": "Verifica que cada palabra tenga inicio y fin válidos."
     },
     "M5": {
       "name": "Desviación proporcional P50",
       "unit": "ms",
       "direction": "diagnostic",
       "target": "informativo",
-      "what": "¿Cuánto se separa el timing certificado del antiguo reparto proporcional?",
-      "read": "No es un error. Sirve para ver cuánto cambió el modelo respecto al método anterior."
+      "phrase": "Muestra cuánto cambió el timing frente al reparto proporcional medio."
     },
     "M6": {
       "name": "Desviación proporcional P95",
       "unit": "ms",
       "direction": "diagnostic",
       "target": "informativo",
-      "what": "¿Qué tan grande llega a ser esa diferencia en los casos altos?",
-      "read": "Tampoco es error absoluto; es una comparación histórica."
+      "phrase": "Muestra cuánto cambió el timing en los casos de mayor diferencia."
     },
     "M7": {
       "name": "Duración de palabra P95",
       "unit": "ms",
       "direction": "diagnostic",
       "target": "informativo",
-      "what": "¿Qué duración alcanzan las palabras en el extremo alto de la distribución?",
-      "read": "Ayuda a detectar intervalos anómalamente largos o cortos."
+      "phrase": "Describe la duración de las palabras largas sin juzgar su calidad."
     },
     "M8": {
       "name": "Score de alineamiento P10",
       "unit": "score",
-      "direction": "higher",
+      "direction": "diagnostic",
       "target": "informativo",
-      "what": "¿Qué tan confiable es el alineamiento automático en su decil inferior?",
-      "read": "Mayor suele ser mejor, pero aquí es una señal diagnóstica, no un certificado de verdad absoluta."
+      "phrase": "Indica la confianza del alineamiento automático en su peor decil."
     },
     "M9": {
       "name": "Latencia visual P95",
       "unit": "ms",
       "direction": "lower",
       "target": "≤ 50 ms",
-      "what": "¿Cuánto tarda el highlight en reaccionar al reloj de audio?",
-      "read": "Menor es mejor. 50 ms es nuestro umbral de certificación actual."
+      "phrase": "Mide cuánto tarda el resaltado en seguir al reloj de audio."
     },
     "M10": {
       "name": "Palabra incorrecta",
       "unit": "%",
       "direction": "lower",
       "target": "0%",
-      "what": "¿Se resalta una palabra que no corresponde al tiempo de audio?",
-      "read": "0% es el objetivo: ninguna palabra equivocada."
+      "phrase": "Mide cuántas veces se resalta una palabra equivocada."
     },
     "M11": {
       "name": "Palabra omitida",
       "unit": "%",
       "direction": "lower",
       "target": "0%",
-      "what": "¿La palabra correcta deja de aparecer cuando debería?",
-      "read": "0% es el objetivo: ninguna palabra perdida."
+      "phrase": "Mide cuántas veces falta el resaltado de la palabra correcta."
     },
     "M12": {
       "name": "Monotonía de transición",
       "unit": "%",
       "direction": "higher",
       "target": "100%",
-      "what": "¿La reproducción avanza por las palabras sin regresar ni saltarse el orden?",
-      "read": "100% significa secuencia estrictamente creciente."
+      "phrase": "Comprueba que el resaltado avance sin saltos hacia atrás."
     },
     "M13": {
       "name": "Estabilidad de seek",
       "unit": "%",
       "direction": "higher",
       "target": "100%",
-      "what": "¿El audio llega de forma estable al tiempo que pedimos?",
-      "read": "100% significa que las pruebas deterministas alcanzan el punto solicitado."
+      "phrase": "Confirma que el audio llegue de forma estable al tiempo solicitado."
     }
   }
 }
