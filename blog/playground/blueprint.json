@@ -29,7 +29,8 @@
         "path": "/plugin.zip"
       },
       "options": {
-        "activate": true
+        "activate": true,
+        "targetFolderName": "sym-blog-module"
       }
     },
     {
