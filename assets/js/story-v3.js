@@ -1,7 +1,7 @@
 (function(){
 'use strict';
 var mount=document.getElementById('relato-sonoro');if(!mount)return;
-var V='v1.7.0-20261007';
+var V='v1.7.3-20261007';
 var ROOT=(location.hostname==='serymente.github.io')?'/otrobuenprograma/':'/';
 var MOBILE=window.matchMedia&&window.matchMedia('(max-width:820px)').matches;
 var URL_DATA=ROOT+'assets/data/relato-obp-phase3.json';
@@ -41,7 +41,7 @@ if(segs.length!==20)throw new Error('No se pudo preparar el relato.');
 mount.innerHTML='<div class="story-rail">'+segs.map(function(s,i){var v=VIS[Math.floor(i/2)];return '<article class="story-stop" id="story-stop-'+esc(s.id)+'" data-segment="'+esc(s.id)+'" data-sync-segment-id="'+esc(s.id)+'" data-sync-active-segment="false"><div class="story-copy"><h2>'+esc(s.title)+'</h2><p class="story-transcript" aria-label="Texto hablado">'+s.words.map(function(w,j){return '<button class="story-word" type="button" data-segment="'+esc(s.id)+'" data-word="'+j+'" data-sync-word-index="'+j+'" data-sync-current-word="false">'+esc(w.word)+'</button> ';}).join('')+'</p></div><div class="story-art">'+art(v[0],v[1],s.id)+'</div><div class="story-segment-meta"><button type="button" data-play-segment="'+esc(s.id)+'">Escuchar este fragmento</button></div></article>';}).join('')+'</div>'+buildRail(segs)+'<button class="story-return-overlay" type="button" hidden>Volver a la narración</button><audio class="story-audio" preload="auto" playsinline data-sync-audio="true"></audio><div class="obp-qr-autoplay-hint" role="status">El sonido está listo. Este navegador necesita un toque para comenzar.<button type="button">Iniciar experiencia</button></div>';
 var audio=mount.querySelector('.story-audio'),prev=mount.querySelector('.story-micro-prev'),next=mount.querySelector('.story-micro-next'),play=mount.querySelector('.story-micro-play'),microProgress=mount.querySelector('.story-micro-progress'),microTime=mount.querySelector('.story-micro-time'),status=mount.querySelector('.story-micro-status'),hint=mount.querySelector('.obp-qr-autoplay-hint'),rail=mount.querySelector('.story-micro-rail'),returnOverlay=mount.querySelector('.story-return-overlay');
 var cards=[].slice.call(mount.querySelectorAll('.story-stop')),railPhaseButtons=[].slice.call(mount.querySelectorAll('.story-micro-phase-label')),railSegmentButtons=[].slice.call(mount.querySelectorAll('.story-micro-segment'));
-var cur=0,widx=-1,follow=true,advance=true,playing=false,manual=0,lastScroll=0,gestureRecovery=false,suppressFollowUntil=0,scrollY0=window.scrollY||0,scrollT0=Date.now(),intenseOverlayTimer=0,rafId=0,lastPaintedWord=-2;window.__ogpSyncDiagnostics={version:'v1.7.0-20261007',transitions:[],frames:0,currentWord:-1};
+var cur=0,widx=-1,follow=true,advance=true,playing=false,manual=0,lastScroll=0,gestureRecovery=false,suppressFollowUntil=0,scrollY0=window.scrollY||0,scrollT0=Date.now(),intenseOverlayTimer=0,rafId=0,wordTimerId=0,lastPaintedWord=-2;window.__ogpSyncDiagnostics={version:'v1.7.3-20261007',transitions:[],frames:0,currentWord:-1};
 audio.preload='auto';audio.autoplay=true;audio.setAttribute('autoplay','');
 function current(){return segs[cur];}
 function syncMicroPlay(){if(!play)return;play.textContent=playing?'Ⅱ':'▶';play.setAttribute('aria-label',playing?'Pausar':'Reproducir');play.title=playing?'Pausar':'Reproducir';}
@@ -72,14 +72,26 @@ function update(){
 var s=current(),d=Number(audio.duration)||Number(s.audioDuration)||0,t=Number(audio.currentTime)||0,r=d?Math.max(0,Math.min(1,t/d)):0;
 if(microProgress){microProgress.style.setProperty('--progress',(r*100)+'%');microProgress.setAttribute('aria-valuenow',String(Math.round(r*100)));}
 if(microTime)microTime.textContent=fmt(t);
-setWordIndex(resolveWordIndex(t),t);window.__ogpSyncDiagnostics.frames++;
+window.__ogpSyncDiagnostics.frames++;
+}
+function updateWordClock(){
+if(!playing)return;
+var t=Number(audio.currentTime)||0;
+setWordIndex(resolveWordIndex(t),t);
+wordTimerId=setTimeout(updateWordClock,4);
 }
 function visualClock(){
 if(!playing){rafId=0;return;}
 update();rafId=requestAnimationFrame(visualClock);
 }
-function startVisualClock(){if(!rafId)rafId=requestAnimationFrame(visualClock);}
-function stopVisualClock(){if(rafId){cancelAnimationFrame(rafId);rafId=0;}}
+function startVisualClock(){
+if(!rafId)rafId=requestAnimationFrame(visualClock);
+if(!wordTimerId)wordTimerId=setTimeout(updateWordClock,0);
+}
+function stopVisualClock(){
+if(rafId){cancelAnimationFrame(rafId);rafId=0;}
+if(wordTimerId){clearTimeout(wordTimerId);wordTimerId=0;}
+}
 
 if(play)play.addEventListener('click',function(){if(audio.paused)start('manual');else audio.pause();});
 if(prev)prev.addEventListener('click',function(){if(cur>0){manual=Date.now()+1200;load(cur-1,true,true);}});
