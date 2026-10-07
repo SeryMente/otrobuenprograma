@@ -12,6 +12,7 @@ test("analytics is opt-in and emits only after consent", async ({ page }) => {
     });
   });
 
+  await page.addInitScript(() => { window.__OGP_AUTO_CONSENT = true; });
   await page.goto("/qa/analytics-harness.html");
   await expect(page.locator("#status")).toHaveText("ready");
 
@@ -46,20 +47,17 @@ test("analytics is opt-in and emits only after consent", async ({ page }) => {
 });
 
 test("rejection produces no persistent visitor/session identity", async ({ page }) => {
-  await page.addInitScript(() => {
-    Object.defineProperty(window, "__ogpRejectMode", { value: true });
-  });
-
+  await page.addInitScript(() => { window.__OGP_AUTO_CONSENT = false; });
   await page.goto("/qa/analytics-harness.html");
-  await page.evaluate(() => {
-    window.OGPAnalytics.reset();
-  });
 
-  const result = await page.evaluate(() => ({
-    consent: window.OGPAnalytics.getConsent(),
+  const result = await page.evaluate(() => {
+    window.OGPAnalytics.setConsent({ analytics: false, marketing: false });
+    return {
+      consent: window.OGPAnalytics.getConsent(),
     visitor: localStorage.getItem("ogp.analytics.visitor_id.v1"),
-    session: localStorage.getItem("ogp.analytics.session_id.v1")
-  }));
+      session: localStorage.getItem("ogp.analytics.session_id.v1")
+    };
+  });
 
   expect(result.consent?.analytics).toBe(false);
   expect(result.visitor).toBeNull();
