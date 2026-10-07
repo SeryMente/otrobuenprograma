@@ -903,3 +903,36 @@ La regresión crítica no se resolvió ocultando o reintroduciendo Glosa: se ais
 **PR:** https://github.com/SeryMente/otrobuenprograma/pull/11
 **Commit:** https://github.com/SeryMente/otrobuenprograma/commit/a5bcc98dbb4ae1dae1030fc4536c1a50cd1e6de9
 **Estado:** CERRADO · PUBLICADO · VERIFICADO
+
+---
+
+# 48. Retroalimentación posterior al cierre — Delta F3 → F4
+
+**Fecha:** 2026-10-07  
+**Versión evaluada:** v1.6.2  
+**URL pública:** https://serymente.github.io/otrobuenprograma/  
+**URL canónica:** https://github.com/SeryMente/otrobuenprograma
+
+El cierre técnico de v1.6.2 fue correcto en integridad de contenido y gates automatizados, pero la revisión posterior detectó una diferencia entre la expectativa visual y la implementación publicada. Este delta define el trabajo que continúa en F4.
+
+### 48.1 Expectativa vs. resultado
+
+| Área | Expectativa | Resultado observado | Tratamiento F4 |
+|---|---|---|---|
+| Jerarquía | Autor → Otro Gran Programa → subtítulo como una sola composición | Título/subtítulo todavía se perciben separados | Integrar en un mismo contenedor visual |
+| Reproductor | No existir bajo el subtítulo | Sigue visible debajo del subtítulo | Eliminar superficie independiente |
+| Roadmap | Ser también el transporte narrativo | Tiene play/pause, pero el reproductor sigue aparte | Embebir transporte mínimo en el rail derecho |
+| Sincronización | Palabra resaltada = palabra hablada en ese instante | Timing publicado sigue siendo preliminar/proporcional | Forced alignment + benchmark + iteraciones |
+| Arquitectura | Ningún módulo opcional debe ocultar contenido estructural | F3 tuvo que reparar el acoplamiento accidental reveal → glosa.js | Mantener desacoplamiento como gate permanente |
+
+### 48.2 Aprendizaje de proceso
+
+La retroalimentación post-sprint pasa a ser requisito de entrada del sprint siguiente. El cierre de un sprint significa que existe una versión verificable y un delta explícito frente a la expectativa; no implica que cualquier desviación visual posterior quede fuera del sistema.
+
+**Regla permanente:** cada nuevo plan deberá revisar este bloque y los deltas posteriores antes de comenzar implementación.
+
+### 48.3 Consecuencia para F4
+
+F4/v1.7.0 se define como continuación directa de este delta: corregirá la integración visual todavía incompleta y establecerá la sincronización palabra-voz como subsistema medible, reproducible y certificable.
+
+**Plan F4:** https://github.com/SeryMente/otrobuenprograma/blob/main/docs/PLAN-F4-SINCRONIZACION-NARRATIVA-20261007.md
