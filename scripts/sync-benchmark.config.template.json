@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "projectRole": "adapter configuration only",
+  "site": {
+    "url": "http://127.0.0.1:4173/",
+    "rootSelector": "[data-sync-root=\"true\"]"
+  },
+  "timing": {
+    "path": "path/to/story-word-timing.json"
+  },
+  "canonical": {
+    "path": "path/to/canonical-transcript.json"
+  },
+  "dom": {
+    "audioSelector": "[data-sync-audio=\"true\"]",
+    "playControlSelector": "[data-sync-play=\"true\"]",
+    "segmentControlSelector": "[data-sync-segment-control=\"{id}\"]",
+    "activeSegmentSelector": "[data-sync-active-segment=\"true\"]",
+    "currentWordSelector": "[data-sync-current-word=\"true\"]"
+  },
+  "sampling": {
+    "pointsPerSegment": 6,
+    "seekToleranceMs": 80,
+    "stableFrames": 2
+  },
+  "runtime": {
+    "segmentStrategy": "max-word-count",
+    "durationSec": 15,
+    "playbackRate": 1,
+    "minTransitions": 12
+  },
+  "media": {
+    "mode": "blob",
+    "sameOriginOnly": true
+  }
+}
