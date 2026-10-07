@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>OGP Analytics QA Harness</title>
+</head>
+<body>
+  <main>
+    <h1>OGP Analytics QA Harness</h1>
+    <p id="status">booting</p>
+    <button data-analytics-cta data-destination="/test">CTA test</button>
+    <a data-analytics-cta href="#test">Anchor test</a>
+  </main>
+  <script>
+    window.OGP_ANALYTICS_CONFIG = { enabled: false, endpoint: "/mock-analytics", debug: true };
+  </script>
+  <script src="../assets/js/analytics.js"></script>
+  <script>
+    window.__events = [];
+    window.addEventListener("ogp:analytics", e => window.__events.push(e.detail));
+    window.addEventListener("DOMContentLoaded", () => {
+      window.OGPAnalytics.setConsent({ analytics: true, marketing: false });
+      document.getElementById("status").textContent = "ready";
+    });
+  </script>
+</body>
+</html>
