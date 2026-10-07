@@ -1,5 +1,5 @@
 {
-  "name": "otrobuenprograma-qa",
+  "name": "otrogranprograma-qa",
   "private": true,
   "devDependencies": {
     "@playwright/test": "1.56.0"
