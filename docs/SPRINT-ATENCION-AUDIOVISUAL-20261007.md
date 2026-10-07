@@ -65,3 +65,92 @@ La meta es sostener **atenciÃƒÂ³n voluntaria, comprensiÃƒÂ³n y continuid
 ## Fidelidad sonora
 
 Las fuentes de transcripciÃƒÂ³n conservan literalmente las palabras realmente pronunciadas. Esa conservaciÃƒÂ³n es evidencia de audio, no branding. Los metadatos, rutas, identificadores y superficies de comunicaciÃƒÂ³n sÃƒÂ­ deben usar exclusivamente **Otro Gran Programa / OGP**.
+
+
+---
+
+## Endurecimiento previo a ejecución · 2026-10-07
+
+Este sprint no persigue un efecto visual llamativo. Su criterio de éxito es que el cerebro pueda usar el texto visible como **confirmación temporal inmediata de la voz**, sin tener que reconstruir mentalmente la correspondencia.
+
+### Contrato de calidad
+
+La experiencia final deberá satisfacer simultáneamente cuatro capas:
+
+**1. Verdad temporal.** La palabra visible y la palabra pronunciada deben coincidir dentro de una ventana perceptualmente irrelevante. El audio sigue siendo el reloj maestro.
+
+**2. Continuidad perceptual.** Una pausa respiratoria o micro-silencio no puede producir la sensación de que la narración desapareció. La interfaz conserva el estado semántico correcto mientras espera el siguiente evento sonoro.
+
+**3. Correspondencia prosódica.** La energía visual puede seguir cambios de energía vocal, pero nunca debe convertirse en un visualizador de volumen. Se usará una envolvente suavizada con límites, attack/release y piso visual; volumen alto no implica automáticamente mayor importancia semántica.
+
+**4. Recompensa de seguimiento.** El progreso visual debe hacer evidente que el sistema sigue acertando ahora mismo. La señal es continua dentro de la palabra, no un destello al entrar y otro al salir.
+
+### Gates duros
+
+Una iteración no se publica por estar “más bonita”. Debe demostrar:
+
+- **M10 = 0%** y **M11 = 0%**.
+- **M12 = 100%** y **M13 = 100%**.
+- **M9 P95 ≤ 10 ms** como objetivo de producto; **≤ 5 ms** como nivel de excelencia.
+- Sin jitter visual perceptible durante habla sostenida.
+- Sin desaparición perceptual durante pausas breves.
+- Sin pérdida de legibilidad ni competencia entre animación y texto.
+- Sin pelea entre seguimiento automático y gesto deliberado del usuario.
+- Sin regresión de navegación, accesibilidad, móvil o carga.
+
+### Iteración 1 — Continuidad visual
+
+**Intervención única:** sustituir el modelo binario encendido/apagado por un estado continuo: palabra actual enfocada, palabras recientes con persistencia decreciente y pausa breve retenida sin inventar avance.
+
+**Prueba adversarial:** detener el audio en respiraciones, pausas de puntuación y fronteras entre segmentos; comprobar que la pantalla no parece “muerta” ni adelanta una palabra no pronunciada.
+
+**PASS:** exactitud intacta + continuidad perceptual superior a baseline.
+
+**FAIL:** no se publica; se corrige dentro del mismo ciclo.
+
+### Iteración 2 — Prosodia controlada
+
+**Intervención única:** derivar una envolvente de energía del audio y aplicarla a presencia/luminancia/glow mediante un filtro attack/release con límites estrictos.
+
+**Prueba adversarial:** voz baja, voz intensa, consonantes explosivas, silencios, respiraciones y cambios bruscos. Debe reaccionar la presencia visual, no temblar la interfaz.
+
+**PASS:** correlación acústico-visual consistente, jitter bajo, legibilidad intacta y cero regresiones de sincronización.
+
+**FAIL:** corregir antes de promover.
+
+### Iteración 3 — Seguimiento gratificante
+
+**Intervención única:** convertir el intervalo temporal de cada palabra en una progresión intrapalabra sutil y estable. La progresión debe ser proporcional al tiempo real de esa palabra, no a una animación ornamental.
+
+**Prueba adversarial:** palabras muy breves, palabras largas, signos de puntuación, cambios de segmento y seek manual.
+
+**Validación A/B:** comparar versión previa contra candidata en escucha real. La prueba debe medir al menos preferencia declarada, comprensión y continuidad de escucha; una mejora meramente estética no cuenta.
+
+**PASS:** mejora perceptual demostrable sin degradar ningún gate técnico.
+
+### Regla de decisión
+
+**MEJORA → publicar inmediatamente.**  
+**FUNCIONAL SIN MEJORA → registrar y no promover.**  
+**FALLA → corregir dentro del mismo ciclo.**  
+**NO existe el estado “casi listo” para pasar a la siguiente iteración.**
+
+### Disciplina del ciclo
+
+Cada iteración debe producir en un solo ciclo:
+
+**CAMBIO → BENCHMARK → NÚMEROS → DELTA → DECISIÓN → EVIDENCIA → LIVE**
+
+El registro debe conservar: baseline, versión candidata, commit, métricas, diferencia frente a la versión anterior, resultado PASS/FAIL y URL pública comprobada.
+
+### Límite de diseño
+
+La atención buscada es **atención voluntaria sostenida mediante una correspondencia audiovisual excelente**. No se diseñan mecánicas para explotar compulsión, ansiedad o dependencia del estímulo.
+
+### Criterio de cierre del sprint
+
+El sprint termina únicamente cuando las tres iteraciones han sido ejecutadas o descartadas con evidencia, la mejor versión está publicada y una comprobación final confirma:
+
+**audio ↔ palabra ↔ pantalla ↔ continuidad ↔ prosodia ↔ navegación ↔ producción**
+
+como una sola experiencia coherente.
