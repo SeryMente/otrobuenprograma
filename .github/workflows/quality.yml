@@ -44,6 +44,7 @@ jobs:
           grep -q 'href="#proyectos"' index.html
           grep -q 'href="#cuentas"' index.html
           grep -q 'href="#autor"' index.html
+          grep -q 'href="blog/"' index.html
           ! grep -q 'mobile-nav-title' index.html
           grep -q '<title>Otro Gran Programa</title>' index.html
           grep -q 'id="ogp-title">Otro Gran Programa</h1>' index.html
