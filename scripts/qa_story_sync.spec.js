@@ -428,3 +428,78 @@ test("I1 short pauses keep a visible continuity anchor without falsifying the ac
   expect(result.echoClass).toBeGreaterThanOrEqual(0);
   expect(result.maxGapMs).toBeLessThanOrEqual(240);
 });
+
+
+test("I2 prosody exposes a live smoothed energy signal during playback", async ({ page }) => {
+  test.setTimeout(30000);
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto(URL, { waitUntil: "domcontentloaded" });
+  await page.waitForSelector(".story-word");
+  await page.locator(CONFIG.dom.playControlSelector).click();
+  await page.waitForTimeout(1200);
+  const result = await page.evaluate(() => ({
+    ready: window.__ogpSyncDiagnostics?.prosodyReady === true,
+    frames: Number(window.__ogpSyncDiagnostics?.prosodyFrames || 0),
+    samples: Array.isArray(window.__ogpSyncDiagnostics?.prosodySamples)
+      ? window.__ogpSyncDiagnostics.prosodySamples.length
+      : 0,
+    energy: Number(getComputedStyle(document.querySelector("#relato-sonoro")).getPropertyValue("--ogp-voice-energy"))
+  }));
+  expect(result.ready).toBe(true);
+  expect(result.frames).toBeGreaterThan(10);
+  expect(result.samples).toBeGreaterThan(0);
+  expect(Number.isFinite(result.energy)).toBe(true);
+  expect(result.energy).toBeGreaterThanOrEqual(0);
+  expect(result.energy).toBeLessThanOrEqual(1);
+  await page.evaluate((audioSelector) => document.querySelector(audioSelector)?.pause(), CONFIG.dom.audioSelector);
+});
+
+test("I3 intraword progress follows the real word interval", async ({ page }) => {
+  test.setTimeout(30000);
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto(URL, { waitUntil: "domcontentloaded" });
+  await page.waitForSelector(".story-word");
+
+  const target = await page.evaluate(async (timingPath) => {
+    const timing = await fetch(timingPath, { cache: "no-store" }).then((r) => r.json());
+    const segments = timing.segments || timing;
+    for (const segment of segments) {
+      for (let i = 0; i < segment.words.length; i += 1) {
+        const word = segment.words[i];
+        const duration = Number(word.end) - Number(word.start);
+        if (duration >= 0.45) {
+          return {
+            segmentId: String(segment.id),
+            wordIndex: i,
+            time: (Number(word.start) + Number(word.end)) / 2
+          };
+        }
+      }
+    }
+    return null;
+  }, CONFIG.timing.path);
+
+  expect(target, "I3 benchmark requires a sufficiently long timed word").not.toBeNull();
+  await loadAndPauseSegment(page, target.segmentId);
+  await page.evaluate(
+    ({ audioSelector, time }) => {
+      const audio = document.querySelector(audioSelector);
+      audio.currentTime = time;
+      audio.pause();
+    },
+    { audioSelector: CONFIG.dom.audioSelector, time: target.time }
+  );
+  await page.waitForTimeout(100);
+
+  const result = await page.evaluate(() => {
+    const current = document.querySelector('.story-word[data-sync-current-word="true"]');
+    return {
+      current: current?.dataset.word ?? null,
+      progress: current ? Number(current.style.getPropertyValue("--word-progress")) : null
+    };
+  });
+
+  expect(result.current).toBe(String(target.wordIndex));
+  expect(result.progress).toBeGreaterThan(0.2);
+  expect(result.progress).toBeLessThan(0.8);
+});
