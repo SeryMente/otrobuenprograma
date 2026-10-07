@@ -3,7 +3,7 @@
 **Proyecto:** Otro Gran Programa  
 **Repositorio canÃƒÂ³nico:** https://github.com/SeryMente/otrogranprograma  
 **URL pÃƒÂºblica canÃƒÂ³nica:** https://serymente.github.io/otrogranprograma/  
-**Estado:** estrategia endurecida; pendiente de ejecuciÃƒÂ³n
+**Estado:** IMPLEMENTACIÓN PRELIMINAR COMPLETADA · MODELO EDITORIAL 36 SEGMENTOS CANONIZADO · MIGRACIÓN DE RUNTIME PENDIENTE
 
 ## Necesidad subyacente
 
@@ -185,3 +185,8 @@ Cada palabra activa expone --word-progress, derivado exclusivamente de audio.cur
 
 ### Límite de evidencia
 Esta documentación no convierte una implementación en una certificación humana. El benchmark técnico debe comprobar M10/M11/M12/M13 y M9 con la suite existente; la aceptación perceptual A/B requiere escucha real. No se registra como PASS una prueba que no haya sido realmente ejecutada.
+
+
+## Continuidad canónica · segmentación 2026-10-07
+
+La cantidad de segmentos deja de ser un valor fijo de 20. El análisis editorial del corpus establece 36 como objetivo canónico de diseño, con una banda operativa de 32–40. La especificación completa y el mapa de unidades viven en `assets/data/story-experience-canon.json`; ese objeto es la fuente de verdad para el siguiente ciclo.
