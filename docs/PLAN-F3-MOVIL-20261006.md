@@ -878,4 +878,28 @@ Este bloque prevalece sobre cualquier regla visual anterior del H1-09 que fuerce
 
 **Versión de implementación:** v1.6.2
 **Referencia canónica:** https://github.com/SeryMente/otrobuenprograma
-**Estado provisional:** IMPLEMENTACIÓN EN RAMA · PENDIENTE DE GATES Y PUBLICACIÓN
+**Estado final:** IMPLEMENTADO EN `main` · PR #11 MERGED · GATES VERDES · PAGES DEPLOYED
+
+
+## 47.3 Cierre v1.6.2 — verificación final
+
+La reparación fue integrada mediante PR #11 (`fix(v1.6.2): restore content and refine mobile narrative`) y quedó en `main` como commit `a5bcc98dbb4ae1dae1030fc4536c1a50cd1e6de9`.
+
+### Evidencia GitHub
+- `Calidad (no-regresion)`: **success**.
+- `e2e_mobile`: **success**.
+- `CodeQL`: **success**; sin nuevas alertas en el código modificado.
+- `Deploy a GitHub Pages`: **success**.
+- `pages build and deployment`: **success**.
+- `Push on main`: **success**.
+
+### Evidencia E2E adicional
+La suite local ejecutada contra la rama resultó en **13/13 PASS**, incluyendo la comprobación de que `#comind` y `#cuentas` permanecen presentes y visibles al entrar en viewport, que la experiencia no muestra Relato/Fase/Contexto, y que el micro-roadmap ofrece play/pause y recuperación tras scroll intenso.
+
+### Resultado funcional
+La regresión crítica no se resolvió ocultando o reintroduciendo Glosa: se aisló la dependencia equivocada y el motor `.reveal` pasó a `assets/js/app.js`, de modo que el contenido editorial conserva su visibilidad independientemente de Glosa.
+
+**Versión final:** v1.6.2
+**PR:** https://github.com/SeryMente/otrobuenprograma/pull/11
+**Commit:** https://github.com/SeryMente/otrobuenprograma/commit/a5bcc98dbb4ae1dae1030fc4536c1a50cd1e6de9
+**Estado:** CERRADO · PUBLICADO · VERIFICADO
