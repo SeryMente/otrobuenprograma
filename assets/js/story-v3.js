@@ -161,7 +161,7 @@ var nextIndex=state.active,from=widx,changed=nextIndex!==widx,anchorChanged=stat
 widx=nextIndex;anchorIdx=state.anchor;
 anchorUntil=anchorIdx>=0?CONTINUITY_HOLD_MS:0;
 paintWords();
-scheduleNextWord();
+if(playing&&(changed||anchorChanged))scheduleNextWord();
 if(anchorIdx>=0){
  window.__ogpSyncDiagnostics.continuityAnchors++;
  window.__ogpSyncDiagnostics.continuityAnchorFrames++;
