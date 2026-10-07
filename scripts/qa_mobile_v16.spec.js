@@ -7,8 +7,8 @@ for(const [width,height] of sizes){
     await expect(page.locator("#obp-title")).toHaveText("Otro Gran Programa");
     await page.screenshot({path:"test-results/mobile-"+width+"x"+height+".png",fullPage:false});
     const m=await page.evaluate(()=>{const d=document.documentElement,t=document.querySelector("#obp-title"),a=document.querySelector(".obp-author-portrait"),cs=getComputedStyle(t),r=t.getBoundingClientRect(),ar=a.getBoundingClientRect();return {overflow:d.scrollWidth-d.clientWidth,titleOverflow:t.scrollWidth-t.clientWidth,ws:cs.whiteSpace,lines:Math.round(r.height/parseFloat(cs.lineHeight)),ratio:ar.width/ar.height};});
-    expect(m.overflow).toBeLessThanOrEqual(1); expect(m.titleOverflow).toBeLessThanOrEqual(1); expect(m.ws).toBe("nowrap"); expect(m.ratio).toBeGreaterThan(0.5); expect(m.ratio).toBeLessThan(0.75);
-    if(width===240){ expect(m.lines).toBeGreaterThanOrEqual(1); expect(m.lines).toBeLessThanOrEqual(2); }
+    expect(m.overflow).toBeLessThanOrEqual(1); expect(m.titleOverflow).toBeLessThanOrEqual(1); expect(m.ratio).toBeGreaterThan(0.5); expect(m.ratio).toBeLessThan(0.75);
+    if(width<=340){ expect(m.ws).toBe("normal"); expect(m.lines).toBeGreaterThanOrEqual(1); expect(m.lines).toBeLessThanOrEqual(2); } else { expect(m.ws).toBe("nowrap"); expect(m.lines).toBe(1); }
   });
 }
 test("mobile nav collapse + fullscreen focus",async({page})=>{
