@@ -18,6 +18,7 @@ permissions:
 
 jobs:
   align:
+    if: github.event_name == 'workflow_dispatch' || !contains(github.event.head_commit.message, 'promote S1 forced alignment timing')
     runs-on: ubuntu-latest
     timeout-minutes: 120
     steps:
@@ -29,6 +30,11 @@ jobs:
           python-version: '3.11'
       - name: Install ffmpeg
         run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - name: Cache pip downloads
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: f4-whisperx-pip-${{ runner.os }}-py311
       - name: Install CPU PyTorch
         run: python -m pip install --index-url https://download.pytorch.org/whl/cpu torch torchaudio
       - name: Install WhisperX
