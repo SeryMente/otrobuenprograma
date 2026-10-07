@@ -10,13 +10,13 @@ from difflib import SequenceMatcher
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA = ROOT / "assets" / "data" / "relato-obp-v015.json"
-EDITORIAL = ROOT / "assets" / "data" / "relato-obp-phase2-editorial.json"
-ARCH = ROOT / "assets" / "data" / "relato-obp-architecture-v1.json"
-AUDIO = ROOT / "assets" / "audio" / "relato-obp-v015.mp3"
-OUT = ROOT / "assets" / "data" / "relato-obp-phase2.json"
-QC = ROOT / "assets" / "data" / "relato-obp-phase2-qc.json"
-AUDIO_DIR = ROOT / "assets" / "audio" / "relato-obp-v016"
+DATA = ROOT / "assets" / "data" / "relato-ogp-v015.json"
+EDITORIAL = ROOT / "assets" / "data" / "relato-ogp-phase2-editorial.json"
+ARCH = ROOT / "assets" / "data" / "relato-ogp-architecture-v1.json"
+AUDIO = ROOT / "assets" / "audio" / "relato-ogp-v015.mp3"
+OUT = ROOT / "assets" / "data" / "relato-ogp-phase2.json"
+QC = ROOT / "assets" / "data" / "relato-ogp-phase2-qc.json"
+AUDIO_DIR = ROOT / "assets" / "audio" / "relato-ogp-v016"
 
 EXPECTED_AUDIO_BYTES = 16695648
 EXPECTED_DURATION = 1391.0
@@ -428,7 +428,7 @@ def main():
             "anchorScore": b["anchorScorePass1"],
             "anchorWeakestWindow": b["anchorWeakestWindowPass1"],
             "anchorStrongWindows": b["anchorStrongWindowsPass1"],
-            "audio": f"assets/audio/relato-obp-v016/segment-{seg['id']}.mp3",
+            "audio": f"assets/audio/relato-ogp-v016/segment-{seg['id']}.mp3",
         }
         segment_results.append(item)
 
@@ -453,7 +453,7 @@ def main():
             "metadataCoherent": True,
         },
         "sourceAudio": {
-            "path": "assets/audio/relato-obp-v015.mp3",
+            "path": "assets/audio/relato-ogp-v015.mp3",
             "bytes": EXPECTED_AUDIO_BYTES,
             "sha256": master_hash,
             "duration": round(master_duration, 3),
@@ -481,7 +481,7 @@ def main():
             "transcriptCanonicalPreserved": True,
             "oneIdeaPerSegment": True,
             "noProportionalTimingUsed": True,
-            "spokenWorkingName": "Otro Buen Programa",
+            "spokenWorkingName": "Otro Gran Programa",
             "displayName": "Otro Gran Programa",
             "phaseLayout": "5 phases × 20 segments",
         },
@@ -490,12 +490,12 @@ def main():
     payload = {
         "version": "1.1-phase2",
         "displayName": "Otro Gran Programa",
-        "spokenWorkingName": "Otro Buen Programa",
+        "spokenWorkingName": "Otro Gran Programa",
         "phaseModel": "5×20",
         "sourceAudio": qc["sourceAudio"],
         "method": {
-            "editorialSource": "assets/data/relato-obp-phase2-editorial.json",
-            "transcriptSource": "assets/data/relato-obp-v015.json",
+            "editorialSource": "assets/data/relato-ogp-phase2-editorial.json",
+            "transcriptSource": "assets/data/relato-ogp-v015.json",
             "boundaryEvidence": "one faster-whisper medium decoding pass with real word timestamps; three-window consensus anchors",
             "cutMethod": "segment 01 starts at 0; each subsequent segment starts at its ASR-anchored boundary; segment 20 ends at master duration",
             "audioDerivativeEncoding": "MP3 128 kbps / 44.1 kHz",
