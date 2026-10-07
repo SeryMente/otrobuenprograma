@@ -4,9 +4,9 @@
   var mount = document.getElementById('relato-sonoro');
   if (!mount) return;
 
-  var DATA_URL = 'assets/data/relato-obp-phase2.json';
-  var QC_URL = 'assets/data/relato-obp-phase2-qc.json';
-  var EDITORIAL_URL = 'assets/data/relato-obp-phase2-editorial.json';
+  var DATA_URL = 'assets/data/relato-ogp-phase2.json';
+  var QC_URL = 'assets/data/relato-ogp-phase2-qc.json';
+  var EDITORIAL_URL = 'assets/data/relato-ogp-phase2-editorial.json';
   var VERSION = '20261005-f2';
 
   function esc(value) {
@@ -69,7 +69,7 @@
           '<span>5 fases</span><span>20 segmentos</span><span>20 audios independientes</span><span>23:11 máster</span>' +
           '<span>' + (qcPassed ? 'QC Fase 2 verificado' : 'QC Fase 2 pendiente') + '</span>' +
         '</div>' +
-        '<p class="story-auto-note">Fuente canónica: MP3 maestro de GitHub Pages. Nombre visible: Otro Gran Programa. Nombre hablado conservado en la transcripción: Otro Buen Programa.</p>' +
+        '<p class="story-auto-note">Fuente canónica: MP3 maestro de GitHub Pages. Nombre visible: Otro Gran Programa. Nombre hablado conservado en la transcripción: Otro Gran Programa.</p>' +
       '</div>' +
       '<div class="story-player" aria-label="Reproductor de Fase 2">' +
         '<button class="story-play" type="button" aria-label="Reproducir segmento actual" title="Reproducir segmento actual">' +
