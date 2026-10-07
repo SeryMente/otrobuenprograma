@@ -106,8 +106,12 @@ jobs:
         run: npm install --no-package-lock
       - run: nohup python3 -m http.server 4173 --bind 127.0.0.1 >/tmp/ogp-http.log 2>&1 &
       - run: npx playwright install --with-deps chromium
-      - run: npx playwright test --config=playwright.config.js
+      - name: Playwright sync benchmark
+        id: e2e
+        continue-on-error: true
+        run: npx playwright test --config=playwright.config.js
       - name: Story timing benchmark
+        if: always()
         run: python3 scripts/benchmark_story_timing.py --output test-results/benchmark-story-timing.json
       - name: Capturas QA
         if: always()
@@ -116,3 +120,11 @@ jobs:
           name: ogp-v170-mobile-sync-evidence
           path: test-results/
           if-no-files-found: ignore
+      - name: E2E gate
+        if: always()
+        run: |
+          if [ "${{ steps.e2e.outcome }}" != "success" ]; then
+            echo "PLAYWRIGHT_GATE=FAILED"
+            exit 1
+          fi
+          echo "PLAYWRIGHT_GATE=PASSED"
