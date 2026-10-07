@@ -1,7 +1,7 @@
 (function(){
 'use strict';
 var mount=document.getElementById('relato-sonoro');if(!mount)return;
-var V='v1.10.1-20261007';
+var V='v1.11.0-20261007';
 var ROOT=(location.hostname==='serymente.github.io')?'/otrogranprograma/':'/';
 var MOBILE=window.matchMedia&&window.matchMedia('(max-width:820px)').matches;
 var URL_DATA=ROOT+'assets/data/relato-ogp-phase3.json';
@@ -41,7 +41,7 @@ if(segs.length!==20)throw new Error('No se pudo preparar el relato.');
 mount.innerHTML='<div class="story-rail">'+segs.map(function(s,i){var v=VIS[Math.floor(i/2)];return '<article class="story-stop" id="story-stop-'+esc(s.id)+'" data-segment="'+esc(s.id)+'" data-sync-segment-id="'+esc(s.id)+'" data-sync-active-segment="false"><div class="story-copy"><h2>'+esc(s.title)+'</h2><p class="story-transcript" aria-label="Texto hablado">'+s.words.map(function(w,j){return '<button class="story-word" type="button" data-segment="'+esc(s.id)+'" data-word="'+j+'" data-sync-word-index="'+j+'" data-sync-current-word="false">'+esc(w.word)+'</button> ';}).join('')+'</p></div><div class="story-art">'+art(v[0],v[1],s.id)+'</div><div class="story-segment-meta"><button type="button" data-play-segment="'+esc(s.id)+'">Escuchar este fragmento</button></div></article>';}).join('')+'</div>'+buildRail(segs)+'<button class="story-return-overlay" type="button" hidden>Volver a la narración</button><audio class="story-audio" preload="auto" playsinline data-sync-audio="true"></audio><div class="ogp-qr-autoplay-hint" role="status">El sonido está listo. Este navegador necesita un toque para comenzar.<button type="button">Iniciar experiencia</button></div>';
 var audio=mount.querySelector('.story-audio'),prev=mount.querySelector('.story-micro-prev'),next=mount.querySelector('.story-micro-next'),play=mount.querySelector('.story-micro-play'),microProgress=mount.querySelector('.story-micro-progress'),microTime=mount.querySelector('.story-micro-time'),status=mount.querySelector('.story-micro-status'),hint=mount.querySelector('.ogp-qr-autoplay-hint'),rail=mount.querySelector('.story-micro-rail'),returnOverlay=mount.querySelector('.story-return-overlay');
 var cards=[].slice.call(mount.querySelectorAll('.story-stop')),railPhaseButtons=[].slice.call(mount.querySelectorAll('.story-micro-phase-label')),railSegmentButtons=[].slice.call(mount.querySelectorAll('.story-micro-segment'));
-var cur=0,widx=-1,anchorIdx=-1,anchorUntil=0,follow=true,advance=true,playing=false,manual=0,lastScroll=0,gestureRecovery=false,suppressFollowUntil=0,scrollY0=window.scrollY||0,scrollT0=Date.now(),intenseOverlayTimer=0,rafId=0,lastPaintedWord=-2,lastPaintedState='',audioContext=null,analyser=null,mediaSource=null,prosodyBuffer=null,prosodyReady=false,prosodyEnergy=0;var CONTINUITY_HOLD_MS=240;var RECENT_ECHO_WORDS=3;window.__ogpSyncDiagnostics={version:'v1.10.0-20261007',transitions:[],frames:0,currentWord:-1,continuityAnchors:0,continuityAnchorFrames:0,maxContinuityGapMs:0,progressFrames:0,prosodyFrames:0,prosodySamples:[],prosodyReady:false};
+var cur=0,widx=-1,anchorIdx=-1,anchorUntil=0,follow=true,advance=true,playing=false,manual=0,lastScroll=0,gestureRecovery=false,suppressFollowUntil=0,scrollY0=window.scrollY||0,scrollT0=Date.now(),intenseOverlayTimer=0,rafId=0,lastPaintedWord=-2,lastPaintedState='',audioContext=null,analyser=null,mediaSource=null,prosodyBuffer=null,prosodyReady=false,prosodyEnergy=0,lastProsodyPaint=0,activeArt=null;var CONTINUITY_HOLD_MS=240;var RECENT_ECHO_WORDS=3;window.__ogpSyncDiagnostics={version:'v1.10.0-20261007',transitions:[],frames:0,currentWord:-1,continuityAnchors:0,continuityAnchorFrames:0,maxContinuityGapMs:0,progressFrames:0,prosodyFrames:0,prosodySamples:[],prosodyReady:false};
 audio.preload='auto';audio.autoplay=true;audio.setAttribute('autoplay','');
 function current(){return segs[cur];}
 function ensureProsody(){
@@ -74,7 +74,11 @@ function updateProsody(){
    var raw=Math.max(0,Math.min(1,(rms-.012)/.105));
    var factor=raw>prosodyEnergy?.24:.08;
    prosodyEnergy+=((raw-prosodyEnergy)*factor);
-   mount.style.setProperty('--ogp-voice-energy',prosodyEnergy.toFixed(3));
+   var now=performance.now();
+   if(activeArt&&now-lastProsodyPaint>=33){
+     activeArt.style.setProperty('--ogp-voice-energy',prosodyEnergy.toFixed(3));
+     lastProsodyPaint=now;
+   }
    window.__ogpSyncDiagnostics.prosodyFrames++;
    if(window.__ogpSyncDiagnostics.prosodySamples.length<1200)window.__ogpSyncDiagnostics.prosodySamples.push(Number(prosodyEnergy.toFixed(4)));
  }catch(e){}
@@ -102,7 +106,7 @@ var id=String(current().id);
 railSegmentButtons.forEach(function(b){var n=String(b.dataset.segment);b.classList.toggle('is-current',n===id);b.classList.toggle('is-past',Number(n)<Number(id));b.setAttribute('aria-current',n===id?'true':'false');});
 railPhaseButtons.forEach(function(b){var target=String(b.dataset.segment),group=b.closest('.story-micro-phase'),first=Number(target),last=first+3,currentId=Number(id),active=currentId>=first&&currentId<=last;if(group)group.classList.toggle('is-current',active);b.setAttribute('aria-current',active?'true':'false');});
 }
-function paint(){cards.forEach(function(c,i){var active=i===cur;c.classList.toggle('is-active',active);c.setAttribute('aria-current',active?'true':'false');c.setAttribute('data-sync-active-segment',active?'true':'false');});if(prev)prev.disabled=cur===0;if(next)next.disabled=cur===segs.length-1;paintRail();}
+function paint(){cards.forEach(function(c,i){var active=i===cur;c.classList.toggle('is-active',active);c.setAttribute('aria-current',active?'true':'false');c.setAttribute('data-sync-active-segment',active?'true':'false');if(active)activeArt=c.querySelector('.story-art');});if(prev)prev.disabled=cur===0;if(next)next.disabled=cur===segs.length-1;paintRail();}
 function paintWords(){
 var stateKey=String(widx)+'|'+String(anchorIdx);
 if(lastPaintedState===stateKey)return;
