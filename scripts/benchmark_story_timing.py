@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# F4 S1 promotion-retry trigger: timing promotion is commit-before-rebase.
 import argparse, json, math, re, statistics, unicodedata
 from pathlib import Path
 
