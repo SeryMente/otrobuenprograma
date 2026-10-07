@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "index": {
+    "id": "IGP",
+    "name": "Índice General de Perfección",
+    "method": "weighted-geometric-mean",
+    "scale": {
+      "min": 0,
+      "max": 100,
+      "ideal": 100
+    },
+    "rules": "El IGP combina solo métricas con ideal explícito; los diagnósticos quedan fuera.",
+    "perfectEpsilon": 0.000001
+  },
+  "dimensions": [
+    {"code":"M1","key":"M1_coverage_pct","name":"Cobertura","direction":"higher","ideal":100,"worst":0,"weight":0.08,"gate":{"op":"eq","value":100},"unit":"%"},
+    {"code":"M2","key":"M2_text_integrity_pct","name":"Integridad textual","direction":"higher","ideal":100,"worst":0,"weight":0.08,"gate":{"op":"eq","value":100},"unit":"%"},
+    {"code":"M3","key":"M3_monotonicity_pct","name":"Monotonía","direction":"higher","ideal":100,"worst":0,"weight":0.08,"gate":{"op":"eq","value":100},"unit":"%"},
+    {"code":"M4","key":"M4_valid_interval_pct","name":"Intervalos válidos","direction":"higher","ideal":100,"worst":0,"weight":0.08,"gate":{"op":"eq","value":100},"unit":"%"},
+    {"code":"M9","key":"M9_visual_latency_ms_p95","name":"Latencia visual P95","direction":"lower","ideal":0,"worst":50,"weight":0.18,"gate":{"op":"lte","value":50},"unit":"ms"},
+    {"code":"M10","key":"M10_wrong_word_rate_pct","name":"Palabra incorrecta","direction":"zero","ideal":0,"softLimit":1,"weight":0.15,"gate":{"op":"eq","value":0},"unit":"%"},
+    {"code":"M11","key":"M11_missed_word_rate_pct","name":"Palabra omitida","direction":"zero","ideal":0,"softLimit":1,"weight":0.15,"gate":{"op":"eq","value":0},"unit":"%"},
+    {"code":"M12","key":"M12_word_transition_monotonicity_pct","name":"Monotonía de transición","direction":"higher","ideal":100,"worst":0,"weight":0.10,"gate":{"op":"eq","value":100},"unit":"%"},
+    {"code":"M13","key":"M13_seek_stability_pct","name":"Estabilidad de seek","direction":"higher","ideal":100,"worst":0,"weight":0.10,"gate":{"op":"eq","value":100},"unit":"%"}
+  ],
+  "diagnostics": ["M5","M6","M7","M8"]
+}
