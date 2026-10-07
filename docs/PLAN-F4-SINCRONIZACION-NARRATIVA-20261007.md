@@ -628,3 +628,24 @@ Reglas adicionales:
 - cada mejora significativa debe generar un checkpoint público y una entrada persistente en este plan;
 - la URL pública debe acompañar cada checkpoint publicado;
 - los umbrales solo pueden endurecerse durante el sprint, nunca relajarse para convertir un fallo en aprobación.
+## 19. S1 · forced alignment obtenido — candidato significativo
+
+**Run:** https://github.com/SeryMente/otrobuenprograma/actions/runs/37561377683  
+**Fecha:** 2026-10-07  
+**Resultado técnico:** alignment exitoso; benchmark exitoso; gate narrativo exitoso; promoción fallida únicamente por rechazo de fast-forward durante un push concurrente.
+
+### Métricas S1 obtenidas
+- M1 cobertura: 100.0% (2,206/2,206).
+- M2 integridad textual: 100.0%.
+- M3 monotonía: 100.0%.
+- M4 intervalos válidos: 100.0%.
+- M5 desviación de fronteras respecto del timing proporcional: P50 4,192.622 ms.
+- M6 desviación de fronteras respecto del timing proporcional: P95 14,938.081 ms.
+- M7 duración de palabra: P95 700 ms.
+- M8 score de alineamiento: P10 0.6005; cobertura 100%.
+
+**Interpretación:** S1 constituye una mejora técnica significativa porque sustituye el reloj proporcional por CTC forced alignment basado en el audio físico y transcript canónico. No se declara todavía perfección ni error absoluto: M5/M6 son comparativos contra el baseline proporcional y M9–M12 todavía requieren certificación runtime.
+
+**Corrección de promoción:** el siguiente run preservará ambos JSON como artefactos antes de cualquier push y hará rebase contra origin/main antes de promover, evitando repetir el fallo de concurrencia.
+
+**URL pública de referencia actual:** https://serymente.github.io/otrobuenprograma/
