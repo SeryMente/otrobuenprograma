@@ -6,91 +6,104 @@
       "unit": "%",
       "direction": "higher",
       "target": "100%",
-      "phrase": "Mide cuántas palabras tienen timing certificado."
+      "phrase": "Mide cuántas palabras tienen timing certificado.",
+      "key": "M1_coverage_pct"
     },
     "M2": {
       "name": "Integridad textual",
       "unit": "%",
       "direction": "higher",
       "target": "100%",
-      "phrase": "Confirma que el timing usa exactamente el texto canónico."
+      "phrase": "Confirma que el timing usa exactamente el texto canónico.",
+      "key": "M2_text_integrity_pct"
     },
     "M3": {
       "name": "Monotonía",
       "unit": "%",
       "direction": "higher",
       "target": "100%",
-      "phrase": "Comprueba que los tiempos avanzan siempre en orden."
+      "phrase": "Comprueba que los tiempos avanzan siempre en orden.",
+      "key": "M3_monotonicity_pct"
     },
     "M4": {
       "name": "Intervalos válidos",
       "unit": "%",
       "direction": "higher",
       "target": "100%",
-      "phrase": "Verifica que cada palabra tenga inicio y fin válidos."
+      "phrase": "Verifica que cada palabra tenga inicio y fin válidos.",
+      "key": "M4_valid_interval_pct"
     },
     "M5": {
       "name": "Desviación proporcional P50",
       "unit": "ms",
       "direction": "diagnostic",
       "target": "informativo",
-      "phrase": "Muestra cuánto cambió el timing frente al reparto proporcional medio."
+      "phrase": "Muestra cuánto cambió el timing frente al reparto proporcional medio.",
+      "key": "M5_proportional_boundary_deviation_ms_p50"
     },
     "M6": {
       "name": "Desviación proporcional P95",
       "unit": "ms",
       "direction": "diagnostic",
       "target": "informativo",
-      "phrase": "Muestra cuánto cambió el timing en los casos de mayor diferencia."
+      "phrase": "Muestra cuánto cambió el timing en los casos de mayor diferencia.",
+      "key": "M6_proportional_boundary_deviation_ms_p95"
     },
     "M7": {
       "name": "Duración de palabra P95",
       "unit": "ms",
       "direction": "diagnostic",
       "target": "informativo",
-      "phrase": "Describe la duración de las palabras largas sin juzgar su calidad."
+      "phrase": "Describe la duración de las palabras largas sin juzgar su calidad.",
+      "key": "M7_word_duration_ms_p95"
     },
     "M8": {
       "name": "Score de alineamiento P10",
       "unit": "score",
       "direction": "diagnostic",
       "target": "informativo",
-      "phrase": "Indica la confianza del alineamiento automático en su peor decil."
+      "phrase": "Indica la confianza del alineamiento automático en su peor decil.",
+      "key": "M8_alignment_score_p10"
     },
     "M9": {
       "name": "Latencia visual P95",
       "unit": "ms",
       "direction": "lower",
       "target": "≤ 50 ms",
-      "phrase": "Mide cuánto tarda el resaltado en seguir al reloj de audio."
+      "phrase": "Mide cuánto tarda el resaltado en seguir al reloj de audio.",
+      "key": "M9_visual_latency_ms_p95"
     },
     "M10": {
       "name": "Palabra incorrecta",
       "unit": "%",
       "direction": "lower",
       "target": "0%",
-      "phrase": "Mide cuántas veces se resalta una palabra equivocada."
+      "phrase": "Mide cuántas veces se resalta una palabra equivocada.",
+      "key": "M10_wrong_word_rate_pct"
     },
     "M11": {
       "name": "Palabra omitida",
       "unit": "%",
       "direction": "lower",
       "target": "0%",
-      "phrase": "Mide cuántas veces falta el resaltado de la palabra correcta."
+      "phrase": "Mide cuántas veces falta el resaltado de la palabra correcta.",
+      "key": "M11_missed_word_rate_pct"
     },
     "M12": {
       "name": "Monotonía de transición",
       "unit": "%",
       "direction": "higher",
       "target": "100%",
-      "phrase": "Comprueba que el resaltado avance sin saltos hacia atrás."
+      "phrase": "Comprueba que el resaltado avance sin saltos hacia atrás.",
+      "key": "M12_word_transition_monotonicity_pct"
     },
     "M13": {
       "name": "Estabilidad de seek",
       "unit": "%",
       "direction": "higher",
       "target": "100%",
-      "phrase": "Confirma que el audio llegue de forma estable al tiempo solicitado."
+      "phrase": "Confirma que el audio llegue de forma estable al tiempo solicitado.",
+      "key": "M13_seek_stability_pct"
     }
   }
 }
