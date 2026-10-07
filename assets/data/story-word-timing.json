@@ -8,8 +8,8 @@
     "referenceType": "canonical transcript + physical segment audio"
   },
   "method": "WhisperX CTC forced alignment against canonical segment transcript and segment audio",
-  "sourceAudio": "assets/audio/relato-obp-v015.mp3",
-  "sourcePhase2": "assets/data/relato-obp-phase2.json",
+  "sourceAudio": "assets/audio/relato-ogp-v015.mp3",
+  "sourcePhase2": "assets/data/relato-ogp-phase2.json",
   "segments": [
     {
       "id": "01",
