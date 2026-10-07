@@ -127,3 +127,13 @@ select cron.schedule(
 El valor de `ogp_project_url` y `ogp_collector_token` se crean en Vault después de crear el proyecto.
 
 El token de GitHub no se coloca en Vault para el Cron: es un secreto de la Edge Function (`GITHUB_TRAFFIC_TOKEN`).
+
+## Primer acceso del administrador
+
+La primera cuenta prevista para la consola es **the.willfreeman@gmail.com**. Para registrar la contraseña inicial existe la ruta controlada:
+
+`/otrogranprograma/admin/primer-acceso.html`
+
+El correo aparece fijado en la interfaz y la contraseña se captura únicamente mediante Supabase Auth con `auth.signUp`. OGP no almacena, transmite a su propio backend ni registra la contraseña.
+
+Tras el alta, si el proyecto exige confirmación de correo, el titular debe confirmar el mensaje recibido. La promoción inicial a `admin` se realiza posteriormente mediante el bootstrap privado del backend; no se concede el rol privilegiado desde una página pública.
