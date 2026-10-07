@@ -1,3 +1,12 @@
+## 2026-10-07 · Segmentación canónica y contenido complementario
+
+- Se canonizó **36 segmentos** como arquitectura editorial objetivo para el corpus actual; los 20 anteriores quedan explícitamente como baseline de aprendizaje.
+- Se estableció la regla **una idea preponderante por segmento**, con no-recuento de ideas repetidas y posibilidad de cruzar fronteras heredadas cuando la continuidad discursiva lo justifica.
+- Se creó `assets/data/story-experience-canon.json` como objeto canónico y fuente de verdad reanudable.
+- Se conectó el formato enriquecido de transcripción al canon, con énfasis semántico escaso en negrita y subrayado sin alterar timings.
+- Se adoptó una estrategia **procedural-first** para contenido complementario: HTML/CSS/SVG → Web Animations API → Canvas selectivo → video HTML5 excepcional.
+- La migración efectiva del runtime desde 20 hacia el modelo de 36 segmentos queda como siguiente ciclo; no se fabrican nuevos MP3 para resolver una decisión editorial.
+
 ## 2026-10-07 — F4 atención audiovisual
 
 - I1: continuidad visual durante pausas cortas, con ancla explícita y estela de palabras recientes.
