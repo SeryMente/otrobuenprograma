@@ -846,6 +846,36 @@ Corrección aplicada:
 - título del hero liberado de nowrap, con ancho controlado y tres líneas naturales con la copia vigente en 320×568 y 390×844;
 - suite de aceptación actualizada para comprobar ratio, wrapping y ausencia de overflow.
 
-**Estado:** corrección implementada en rama `fix/v1.6.1-mobile-visual`; pendiente de publicación después del gate técnico y visual.
+**Estado:** corrección integrada en `main` mediante PR #10 y publicada; los gates de calidad y deployment resultaron satisfactorios.
 
 **Referencia técnica:** https://github.com/SeryMente/otrobuenprograma/blob/main/assets/css/story-v3.css
+
+
+## 47.2 Checkpoint v1.6.2 — reparación de regresión de contenido y refinamiento narrativo móvil
+
+La revisión posterior a v1.6.1 detectó una regresión crítica: el contenido editorial posterior a la experiencia sonora permanecía en index.html, pero sus contenedores `.reveal` dependían de la lógica de observación que históricamente residía en assets/js/glosa.js. Al retirar Glosa de la superficie pública, los bloques siguientes quedaron permanentemente en opacity:0.
+
+### Reparación de causa raíz
+- El motor de revelado se movió a assets/js/app.js como comportamiento editorial genérico e independiente de Glosa.
+- No se volvió a cargar assets/js/glosa.js.
+- No se eliminó ni reconstruyó el contenido editorial existente.
+
+### Ajustes solicitados
+- título principal móvil: Otro Gran Programa;
+- texto largo trasladado al título de la sección de experiencia sonora;
+- eliminación visible de Relato y Fase;
+- eliminación de los recuadros de Contexto;
+- eliminación del cierre de la experiencia y de la firma inferior con lema obsoleto;
+- play/pause discreto dentro del micro-roadmap;
+- desacoplamiento del seguimiento automático ante scroll intenso y overlay para volver al punto narrativo;
+- retrato móvil vertical, más alto y estrecho, con foco en el rostro.
+
+### Gate adicional de no-regresión
+La suite móvil comprueba explícitamente que `#comind` y `#cuentas` siguen presentes y se vuelven visibles al entrar en viewport, y que la superficie sonora no contiene las etiquetas eliminadas.
+
+### Prevalencia v1.6.2
+Este bloque prevalece sobre cualquier regla visual anterior del H1-09 que fuerce una sola línea en anchos donde la composición no la pueda sostener. El criterio es una sola línea por defecto; únicamente en anchos extremadamente estrechos se permite una segunda línea, sin overflow ni reducción ilegible de tipografía.
+
+**Versión de implementación:** v1.6.2
+**Referencia canónica:** https://github.com/SeryMente/otrobuenprograma
+**Estado provisional:** IMPLEMENTACIÓN EN RAMA · PENDIENTE DE GATES Y PUBLICACIÓN
