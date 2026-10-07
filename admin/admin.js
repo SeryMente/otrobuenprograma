@@ -70,6 +70,38 @@
     document.getElementById("github-traffic-table").innerHTML=rows.length?'<div class="table-scroll"><table><thead><tr><th>Fecha</th><th>Vistas</th><th>Únicos</th><th>Clones</th><th>Únicos</th></tr></thead><tbody>'+rows.map(r=>'<tr><td>'+esc(r.traffic_date)+'</td><td>'+number(r.views_total)+'</td><td>'+number(r.views_unique)+'</td><td>'+number(r.clones_total)+'</td><td>'+number(r.clones_unique)+'</td></tr>').join("")+'</tbody></table></div>':'<p class="muted">El collector diario aún no está desplegado.</p>';
   }
 
+  async function loadUsers(){
+    requireAdmin();
+    const r=await client.from("app_profiles").select("user_id,email,display_name,role,created_at").order("created_at",{ascending:true});
+    if(r.error)throw r.error;
+    document.getElementById("users-body").innerHTML=(r.data||[]).map(u=>{
+      const roles=["viewer","editor","admin"].map(role=>'<option value="'+role+'"'+(u.role===role?" selected":"")+'>'+role+'</option>').join("");
+      const canChange=u.user_id!==currentUser?.id;
+      return '<tr><td>'+esc(u.email||"—")+'</td><td>'+esc(u.display_name||"—")+'</td><td><select class="role-select" data-user-id="'+esc(u.user_id)+'"'+(canChange?"":" disabled")+">"+roles+'</select></td><td>'+esc(new Date(u.created_at).toLocaleDateString("es-MX"))+'</td><td><button class="ghost save-role" data-user-id="'+esc(u.user_id)+'"'+(canChange?"":" disabled")+">Guardar</button></td></tr>";
+    }).join("");
+  }
+
+  async function updateRole(userId, role){
+    requireAdmin();
+    if(userId===currentUser?.id){throw new Error("No puedes cambiar tu propio rol desde esta sesión.");}
+    if(role==="admin"){
+      const confirmed=true;
+      if(!confirmed) return;
+    }
+    const previous=await client.from("app_profiles").select("role,email").eq("user_id",userId).maybeSingle();
+    if(previous.error)throw previous.error;
+    if(previous.data?.role==="admin" && role!=="admin"){
+      const admins=await client.from("app_profiles").select("user_id").eq("role","admin");
+      if(admins.error)throw admins.error;
+      if((admins.data||[]).length<=1)throw new Error("Debe permanecer al menos un administrador.");
+    }
+    const r=await client.from("app_profiles").update({role,updated_at:new Date().toISOString()}).eq("user_id",userId);
+    if(r.error)throw r.error;
+    await client.from("admin_audit_log").insert({actor_user_id:currentUser.id,action:"role_change",target_type:"app_profile",target_id:userId,details:{from:previous.data?.role||null,to:role}});
+    await loadUsers();
+    setStatus("Rol actualizado.","ok");
+  }
+
   async function loadAccess(){
     requireAdmin(); const u=currentUser;
     document.getElementById("access-facts").innerHTML=[
@@ -80,7 +112,7 @@
   }
 
   async function refreshAll(){
-    try{await loadOverview();await loadEvents();await loadTraffic();await loadAccess();setStatus("Backend conectado · Auth + Postgres + RLS operativos.","ok");}
+    try{await loadOverview();await loadEvents();await loadTraffic();await loadUsers();await loadAccess();setStatus("Backend conectado · Auth + Postgres + RLS operativos.","ok");}
     catch(e){console.error(e);setStatus("Error de backend: "+(e.message||e),"error");}
   }
 
@@ -107,5 +139,11 @@
   document.getElementById("refresh-overview").addEventListener("click",()=>loadOverview().catch(e=>setStatus(e.message,"error")));
   document.getElementById("refresh-traffic").addEventListener("click",()=>loadTraffic().catch(e=>setStatus(e.message,"error")));
   document.getElementById("refresh-events").addEventListener("click",()=>loadEvents().catch(e=>setStatus(e.message,"error")));
+  document.getElementById("refresh-users").addEventListener("click",()=>loadUsers().catch(e=>setStatus(e.message,"error")));
+  document.getElementById("users-body").addEventListener("click",e=>{
+    const button=e.target.closest(".save-role"); if(!button) return;
+    const id=button.dataset.userId, select=document.querySelector('.role-select[data-user-id="'+id+'"]');
+    updateRole(id,select.value).catch(err=>setStatus(err.message,"error"));
+  });
   boot();
 })();
