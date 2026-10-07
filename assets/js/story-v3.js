@@ -1,7 +1,7 @@
 (function(){
 'use strict';
 var mount=document.getElementById('relato-sonoro');if(!mount)return;
-var V='v1.15.0-20261007';
+var V='v1.16.1-20261007';
 var ROOT=(location.hostname==='serymente.github.io')?'/otrogranprograma/':'/';
 var MOBILE=window.matchMedia&&window.matchMedia('(max-width:820px)').matches;
 var URL_DATA=ROOT+'assets/data/relato-ogp-phase3.json';
@@ -94,29 +94,36 @@ function paintWordProgress(t){
  window.__ogpSyncDiagnostics.progressFrames++;
 }
 function clearWordTimer(){if(wordTimerId){clearTimeout(wordTimerId);wordTimerId=0;}}
+function findNextTimedWordIndex(t,ws){
+ var lo=0,hi=ws.length-1,ans=ws.length;
+ while(lo<=hi){
+   var m=(lo+hi)>>1,start=Number(ws[m].start);
+   if(start>t){ans=m;hi=m-1;}else lo=m+1;
+ }
+ return ans;
+}
 function scheduleNextWord(){
  clearWordTimer();
  if(!playing)return;
- var ws=current().words||[],next=widx+1;
- var rate=Number(audio.playbackRate)||1;
+ var ws=current().words||[],rate=Number(audio.playbackRate)||1;
  function arm(){
-   if(!playing||next>=ws.length)return;
+   if(!playing)return;
    var now=Number(audio.currentTime)||0;
+   var next=findNextTimedWordIndex(now,ws);
+   while(next<ws.length&&Number(ws[next].end)<=now)next++;
+   if(next>=ws.length)return;
    var target=Number(ws[next].start);
    var deltaMs=(target-now)*1000/rate;
    if(deltaMs<=0){
-     var before=widx;
      update();
-     if(widx===before){
-       wordTimerId=setTimeout(function(){wordTimerId=0;arm();},16);
-       return;
-     }
-     wordTimerId=0;
-     scheduleNextWord();
+     requestAnimationFrame(arm);
      return;
    }
-   var delay=deltaMs>28?Math.max(8,deltaMs-18):Math.max(1,Math.min(4,deltaMs/2));
-   wordTimerId=setTimeout(function(){wordTimerId=0;arm();},Math.min(delay,250));
+   if(deltaMs>28){
+     wordTimerId=setTimeout(function(){wordTimerId=0;arm();},Math.min(220,Math.max(6,deltaMs-14)));
+   }else{
+     requestAnimationFrame(arm);
+   }
  }
  arm();
 }
