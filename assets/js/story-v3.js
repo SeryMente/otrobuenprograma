@@ -68,6 +68,15 @@ if(widx<0){
     lastPaintedEl.classList.add('is-past');
     window.__ogpSyncDiagnostics.paintOps++;
   }
+  if(lastPaintedSegment!==cur){
+    card.querySelectorAll('.story-word').forEach(function(b){
+      b.classList.remove('is-current');
+      b.classList.remove('is-past');
+      b.setAttribute('data-sync-current-word','false');
+      window.__ogpSyncDiagnostics.paintOps++;
+    });
+    window.__ogpSyncDiagnostics.fullRepaints++;
+  }
   lastPaintedWord=widx;lastPaintedSegment=cur;lastPaintedEl=null;
   window.__ogpSyncDiagnostics.currentWord=widx;
   return;
