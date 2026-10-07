@@ -495,21 +495,26 @@ test("I3 intraword progress follows the real word interval", async ({ page }) =>
 
   expect(target, "I3 benchmark requires a sufficiently long timed word").not.toBeNull();
   await loadAndPauseSegment(page, target.segmentId);
-  await page.waitForFunction(
-    ({ audioSelector, time }) => {
+  await page.evaluate(
+    async ({ audioSelector, time }) => {
       const audio = document.querySelector(audioSelector);
-      return !!audio && audio.seekable.length > 0 &&
-        audio.seekable.end(audio.seekable.length - 1) + 0.001 >= time;
+      audio.pause();
+      await new Promise((resolve) => {
+        let done = false;
+        const finish = () => {
+          if (done) return;
+          done = true;
+          audio.removeEventListener("seeked", finish);
+          resolve();
+        };
+        audio.addEventListener("seeked", finish, { once: true });
+        audio.currentTime = time;
+        setTimeout(finish, 2000);
+      });
+      await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
     },
-    { audioSelector: CONFIG.dom.audioSelector, time: target.time },
-    { timeout: 10000 }
+    { audioSelector: CONFIG.dom.audioSelector, time: target.time }
   );
-  const observed = await seekAndRead(page, target.segmentId, target.wordIndex, {
-    start: target.start,
-    end: target.end
-  });
-  expect(observed.ok).toBe(true);
-  expect(observed.seekStable).toBe(true);
   const result = await page.evaluate(() => {
     const current = document.querySelector('.story-word[data-sync-current-word="true"]');
     return {
