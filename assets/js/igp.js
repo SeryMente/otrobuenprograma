@@ -7,7 +7,17 @@
       return clamp((value-rule.worst)/(rule.ideal-rule.worst),0,1);
     }
     if(rule.direction==="lower"){
-      return clamp((rule.worst-value)/(rule.worst-rule.ideal),0,1);
+      if(value<=rule.ideal) return 1;
+      var span=rule.worst-rule.ideal;
+      var hard=rule.hardLimit||rule.worst;
+      if(value<=rule.worst){
+        var ratio=clamp((value-rule.ideal)/span,0,1);
+        var floor=rule.floorQuality==null?0:rule.floorQuality;
+        var power=rule.curvePower||1;
+        return 1-(1-floor)*Math.pow(ratio,power);
+      }
+      if(hard<=rule.worst) return 0;
+      return clamp((rule.floorQuality==null?0:rule.floorQuality)*(hard-value)/(hard-rule.worst),0,1);
     }
     if(rule.direction==="zero"){
       return clamp(1-(Math.abs(value-rule.ideal)/(rule.softLimit || 1)),0,1);
@@ -28,25 +38,26 @@
     var eps=(config.index&&config.index.perfectEpsilon)||1e-6;
     var dims=config.dimensions||[];
     var totalWeight=dims.reduce(function(s,d){return s+d.weight;},0);
-    var logSum=0, perfect=true;
+    var logSum=0;
     var rows=dims.map(function(d){
       var value=Number(metrics[d.key]);
       var q=quality(value,d);
       var gate=gatePass(value,d.gate,eps);
-      if(!gate) perfect=false;
-      if(q===null||q<=0){ logSum=-Infinity; }
-      else if(Number.isFinite(logSum)){ logSum+=d.weight*Math.log(q); }
+      if(q===null||q<=0) logSum=-Infinity;
+      else if(Number.isFinite(logSum)) logSum+=d.weight*Math.log(q);
       return {code:d.code,name:d.name,value:value,quality:q,weight:d.weight,gatePass:gate,unit:d.unit};
     });
     var score=(logSum===-Infinity)?0:100*Math.exp(logSum/totalWeight);
     var deficit=100-score;
+    var gatesPassed=rows.filter(function(r){return r.gatePass;}).length;
+    var allGates=gatesPassed===rows.length;
+    var perfect=allGates&&deficit<=eps;
     var weakest=rows.slice().sort(function(a,b){return a.quality-b.quality;})[0]||null;
-    var perfectIndex=perfect && deficit<=eps;
     return {
       score:score,
       deficit:deficit,
-      status:perfectIndex?"PERFECTO":(perfect?"CERTIFICADO":"NO CERTIFICADO"),
-      gatesPassed:rows.filter(function(r){return r.gatePass;}).length,
+      status:perfect?"PERFECTO":(allGates?"CERTIFICADO":"NO CERTIFICADO"),
+      gatesPassed:gatesPassed,
       gatesTotal:rows.length,
       rows:rows,
       weakest:weakest
