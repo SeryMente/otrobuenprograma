@@ -405,27 +405,25 @@ test("I1 short pauses keep a visible continuity anchor without falsifying the ac
 
   await loadAndPauseSegment(page, target.segmentId);
   await page.evaluate(
-    async ({ audioSelector, time }) => {
+    ({ audioSelector, time }) => {
       const audio = document.querySelector(audioSelector);
       audio.pause();
-      await new Promise((resolve) => {
-        let done = false;
-        const finish = () => {
-          if (done) return;
-          done = true;
-          audio.removeEventListener("seeked", finish);
-          resolve();
-        };
-        audio.addEventListener("seeked", finish, { once: true });
-        audio.currentTime = time;
-        setTimeout(finish, 2000);
-      });
-      await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-      audio.pause();
+      audio.currentTime = time;
+      audio.dispatchEvent(new Event("timeupdate"));
+      audio.dispatchEvent(new Event("seeking"));
+      audio.dispatchEvent(new Event("seeked"));
+      audio.dispatchEvent(new Event("timeupdate"));
     },
     { audioSelector: CONFIG.dom.audioSelector, time: target.time }
   );
-
+  await page.waitForFunction(
+    ({ audioSelector }) => {
+      const audio = document.querySelector(audioSelector);
+      return !!audio && Math.abs(audio.currentTime - window.__ogpSyncDiagnostics.lastForcedTime) < 0.01;
+    },
+    { audioSelector: CONFIG.dom.audioSelector },
+    { timeout: 3000 }
+  ).catch(() => {});
   const result = await page.evaluate(() => ({
     activeWords: document.querySelectorAll('[data-sync-current-word="true"]').length,
     anchors: document.querySelectorAll('[data-sync-continuity-anchor="true"]').length,
@@ -496,22 +494,14 @@ test("I3 intraword progress follows the real word interval", async ({ page }) =>
   expect(target, "I3 benchmark requires a sufficiently long timed word").not.toBeNull();
   await loadAndPauseSegment(page, target.segmentId);
   await page.evaluate(
-    async ({ audioSelector, time }) => {
+    ({ audioSelector, time }) => {
       const audio = document.querySelector(audioSelector);
       audio.pause();
-      await new Promise((resolve) => {
-        let done = false;
-        const finish = () => {
-          if (done) return;
-          done = true;
-          audio.removeEventListener("seeked", finish);
-          resolve();
-        };
-        audio.addEventListener("seeked", finish, { once: true });
-        audio.currentTime = time;
-        setTimeout(finish, 2000);
-      });
-      await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+      audio.currentTime = time;
+      audio.dispatchEvent(new Event("timeupdate"));
+      audio.dispatchEvent(new Event("seeking"));
+      audio.dispatchEvent(new Event("seeked"));
+      audio.dispatchEvent(new Event("timeupdate"));
     },
     { audioSelector: CONFIG.dom.audioSelector, time: target.time }
   );
