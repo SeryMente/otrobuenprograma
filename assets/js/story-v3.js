@@ -178,7 +178,7 @@ update();rafId=requestAnimationFrame(visualClock);
 function startVisualClock(){if(!rafId)rafId=requestAnimationFrame(visualClock);}
 function stopVisualClock(){if(rafId){cancelAnimationFrame(rafId);rafId=0;}}
 
-if(play)play.addEventListener('click',function(){if(audio.paused)start('manual');else audio.pause();});
+if(play)play.addEventListener('click',function(){ensureProsody();if(audioContext&&audioContext.state==='suspended'){audioContext.resume().catch(function(){});}if(audio.paused)start('manual');else audio.pause();});
 if(prev)prev.addEventListener('click',function(){if(cur>0){manual=Date.now()+1200;load(cur-1,true,true);}});
 if(next)next.addEventListener('click',function(){if(cur<segs.length-1){manual=Date.now()+1200;load(cur+1,true,true);}});
 if(returnOverlay)returnOverlay.addEventListener('click',returnToNarration);
