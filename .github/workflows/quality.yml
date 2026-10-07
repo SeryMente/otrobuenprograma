@@ -21,7 +21,7 @@ jobs:
       - name: Archivos clave
         run: |
           set -euo pipefail
-          for f in index.html sw.js manifest.webmanifest assets/css/instrument.css assets/css/additions.css assets/css/themes.css assets/css/story.css assets/css/story-v3.css assets/js/config.js assets/js/timeline.js assets/js/navigator.js assets/js/mobile-shell.js assets/js/app.js assets/js/story-v3.js scripts/qa_mobile_v16.spec.js scripts/qa_story_sync.spec.js scripts/lib/sync-benchmark.js scripts/sync-benchmark.config.json scripts/benchmark_sync_timing.py; do test -f "$f"; done
+          for f in index.html sw.js manifest.webmanifest assets/css/instrument.css assets/css/additions.css assets/css/themes.css assets/css/story.css assets/css/story-v3.css assets/js/config.js assets/js/timeline.js assets/js/navigator.js assets/js/mobile-shell.js assets/js/app.js assets/js/story-v3.js scripts/qa_mobile_v16.spec.js scripts/qa_story_sync.spec.js scripts/qa_sync_benchmark_contract.spec.js scripts/lib/sync-benchmark.js scripts/sync-benchmark.config.json scripts/benchmark_sync_timing.py; do test -f "$f"; done
       - name: Content-safe and visual smoke contract
         run: |
           python3 - <<'PY'
