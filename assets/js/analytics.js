@@ -1,5 +1,5 @@
 /* OGP Analytics — privacy-first first-party telemetry.
- * Opt-in by default. No raw IP, MAC, or hardware fingerprint collection.
+ * Tacit-consent by default where legally applicable. No raw IP, MAC, or hardware fingerprint collection.
  */
 (function () {
   "use strict";
@@ -8,6 +8,7 @@
     enabled: false,
     endpoint: "",
     consentKey: "ogp.analytics.consent.v1",
+    implicitConsent: true,
     visitorKey: "ogp.analytics.visitor_id.v1",
     sessionKey: "ogp.analytics.session_id.v1",
     sessionMaxAgeMs: 30 * 60 * 1000,
@@ -73,6 +74,7 @@
     const consent = {
       analytics: value.analytics === true,
       marketing: value.marketing === true,
+      source: typeof value.source === "string" ? value.source : "explicit",
       updatedAt: new Date().toISOString()
     };
 
@@ -316,33 +318,17 @@
     } catch (_) {}
   }
 
-  function renderConsentBanner() {
-    if (getConsent() !== null || document.getElementById("ogp-analytics-consent")) return;
-
-    const banner = document.createElement("aside");
-    banner.id = "ogp-analytics-consent";
-    banner.setAttribute("role", "dialog");
-    banner.setAttribute("aria-label", "Preferencias de privacidad");
-    banner.innerHTML =
-      '<div style="position:fixed;left:16px;right:16px;bottom:16px;z-index:2147483647;max-width:760px;margin:auto;padding:16px;background:#fff;border:1px solid #777;box-shadow:0 8px 30px rgba(0,0,0,.18);font:14px/1.45 system-ui,sans-serif;color:#111">' +
-      '<strong>Privacidad y analítica</strong>' +
-      '<p style="margin:.5em 0">Podemos usar analítica estadística para entender las visitas y mejorar OGP. Es opcional y no incluye direcciones MAC ni una huella de hardware. Puedes rechazarla.</p>' +
-      '<div style="display:flex;gap:8px;flex-wrap:wrap">' +
-      '<button type="button" data-ogp-consent="reject">Rechazar</button>' +
-      '<button type="button" data-ogp-consent="accept">Aceptar analítica</button>' +
-      '</div></div>';
-
-    banner.addEventListener("click", function (event) {
-      const choice = event.target.getAttribute("data-ogp-consent");
-      if (!choice) return;
-      setConsent({
-        analytics: choice === "accept",
-        marketing: false
-      });
-      banner.remove();
+  function bindPrivacyControls() {
+    if (state.privacyBound) return;
+    state.privacyBound = true;
+    document.addEventListener("click", function (event) {
+      const target = event.target.closest("[data-ogp-privacy-optout]");
+      if (!target) return;
+      event.preventDefault();
+      setConsent({ analytics: false, marketing: false, source: "opposition" });
+      target.textContent = "Medición desactivada";
+      emit("privacy_opposition", { source: "site_control" });
     });
-
-    document.body.appendChild(banner);
   }
 
   function init() {
@@ -350,15 +336,19 @@
     state.initialized = true;
     state.consent = getConsent();
 
+    bindPrivacyControls();
+
+    if (state.consent === null && config.enabled && config.implicitConsent) {
+      setConsent({ analytics: true, marketing: false, source: "tacit" });
+      return;
+    }
+
     if (state.consent?.analytics) {
       ensureIdentity();
       bindCtas();
       track("page_view");
       startEngagementTracking();
       drainQueue();
-    } else if (state.consent === null && config.enabled) {
-      renderConsentBanner();
-      bindCtas();
     }
   }
 
@@ -368,7 +358,7 @@
     getConsent: function () { return state.consent; },
     setConsent: setConsent,
     reset: function () {
-      setConsent({ analytics: false, marketing: false });
+      setConsent({ analytics: false, marketing: false, source: "opposition" });
       remove(config.consentKey);
     }
   };
