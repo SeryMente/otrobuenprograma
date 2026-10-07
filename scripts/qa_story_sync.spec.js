@@ -4,6 +4,7 @@ const path = require("path");
 
 const URL = "http://127.0.0.1:4173/";
 const timingPath = path.join(process.cwd(), "assets", "data", "story-word-timing.json");
+const phase3Path = path.join(process.cwd(), "assets", "data", "relato-obp-phase3.json");
 
 test("F4 transport is embedded in the right roadmap", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
@@ -76,7 +77,21 @@ async function seekAndRead(page, targetTime, expectedSegment) {
       };
     }
 
+    let seekEvent = false;
+    const seekPromise = new Promise((resolve) => {
+      const onSeeked = () => {
+        seekEvent = true;
+        a.removeEventListener("seeked", onSeeked);
+        resolve();
+      };
+      a.addEventListener("seeked", onSeeked, { once: true });
+      setTimeout(() => {
+        a.removeEventListener("seeked", onSeeked);
+        resolve();
+      }, 1500);
+    });
     a.currentTime = targetTime;
+    await seekPromise;
     const deadline = performance.now() + 1500;
     let stableFrames = 0;
     while (performance.now() < deadline) {
@@ -100,6 +115,7 @@ async function seekAndRead(page, targetTime, expectedSegment) {
       currentTime: Number.isFinite(current) ? Number(current.toFixed(3)) : null,
       timeErrorMs: Number.isFinite(current) ? Number(Math.abs(current - targetTime).toFixed(3)) * 1000 : null,
       paused: a.paused,
+      seekEvent,
       seekStable: Number.isFinite(current) && Math.abs(current - targetTime) <= 0.08
     };
   }, { targetTime, expectedSegment });
@@ -112,6 +128,8 @@ test("F4 deterministic sampled word mapping benchmark", async ({ page }) => {
   await page.locator("#relato-sonoro").scrollIntoViewIfNeeded();
 
   const timing = JSON.parse(fs.readFileSync(timingPath, "utf8"));
+  const phase3 = JSON.parse(fs.readFileSync(phase3Path, "utf8"));
+  const audioById = Object.fromEntries(phase3.segments.map((s) => [String(s.id), s.audio]));
   const samples = [];
 
   for (const seg of timing.segments) {
@@ -127,6 +145,28 @@ test("F4 deterministic sampled word mapping benchmark", async ({ page }) => {
 
     await loadAndPauseSegment(page, String(seg.id));
 
+    await page.evaluate(async (src) => {
+      const a = document.querySelector(".story-audio");
+      const response = await fetch(src, { cache: "no-store" });
+      if (!response.ok) throw new Error("No se pudo cargar el audio de prueba.");
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      a.pause();
+      a.src = url;
+      a.load();
+      await new Promise((resolve, reject) => {
+        const ok = () => { cleanup(); resolve(); };
+        const fail = () => { cleanup(); reject(new Error("No se pudo decodificar el audio de prueba.")); };
+        const cleanup = () => {
+          a.removeEventListener("loadedmetadata", ok);
+          a.removeEventListener("error", fail);
+        };
+        a.addEventListener("loadedmetadata", ok, { once: true });
+        a.addEventListener("error", fail, { once: true });
+      });
+      await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    }, audioById[String(seg.id)]);
+
     for (const index of indices) {
       const word = words[index];
       const targetTime = (Number(word.start) + Number(word.end)) / 2;
@@ -138,7 +178,8 @@ test("F4 deterministic sampled word mapping benchmark", async ({ page }) => {
         observedSegment: observed.observedSegment,
         currentTime: observed.currentTime,
         timeErrorMs: observed.timeErrorMs,
-        seekStable: observed.seekStable === true
+        seekStable: observed.seekStable === true,
+        seekEvent: observed.seekEvent === true
       });
     }
   }
@@ -150,6 +191,7 @@ test("F4 deterministic sampled word mapping benchmark", async ({ page }) => {
   const report = {
     benchmark: "F4 deterministic seek benchmark",
     metric: "runtime_word_mapping",
+    mediaMode: "same-origin segment fetched as Blob URL to isolate sync engine from HTTP range/streaming behavior",
     samples: samples.length,
     correct: correct.length,
     missed: missed.length,
@@ -158,6 +200,7 @@ test("F4 deterministic sampled word mapping benchmark", async ({ page }) => {
     M10_wrong_word_rate_pct: Number((wrong.length / samples.length * 100).toFixed(4)),
     M11_missed_word_rate_pct: Number((missed.length / samples.length * 100).toFixed(4)),
     M13_seek_stability_pct: Number(((samples.length - unstableSeeks.length) / samples.length * 100).toFixed(4)),
+    seekEventRatePct: Number((samples.filter((s) => s.seekEvent).length / samples.length * 100).toFixed(4)),
     wrongExamples: wrong.slice(0, 20),
     missedExamples: missed.slice(0, 20),
     probeTimeErrorMsP95: Number(percentile(samples.map((s) => Number(s.timeErrorMs) || 0), 0.95).toFixed(3)),
