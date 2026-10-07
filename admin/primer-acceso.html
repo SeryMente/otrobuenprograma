@@ -38,6 +38,7 @@
         </label>
 
         <button class="primary" type="submit" id="submit">Registrar contraseña</button>
+        <button class="ghost" type="button" id="resend">Reenviar correo de confirmación</button>
         <p id="message" class="message" role="alert"></p>
       </form>
 
@@ -57,6 +58,7 @@
       "use strict";
 
       const email = "the.willfreeman@gmail.com";
+      const publicRedirect = "https://serymente.github.io/otrogranprograma/admin/";
       const cfg = window.OGP_BACKEND_CONFIG;
       const client = window.supabase.createClient(cfg.supabaseUrl, cfg.supabasePublishableKey);
 
@@ -67,6 +69,7 @@
       const strength = document.getElementById("strength");
       const message = document.getElementById("message");
       const submit = document.getElementById("submit");
+      const resend = document.getElementById("resend");
 
       function score(value) {
         let n = 0;
@@ -85,6 +88,23 @@
           n >= 4 ? "Fortaleza alta." :
           n >= 3 ? "Fortaleza adecuada; una frase más larga mejora la resistencia." :
           "Usa al menos 12 caracteres y evita reutilizar contraseñas.";
+      });
+
+
+      resend.addEventListener("click", async function () {
+        message.textContent = "";
+        message.className = "message";
+        resend.disabled = true;
+        const { error } = await client.auth.resend({
+          type: "signup",
+          email: email,
+          options: { emailRedirectTo: publicRedirect }
+        });
+        message.textContent = error
+          ? "No se pudo reenviar el correo: " + error.message
+          : "Correo de confirmación reenviado. Usa el enlace más reciente.";
+        message.classList.add(error ? "error" : "ok");
+        resend.disabled = false;
       });
 
       form.addEventListener("submit", async function (event) {
@@ -110,7 +130,7 @@
           email: email,
           password: password.value,
           options: {
-            emailRedirectTo: window.location.origin + "/otrogranprograma/admin/"
+            emailRedirectTo: publicRedirect
           }
         });
 
