@@ -59,7 +59,7 @@
     requireAdmin();
     const r=await client.from("analytics_events").select("occurred_at,event_name,path,device_class,visitor_id").order("occurred_at",{ascending:false}).limit(80);
     if(r.error)throw r.error;
-    document.getElementById("events-body").innerHTML=(r.data||[]).map(e=>'<tr><td>'+esc(new Date(e.occurred_at).toLocaleString("es-MX"))+',</td><td>'+esc(e.event_name)+'</td><td>'+esc(e.path)+'</td><td>'+esc(e.device_class||"—")+'</td><td><code>'+esc((e.visitor_id||"").slice(0,12))+'</code></td></tr>').join("").replace("</td>,","</td>");
+    document.getElementById("events-body").innerHTML=(r.data||[]).map(e=>'<tr><td>'+esc(new Date(e.occurred_at).toLocaleString("es-MX"))+'</td><td>'+esc(e.event_name)+'</td><td>'+esc(e.path)+'</td><td>'+esc(e.device_class||"—")+'</td><td><code>'+esc((e.visitor_id||"").slice(0,12))+'</code></td></tr>').join("");
   }
 
   async function loadTraffic(){
@@ -91,7 +91,7 @@
   }
 
   async function boot(){
-    if(!ready){setStatus("Backend no configurado: completa assets/js/backend-config.js con la URL y publishable key de Supabase.","error");return;}
+    if(!ready){setStatus("Backend no configurado.","error");msg.textContent="Configura assets/js/backend-config.js con la URL y publishable key públicas de Supabase.";return;}
     client=window.supabase.createClient(cfg.supabaseUrl,cfg.supabasePublishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
     client.auth.onAuthStateChange(async(_event,session)=>{if(!session?.user){showAuth();return;}try{await authenticate(session.user);}catch(e){console.error(e);showAuth();msg.textContent="No se pudo verificar el acceso administrativo.";}});
     const r=await client.auth.getSession(); if(r.data.session?.user){try{await authenticate(r.data.session.user);}catch(e){console.error(e);showAuth();}}
