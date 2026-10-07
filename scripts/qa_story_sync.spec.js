@@ -377,3 +377,54 @@ test("generic sync benchmark — runtime clock at configured rate", async ({ pag
   expect(result.M9_visual_latency_ms_p95).toBeLessThanOrEqual(50);
   expect(result.M12_word_transition_monotonicity_pct).toBe(100);
 });
+
+
+test("I1 short pauses keep a visible continuity anchor without falsifying the active word", async ({ page }) => {
+  test.setTimeout(30000);
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto(URL, { waitUntil: "domcontentloaded" });
+  await page.waitForSelector(".story-word");
+
+  const target = await page.evaluate(async (timingPath) => {
+    const timing = await fetch(timingPath, { cache: "no-store" }).then((r) => r.json());
+    const segments = timing.segments || timing;
+    for (const segment of segments) {
+      for (let i = 0; i < segment.words.length - 1; i += 1) {
+        const a = segment.words[i];
+        const b = segment.words[i + 1];
+        const gapMs = (Number(b.start) - Number(a.end)) * 1000;
+        if (gapMs >= 80 && gapMs <= 240) {
+          return { segmentId: String(segment.id), wordIndex: i, time: Number(a.end) + Math.min(gapMs / 1000 / 2, 0.09) };
+        }
+      }
+    }
+    return null;
+  }, CONFIG.timing.path);
+
+  expect(target, "I1 benchmark requires at least one short inter-word pause").not.toBeNull();
+
+  await loadAndPauseSegment(page, target.segmentId);
+  await page.evaluate(
+    ({ audioSelector, time }) => {
+      const audio = document.querySelector(audioSelector);
+      audio.currentTime = time;
+      audio.pause();
+    },
+    { audioSelector: CONFIG.dom.audioSelector, time: target.time }
+  );
+  await page.waitForTimeout(100);
+
+  const result = await page.evaluate(() => ({
+    activeWords: document.querySelectorAll('[data-sync-current-word="true"]').length,
+    anchors: document.querySelectorAll('[data-sync-continuity-anchor="true"]').length,
+    anchorClass: document.querySelectorAll(".story-word.is-continuity-anchor").length,
+    echoClass: document.querySelectorAll(".story-word.is-echo").length,
+    maxGapMs: Number(window.__ogpSyncDiagnostics.maxContinuityGapMs || 0)
+  }));
+
+  expect(result.activeWords).toBe(0);
+  expect(result.anchors).toBe(1);
+  expect(result.anchorClass).toBe(1);
+  expect(result.echoClass).toBeGreaterThanOrEqual(0);
+  expect(result.maxGapMs).toBeLessThanOrEqual(240);
+});
