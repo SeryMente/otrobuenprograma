@@ -1,3 +1,22 @@
+## [v1.7.0] - 2026-10-07 - F4: sincronización narrativa y transporte integrado
+
+### Cambiado
+- Recompuesta la entrada como Autor → Otro Gran Programa → subtítulo dentro de una sola jerarquía.
+- Retirado el reproductor horizontal independiente de la experiencia.
+- Integrados anterior, reproducción/pausa, siguiente y progreso en el roadmap lateral derecho.
+- Sustituido el reloj visual dependiente principalmente de `timeupdate` por un ciclo `requestAnimationFrame` gobernado por `audio.currentTime`.
+- Añadidos diagnósticos de transiciones de palabra para medir la latencia efectiva del highlight.
+- Fortalecido el pipeline de forced alignment con WhisperX y validación de intervalos.
+- Añadido benchmark reproducible de timing y auditoría browser de sincronización.
+- GitHub Actions endurecido para CPU, Python 3.11, caché de modelos y evidencia de alineamiento.
+
+### Corrección derivada del feedback
+- Registrado el delta de F3: subtítulo fuera de composición esperada y reproductor todavía separado del roadmap.
+- Convertida la retroalimentación post-sprint en entrada obligatoria del siguiente sprint.
+
+### Estado
+- v1.7.0 se considera candidato a certificación solamente después de que GitHub Actions genere y valide el timing forced-aligned y los gates browser estén verdes.
+
 ## [v1.6.2] - 2026-10-06 - Reparación de regresión de contenido y narrativa móvil
 
 ### Corregido
