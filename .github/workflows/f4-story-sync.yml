@@ -1,0 +1,64 @@
+name: F4 Story Sync S1
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - assets/data/relato-obp-phase2.json
+      - assets/audio/relato-obp-v016/**
+      - scripts/build_story_timing.py
+      - scripts/qa_phase3.py
+      - scripts/benchmark_story_timing.py
+      - .github/workflows/f4-story-sync.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  align:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - name: Install ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - name: Install CPU PyTorch
+        run: python -m pip install --index-url https://download.pytorch.org/whl/cpu torch torchaudio
+      - name: Install WhisperX
+        run: python -m pip install whisperx==3.8.6
+      - name: Generate forced alignment
+        run: |
+          mkdir -p artifacts
+          python scripts/build_story_timing.py 2>&1 | tee artifacts/alignment.log
+      - name: Benchmark
+        run: |
+          python scripts/benchmark_story_timing.py --timing assets/data/story-word-timing.json --output artifacts/benchmark.json --require-certified
+      - name: Phase 3 gate
+        run: python scripts/qa_phase3.py
+      - name: Upload evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ogp-v170-s1-sync-evidence
+          path: artifacts/
+          if-no-files-found: warn
+      - name: Promote certified timing
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/data/story-word-timing.json assets/data/relato-obp-phase3.json
+          if git diff --cached --quiet; then
+            echo 'No timing changes to promote.'
+            exit 0
+          fi
+          git commit -m 'feat(v1.7.0): promote S1 forced alignment timing'
+          git push origin main
