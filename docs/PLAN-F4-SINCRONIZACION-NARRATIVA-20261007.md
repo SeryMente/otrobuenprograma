@@ -649,3 +649,35 @@ Reglas adicionales:
 **Corrección de promoción:** el siguiente run preservará ambos JSON como artefactos antes de cualquier push y hará rebase contra origin/main antes de promover, evitando repetir el fallo de concurrencia.
 
 **URL pública de referencia actual:** https://serymente.github.io/otrobuenprograma/
+## 20. Checkpoint público S1 · forced alignment certificado
+
+**Commit:** https://github.com/SeryMente/otrobuenprograma/commit/194ff69068f1a5e0e376e8af2c1f4c0f1b28666a
+**URL pública:** https://serymente.github.io/otrobuenprograma/
+**Estado:** PUBLICADO
+
+S1 reemplazó el timing proporcional por alineamiento WhisperX CTC contra el audio físico y el transcript canónico. El artefacto `assets/data/story-word-timing.json` contiene 2,206 palabras y quedó marcado `forced-alignment-certified` con `proportionalTiming: false`.
+
+### Evidencia S1
+- M1 cobertura: 100.0%.
+- M2 integridad textual: 100.0%.
+- M3 monotonía: 100.0%.
+- M4 intervalos válidos: 100.0%.
+- M8 alignment score P10: 0.6005; cobertura 100.0%.
+- M5/M6 muestran una separación sustantiva respecto al reloj proporcional: P50 4,192.622 ms y P95 14,938.081 ms en fronteras comparativas.
+
+### Límite declarado
+S1 es una mejora significativa y publicada, pero no equivale todavía a perfección perceptual. El siguiente objetivo es medir M9–M12 en runtime y localizar cualquier palabra que el navegador pinte tarde, temprano, incorrectamente o no pinte.
+
+## 21. S2 · calibración del reloj visual
+
+S2 no cambiará todavía los timestamps offline. Su primera misión es auditar el runtime que consume el timing S1.
+
+Objetivo inicial y estricto: demostrar que el highlight llega a la frontera temporal de cada palabra con baja latencia y sin seleccionar la palabra equivocada.
+
+### Gates S2
+- M9 P95 de latencia visual <= 50 ms como objetivo de certificación.
+- M10 wrong-word rate = 0% en gold set.
+- M11 missed-word rate = 0% en gold set.
+- M12 monotonicidad de transición = 100%.
+
+Solo después de superar estos gates se podrá declarar una mejora de runtime y publicar el siguiente checkpoint.
