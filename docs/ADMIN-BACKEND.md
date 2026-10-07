@@ -43,23 +43,23 @@ No poner allí secret keys, service-role keys, contraseñas de base de datos ni 
 
 ## Crear el primer administrador
 
-1. Crear el proyecto Supabase.
-2. Ejecutar la migración `supabase/migrations/20261007153000_backend_foundation.sql`.
-3. Crear el primer usuario en Authentication > Users.
-4. Desde una sesión administrativa de SQL Editor ejecutar:
+1. Crear el usuario inicial en **Authentication > Users** de Supabase.
+2. Ejecutar las migraciones del repositorio en orden.
+3. Desde una sesión administrativa de SQL Editor ejecutar el bootstrap interno:
 
 ```sql
-select public.bootstrap_admin_by_email('CORREO-DEL-ADMIN');
+select private.bootstrap_admin_by_email('CORREO-DEL-ADMIN');
 ```
 
-La función de bootstrap no está disponible para los roles `anon` ni `authenticated`.
+El bootstrap vive en el esquema privado y no se expone por PostgREST a clientes web.
 
-El inicio de sesión de la consola utiliza `signInWithPassword` de Supabase Auth.
+La consola utiliza `signInWithPassword` de Supabase Auth y valida el rol mediante `app_profiles` + RLS.
 
 ## Seguridad
 
 - RLS en todas las tablas expuestas.
-- `is_admin()` como función `security definer` con `search_path` fijado.
+- El guard de administración (`private.is_admin()`) permanece fuera del esquema API expuesto.
+- Las consultas agregadas públicas del dashboard son `SECURITY INVOKER` y quedan sujetas a RLS.
 - El navegador nunca recibe secretos.
 - Los eventos analíticos no contienen MAC, IP cruda ni fingerprint de hardware.
 - El dashboard usa funciones agregadas para el resumen.
@@ -69,7 +69,7 @@ El inicio de sesión de la consola utiliza `signInWithPassword` de Supabase Auth
 
 Se creó `github_traffic_daily` para conservar snapshots diarios de tráfico.
 
-La siguiente fase añadirá un collector server-side que consulte la API de Traffic del repositorio `SeryMente/otrogranprograma`. Esto evitará depender exclusivamente de la ventana histórica limitada de GitHub.
+El collector server-side ya está desplegado que consulte la API de Traffic del repositorio `SeryMente/otrogranprograma`. Esto evitará depender exclusivamente de la ventana histórica limitada de GitHub.
 
 ## Migración a .com
 
