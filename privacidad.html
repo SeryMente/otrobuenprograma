@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="Aviso de privacidad de Otro Gran Programa.">
+  <title>Aviso de privacidad · Otro Gran Programa</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;max-width:860px;margin:0 auto;padding:32px 20px;line-height:1.65;color:#172033}
+    h1,h2{line-height:1.2} h1{font-size:2rem} h2{font-size:1.2rem;margin-top:2rem}
+    .notice{padding:16px;border:1px solid #a9b6d2;background:#f6f8fc;border-radius:8px}
+    a{color:#1a3a8f} code{overflow-wrap:anywhere}
+    .small{font-size:.9rem;color:#526078}
+    button{font:inherit;cursor:pointer;padding:.5rem .75rem}
+  </style>
+</head>
+<body>
+  <main>
+    <p class="small"><a href="./">← Volver a Otro Gran Programa</a></p>
+    <h1>Aviso de privacidad</h1>
+    <p class="small">Última actualización: 7 de octubre de 2026.</p>
+
+    <div class="notice">
+      <strong>Modalidad simplificada.</strong>
+      Al utilizar este sitio, se pone a tu disposición este aviso de privacidad antes del tratamiento de los datos de navegación. La medición estadística propia se realiza por consentimiento tácito: si no manifiestas oposición, se entiende otorgado el consentimiento. Puedes oponerte en cualquier momento mediante el control «No deseo medición» del sitio.
+    </div>
+
+    <h2>1. Responsable</h2>
+    <p><strong>Responsable:</strong> Victor Hugo Torres Mendez.</p>
+    <p><strong>Domicilio:</strong> Querétaro, Querétaro, México.</p>
+    <p><strong>Contacto:</strong> <a href="mailto:the.willfreeman@gmail.com">the.willfreeman@gmail.com</a>.</p>
+
+    <h2>2. Datos que se tratan</h2>
+    <p>Para medición estadística del sitio pueden tratarse: ruta visitada, fecha y hora, página de referencia, parámetros UTM, identificador aleatorio de visitante de primera parte, identificador efímero de sesión, categoría general de dispositivo, familia de navegador, sistema operativo, clase de viewport, idioma y zona horaria declarados por el navegador, así como métricas de interacción como profundidad de desplazamiento, tiempo activo y clics instrumentados.</p>
+    <p>No se recopilan ni almacenan como identificadores analíticos: dirección MAC, dirección IP cruda, huella exhaustiva de hardware/software, lista de fuentes o plugins instalados, ni identificadores publicitarios de terceros.</p>
+    <p>No se solicitan datos personales sensibles para esta finalidad.</p>
+
+    <h2>3. Finalidades</h2>
+    <p>La finalidad es medir el uso del sitio, conocer qué contenidos y canales generan interés, detectar problemas de funcionamiento, mejorar la experiencia y evaluar conversiones y campañas.</p>
+    <p>No se utiliza esta medición para publicidad comportamental propia ni para vender perfiles de visitantes.</p>
+
+    <h2>4. Base de consentimiento y oposición</h2>
+    <p>La medición estadística propia se instrumenta bajo consentimiento tácito cuando éste sea jurídicamente aplicable. La oposición puede ejercerse en cualquier momento mediante el control «No deseo medición» disponible en el sitio; desde ese momento no se generan nuevos identificadores de visitante o sesión para esta finalidad y no se envían nuevos eventos propios.</p>
+    <p>La oposición no produce efectos retroactivos sobre tratamientos realizados antes de manifestarla.</p>
+
+    <h2>5. Encargados y transferencias</h2>
+    <p>Los eventos propios se reciben en infraestructura de Supabase para almacenamiento y procesamiento técnico. Cuando se configure una integración de terceros que requiera una base jurídica distinta, se activará conforme a sus propios términos y a la configuración de privacidad aplicable. La integración con Google Analytics 4 permanece separada de la analítica first-party de este aviso.</p>
+
+    <h2>6. Conservación y seguridad</h2>
+    <p>Los eventos crudos se conservarán sólo durante el periodo necesario para las finalidades informadas y podrán eliminarse o anonimizarse posteriormente. Se aplican controles de acceso, RLS, validación de esquema y medidas técnicas para evitar el almacenamiento de IP cruda o huellas de dispositivo como identificadores persistentes.</p>
+
+    <h2>7. Derechos ARCO</h2>
+    <p>Puedes ejercer los derechos de acceso, rectificación, cancelación u oposición, así como solicitar información sobre el tratamiento, mediante <a href="mailto:the.willfreeman@gmail.com">the.willfreeman@gmail.com</a>. La solicitud deberá identificar al titular y permitir localizar la información correspondiente.</p>
+
+    <h2>8. Cambios al aviso</h2>
+    <p>Los cambios a este aviso se publicarán en esta misma página con su fecha de actualización. Cuando un cambio implique una finalidad incompatible o un tratamiento que requiera un nuevo consentimiento, se implementará el mecanismo correspondiente antes de realizar dicho tratamiento.</p>
+
+    <h2>9. Oposición inmediata a la medición</h2>
+    <p><button type="button" id="optout">No deseo medición en este dispositivo</button></p>
+    <p id="optout-status" class="small"></p>
+  </main>
+  <script>
+    (function(){
+      const key="ogp.analytics.consent.v1";
+      const btn=document.getElementById("optout");
+      const status=document.getElementById("optout-status");
+      function optout(){
+        try{
+          localStorage.setItem(key,JSON.stringify({analytics:false,marketing:false,source:"opposition",updatedAt:new Date().toISOString()}));
+          localStorage.removeItem("ogp.analytics.visitor_id.v1");
+          localStorage.removeItem("ogp.analytics.session_id.v1");
+          status.textContent="La oposición quedó registrada en este dispositivo.";
+        }catch(e){status.textContent="No fue posible guardar la oposición en este navegador.";}
+      }
+      btn.addEventListener("click",optout);
+    })();
+  </script>
+</body>
+</html>
