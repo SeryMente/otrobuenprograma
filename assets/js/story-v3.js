@@ -154,7 +154,7 @@ if(nextIndex>=0&&changed&&follow&&playing){
  var n=Date.now();
  if(n>manual&&n>suppressFollowUntil&&n-lastScroll>900){
    var el=cards[cur].querySelector('[data-word="'+nextIndex+'"]');
-   if(el){lastScroll=n;el.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'center');}
+   if(el){lastScroll=n;el.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'center'});}
  }
 }
 }
