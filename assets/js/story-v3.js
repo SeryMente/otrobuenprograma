@@ -105,8 +105,13 @@ function scheduleNextWord(){
    var target=Number(ws[next].start);
    var deltaMs=(target-now)*1000/rate;
    if(deltaMs<=0){
-     wordTimerId=0;
+     var before=widx;
      update();
+     if(widx===before){
+       wordTimerId=setTimeout(function(){wordTimerId=0;arm();},16);
+       return;
+     }
+     wordTimerId=0;
      scheduleNextWord();
      return;
    }
