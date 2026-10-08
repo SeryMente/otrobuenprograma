@@ -620,3 +620,405 @@ html.mobile-nav-open .story-return-overlay{pointer-events:none;opacity:0}
     font-size:.54rem;
   }
 }
+
+
+/* ===== v1.21.0 · composición editorial de identidad =====
+/* La identidad deja de parecer una tarjeta: se convierte en una firma editorial
+   con retrato dominante, jerarquía tipográfica y un fundido perimetral profundo. */
+
+.ogp-hero{
+  display:grid;
+  grid-template-columns:minmax(500px,1.03fr) minmax(360px,.97fr);
+  align-items:center;
+  width:min(1120px,calc(100% - 56px));
+  min-height:100svh;
+  gap:clamp(56px,7vw,96px);
+  padding:clamp(88px,10vw,132px) 0 64px;
+  text-align:left;
+}
+
+.ogp-author-card{
+  order:1;
+  width:100%;
+  max-width:none;
+  display:grid;
+  grid-template-columns:minmax(250px,300px) minmax(0,1fr);
+  gap:clamp(28px,4vw,48px);
+  align-items:center;
+  margin:0;
+  padding:0;
+  text-align:left;
+}
+
+.ogp-author-portrait{
+  position:relative;
+  width:100%;
+  height:auto;
+  aspect-ratio:4/5;
+  margin:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  overflow:visible;
+  box-shadow:none;
+  -webkit-mask-image:none;
+  mask-image:none;
+}
+
+.ogp-author-portrait::before{
+  content:"";
+  position:absolute;
+  inset:-18px;
+  z-index:-1;
+  background:
+    radial-gradient(circle at 50% 50%,rgba(36,73,157,.18),transparent 58%),
+    radial-gradient(circle at 52% 46%,rgba(255,255,255,.96),transparent 74%);
+  filter:blur(18px);
+  opacity:.85;
+}
+
+.ogp-author-portrait::after{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse 77% 81% at 50% 48%,
+      rgba(255,255,255,0) 48%,
+      rgba(255,255,255,.04) 60%,
+      rgba(255,255,255,.24) 69%,
+      rgba(255,255,255,.76) 79%,
+      rgba(255,255,255,1) 91%);
+  mix-blend-mode:screen;
+}
+
+.ogp-author-portrait img{
+  position:relative;
+  z-index:1;
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  object-position:56% 43%;
+  filter:saturate(.98) contrast(1.01);
+  -webkit-mask-image:radial-gradient(
+    ellipse 78% 82% at 50% 48%,
+    #000 50%,
+    rgba(0,0,0,.98) 61%,
+    rgba(0,0,0,.72) 71%,
+    rgba(0,0,0,.26) 82%,
+    transparent 96%);
+  mask-image:radial-gradient(
+    ellipse 78% 82% at 50% 48%,
+    #000 50%,
+    rgba(0,0,0,.98) 61%,
+    rgba(0,0,0,.72) 71%,
+    rgba(0,0,0,.26) 82%,
+    transparent 96%);
+}
+
+.ogp-author-body{
+  width:100%;
+  max-width:620px;
+  min-width:0;
+  padding-top:4px;
+  text-align:left;
+}
+
+.ogp-author-body h2{
+  margin:0;
+  color:#17243b;
+  font:500 clamp(2.35rem,4.3vw,4rem)/.92 Newsreader,Georgia,serif;
+  letter-spacing:-.045em;
+  text-wrap:balance;
+}
+
+.ogp-author-lema{
+  position:relative;
+  width:auto;
+  max-width:34rem;
+  margin:17px 0 24px;
+  padding:0 0 16px;
+  border:0;
+  color:#24499d;
+  font:italic 500 clamp(1.08rem,1.8vw,1.34rem)/1.35 Newsreader,Georgia,serif;
+  text-wrap:balance;
+}
+
+.ogp-author-lema::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:62px;
+  height:2px;
+  background:#efb45f;
+}
+
+.ogp-author-facts{
+  width:100%;
+  max-width:620px;
+  margin:0 0 18px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0 22px;
+}
+
+.ogp-author-facts span{
+  position:relative;
+  display:block;
+  padding:10px 0 10px 14px;
+  border-top:1px solid rgba(36,73,157,.14);
+  color:#5a6982;
+  font:600 .71rem/1.42 Inter,system-ui,sans-serif;
+  text-align:left;
+  overflow-wrap:anywhere;
+}
+
+.ogp-author-facts span::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:14px;
+  width:3px;
+  height:3px;
+  border-radius:50%;
+  background:#efb45f;
+}
+
+.ogp-author-facts span:last-child{
+  grid-column:1/-1;
+}
+
+.ogp-author-contacts{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:flex-start;
+  gap:3px 14px;
+  color:#76849a;
+  font:600 .59rem/1.35 'JetBrains Mono',monospace;
+}
+
+.ogp-author-contacts a{
+  color:#52627b;
+  text-decoration:none;
+  border-bottom:1px solid rgba(82,98,123,.24);
+}
+
+.ogp-hero-copy{
+  order:2;
+  width:100%;
+  max-width:540px;
+  text-align:left;
+}
+
+.ogp-hero h1{
+  margin:0 0 20px;
+  font-size:clamp(4rem,7vw,6.8rem);
+  line-height:.86;
+  letter-spacing:-.06em;
+  white-space:normal;
+  text-wrap:balance;
+}
+
+.ogp-hero-dek{
+  max-width:34rem;
+  margin:0;
+  color:#586781;
+  font-size:clamp(1rem,1.55vw,1.2rem);
+  line-height:1.62;
+}
+
+/* La firma no compite con el título del proyecto: ambos tienen zonas propias. */
+.ogp-hero-copy::before{
+  content:"IDENTIDAD · AUTOR";
+  display:block;
+  margin-bottom:15px;
+  color:#8190a5;
+  font:800 .59rem/1 'JetBrains Mono',monospace;
+  letter-spacing:.15em;
+}
+
+.ogp-author-card::after{
+  content:"";
+  position:absolute;
+  pointer-events:none;
+}
+
+@media(max-width:900px){
+  .ogp-hero{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    width:min(100% - 28px,760px);
+    min-height:auto;
+    gap:28px;
+    padding:32px 0 40px;
+    text-align:center;
+  }
+
+  .ogp-author-card{
+    width:min(100%,690px);
+    display:grid;
+    grid-template-columns:minmax(175px,220px) minmax(0,1fr);
+    gap:28px;
+    align-items:center;
+    margin:0 auto;
+    text-align:left;
+  }
+
+  .ogp-author-portrait{
+    width:100%;
+    aspect-ratio:4/5;
+  }
+
+  .ogp-author-body{
+    padding-top:0;
+    text-align:left;
+  }
+
+  .ogp-author-body h2{
+    font-size:clamp(2rem,6.8vw,3.2rem);
+  }
+
+  .ogp-author-lema{
+    margin:12px 0 18px;
+    font-size:1rem;
+  }
+
+  .ogp-author-facts{
+    grid-template-columns:1fr;
+    margin-bottom:14px;
+  }
+
+  .ogp-author-facts span:last-child{
+    grid-column:auto;
+  }
+
+  .ogp-author-contacts{
+    justify-content:flex-start;
+  }
+
+  .ogp-hero-copy{
+    max-width:680px;
+    text-align:center;
+  }
+
+  .ogp-hero-copy::before{
+    margin-bottom:10px;
+  }
+
+  .ogp-hero h1{
+    font-size:clamp(3.15rem,10.5vw,5rem);
+    line-height:.9;
+    margin-bottom:14px;
+  }
+
+  .ogp-hero-dek{
+    margin:0 auto;
+    max-width:40rem;
+    font-size:1rem;
+  }
+}
+
+@media(max-width:620px){
+  .ogp-hero{
+    width:calc(100% - 22px);
+    gap:23px;
+    padding:24px 0 34px;
+  }
+
+  .ogp-author-card{
+    width:min(100%,400px);
+    grid-template-columns:1fr;
+    gap:15px;
+    text-align:center;
+  }
+
+  .ogp-author-portrait{
+    width:210px;
+    margin:0 auto;
+    aspect-ratio:4/5;
+  }
+
+  .ogp-author-body{
+    text-align:center;
+  }
+
+  .ogp-author-body h2{
+    font-size:clamp(2rem,9vw,2.7rem);
+  }
+
+  .ogp-author-lema{
+    margin:10px auto 17px;
+    max-width:25rem;
+    font-size:.98rem;
+  }
+
+  .ogp-author-lema::after{
+    left:50%;
+    transform:translateX(-50%);
+  }
+
+  .ogp-author-facts{
+    width:min(100%,340px);
+    margin:0 auto 14px;
+  }
+
+  .ogp-author-facts span{
+    padding-left:10px;
+    text-align:left;
+    font-size:.63rem;
+  }
+
+  .ogp-author-contacts{
+    justify-content:center;
+    font-size:.56rem;
+  }
+
+  .ogp-hero-copy{
+    max-width:100%;
+  }
+
+  .ogp-hero-copy::before{
+    font-size:.55rem;
+  }
+
+  .ogp-hero h1{
+    font-size:clamp(2.75rem,13vw,4rem);
+    letter-spacing:-.055em;
+  }
+
+  .ogp-hero-dek{
+    font-size:.92rem;
+    line-height:1.52;
+  }
+
+  .ogp-author-portrait::before{
+    inset:-14px;
+    filter:blur(14px);
+  }
+}
+
+@media(max-width:360px){
+  .ogp-author-portrait{
+    width:188px;
+  }
+
+  .ogp-author-body h2{
+    font-size:1.82rem;
+  }
+
+  .ogp-author-lema{
+    font-size:.9rem;
+  }
+
+  .ogp-author-facts span{
+    font-size:.59rem;
+  }
+
+  .ogp-hero h1{
+    font-size:clamp(2.45rem,13vw,3.35rem);
+  }
+}
