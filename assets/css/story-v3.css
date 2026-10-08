@@ -2051,3 +2051,74 @@ html.mobile-nav-open .story-return-overlay{pointer-events:none;opacity:0}
   background:none !important;
   box-shadow:none !important;
 }
+
+
+/* ===== v1.44.0 · fundido perimetral claramente perceptible ===== */
+/*
+  Ahora el alisado entra apenas en el perímetro inmediato (6 px desktop,
+  5 px móvil). El centro de la fotografía permanece completamente limpio.
+*/
+.ogp-author-portrait::before{
+  display:block !important;
+  inset:0 !important;
+  z-index:2 !important;
+  pointer-events:none !important;
+  background:
+    linear-gradient(to right,
+      rgba(238,242,248,1) 0,
+      rgba(238,242,248,.72) 1px,
+      rgba(238,242,248,.35) 3px,
+      rgba(238,242,248,.14) 5px,
+      rgba(238,242,248,0) 6px,
+      rgba(238,242,248,0) calc(100% - 6px),
+      rgba(238,242,248,.14) calc(100% - 5px),
+      rgba(238,242,248,.35) calc(100% - 3px),
+      rgba(238,242,248,.72) calc(100% - 1px),
+      rgba(238,242,248,1) 100%),
+    linear-gradient(to bottom,
+      rgba(238,242,248,1) 0,
+      rgba(238,242,248,.72) 1px,
+      rgba(238,242,248,.35) 3px,
+      rgba(238,242,248,.14) 5px,
+      rgba(238,242,248,0) 6px,
+      rgba(238,242,248,0) calc(100% - 6px),
+      rgba(238,242,248,.14) calc(100% - 5px),
+      rgba(238,242,248,.35) calc(100% - 3px),
+      rgba(238,242,248,.72) calc(100% - 1px),
+      rgba(238,242,248,1) 100%);
+}
+.ogp-author-portrait::after{
+  display:none !important;
+}
+.ogp-author-portrait img{
+  filter:none !important;
+  transform:none !important;
+  border-radius:0 !important;
+}
+@media(max-width:700px){
+  .ogp-author-portrait::before{
+    background:
+      linear-gradient(to right,
+        rgba(238,242,248,1) 0,
+        rgba(238,242,248,.70) 1px,
+        rgba(238,242,248,.32) 2.5px,
+        rgba(238,242,248,.12) 4px,
+        rgba(238,242,248,0) 5px,
+        rgba(238,242,248,0) calc(100% - 5px),
+        rgba(238,242,248,.12) calc(100% - 4px),
+        rgba(238,242,248,.32) calc(100% - 2.5px),
+        rgba(238,242,248,.70) calc(100% - 1px),
+        rgba(238,242,248,1) 100%),
+      linear-gradient(to bottom,
+        rgba(238,242,248,1) 0,
+        rgba(238,242,248,.70) 1px,
+        rgba(238,242,248,.32) 2.5px,
+        rgba(238,242,248,.12) 4px,
+        rgba(238,242,248,0) 5px,
+        rgba(238,242,248,0) calc(100% - 5px),
+        rgba(238,242,248,.12) calc(100% - 4px),
+        rgba(238,242,248,.32) calc(100% - 2.5px),
+        rgba(238,242,248,.70) calc(100% - 1px),
+        rgba(238,242,248,1) 100%);
+  }
+}
