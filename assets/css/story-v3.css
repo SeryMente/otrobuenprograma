@@ -1833,3 +1833,10 @@ html.mobile-nav-open .story-return-overlay{pointer-events:none;opacity:0}
   border-radius:1px;
   filter:drop-shadow(0 0 .65px rgba(238,242,248,.42));
 }
+
+
+/* ===== v1.33.0 · apenas un toque ===== */
+.ogp-author-portrait img{
+  border-radius:0;
+  filter:drop-shadow(0 0 .2px rgba(238,242,248,.15));
+}
