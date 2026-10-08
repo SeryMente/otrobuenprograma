@@ -1907,3 +1907,8 @@ html.mobile-nav-open .story-return-overlay{pointer-events:none;opacity:0}
 @media(max-width:360px){
   .ogp-author-portrait{width:250px}
 }
+
+/* ===== v1.36.0 · mínimo absoluto práctico del borde ===== */
+.ogp-author-portrait img{
+  filter:drop-shadow(0 0 .05px rgba(238,242,248,.03));
+}
