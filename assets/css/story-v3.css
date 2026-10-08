@@ -1931,3 +1931,8 @@ html.mobile-nav-open .story-return-overlay{pointer-events:none;opacity:0}
   border-radius:0 !important;
   transform:none !important;
 }
+
+/* ===== v1.38.0 · microborde perceptible ===== */
+.ogp-author-portrait img{
+  filter:drop-shadow(0 0 .15px rgba(238,242,248,.08)) !important;
+}
