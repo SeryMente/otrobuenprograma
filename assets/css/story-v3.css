@@ -1840,3 +1840,18 @@ html.mobile-nav-open .story-return-overlay{pointer-events:none;opacity:0}
   border-radius:0;
   filter:drop-shadow(0 0 .2px rgba(238,242,248,.15));
 }
+
+/* ===== v1.34.0 · toque mínimo + retrato más ancho ===== */
+@media(min-width:1101px){
+  .ogp-author-card{grid-template-columns:minmax(320px,340px) minmax(0,1fr)}
+}
+.ogp-author-portrait img{
+  filter:drop-shadow(0 0 .1px rgba(238,242,248,.075));
+}
+@media(max-width:700px){
+  .ogp-author-portrait{width:250px}
+  .ogp-author-portrait img{filter:drop-shadow(0 0 .1px rgba(238,242,248,.075))}
+}
+@media(max-width:360px){
+  .ogp-author-portrait{width:230px}
+}
