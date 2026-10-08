@@ -2033,3 +2033,21 @@ html.mobile-nav-open .story-return-overlay{pointer-events:none;opacity:0}
       rgba(238,242,248,.20) calc(100% - 1px),
       rgba(238,242,248,.62) 100%);
 }
+
+
+/* ===== v1.43.0 · suavizado exterior perceptible ===== */
+/*
+  El borde ya no se pinta sobre la fotografía: se suaviza desde su silueta
+  hacia el fondo. El centro queda intacto y el efecto queda confinado a ~3 px.
+*/
+.ogp-author-portrait img{
+  filter:drop-shadow(0 0 3px rgba(238,242,248,.78)) !important;
+  transform:none !important;
+  border-radius:2px !important;
+}
+.ogp-author-portrait::before,
+.ogp-author-portrait::after{
+  display:none !important;
+  background:none !important;
+  box-shadow:none !important;
+}
