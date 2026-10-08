@@ -1773,3 +1773,19 @@ html.mobile-nav-open .story-return-overlay{pointer-events:none;opacity:0}
 /* ===== v1.28.0 · borde casi imperceptible ===== */
 .ogp-author-portrait::before{background:linear-gradient(to bottom,rgba(238,242,248,.045),transparent .7%,transparent 99.3%,rgba(238,242,248,.045)),linear-gradient(to right,rgba(238,242,248,.045),transparent .7%,transparent 99.3%,rgba(238,242,248,.045))}
 @media(max-width:700px){.ogp-author-portrait::before{background:linear-gradient(to bottom,rgba(238,242,248,.04),transparent .65%,transparent 99.35%,rgba(238,242,248,.04)),linear-gradient(to right,rgba(238,242,248,.04),transparent .65%,transparent 99.35%,rgba(238,242,248,.04))}}
+
+/* ===== v1.29.0 · solo perímetro ===== */
+.ogp-author-portrait{box-shadow:none}
+.ogp-author-portrait::before{
+  background:
+    linear-gradient(to bottom,rgba(238,242,248,.10),transparent 2px,transparent calc(100% - 2px),rgba(238,242,248,.10)),
+    linear-gradient(to right,rgba(238,242,248,.10),transparent 2px,transparent calc(100% - 2px),rgba(238,242,248,.10));
+}
+.ogp-author-portrait::after{box-shadow:none}
+@media(max-width:700px){
+  .ogp-author-portrait::before{
+    background:
+      linear-gradient(to bottom,rgba(238,242,248,.08),transparent 2px,transparent calc(100% - 2px),rgba(238,242,248,.08)),
+      linear-gradient(to right,rgba(238,242,248,.08),transparent 2px,transparent calc(100% - 2px),rgba(238,242,248,.08));
+  }
+}
