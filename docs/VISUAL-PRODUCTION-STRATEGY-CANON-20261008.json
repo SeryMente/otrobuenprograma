@@ -1,0 +1,242 @@
+{
+  "schema": "ogp.visual-production-strategy",
+  "version": "1.0.0",
+  "status": "CANONICAL",
+  "updated": "2026-10-08",
+  "project": {
+    "name": "Otro Gran Programa",
+    "repo": "https://github.com/SeryMente/otrogranprograma",
+    "canonical_url": "https://serymente.github.io/otrogranprograma/"
+  },
+  "objective": "Llegar a OGP LIVE en el menor tiempo razonable sin sacrificar calidad editorial, coherencia narrativa, performance, accesibilidad ni identidad visual.",
+  "governing_principle": "No estamos haciendo un concurso de imágenes; estamos construyendo un sistema visual capaz de contar OGP.",
+  "production_model": {
+    "name": "PRODUCTION_FIRST_VISUAL_DIRECTION",
+    "description": "Descubrir y validar la dirección artística dentro de la experiencia real, no completar un Style Lab horizontal antes de construir el producto.",
+    "priority_order": [
+      "identidad visual",
+      "narrativa",
+      "experiencia real",
+      "calidad editorial",
+      "consistencia sistémica",
+      "performance",
+      "velocidad de publicación"
+    ]
+  },
+  "credit_policy": {
+    "goal": "Minimizar generaciones nuevas y reservar créditos para decisiones que realmente cambien la calidad del sistema.",
+    "rules": [
+      "No generar una imagen nueva si la existente puede resolverse mediante edición.",
+      "No generar una imagen nueva si el navegador puede producir la variación mediante crop, escala, desplazamiento, máscara, opacity, color, blur, iluminación o transformación.",
+      "No generar variaciones indiscriminadas para comparar preferencias subjetivas.",
+      "Preferir 1 imagen fuerte y refinada frente a muchas imágenes medianas.",
+      "Generar primero una prueba vertical y sólo ampliar la exploración cuando la gramática visual demuestre capacidad narrativa."
+    ],
+    "initial_generation_budget": {
+      "default": "1 keyframe inicial",
+      "exploratory_ceiling": "5 keyframes como máximo si la primera dirección no demuestra capacidad suficiente",
+      "images_per_generation": 1
+    }
+  },
+  "style_lab_redefinition": {
+    "old_model": "5 conceptos x 1 imagen como laboratorio previo a producción",
+    "canonical_model": "prueba vertical de una dirección dentro de la experiencia real",
+    "sequence": [
+      "Segmento 01 — Umbral",
+      "segmento conceptual de Fase II/III",
+      "segmento relacional",
+      "segmento de fractura",
+      "segmento de integración"
+    ],
+    "gate": "Una dirección sólo se convierte en Visual DNA si sobrevive los cinco tests narrativos."
+  },
+  "visual_architecture": {
+    "preferred_model": "5 keyframes maestros + estados visuales derivados",
+    "phase_masters": [
+      {
+        "phase": "I",
+        "name": "UMBRAL",
+        "master": "umbral-master.webp"
+      },
+      {
+        "phase": "II",
+        "name": "CAMPO",
+        "master": "campo-master.webp"
+      },
+      {
+        "phase": "III",
+        "name": "ALTITUD",
+        "master": "altitud-master.webp"
+      },
+      {
+        "phase": "IV",
+        "name": "FRACTURA",
+        "master": "fractura-master.webp"
+      },
+      {
+        "phase": "V",
+        "name": "RECOMPOSICIÓN",
+        "master": "recomposicion-master.webp"
+      }
+    ],
+    "alternative": "Si una sola gramática visual demuestra suficiente capacidad, puede gobernar las cinco fases mediante transformación material en vez de cinco estilos distintos.",
+    "forbidden_default": "No adoptar 49 imágenes independientes como arquitectura base."
+  },
+  "narrative_mapping": {
+    "principle": "Los segmentos narrativos representan estados de transformación; no requieren necesariamente una imagen nueva.",
+    "examples": [
+      "compresión → apertura",
+      "estructura → expansión",
+      "multiplicidad → interacción",
+      "orden → fractura",
+      "fractura → recomposición"
+    ],
+    "browser_layer": [
+      "crop",
+      "scale",
+      "translate",
+      "opacity",
+      "mask",
+      "blur",
+      "contrast",
+      "color shift",
+      "lighting shift",
+      "layer displacement",
+      "semantic motion"
+    ]
+  },
+  "visual_dna": {
+    "provisional_thesis": "CARTOGRAFÍA DE LA TRANSFORMACIÓN",
+    "interpretation": "Cada visual debe comportarse como una materia que cambia de estado. Inteligencia = organización; espiritualidad = orientación; conflicto = fractura; relación = interdependencia; elección = bifurcación; integración = recomposición.",
+    "candidate_phase_movements": [
+      "UMBRAL",
+      "CAMPO",
+      "ALTITUD",
+      "FRACTURA",
+      "RECOMPOSICIÓN"
+    ],
+    "provisional_leader": "Material Intelligence",
+    "secondary_candidate": "Dark Field Cinema",
+    "palette_direction": {
+      "neutral_material_space": "70%",
+      "structural_blue": "20%",
+      "accent": "10%",
+      "signal": "acidic lime used sparingly"
+    },
+    "composition": [
+      "una fuerza o foco dominante",
+      "espacio negativo controlado",
+      "asimetría deliberada",
+      "profundidad física",
+      "luz direccional",
+      "textura táctil contenida"
+    ],
+    "anti_patterns": [
+      "generic blue brain",
+      "generic neurons",
+      "generic AI art",
+      "stock photography",
+      "corporate illustration",
+      "nodes/circles as universal motif",
+      "cyberpunk",
+      "generic futurism",
+      "excessive glassmorphism",
+      "literal technology imagery",
+      "decorative complexity without narrative meaning"
+    ],
+    "text_policy": "No baked-in readable text unless explicitly required by a later editorial decision."
+  },
+  "ideogram_policy": {
+    "tool": "Ideogram web creative workspace",
+    "model_preference": "Ideogram 4.5 when available",
+    "workflow": "Generate → select → edit/refine → preserve successful composition → integrate.",
+    "rationale": "The current Ideogram 4.5 positioning emphasizes precise editing and reduced drift across successive edits, making iterative refinement preferable to repeated regeneration.",
+    "source": "https://ideogram.ai/models/4.5/"
+  },
+  "implementation": {
+    "principle": "La IA produce materia visual; el navegador produce experiencia, estados y movimiento.",
+    "asset_strategy": "Preferir masters de fase y estados derivados sobre 49 renders independientes.",
+    "runtime_source": "assets/data/relato-ogp-experience.json",
+    "architecture_source": "assets/data/story-experience-canon.json",
+    "current_runtime": "assets/js/story-v3.js",
+    "constraint": "No reemplazar el sistema visual completo hasta validar primero la dirección artística.",
+    "motion": "El movimiento debe derivarse semánticamente del estado narrativo y permanecer sincronizado con el reloj de audio.",
+    "performance": [
+      "transform/opacity como primitivas principales",
+      "evitar partículas ilimitadas",
+      "pausar trabajo cuando el elemento está oculto",
+      "respetar prefers-reduced-motion",
+      "mantener legibilidad del texto y estabilidad del layout"
+    ]
+  },
+  "delivery_path": {
+    "release_0": {
+      "name": "VISUAL PROTOTYPE",
+      "purpose": "Validar la gramática visual dentro de la experiencia real.",
+      "scope": "5 segmentos representativos con audio y sincronización reales."
+    },
+    "release_1": {
+      "name": "OGP LIVE",
+      "purpose": "Publicar la experiencia completa.",
+      "scope": [
+        "49 segmentos",
+        "5 movimientos visuales o una gramática única equivalente",
+        "estados visuales derivados",
+        "animación",
+        "responsive",
+        "accesibilidad",
+        "performance",
+        "QA",
+        "publicación"
+      ]
+    },
+    "release_1_1": {
+      "name": "REFINEMENT",
+      "purpose": "Mejorar activos o estados débiles sin bloquear el lanzamiento.",
+      "examples": [
+        "reemplazar una imagen débil",
+        "mejorar crop",
+        "afinar transición",
+        "optimizar peso",
+        "corregir contraste"
+      ]
+    }
+  },
+  "acceptance_gate": {
+    "criteria": [
+      "Identidad: podría pertenecer exclusivamente a OGP.",
+      "Concepto: la imagen piensa, no sólo decora.",
+      "Memorabilidad: deja una imagen mental reconocible.",
+      "Profundidad: resiste 20–30 segundos de observación.",
+      "Editorialidad: parece art-directed, no simplemente prompt-success.",
+      "Narrativa: puede evolucionar con el relato.",
+      "Sistema: permite construir una familia completa.",
+      "Web: convive con el texto sin competir con él.",
+      "Movimiento: admite animación semántica sutil.",
+      "Anti-cliché: evita la estética genérica de IA."
+    ],
+    "minimum": "4.2/5 promedio y ningún criterio crítico por debajo de 3/5.",
+    "final_test": "Eliminar mentalmente el logo OGP y comprobar si el visual sigue perteneciendo a una obra sobre percepción → inteligencia → conflicto → relación → transformación → integración."
+  },
+  "workflow": [
+    "1. Auditar el estado real del repo sin repetir investigación ya canonizada.",
+    "2. Generar un único keyframe para Segmento 01.",
+    "3. Evaluarlo con la matriz de aceptación.",
+    "4. Si falla, editar/refinar antes de generar otra dirección.",
+    "5. Si funciona, probar la misma gramática en un segundo estado narrativo.",
+    "6. Congelar Visual DNA cuando sobreviva los cinco tests.",
+    "7. Implementar el sistema visual dentro del runtime existente.",
+    "8. Resolver los 49 segmentos como estados visuales, no como 49 generaciones.",
+    "9. Ejecutar QA funcional, visual, responsive, accesibilidad y performance.",
+    "10. Publicar OGP LIVE.",
+    "11. Refinar después del lanzamiento."
+  ],
+  "non_goals": [
+    "No producir 49 imágenes antes de validar el sistema.",
+    "No hacer un Style Lab largo por perfeccionismo exploratorio.",
+    "No cambiar story-v3.js repetidamente mientras la dirección visual siga abierta.",
+    "No sacrificar identidad por velocidad.",
+    "No sacrificar publicación por buscar una perfección hipotética."
+  ],
+  "canonical_next_step": "STEP 1 — OGP Visual Production Sprint: estado real del repo → primer keyframe → integración piloto."
+}
