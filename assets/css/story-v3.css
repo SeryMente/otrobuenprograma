@@ -1936,3 +1936,8 @@ html.mobile-nav-open .story-return-overlay{pointer-events:none;opacity:0}
 .ogp-author-portrait img{
   filter:drop-shadow(0 0 .15px rgba(238,242,248,.08)) !important;
 }
+
+/* ===== v1.39.0 · un nivel más perceptible ===== */
+.ogp-author-portrait img{
+  filter:drop-shadow(0 0 .20px rgba(238,242,248,.12)) !important;
+}
