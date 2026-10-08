@@ -1690,3 +1690,74 @@ html.mobile-nav-open .story-return-overlay{pointer-events:none;opacity:0}
       inset 0 0 26px 9px rgba(238,242,248,.09);
   }
 }
+
+
+/* ===== v1.26.0 · borde mínimo + retrato ligeramente más ancho =====
+   El fundido existe solo para borrar el contorno rectangular perceptible.
+   La transición es corta y tenue; el interior de la fotografía permanece intacto. */
+
+@media(min-width:1101px){
+  .ogp-author-card{
+    grid-template-columns:minmax(300px,320px) minmax(0,1fr);
+  }
+  .ogp-author-portrait{
+    width:100%;
+  }
+}
+
+.ogp-author-portrait{
+  box-shadow:inset 0 0 12px 3px rgba(238,242,248,.22);
+}
+
+.ogp-author-portrait::before{
+  background:
+    linear-gradient(to bottom,
+      rgba(238,242,248,.34) 0%,
+      rgba(238,242,248,.12) 1.2%,
+      transparent 3.2%,
+      transparent 96.8%,
+      rgba(238,242,248,.12) 98.8%,
+      rgba(238,242,248,.34) 100%),
+    linear-gradient(to right,
+      rgba(238,242,248,.34) 0%,
+      rgba(238,242,248,.12) 1.2%,
+      transparent 3.2%,
+      transparent 96.8%,
+      rgba(238,242,248,.12) 98.8%,
+      rgba(238,242,248,.34) 100%);
+}
+
+.ogp-author-portrait::after{
+  box-shadow:inset 0 0 0 1px rgba(238,242,248,.055);
+}
+
+@media(max-width:700px){
+  .ogp-author-portrait{
+    width:230px;
+    box-shadow:inset 0 0 10px 2px rgba(238,242,248,.20);
+  }
+
+  .ogp-author-portrait::before{
+    background:
+      linear-gradient(to bottom,
+        rgba(238,242,248,.30) 0%,
+        rgba(238,242,248,.10) 1.4%,
+        transparent 3.5%,
+        transparent 96.5%,
+        rgba(238,242,248,.10) 98.6%,
+        rgba(238,242,248,.30) 100%),
+      linear-gradient(to right,
+        rgba(238,242,248,.30) 0%,
+        rgba(238,242,248,.10) 1.4%,
+        transparent 3.5%,
+        transparent 96.5%,
+        rgba(238,242,248,.10) 98.6%,
+        rgba(238,242,248,.30) 100%);
+  }
+}
+
+@media(max-width:360px){
+  .ogp-author-portrait{
+    width:210px;
+  }
+}
