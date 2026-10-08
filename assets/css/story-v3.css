@@ -1855,3 +1855,55 @@ html.mobile-nav-open .story-return-overlay{pointer-events:none;opacity:0}
 @media(max-width:360px){
   .ogp-author-portrait{width:230px}
 }
+
+/* ===== v1.35.0 · composición desktop vertical + retrato más ancho ===== */
+@media(min-width:901px){
+  .ogp-hero{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    width:min(1040px,calc(100% - 48px));
+    min-height:100svh;
+    gap:34px;
+    text-align:left;
+  }
+  .ogp-author-card{
+    order:1;
+    width:min(100%,920px);
+    display:grid;
+    grid-template-columns:minmax(360px,390px) minmax(0,1fr);
+    gap:36px;
+    align-items:center;
+    margin:0 auto;
+  }
+  .ogp-author-portrait{
+    width:100%;
+    aspect-ratio:4/5;
+  }
+  .ogp-hero-copy{
+    order:2;
+    width:100%;
+    max-width:900px;
+    text-align:center;
+  }
+  .ogp-hero-copy::before{margin-bottom:12px}
+  .ogp-hero h1{
+    width:100%;
+    max-width:900px;
+    margin:0 auto 17px;
+  }
+  .ogp-hero-dek{
+    max-width:720px;
+    margin:0 auto;
+  }
+}
+@media(max-width:900px) and (min-width:701px){
+  .ogp-author-portrait{width:100%;aspect-ratio:4/5}
+}
+@media(max-width:700px){
+  .ogp-author-portrait{width:270px}
+}
+@media(max-width:360px){
+  .ogp-author-portrait{width:250px}
+}
