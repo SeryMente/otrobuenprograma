@@ -1,7 +1,7 @@
 {
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "1.2.0",
   "objectType": "OGP_EXPERIENCE_CANON",
-  "status": "CANONICAL_DESIGN_BASELINE",
+  "status": "CANONICAL_EXECUTABLE_ARCHITECTURE",
   "project": {
     "name": "Otro Gran Programa",
     "shortName": "OGP",
@@ -27,29 +27,35 @@
     "boundary": "La gratificación procede del acierto temporal y de la continuidad perceptual; no de mecanismos de compulsión, ansiedad o dependencia."
   },
   "segmentation": {
-    "decision": "RECOMMEND_36",
-    "recommendedCount": 36,
+    "decision": "RECOMMEND_49",
+    "recommendedCount": 49,
     "acceptableBand": [
-      32,
-      40
+      46,
+      52
     ],
     "confidence": "high_for_this_corpus",
     "rationale": [
       "20 segmentos fueron un instrumento de aprendizaje y no deben convertirse en una constante canónica.",
-      "El criterio primario es una idea comunicativa preponderante por segmento.",
-      "Las reiteraciones de una misma idea en otros puntos no crean nuevos segmentos; se tratan como evidencia secundaria/contaminación retórica de la idea dominante.",
-      "Los límites pueden cruzar fronteras heredadas cuando la misma proposición continúa de forma discursivamente contigua.",
-      "La unidad debe ser suficientemente larga para conservar significado, pero suficientemente corta para que el tratamiento visual y la edición puedan responder a una sola idea.",
-      "En este corpus, 36 reduce la carga media del modelo heredado sin caer en una segmentación mecánica por oración."
+      "El criterio primario es una idea comunicativa preponderante por segmento; una oración puede contener más de una idea y, en ese caso, se divide sólo cuando las proposiciones son editorialmente independientes.",
+      "Las reiteraciones de una misma idea no crean nuevos segmentos por aparecer nuevamente.",
+      "Los límites pueden cruzar fronteras heredadas cuando la proposición continúa sin una idea dominante intermedia.",
+      "Los cortes intraoracionales se reservan para cambios reales de proposición y se sitúan usando la pausa temporal disponible entre palabras.",
+      "El modelo de 49 elimina unidades largas que mezclaban varias ideas y evita convertir cada oración en una unidad mecánica.",
+      "La segmentación es editorial: visuales, animaciones y recursos complementarios nunca deben dictar un corte de contenido."
     ],
     "metricsFromSource": {
-      "meanCurrentSegmentSeconds": 69.6,
-      "meanRecommendedSegmentSeconds": 35.9,
-      "medianRecommendedSegmentSeconds": 30.8,
-      "recommendedP90Seconds": 65.2,
-      "recommendedMaxSeconds": 78.574,
-      "recommendedSegmentsUnder20Seconds": 10,
-      "recommendedSegmentsOver60Seconds": 6
+      "currentTrainingSegments": 20,
+      "recommendedSegments": 49,
+      "sourceWords": 2206,
+      "meanCurrentSegmentSeconds": 69.565,
+      "meanRecommendedSegmentSeconds": 28.394,
+      "medianRecommendedSegmentSeconds": 26.642,
+      "recommendedP90Seconds": 53.278,
+      "recommendedMaxSeconds": 61.721,
+      "recommendedSegmentsUnder15Seconds": 7,
+      "recommendedSegmentsUnder20Seconds": 16,
+      "recommendedSegmentsOver50Seconds": 5,
+      "recommendedSegmentsOver60Seconds": 1
     },
     "hardRules": [
       "PRIMARY_IDEA_UNIQUE: cada segmento declara una sola idea preponderante.",
@@ -72,327 +78,792 @@
     "proposedSegments": [
       {
         "id": "01",
-        "sources": [
-          "01:u0-u2"
-        ],
+        "phase": "I",
         "title": "La puerta de entrada",
         "idea": "El encuentro, el código QR y el contexto inmediato de acceso a la experiencia.",
-        "role": "entrada"
+        "role": "entrada",
+        "visualKey": "welcome",
+        "sources": [
+          {
+            "sourceSegment": "01",
+            "startWord": 0,
+            "endWord": 36
+          }
+        ],
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "02",
-        "sources": [
-          "02:u0"
-        ],
+        "phase": "I",
         "title": "La razón de la invitación",
         "idea": "El código sirve para informar sobre el trabajo y extender una invitación a observar la iniciativa.",
-        "role": "invitación"
+        "role": "invitación",
+        "visualKey": "welcome",
+        "sources": [
+          {
+            "sourceSegment": "02",
+            "startWord": 0,
+            "endWord": 34
+          }
+        ],
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "03",
-        "sources": [
-          "02:u1"
-        ],
+        "phase": "I",
         "title": "Quién soy y desde dónde hablo",
         "idea": "Presentación del autor, su oficio y su trabajo como desarrollador independiente.",
-        "role": "autor"
+        "role": "autor",
+        "visualKey": "welcome",
+        "sources": [
+          {
+            "sourceSegment": "02",
+            "startWord": 35,
+            "endWord": 81
+          }
+        ],
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "04",
-        "sources": [
-          "03:u0"
-        ],
+        "phase": "I",
         "title": "La denominación",
         "idea": "Presentación del nombre del proyecto: Otro Gran Programa.",
-        "role": "denominación"
+        "role": "denominación",
+        "visualKey": "welcome",
+        "sources": [
+          {
+            "sourceSegment": "03",
+            "startWord": 0,
+            "endWord": 18
+          }
+        ],
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "05",
-        "sources": [
-          "03:u1-u2"
-        ],
+        "phase": "I",
         "title": "Enseñanza espiritual como desarrollo personal",
         "idea": "Equivalencia que el autor establece entre enseñanza espiritual y programa para el desarrollo personal.",
-        "role": "definición"
+        "role": "definición",
+        "visualKey": "emergence",
+        "sources": [
+          {
+            "sourceSegment": "03",
+            "startWord": 19,
+            "endWord": 52
+          }
+        ],
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "06",
-        "sources": [
-          "04:u0"
-        ],
+        "phase": "I",
         "title": "La intención de competir",
         "idea": "Declaración explícita del objetivo de competir con el programa de doce pasos.",
-        "role": "objetivo"
+        "role": "objetivo",
+        "visualKey": "tension",
+        "sources": [
+          {
+            "sourceSegment": "04",
+            "startWord": 0,
+            "endWord": 32
+          }
+        ],
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "07",
+        "phase": "II",
+        "title": "La competencia a escala nacional",
+        "idea": "La competencia se plantea explícitamente a nivel nacional y se sitúa frente al alcance del programa existente.",
+        "role": "competencia",
+        "visualKey": "tension",
         "sources": [
-          "05:u0 + 06:u0"
+          {
+            "sourceSegment": "05",
+            "startWord": 0,
+            "endWord": 26
+          }
         ],
-        "title": "Gratitud por lo que ya existe",
-        "idea": "Reconocimiento del valor, impacto y salvamento de vidas asociado al programa existente.",
-        "role": "gratitud"
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "08",
+        "phase": "II",
+        "title": "Gratitud por lo que ya existe",
+        "idea": "Reconocimiento del valor, impacto y salvamento de vidas asociado al programa existente.",
+        "role": "gratitud",
+        "visualKey": "currents",
         "sources": [
-          "06:u1"
+          {
+            "sourceSegment": "05",
+            "startWord": 27,
+            "endWord": 82
+          },
+          {
+            "sourceSegment": "06",
+            "startWord": 0,
+            "endWord": 22
+          }
         ],
-        "title": "La necesidad de una alternativa",
-        "idea": "Necesidad de una segunda opción que conserve lo valioso y ofrezca algo más.",
-        "role": "necesidad"
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "09",
+        "phase": "II",
+        "title": "La necesidad de una alternativa",
+        "idea": "Necesidad de que el país disponga de otra opción que conserve lo valioso ya ganado.",
+        "role": "necesidad",
+        "visualKey": "currents",
         "sources": [
-          "07:u0-u1"
+          {
+            "sourceSegment": "06",
+            "startWord": 23,
+            "endWord": 80
+          }
         ],
-        "title": "La propuesta de Un Curso de Milagros",
-        "idea": "Elección de Un Curso de Milagros como fundamento y caracterización básica de su enseñanza.",
-        "role": "fundamento"
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "10",
+        "phase": "II",
+        "title": "Tener eso y más",
+        "idea": "La alternativa propuesta debe permitir a la población tener lo valioso existente y algo más.",
+        "role": "propuesta",
+        "visualKey": "currents",
         "sources": [
-          "08:u0"
+          {
+            "sourceSegment": "06",
+            "startWord": 81,
+            "endWord": 103
+          }
         ],
-        "title": "La relación como herramienta",
-        "idea": "La relación es el contexto alrededor del cual se organiza el entrenamiento mental.",
-        "role": "mecanismo"
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "11",
+        "phase": "II",
+        "title": "La propuesta de Un Curso de Milagros",
+        "idea": "Elección de Un Curso de Milagros como enseñanza de referencia para la propuesta.",
+        "role": "fundamento",
+        "visualKey": "emergence",
         "sources": [
-          "08:u1"
+          {
+            "sourceSegment": "07",
+            "startWord": 0,
+            "endWord": 31
+          }
         ],
-        "title": "La relación y sus consecuencias",
-        "idea": "La relación significativa permite desarrollo personal y, cuando falla, puede producir sufrimiento y destrucción.",
-        "role": "consecuencia"
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "12",
+        "phase": "II",
+        "title": "Caracterización de la enseñanza",
+        "idea": "Caracterización básica de Un Curso de Milagros como enseñanza judeocristiana y neognóstica.",
+        "role": "caracterización",
+        "visualKey": "emergence",
         "sources": [
-          "09:u0"
+          {
+            "sourceSegment": "07",
+            "startWord": 32,
+            "endWord": 43
+          }
         ],
-        "title": "El pensamiento de perdón",
-        "idea": "Caracterización del pensamiento de perdón como enseñanza central de Un Curso de Milagros.",
-        "role": "doctrina"
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "13",
+        "phase": "II",
+        "title": "El entrenamiento mental",
+        "idea": "Un Curso de Milagros se plantea como herramienta de entrenamiento mental centrada alrededor de la relación.",
+        "role": "mecanismo",
+        "visualKey": "relationship",
         "sources": [
-          "09:u1"
+          {
+            "sourceSegment": "08",
+            "startWord": 0,
+            "endWord": 19
+          }
         ],
-        "title": "Entrenar la mente",
-        "idea": "Mientras subsista la creencia de que hay algo que perdonar, la mente necesita entrenamiento.",
-        "role": "práctica"
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "14",
+        "phase": "II",
+        "title": "La relación y sus consecuencias",
+        "idea": "La relación crea el contexto del desarrollo personal y, cuando falla, puede producir sufrimiento y destrucción.",
+        "role": "consecuencia",
+        "visualKey": "relationship",
         "sources": [
-          "10:u0"
+          {
+            "sourceSegment": "08",
+            "startWord": 20,
+            "endWord": 104
+          }
         ],
-        "title": "Los grupos de ayuda mutua existentes",
-        "idea": "Referencia a las formas ya existentes de ayuda mutua en México.",
-        "role": "contexto"
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "15",
+        "phase": "III",
+        "title": "El pensamiento de perdón",
+        "idea": "El pensamiento de perdón es presentado como enseñanza central de Un Curso de Milagros.",
+        "role": "doctrina",
+        "visualKey": "forgiveness",
         "sources": [
-          "10:u1"
+          {
+            "sourceSegment": "09",
+            "startWord": 0,
+            "endWord": 44
+          }
         ],
-        "title": "Una alternativa también práctica",
-        "idea": "La nueva opción conservaría el carácter práctico pero ya no usaría el programa de doce pasos.",
-        "role": "diseño"
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "16",
+        "phase": "III",
+        "title": "Entrenar la mente",
+        "idea": "Mientras subsista la creencia de que hay algo que perdonar, la mente necesita entrenamiento.",
+        "role": "práctica",
+        "visualKey": "forgiveness",
         "sources": [
-          "11:u0-u1"
+          {
+            "sourceSegment": "09",
+            "startWord": 45,
+            "endWord": 79
+          }
         ],
-        "title": "Una posición más cercana a lo no dual",
-        "idea": "Ubicación inicial de Otro Gran Programa en una escala espiritual orientada hacia lo no dual.",
-        "role": "posición"
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "17",
+        "phase": "III",
+        "title": "Los grupos de ayuda mutua existentes",
+        "idea": "Referencia a las formas ya existentes de ayuda mutua y tratamientos en México.",
+        "role": "contexto",
+        "visualKey": "relationship",
         "sources": [
-          "11:u2-u4"
+          {
+            "sourceSegment": "10",
+            "startWord": 0,
+            "endWord": 69
+          }
         ],
-        "title": "Las enseñanzas como cucharas",
-        "idea": "Metáfora de las enseñanzas espirituales como instrumentos para servir el alimento necesario para crecer.",
-        "role": "metáfora"
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "18",
+        "phase": "III",
+        "title": "Una alternativa también práctica",
+        "idea": "La nueva opción conservaría el carácter práctico sin utilizar el programa de doce pasos como fundamento.",
+        "role": "diseño",
+        "visualKey": "currents",
         "sources": [
-          "11:u5 + 12:u0"
+          {
+            "sourceSegment": "10",
+            "startWord": 70,
+            "endWord": 105
+          }
         ],
-        "title": "La escala de las enseñanzas",
-        "idea": "Las enseñanzas pueden compararse por su cercanía a lo no dual; Un Curso de Milagros sitúa la propuesta hacia ese extremo.",
-        "role": "escala"
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "19",
+        "phase": "III",
+        "title": "Una posición más cercana a lo no dual",
+        "idea": "Ubicación inicial de Otro Gran Programa en una escala espiritual orientada hacia lo no dual.",
+        "role": "posición",
+        "visualKey": "scale",
         "sources": [
-          "12:u1-u2"
+          {
+            "sourceSegment": "11",
+            "startWord": 0,
+            "endWord": 43
+          }
         ],
-        "title": "Una pertenencia más inclusiva",
-        "idea": "La consecuencia de esa posición sería un programa dirigido a una población más amplia que la de alcohólicos.",
-        "role": "inclusión"
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "20",
+        "phase": "III",
+        "title": "Las enseñanzas como cucharas",
+        "idea": "Metáfora de las enseñanzas como instrumentos para servir el alimento necesario para crecer.",
+        "role": "metáfora",
+        "visualKey": "scale",
         "sources": [
-          "13:u0"
+          {
+            "sourceSegment": "11",
+            "startWord": 44,
+            "endWord": 64
+          }
         ],
-        "title": "El lenguaje que ya no serviría",
-        "idea": "Identificación del enunciado tradicional de pertenencia como referencia a sustituir.",
-        "role": "contraste"
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "21",
+        "phase": "III",
+        "title": "La escala de las enseñanzas",
+        "idea": "Las enseñanzas se comparan por su cercanía a lo no dual mediante un patrón perceptible como escala.",
+        "role": "escala",
+        "visualKey": "scale",
         "sources": [
-          "14:u0"
+          {
+            "sourceSegment": "11",
+            "startWord": 65,
+            "endWord": 175
+          }
         ],
-        "title": "El nuevo principio de pertenencia",
-        "idea": "Propuesta de una pertenencia basada en inclusión, merecimiento, ausencia de culpa y bienestar.",
-        "role": "propuesta"
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "22",
+        "phase": "III",
+        "title": "Un Curso de Milagros en la escala",
+        "idea": "Un Curso de Milagros queda más arriba en la escala de lo dual y no dual.",
+        "role": "escala",
+        "visualKey": "scale",
         "sources": [
-          "15:u0-u2"
+          {
+            "sourceSegment": "12",
+            "startWord": 0,
+            "endWord": 42
+          }
         ],
-        "title": "La teoría de la desintegración positiva",
-        "idea": "Introducción de la teoría, su orientación intelectual, su autor y su contexto histórico.",
-        "role": "fundamento_teorico"
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "23",
+        "phase": "III",
+        "title": "Una pertenencia más inclusiva",
+        "idea": "La consecuencia es un programa más inclusivo y no limitado a alcohólicos.",
+        "role": "inclusión",
+        "visualKey": "inclusion",
         "sources": [
-          "16:u0-u1"
+          {
+            "sourceSegment": "12",
+            "startWord": 43,
+            "endWord": 76
+          }
         ],
-        "title": "El conflicto moral como motor de desarrollo",
-        "idea": "La personalidad se desarrolla mediante conflictos de naturaleza moral.",
-        "role": "mecanismo"
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "24",
+        "phase": "IV",
+        "title": "El lenguaje que ya no serviría",
+        "idea": "Identificación del enunciado tradicional de pertenencia como referencia que dejaría de usarse.",
+        "role": "contraste",
+        "visualKey": "tension",
         "sources": [
-          "16:u2-u3 + 17:u0"
+          {
+            "sourceSegment": "13",
+            "startWord": 0,
+            "endWord": 31
+          }
         ],
-        "title": "Cuando lo aprendido contradice la realidad",
-        "idea": "Los valores y normas aprendidos dejan de coincidir con lo observado y esa contradicción conduce al conflicto con las estructuras.",
-        "role": "contradicción"
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "25",
+        "phase": "IV",
+        "title": "El nuevo principio de pertenencia",
+        "idea": "Propuesta de una pertenencia basada en inclusión y en un amor todoabarcador más allá de lo concebido.",
+        "role": "propuesta",
+        "visualKey": "inclusion",
         "sources": [
-          "17:u1"
+          {
+            "sourceSegment": "14",
+            "startWord": 0,
+            "endWord": 46
+          }
         ],
-        "title": "Cuando la estructura invalida",
-        "idea": "Respuesta institucional que minimiza, niega o patologiza la experiencia de contradicción del individuo.",
-        "role": "resistencia"
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "26",
+        "phase": "IV",
+        "title": "Merecimiento, ausencia de culpa y bienestar",
+        "idea": "La nueva pertenencia se completa con el reconocimiento del merecimiento, la ausencia de culpa y la búsqueda del bienestar.",
+        "role": "inclusión",
+        "visualKey": "inclusion",
         "sources": [
-          "17:u2-u4 + 18:u0-u2"
+          {
+            "sourceSegment": "14",
+            "startWord": 47,
+            "endWord": 82
+          }
         ],
-        "title": "Las razones para evitar el conflicto",
-        "idea": "Algunas personas evitan el conflicto por razones comprensibles y no deben interpretarse simplemente como cobardía.",
-        "role": "comprensión"
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "27",
+        "phase": "IV",
+        "title": "La teoría de la desintegración positiva",
+        "idea": "Introducción de la teoría como elemento que subyace al desarrollo de Otro Gran Programa.",
+        "role": "fundamento_teorico",
+        "visualKey": "dabrowski",
         "sources": [
-          "18:u3"
+          {
+            "sourceSegment": "15",
+            "startWord": 0,
+            "endWord": 26
+          }
         ],
-        "title": "La segunda respuesta posible",
-        "idea": "Existe también quien, por condiciones distintas, puede optar por aquello que sus valores le exigen.",
-        "role": "elección"
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "28",
+        "phase": "IV",
+        "title": "El marco intelectual y su contexto",
+        "idea": "Caracterización filosófica de la teoría, su autor y la imagen histórica del contexto en que surge.",
+        "role": "contexto_teorico",
+        "visualKey": "dabrowski",
         "sources": [
-          "18:u4-u6"
+          {
+            "sourceSegment": "15",
+            "startWord": 27,
+            "endWord": 76
+          }
         ],
-        "title": "La familia como valor",
-        "idea": "Ejemplo del valor de la familia y de la no-abandono como algo más que un simple constructo.",
-        "role": "ejemplo"
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "29",
+        "phase": "IV",
+        "title": "El conflicto moral como motor de desarrollo",
+        "idea": "La personalidad se desarrolla mediante conflictos de naturaleza moral.",
+        "role": "mecanismo",
+        "visualKey": "dabrowski",
         "sources": [
-          "19:u0-u4"
+          {
+            "sourceSegment": "16",
+            "startWord": 0,
+            "endWord": 50
+          }
         ],
-        "title": "La voluntad elige",
-        "idea": "El individuo decide no tolerar aquello que contradice el valor que reconoce y elige desde el conflicto.",
-        "role": "voluntad"
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "30",
+        "phase": "IV",
+        "title": "Cuando lo aprendido contradice la realidad",
+        "idea": "Los valores y normas aprendidos dejan de coincidir con lo observado y aparece la contradicción.",
+        "role": "contradicción",
+        "visualKey": "tension",
         "sources": [
-          "19:u5-u6"
+          {
+            "sourceSegment": "16",
+            "startWord": 51,
+            "endWord": 148
+          }
         ],
-        "title": "Una pregunta de sentido común",
-        "idea": "Ejemplo del maltrato infantil para mostrar que ciertas elecciones valorativas no requieren genialidad.",
-        "role": "pregunta"
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "31",
+        "phase": "V",
+        "title": "Cuando la estructura entra en conflicto",
+        "idea": "Las estructuras con las que se confronta el individuo se convierten en el escenario del conflicto.",
+        "role": "estructura",
+        "visualKey": "structures",
         "sources": [
-          "19:u7-u10"
+          {
+            "sourceSegment": "17",
+            "startWord": 0,
+            "endWord": 54
+          }
         ],
-        "title": "La llamada alta capacidad",
-        "idea": "Presentación de la etiqueta de alta capacidad y discrepancia del autor con esa caracterización de lo normal.",
-        "role": "tesis"
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "32",
+        "phase": "V",
+        "title": "Cuando la estructura invalida",
+        "idea": "La estructura puede negar o desautorizar la experiencia del individuo mediante respuestas como «no es cierto» o «no seas perfeccionista».",
+        "role": "resistencia",
+        "visualKey": "structures",
         "sources": [
-          "20:u0"
+          {
+            "sourceSegment": "17",
+            "startWord": 55,
+            "endWord": 140
+          }
         ],
-        "title": "La intuición empírica",
-        "idea": "La experiencia en centros de tratamiento permite distinguir dos respuestas humanas ante estas estructuras.",
-        "role": "evidencia"
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "33",
+        "phase": "V",
+        "title": "Razones para evitar el conflicto",
+        "idea": "Algunas personas evitan entrar en problemas con su familia o sociedad y sus razones merecen comprensión.",
+        "role": "comprensión",
+        "visualKey": "minds",
         "sources": [
-          "20:u1-u3"
+          {
+            "sourceSegment": "17",
+            "startWord": 141,
+            "endWord": 180
+          }
         ],
-        "title": "Dos mentalidades y la pérdida de sí",
-        "idea": "La convivencia de dos mentalidades y la diferencia entre conformarse y conservar la propia identidad.",
-        "role": "distinción"
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "34",
+        "phase": "V",
+        "title": "La segunda respuesta posible",
+        "idea": "Existe otra respuesta: bajo condiciones distintas, una persona puede optar por aquello que sus valores le exigen.",
+        "role": "elección",
+        "visualKey": "minds",
         "sources": [
-          "20:u4-u6"
+          {
+            "sourceSegment": "18",
+            "startWord": 0,
+            "endWord": 59
+          }
         ],
-        "title": "La distinción merece ser reconocida",
-        "idea": "Los dos tipos aparecen en los centros de tratamiento y distinguirlos merece atención.",
-        "role": "importancia"
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "35",
+        "phase": "V",
+        "title": "Optar desde una condición más ligera",
+        "idea": "Las condiciones personales pueden hacer posible una elección distinta frente al conflicto.",
+        "role": "condición",
+        "visualKey": "choice",
         "sources": [
-          "20:u7"
+          {
+            "sourceSegment": "18",
+            "startWord": 60,
+            "endWord": 98
+          }
         ],
-        "title": "Educar para reconocer la diferencia",
-        "idea": "Necesidad social de reconocer las dos grandes orientaciones ideológicas como paso para abordar problemas colectivos.",
-        "role": "implicación"
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       },
       {
         "id": "36",
+        "phase": "V",
+        "title": "La familia como valor",
+        "idea": "El valor de la familia y de no abandonar a sus integrantes se afirma como algo más que un simple constructo.",
+        "role": "ejemplo",
+        "visualKey": "relationship",
         "sources": [
-          "20:u8"
+          {
+            "sourceSegment": "18",
+            "startWord": 99,
+            "endWord": 149
+          }
         ],
-        "title": "Integración en Otro Gran Programa",
-        "idea": "La teoría de la desintegración positiva como elemento inicial para satisfacer esa necesidad mediante Otro Gran Programa.",
-        "role": "cierre"
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
+      },
+      {
+        "id": "37",
+        "phase": "V",
+        "title": "El bienestar como fundamento",
+        "idea": "La ausencia de desintegración familiar se relaciona con la base del bienestar.",
+        "role": "consecuencia",
+        "visualKey": "relationship",
+        "sources": [
+          {
+            "sourceSegment": "18",
+            "startWord": 150,
+            "endWord": 191
+          }
+        ],
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
+      },
+      {
+        "id": "38",
+        "phase": "V",
+        "title": "La voluntad elige",
+        "idea": "El individuo decide desde el sentido común no permitir aquello que contradice los valores que reconoce.",
+        "role": "voluntad",
+        "visualKey": "choice",
+        "sources": [
+          {
+            "sourceSegment": "19",
+            "startWord": 0,
+            "endWord": 76
+          }
+        ],
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
+      },
+      {
+        "id": "39",
+        "phase": "V",
+        "title": "Elegir desde el valor reconocido",
+        "idea": "Las personas con alto nivel de desarrollo eligen, haciendo uso de la voluntad, cuál valor las representa.",
+        "role": "tesis",
+        "visualKey": "choice",
+        "sources": [
+          {
+            "sourceSegment": "19",
+            "startWord": 77,
+            "endWord": 118
+          }
+        ],
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
+      },
+      {
+        "id": "40",
+        "phase": "V",
+        "title": "Una pregunta de sentido común",
+        "idea": "El ejemplo del maltrato infantil muestra que ciertas elecciones valorativas no requieren genialidad.",
+        "role": "pregunta",
+        "visualKey": "choice",
+        "sources": [
+          {
+            "sourceSegment": "19",
+            "startWord": 119,
+            "endWord": 153
+          }
+        ],
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
+      },
+      {
+        "id": "41",
+        "phase": "V",
+        "title": "La llamada alta capacidad",
+        "idea": "La etiqueta de alta capacidad aparece como una caracterización que el autor cuestiona cuando describe elecciones que considera normales.",
+        "role": "tesis",
+        "visualKey": "evidence",
+        "sources": [
+          {
+            "sourceSegment": "19",
+            "startWord": 154,
+            "endWord": 176
+          }
+        ],
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
+      },
+      {
+        "id": "42",
+        "phase": "V",
+        "title": "Normalidad frente a la etiqueta",
+        "idea": "El autor cuestiona que lo que considera una respuesta normal deba clasificarse como alta capacidad.",
+        "role": "tesis",
+        "visualKey": "evidence",
+        "sources": [
+          {
+            "sourceSegment": "19",
+            "startWord": 177,
+            "endWord": 224
+          }
+        ],
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
+      },
+      {
+        "id": "43",
+        "phase": "V",
+        "title": "La intuición empírica: el contexto",
+        "idea": "La experiencia en centros de tratamiento se presenta como base empírica para distinguir dos respuestas humanas.",
+        "role": "evidencia",
+        "visualKey": "evidence",
+        "sources": [
+          {
+            "sourceSegment": "20",
+            "startWord": 0,
+            "endWord": 47
+          }
+        ],
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
+      },
+      {
+        "id": "44",
+        "phase": "V",
+        "title": "La primera respuesta",
+        "idea": "Una clase de personas optó por quedar bien con mamá, el gobierno y, a veces, la sociedad.",
+        "role": "respuesta",
+        "visualKey": "minds",
+        "sources": [
+          {
+            "sourceSegment": "20",
+            "startWord": 48,
+            "endWord": 82
+          }
+        ],
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
+      },
+      {
+        "id": "45",
+        "phase": "V",
+        "title": "La otra respuesta",
+        "idea": "Existe otra clase de personas: quienes rompieron con mamá y sostuvieron esa ruptura.",
+        "role": "respuesta",
+        "visualKey": "minds",
+        "sources": [
+          {
+            "sourceSegment": "20",
+            "startWord": 83,
+            "endWord": 102
+          }
+        ],
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
+      },
+      {
+        "id": "46",
+        "phase": "V",
+        "title": "Dos mentalidades y la pérdida de sí",
+        "idea": "Las dos mentalidades conviven; romper con lo perfecto tiene significado y conformarse impide ser quien realmente se es.",
+        "role": "distinción",
+        "visualKey": "minds",
+        "sources": [
+          {
+            "sourceSegment": "20",
+            "startWord": 103,
+            "endWord": 157
+          }
+        ],
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
+      },
+      {
+        "id": "47",
+        "phase": "V",
+        "title": "Dos tipos de ser humano",
+        "idea": "La ruptura con lo perfecto aparece como diferencia entre dos tipos y se observa en los centros de tratamiento.",
+        "role": "clasificación",
+        "visualKey": "minds",
+        "sources": [
+          {
+            "sourceSegment": "20",
+            "startWord": 158,
+            "endWord": 190
+          }
+        ],
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
+      },
+      {
+        "id": "48",
+        "phase": "V",
+        "title": "La distinción merece ser reconocida",
+        "idea": "Distinguir esas dos respuestas se presenta como algo importante y útil para ambas partes.",
+        "role": "importancia",
+        "visualKey": "evidence",
+        "sources": [
+          {
+            "sourceSegment": "20",
+            "startWord": 191,
+            "endWord": 221
+          }
+        ],
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
+      },
+      {
+        "id": "49",
+        "phase": "V",
+        "title": "Educar para reconocer la diferencia",
+        "idea": "Reconocer socialmente las dos orientaciones se plantea como una necesidad cuya satisfacción inicia mediante la integración de la teoría en Otro Gran Programa.",
+        "role": "cierre",
+        "visualKey": "closing",
+        "sources": [
+          {
+            "sourceSegment": "20",
+            "startWord": 222,
+            "endWord": 286
+          }
+        ],
+        "editorialCriterion": "ONE_PREDOMINANT_COMMUNICATIVE_IDEA"
       }
     ],
     "implementationState": "The 36-segment model is canonized as the target editorial architecture in this object. The runtime's current 20-segment dataset remains the training baseline until the migration cycle is executed."
@@ -408,11 +879,11 @@
     "currentCanonicalTranscriptAudit": "No occurrences of 'Otro Buen Programa' or standalone 'OBP' were found in the current canonical phase3 transcript or timing artifact."
   },
   "richTranscript": {
-    "status": "IMPLEMENT_NOW_ON_CURRENT_20_BASELINE",
+    "status": "IMPLEMENT_49",
     "principle": "Use sparse semantic emphasis: bold marks the semantic anchor; underline marks the relational or consequential proposition. Avoid highlighting whole paragraphs.",
     "maxStrongPhrasesPerSegment": 1,
     "maxUnderlinePhrasesPerSegment": 1,
-    "rendererContract": "Word-level timing remains unchanged. Formatting is presentation-only and must not alter the synchronization clock.",
+    "rendererContract": "Word-level timing remains unchanged and global. Formatting is presentation-only and must not alter the master synchronization clock. Each canonical segment has at most one strong and one underline phrase.",
     "baseline20": [
       {
         "segment": "01",
@@ -514,6 +985,253 @@
         "strong": "dos grandes razas",
         "underline": "integrar la teoría de la desintegración positiva"
       }
+    ],
+    "segments49": [
+      {
+        "segment": "01",
+        "strong": "código QR",
+        "underline": "te pedí ayuda"
+      },
+      {
+        "segment": "02",
+        "strong": "extenderte una invitación",
+        "underline": "observadora u observador"
+      },
+      {
+        "segment": "03",
+        "strong": "Víctor Hugo Torres",
+        "underline": "desarrollador independiente"
+      },
+      {
+        "segment": "04",
+        "strong": "he denominado el proyecto Otro Gran Programa",
+        "underline": "proyecto Otro Gran Programa"
+      },
+      {
+        "segment": "05",
+        "strong": "enseñanza espiritual",
+        "underline": "desarrollo personal"
+      },
+      {
+        "segment": "06",
+        "strong": "objetivo de competir",
+        "underline": "programa de doce pasos"
+      },
+      {
+        "segment": "07",
+        "strong": "a nivel nacional",
+        "underline": "competir con ese prestigioso programa"
+      },
+      {
+        "segment": "08",
+        "strong": "profunda gratitud",
+        "underline": "tantas vidas ha salvado"
+      },
+      {
+        "segment": "09",
+        "strong": "existe la necesidad",
+        "underline": "una alternativa"
+      },
+      {
+        "segment": "10",
+        "strong": "tener eso y más",
+        "underline": "población tener eso y más"
+      },
+      {
+        "segment": "11",
+        "strong": "Un Curso de Milagros",
+        "underline": "otra enseñanza de respeto y de calado"
+      },
+      {
+        "segment": "12",
+        "strong": "judeocristiano y neognóstico",
+        "underline": "enseñanza de carácter"
+      },
+      {
+        "segment": "13",
+        "strong": "entrenamiento mental",
+        "underline": "una relación"
+      },
+      {
+        "segment": "14",
+        "strong": "pone en primer plano la relación",
+        "underline": "sufrimiento y, en muchas ocasiones, incluso destrucción"
+      },
+      {
+        "segment": "15",
+        "strong": "manual maestro para el perdón",
+        "underline": "pensamiento de perdón"
+      },
+      {
+        "segment": "16",
+        "strong": "entrenar la mente",
+        "underline": "no hay nada que perdonar"
+      },
+      {
+        "segment": "17",
+        "strong": "grupos de ayuda mutua",
+        "underline": "tratamientos residenciales"
+      },
+      {
+        "segment": "18",
+        "strong": "ya no utilizando el programa de doce pasos",
+        "underline": "también puede ser práctico"
+      },
+      {
+        "segment": "19",
+        "strong": "más arriba hacia lo no dual",
+        "underline": "una de las características que tendría Otro Gran Programa"
+      },
+      {
+        "segment": "20",
+        "strong": "enseñanzas espirituales",
+        "underline": "las maneras para poder desarrollar"
+      },
+      {
+        "segment": "21",
+        "strong": "una escala",
+        "underline": "más cercanas a lo no dual"
+      },
+      {
+        "segment": "22",
+        "strong": "objetivamente más arriba en la escala",
+        "underline": "Un Curso de Milagros"
+      },
+      {
+        "segment": "23",
+        "strong": "muchísimo más inclusivo",
+        "underline": "no solamente sería un programa para alcohólicos"
+      },
+      {
+        "segment": "24",
+        "strong": "único requisito",
+        "underline": "dejar la bebida"
+      },
+      {
+        "segment": "25",
+        "strong": "único requisito para pertenecer a esta agrupación",
+        "underline": "un amor todoabarcador"
+      },
+      {
+        "segment": "26",
+        "strong": "tú no eres culpable",
+        "underline": "la búsqueda de tu bienestar"
+      },
+      {
+        "segment": "27",
+        "strong": "teoría de la desintegración positiva",
+        "underline": "otro elemento"
+      },
+      {
+        "segment": "28",
+        "strong": "Casimir Dąbrowski",
+        "underline": "país devastado por la maquinaria de la guerra"
+      },
+      {
+        "segment": "29",
+        "strong": "conflicto moral",
+        "underline": "desarrollo de la personalidad"
+      },
+      {
+        "segment": "30",
+        "strong": "no es eso lo que está ocurriendo",
+        "underline": "cumplan con y cultiven este y este otro valor"
+      },
+      {
+        "segment": "31",
+        "strong": "entrar eventualmente en conflicto",
+        "underline": "las estructuras"
+      },
+      {
+        "segment": "32",
+        "strong": "no seas perfeccionista",
+        "underline": "no te estés haciendo la víctima"
+      },
+      {
+        "segment": "33",
+        "strong": "no son cobardes",
+        "underline": "razones de peso"
+      },
+      {
+        "segment": "34",
+        "strong": "universal y generalista",
+        "underline": "no hubiese hecho sino lo mismo"
+      },
+      {
+        "segment": "35",
+        "strong": "otros afortunados",
+        "underline": "optar por lo que todo mundo optaría"
+      },
+      {
+        "segment": "36",
+        "strong": "las familias no abandonan a sus hijos",
+        "underline": "sí es verdad"
+      },
+      {
+        "segment": "37",
+        "strong": "base de toda ausencia o carencia de bienestar",
+        "underline": "desintegración familiar"
+      },
+      {
+        "segment": "38",
+        "strong": "sentido común",
+        "underline": "no te lo voy a permitir"
+      },
+      {
+        "segment": "39",
+        "strong": "alto nivel de desarrollo",
+        "underline": "cuál valor es el que les representa"
+      },
+      {
+        "segment": "40",
+        "strong": "maltratando a un niño",
+        "underline": "No hay que ser un genio"
+      },
+      {
+        "segment": "41",
+        "strong": "personas de alta capacidad",
+        "underline": "como les conoció Dąbrowski en sus días"
+      },
+      {
+        "segment": "42",
+        "strong": "lo que es normal es de alta capacidad",
+        "underline": "No hace falta ser un genio"
+      },
+      {
+        "segment": "43",
+        "strong": "centros de tratamiento para la disfunción",
+        "underline": "los anexos"
+      },
+      {
+        "segment": "44",
+        "strong": "quedar bien con mamá",
+        "underline": "motivos más allá de su control"
+      },
+      {
+        "segment": "45",
+        "strong": "otra clase de personas",
+        "underline": "los que sí rompieron con mamá"
+      },
+      {
+        "segment": "46",
+        "strong": "las dos mentalidades",
+        "underline": "jamás podré ser la persona que yo verdaderamente sigo siendo"
+      },
+      {
+        "segment": "47",
+        "strong": "dos tipos de ser humano",
+        "underline": "existen en estos centros para el tratamiento de drogas"
+      },
+      {
+        "segment": "48",
+        "strong": "la distinción es importante",
+        "underline": "los otros"
+      },
+      {
+        "segment": "49",
+        "strong": "educar para que la sociedad empiece a reconocer",
+        "underline": "integrar la teoría de la desintegración positiva"
+      }
     ]
   },
   "complementaryContent": {
@@ -599,16 +1317,15 @@
     ]
   },
   "nextCycle": {
-    "objective": "Promote the 36-segment editorial model from canonical design to runtime without generating new audio.",
+    "objective": "Promote and verify the 49-segment editorial model in production while retaining the 20-segment timing artifact as immutable evidence.",
     "orderedWork": [
-      "Rebuild the phase3 dataset as 36 editorial segments from the source word timing while preserving the single master audio file.",
-      "Change the player from per-segment MP3 loading to master-audio + masterStart/masterEnd clipping.",
-      "Preserve deterministic audio↔word synchronization against the same timing evidence.",
-      "Adopt the rich-format map for the 36 canonical segments.",
-      "Refactor the roadmap to variable segment counts per phase.",
-      "Create the first procedural visual grammar set and map each segment to one visual role.",
-      "Run the full benchmark and mobile E2E before promoting the new model.",
-      "Only after technical PASS perform the perceptual A/B for the gratifying-following objective."
+      "Generate the executable 49-segment dataset from the canonical object and immutable 20-segment forced-alignment source.",
+      "Change the player to one master audio source with contiguous editorial windows; never create one MP3 per editorial segment.",
+      "Render the 49 rich-transcript windows with sparse semantic emphasis and global word timing.",
+      "Refactor the roadmap to variable segment counts per phase: I=6, II=8, III=9, IV=7, V=19.",
+      "Map each segment to one procedural visual grammar key; keep the vocabulary finite and parameterized.",
+      "Run deterministic validation, runtime syntax, mobile E2E and performance benchmarks locally through RDC.",
+      "Publish only after all new-contract checks pass; keep perceptual A/B as a separate empirical gate."
     ],
     "resumeInstruction": "At the start of every future cycle, read this object first. Do not rediscover the segmentation rationale from the code."
   },
@@ -616,5 +1333,18 @@
     "sourceOfTruth": "This JSON is the canonical project design object for experience segmentation, transcript presentation and complementary-content architecture.",
     "changeRule": "Any change to segment count, semantic boundaries, branding policy, transcript emphasis contract or visual-content architecture must update this object in the same cycle before implementation.",
     "evidenceRule": "A design decision may be canonical here without being claimed as empirically certified. Runtime PASS, perceptual A/B and production evidence remain separate states."
+  },
+  "runtimeArchitecture": {
+    "status": "CANONICAL",
+    "masterAudio": "assets/audio/relato-ogp-v015.mp3",
+    "immutableEvidence": "assets/data/relato-ogp-phase3.json",
+    "executableDataset": "assets/data/relato-ogp-experience.json",
+    "clock": "master-audio currentTime in seconds",
+    "editorialWindow": "masterStart/masterEnd",
+    "sequentialCoverage": "[0,duration] with boundary = midpoint between adjacent spoken-word end/start",
+    "wordCoordinates": "global master seconds",
+    "segmentAudioFiles": "FORBIDDEN_FOR_EDITORIAL_SEGMENTATION",
+    "editability": "Removing or replacing a segment changes only canonical/editorial windows; master audio remains single.",
+    "migrationRule": "Never infer editorial boundaries from visual compositions; visual choice is downstream of canonical semantic role."
   }
 }

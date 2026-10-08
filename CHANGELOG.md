@@ -1,11 +1,14 @@
 ## 2026-10-07 · Segmentación canónica y contenido complementario
 
-- Se canonizó **36 segmentos** como arquitectura editorial objetivo para el corpus actual; los 20 anteriores quedan explícitamente como baseline de aprendizaje.
-- Se estableció la regla **una idea preponderante por segmento**, con no-recuento de ideas repetidas y posibilidad de cruzar fronteras heredadas cuando la continuidad discursiva lo justifica.
+- Se descartó la primera propuesta de 36 segmentos durante la auditoría profunda porque contenía una unidad aproximada de 120 s que mezclaba ideas distintas.
+- Se canonizaron **49 segmentos editoriales**, con banda operativa **46–52**, manteniendo los 20 segmentos anteriores como baseline histórico e inmutable.
+- Se estableció la regla **una idea preponderante por segmento**, con no-recuento de ideas repetidas, división de proposiciones independientes y posibilidad de cruzar fronteras heredadas cuando la continuidad discursiva lo justifica.
 - Se creó `assets/data/story-experience-canon.json` como objeto canónico y fuente de verdad reanudable.
+- Se creó `assets/data/relato-ogp-experience.json` como dataset ejecutable: 49 segmentos, 2,206 palabras, ventanas globales contiguas y un único audio maestro.
+- Se incorporó `scripts/build-story-experience.mjs` para reproducir y verificar el dataset a partir del canon y del baseline forzado.
 - Se conectó el formato enriquecido de transcripción al canon, con énfasis semántico escaso en negrita y subrayado sin alterar timings.
-- Se adoptó una estrategia **procedural-first** para contenido complementario: HTML/CSS/SVG → Web Animations API → Canvas selectivo → video HTML5 excepcional.
-- La migración efectiva del runtime desde 20 hacia el modelo de 36 segmentos queda como siguiente ciclo; no se fabrican nuevos MP3 para resolver una decisión editorial.
+- Se migró el runtime para usar `masterStart/masterEnd` sobre el audio maestro y roadmap de cantidad variable por fase.
+- Se mantiene la estrategia **procedural-first** para contenido complementario: HTML/CSS/SVG → Web Animations API → Canvas selectivo → video HTML5 excepcional.
 
 ## 2026-10-07 — F4 atención audiovisual
 

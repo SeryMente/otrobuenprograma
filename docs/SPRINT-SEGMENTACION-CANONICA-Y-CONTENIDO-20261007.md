@@ -1,99 +1,149 @@
-# Sprint · Segmentación canónica y contenido complementario
+﻿# Sprint Â· SegmentaciÃ³n canÃ³nica, transcripciÃ³n y contenido complementario
 
 **Proyecto:** Otro Gran Programa (OGP)
-**Repositorio canónico:** https://github.com/SeryMente/otrogranprograma
-**URL pública canónica:** https://serymente.github.io/otrogranprograma/
-**Objeto canónico:** `assets/data/story-experience-canon.json`
+**Repositorio canÃ³nico:** https://github.com/SeryMente/otrogranprograma
+**URL pÃºblica canÃ³nica:** https://serymente.github.io/otrogranprograma/
+**Objeto canÃ³nico:** `assets/data/story-experience-canon.json`
+**Dataset ejecutable:** `assets/data/relato-ogp-experience.json`
 
-## Decisión
+## DecisiÃ³n final
 
-El modelo de aprendizaje de 20 segmentos deja de tratarse como número normativo. Para este corpus se recomienda **36 segmentos editoriales**, con una banda operativa de **32–40**.
+El modelo de aprendizaje de 20 segmentos deja de tratarse como nÃºmero normativo. DespuÃ©s de una segunda auditorÃ­a semÃ¡ntica y temporal, este corpus queda recomendado en **49 segmentos editoriales**, con una banda operativa de **46â€“52**.
 
-36 no es un número mágico: es el resultado de aplicar atomicidad semántica, continuidad discursiva, no-recuento de ideas repetidas, editabilidad y utilidad temporal/visual.
+El nÃºmero no se fija por simetrÃ­a de fases ni por un objetivo visual. Resulta de aplicar, en este orden, atomicidad semÃ¡ntica, continuidad discursiva, no-recuento de ideas repetidas, editabilidad y viabilidad temporal.
 
-## Por qué 20 ya no es suficiente como canon
+La primera propuesta de 36 quedÃ³ descartada antes de convertirse en arquitectura ejecutable porque contenÃ­a una unidad de aproximadamente 120 segundos que mezclaba varias ideas. Esa correcciÃ³n es parte de la trazabilidad de la decisiÃ³n y queda documentada para evitar que una versiÃ³n intermedia vuelva a confundirse con el canon.
 
-El audio tiene 1,391.304 s (23:11) y 2,206 palabras temporizadas. Con 20 segmentos, la media ronda 69.6 s por segmento. Esa escala sirve para aprender el instrumento, pero fuerza a convivir dentro de la misma unidad ideas que después queremos poder ilustrar, enfatizar, sustraer o sustituir independientemente.
+## Evidencia de partida
 
-## Criterio canónico de segmentación
+El audio maestro es `assets/audio/relato-ogp-v015.mp3`, con una duraciÃ³n de **1,391.304 s (23:11)** y **2,206 palabras temporizadas**.
 
-1. Cada segmento tiene una **idea preponderante única**.
-2. Una idea repetida en distintos puntos no crea nuevos segmentos; se clasifica como tema secundario o contaminación retórica.
-3. Una idea puede atravesar una frontera heredada cuando su continuidad discursiva es inmediata y no aparece otra idea dominante entre medio.
-4. Una oración no equivale automáticamente a una idea: varias oraciones pueden desarrollar una misma proposición.
-5. La visualización no puede dictar dónde cortar el discurso.
-6. La unidad debe seguir siendo editable sin romper el reloj maestro.
+El baseline histÃ³rico de Fase 3 conserva **20 segmentos fÃ­sicos** y su timing forzado. Ese archivo no se reescribe: se trata como evidencia fuente inmutable.
 
-## Resultado del análisis
+El nuevo dataset editorial contiene:
 
-El diseño propuesto conserva las cinco fases existentes, pero permite cantidades variables de segmentos por fase. La distribución resultante es aproximadamente **6 / 5 / 8 / 5 / 12**.
+- **49 segmentos**
+- Fase I: **6**
+- Fase II: **8**
+- Fase III: **9**
+- Fase IV: **7**
+- Fase V: **19**
+- media: **28.394 s**
+- mediana: **26.642 s**
+- P90: **53.278 s**
+- mÃ¡ximo: **61.721 s**
+- palabras cubiertas: **2,206 / 2,206**, sin duplicados
+- cobertura temporal: **0.000â€“1,391.304 s**, sin huecos ni solapamientos editoriales
 
-El resultado mantiene una unidad media cercana a 36 s y unos 61 términos por segmento. Hay unidades deliberadamente cortas cuando la idea es autónoma y deliberadamente largas cuando dividirlas produciría una fragmentación artificial.
+Existe un Ãºnico segmento por encima de 60 s. Se conserva porque la unidad conceptual de la escala espiritual sigue siendo indivisible sin producir un corte artificial; la decisiÃ³n se basa en el contenido, no en el cronÃ³metro.
 
-### Ejemplos decisivos
+## Criterio canÃ³nico de segmentaciÃ³n
 
-El bloque que dice qué se ha denominado `Otro Gran Programa` se separa de la definición posterior de enseñanza espiritual como desarrollo personal: son dos actos comunicativos distintos.
+1. Cada segmento declara una **idea comunicativa preponderante Ãºnica**.
+2. Una idea repetida no crea un segmento adicional sÃ³lo por reaparecer.
+3. Una frontera heredada puede cruzarse cuando la misma proposiciÃ³n continÃºa inmediatamente.
+4. Una oraciÃ³n no equivale automÃ¡ticamente a una idea.
+5. Una oraciÃ³n con dos proposiciones independientes sÃ­ puede dividirse, incluso sin punto final, cuando existe una pausa temporal utilizable.
+6. El corte debe preservar una lectura natural y no puede inventarse para acomodar una animaciÃ³n.
+7. Cada segmento debe poder sustraerse, sustituirse o reordenarse sin fabricar otro archivo de audio.
+8. El audio maestro permanece Ãºnico.
 
-La repetición del objetivo de competir con el programa de doce pasos dentro del bloque de gratitud no crea otro segmento de competencia: queda subordinada a la idea dominante de gratitud.
+### Casos decisivos
 
-La continuidad entre `escala de lo no dual` y su reafirmación inmediata en el siguiente bloque se trata como una sola construcción conceptual.
+La frase que denomina el proyecto y la definiciÃ³n posterior de la enseÃ±anza espiritual son dos actos comunicativos distintos.
 
-Del mismo modo, la explicación de que los valores aprendidos contradicen la realidad y generan conflicto se mantiene unida aunque cruce la frontera heredada entre los segmentos 16 y 17.
+La reiteraciÃ³n del objetivo de competir con el programa de doce pasos queda subordinada a la idea dominante de gratitud cuando aparece dentro de ese bloque.
 
-## Transcripción y branding
+La escala de lo dual/no dual se mantiene como una construcciÃ³n continua, pero se evita crear una unidad excesivamente larga que mezcle indiscriminadamente metÃ¡fora, escala y consecuencias.
 
-El nombre canónico de la iniciativa es **Otro Gran Programa (OGP)**. No se debe usar `Otro Buen Programa` ni `OBP` como marca.
+En la secciÃ³n final, la primera respuesta, la segunda respuesta, la convivencia de mentalidades, la distinciÃ³n y la implicaciÃ³n educativa se separan porque son afirmaciones editoriales diferentes, aunque pertenezcan al mismo arco discursivo.
 
-La excepción es probatoria: si una persona realmente pronunció `Otro Buen Programa`, la transcripción debe conservar esa forma porque forma parte del audio. Si no fue pronunciado, se normaliza a `Otro Gran Programa`.
+## Arquitectura temporal
 
-La auditoría del corpus canónico actual no encontró `Otro Buen Programa` ni `OBP` en la transcripción o en el artefacto de timing.
+El runtime ya no carga un MP3 distinto por segmento.
 
-## Formato enriquecido
+La relaciÃ³n canÃ³nica es:
 
-La legibilidad se mejora mediante énfasis escaso a nivel de palabra: una frase semántica puede ir en **negritas** y una relación/consecuencia en <u>subrayado</u>. El formato no modifica ningún timestamp ni dato de sincronización.
+`audio maestro + masterStart + masterEnd + palabras con coordenadas globales`
 
-El contrato fija como máximo una frase fuerte y una frase subrayada por segmento del baseline, evitando convertir toda la transcripción en ruido cromático o tipográfico.
+Las fronteras editoriales se calculan como el punto medio entre el final de la Ãºltima palabra del segmento anterior y el comienzo de la primera palabra del segmento siguiente. AsÃ­, la secuencia de ventanas cubre exactamente `[0, duraciÃ³n]`.
 
-## Contenido complementario
+Esto separa tres capas:
 
-La decisión arquitectónica es **procedural-first**. El proyecto no debe depender de cuotas de generación de imágenes.
+**Contenido:** texto e idea.
+**SegmentaciÃ³n:** ventana editorial.
+**Audio:** un Ãºnico recurso maestro.
 
-### Prioridad tecnológica
+Por esta razÃ³n, eliminar o reemplazar un segmento no obliga a regenerar o dividir el MP3.
 
-**1. HTML/CSS/SVG procedural.** Es la opción por defecto: reproducible, versionable, liviana y paramétrica.
+## TranscripciÃ³n enriquecida
 
-**2. Web Animations API.** Útil para coreografiar entradas, salidas y movimientos sincronizados con el reloj de audio; es una API ampliamente disponible. citeturn188572search2turn188572search4
+Cada uno de los 49 segmentos tiene como mÃ¡ximo:
 
-**3. Canvas.** Solo para escenas que realmente necesiten muchos elementos móviles. La potencia no debe pagarse con jitter o CPU innecesaria.
+- una frase fuerte en **negritas**
+- una frase relacional/consecuencial <u>subrayada</u>
 
-**4. `<video>` HTML5.** Debe reservarse para casos en que un movimiento grabado aporte más que una escena procedural. El video será mudo, corto, autocontenido y optimizado.
+El resaltado se calcula sobre las palabras ya temporizadas. No altera timestamps, orden ni reloj.
 
-**5. Raster estático.** Solo cuando el valor documental de una imagen concreta supere claramente al visual procedural.
+El contrato visual es deliberadamente escaso: el Ã©nfasis sirve para localizar la idea mientras se escucha, no para convertir la transcripciÃ³n en una superficie saturada.
 
-MDN señala que la animación web puede construirse con SVG, JavaScript/canvas, CSS y `<video>`, y que el coste depende de las propiedades animadas y del tipo de medio; para la fluidez conviene privilegiar propiedades eficientes y una carga controlada. citeturn188572search0turn188572search1
+## Contenido complementario: Procedural First
 
-También se mantendrá una versión respetuosa con `prefers-reduced-motion`, porque la animación no debe convertirse en una barrera de accesibilidad. citeturn188572search7turn188572search4
+La decisiÃ³n es **PROCEDURAL_FIRST**.
 
-### Gramática visual
+Orden arquitectÃ³nico:
 
-Se reutilizará una biblioteca pequeña de gramáticas visuales: emergencia, continuum, relación, tensión, inclusión, elección, evidencia e integración. La variación vendrá de los parámetros semánticos del segmento, no de fabricar una ilustración completamente nueva para cada uno.
+**1. HTML/CSS/SVG.**
+Escenas paramÃ©tricas, locales, reproducibles y versionables.
 
-## Arquitectura temporal recomendada
+**2. Web Animations API.**
+CoreografÃ­a temporal de entradas, salidas y transiciones.
 
-El audio maestro sigue siendo el reloj único. Los futuros 36 segmentos deberán almacenar `masterStart` y `masterEnd` y derivar de ahí todos los eventos visuales. No se crearán 36 copias de audio solo para satisfacer la segmentación editorial.
+**3. Canvas.**
+SÃ³lo cuando una escena necesite realmente un conjunto elevado de primitivas mÃ³viles.
 
-Esto desacopla tres cosas que antes estaban acopladas: **contenido**, **segmentación editorial** y **archivo de audio**.
+**4. `<video>` HTML5.**
+ExcepciÃ³n para movimientos grabados cuyo valor supere claramente al procedural; siempre corto, mudo y autocontenido.
 
-## Próximo ciclo
+**5. Raster estÃ¡tico.**
+ExcepciÃ³n documental, no soluciÃ³n por defecto.
 
-El objeto canónico ya contiene el mapa exacto de las 36 unidades propuestas y una instrucción explícita de reanudación.
+La primera biblioteca procedural del runtime reutiliza una gramÃ¡tica finita: emergencia, continuidad/corriente, relaciÃ³n, perdÃ³n, escala, inclusiÃ³n, conflicto/estructura, elecciÃ³n, evidencia e integraciÃ³n. Los 49 segmentos seleccionan un `visualKey` semÃ¡ntico; el renderer puede reutilizar una misma gramÃ¡tica con parÃ¡metros distintos.
 
-El siguiente ciclo de implementación debe migrar el runtime a ese modelo de 36 segmentos, adaptar el roadmap a cantidades variables, conservar el benchmark de sincronización y después construir la primera biblioteca procedural de visuales.
+Las animaciones deben favorecer `transform` y `opacity`, pausar cuando la experiencia no estÃ© visible y respetar `prefers-reduced-motion`.
 
-El objetivo perceptual seguirá siendo: **oír → localizar → confirmar → anticipar → seguir**.
+Referencias tÃ©cnicas mantenidas en el canon:
 
-## Regla de persistencia
+- https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/Animation_performance_and_frame_rate
+- https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API
+- https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@property
+- https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/prefers-reduced-motion
 
-Cada cambio futuro que modifique el número de segmentos, una frontera semántica, el contrato de formato, la política de branding o la arquitectura visual debe actualizar primero `assets/data/story-experience-canon.json`. El código no debe volver a convertirse en la única fuente de verdad.
+## Branding
 
-**Estado:** CANONICAL DESIGN BASELINE · listo para continuación de implementación.
+La identidad operativa y editorial es **Otro Gran Programa (OGP)**.
+
+`Otro Buen Programa` y `OBP` no deben aparecer como marca, rutas, identificadores o instrumentaciÃ³n.
+
+ExcepciÃ³n probatoria: si una persona realmente pronuncia `Otro Buen Programa` en el audio, la transcripciÃ³n debe conservar esa evidencia literal. No se reescribe una palabra hablada para resolver branding.
+
+## QA y gobernanza
+
+El baseline de 20 segmentos continÃºa siendo verificable mediante su propia herramienta histÃ³rica. La nueva experiencia se valida mediante un contrato especÃ­fico que comprueba:
+
+- nÃºmero exacto de segmentos y distribuciÃ³n por fase
+- cobertura Ãºnica de las 2,206 palabras
+- monotonicidad y continuidad de `masterStart/masterEnd`
+- coincidencia con la duraciÃ³n del audio maestro
+- existencia y localizaciÃ³n de los marcadores rich
+- prohibiciÃ³n de dependencias editoriales a `segment-XX.mp3`
+- ausencia de restos del hardcode de cuatro segmentos por fase
+- sintaxis JavaScript
+
+La baterÃ­a de sincronizaciÃ³n genÃ©rica continÃºa siendo independiente del contenido. La prueba perceptual A/B no se declara aprobada por pruebas automÃ¡ticas: requiere observaciÃ³n humana real.
+
+## Estado
+
+**CANONICAL EXECUTABLE ARCHITECTURE**
+
+La regla de persistencia es obligatoria: cualquier cambio de nÃºmero de segmentos, frontera semÃ¡ntica, contrato de transcripciÃ³n, branding o gramÃ¡tica visual se registra primero en `assets/data/story-experience-canon.json` y despuÃ©s se implementa.

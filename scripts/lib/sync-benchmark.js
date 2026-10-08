@@ -38,7 +38,7 @@ function chooseRuntimeSegment(segments, strategy = "max-word-count") {
   if (!segments.length) return null;
   const score = (segment) => {
     const words = (segment.words || []).length;
-    const duration = Number(segment.audioDuration) || 0;
+    const duration = Number(segment.audioDuration ?? segment.duration) || 0;
     if (strategy === "max-duration") return duration;
     if (strategy === "max-density") return duration ? words / duration : 0;
     return words;

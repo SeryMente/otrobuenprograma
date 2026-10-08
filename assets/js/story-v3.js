@@ -1,10 +1,10 @@
 (function(){
 'use strict';
 var mount=document.getElementById('relato-sonoro');if(!mount)return;
-var V='v1.18.0-20261007';
+var V='v1.19.0-20261007';
 var ROOT=(location.hostname==='serymente.github.io')?'/otrogranprograma/':'/';
 var MOBILE=window.matchMedia&&window.matchMedia('(max-width:820px)').matches;
-var URL_DATA=ROOT+'assets/data/relato-ogp-phase3.json';
+var URL_DATA=ROOT+'assets/data/relato-ogp-experience.json';
 var URL_CANON=ROOT+'assets/data/story-experience-canon.json';
 var VIS=[['welcome','Escuchar antes de interpretar'],['currents','Lo que ya existe y lo que se abre'],['relationship','La relación como campo'],['forgiveness','Perdón como práctica'],['scale','Una posición distinta'],['inclusion','Una pertenencia más amplia'],['dabrowski','Conflicto y desarrollo'],['structures','Cuando la estructura resiste'],['minds','Dos respuestas posibles'],['closing','Una propuesta que se integra']];
 var STORY_TITLE="una iniciativa para revolucionar la manera en la que aliviaremos la disfunción familiar para nuestros hijos y sus hijos también.";
@@ -14,6 +14,10 @@ function esc(v){return String(v==null?'':v).replace(/[&<>"]/g,function(c){return
 function fmt(t){t=Number(t);if(!Number.isFinite(t)||t<0)return'0:00';var s=Math.round(t);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');}
 function asset(path){return ROOT+String(path||'').replace(/^\/+/,'');}
 function art(k,title,id){
+if(k==='emergence')k='welcome';
+if(k==='tension')k='structures';
+if(k==='choice')k='minds';
+if(k==='evidence')k='closing';
 var W='#f7fbff',P='#b7caf2',A='#efb45f',B='#24499d',D='#0e1832',body;
 if(k==='relationship')body='<g stroke="'+P+'" stroke-width="3" opacity=".72"><path d="M90 120 220 70l100 130 120-85 90 105-78 120-142-45-112 88z"/><path d="m220 70-10 310m110-180 120 135M90 120l28 260"/></g><circle class="art-pulse" cx="320" cy="200" r="48" fill="none" stroke="'+A+'" stroke-width="4"/>';
 else if(k==='forgiveness')body='<circle cx="220" cy="210" r="72" fill="'+W+'" opacity=".10"/><circle cx="380" cy="210" r="72" fill="'+A+'" opacity=".18"/><path class="art-draw" d="M140 214C190 160 225 165 265 214s75 52 115 0 70-49 80 0" fill="none" stroke="'+W+'" stroke-width="8" stroke-linecap="round" stroke-dasharray="620" stroke-dashoffset="620"/>';
@@ -33,18 +37,21 @@ var groups={},order=[];
 segs.forEach(function(s){var phase=String(s.phase||'');if(!groups[phase]){groups[phase]=[];order.push(phase);}groups[phase].push(s);});
 order.sort(function(a,b){return Number(groups[a][0].id)-Number(groups[b][0].id);});
 if(order.length!==5)throw new Error('El roadmap requiere cinco etapas.');
-order.forEach(function(p){groups[p].sort(function(a,b){return Number(a.id)-Number(b.id);});if(groups[p].length!==4)throw new Error('Cada etapa requiere cuatro segmentos.');});
+order.forEach(function(p){groups[p].sort(function(a,b){return Number(a.id)-Number(b.id);});if(!groups[p].length)throw new Error('Una etapa no puede estar vacía.');});
 var html='<nav class="story-micro-rail" aria-label="Roadmap y controles de la experiencia" data-sync-rail="true"><div class="story-micro-controls" aria-label="Controles de audio"><button class="story-micro-prev" type="button" aria-label="Fragmento anterior" title="Anterior">←</button><button class="story-micro-play" type="button" data-sync-play="true" aria-label="Reproducir" title="Reproducir" aria-controls="relato-sonoro">▶</button><button class="story-micro-next" type="button" aria-label="Siguiente fragmento" title="Siguiente">→</button></div><div class="story-micro-progress" role="progressbar" aria-label="Progreso del fragmento" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div><div class="story-micro-meta"><span class="story-micro-time">0:00</span><span class="story-micro-status" role="status" aria-live="polite">Preparando…</span></div><ol>';
 order.forEach(function(p){var items=groups[p];html+='<li class="story-micro-phase" data-phase="'+esc(p)+'"><button class="story-micro-phase-label" type="button" data-segment="'+esc(items[0].id)+'" aria-label="Sección '+esc(p)+', segmento '+esc(items[0].id)+'">'+esc(p)+'</button><div class="story-micro-segments">';items.forEach(function(s){html+='<button class="story-micro-segment" type="button" data-segment="'+esc(s.id)+'" data-sync-segment-id="'+esc(s.id)+'" data-sync-segment-control="'+esc(s.id)+'" aria-label="Segmento '+esc(s.id)+', sección '+esc(p)+'"><span aria-hidden="true"></span></button>';});html+='</div></li>';});
 html+='</ol></nav>';return html;
 }
 function render(data,canon){
 var segs=(data.segments||[]).slice().sort(function(a,b){return Number(a.id)-Number(b.id);});
-if(segs.length!==20)throw new Error('No se pudo preparar el relato.');
-mount.innerHTML='<div class="story-rail">'+segs.map(function(s,i){var v=VIS[Math.floor(i/2)];return '<article class="story-stop" id="story-stop-'+esc(s.id)+'" data-segment="'+esc(s.id)+'" data-sync-segment-id="'+esc(s.id)+'" data-sync-active-segment="false"><div class="story-copy"><h2>'+esc(s.title)+'</h2><p class="story-transcript" aria-label="Texto hablado">'+(function(){var rich=(canon&&canon.richTranscript&&canon.richTranscript.baseline20||[]).find(function(x){return String(x.segment)===String(s.id);});var richIndex=buildRichIndex(s,rich);return s.words.map(function(w,j){var fm=richIndex[j]||'';return '<button class="story-word'+(fm?' '+fm:'')+'" type="button" data-segment="'+esc(s.id)+'" data-word="'+j+'" data-sync-word-index="'+j+'" data-sync-current-word="false">'+esc(w.word)+'</button> ';}).join('');})()+'</p></div><div class="story-art">'+art(v[0],v[1],s.id)+'</div><div class="story-segment-meta"><button type="button" data-play-segment="'+esc(s.id)+'">Escuchar este fragmento</button></div></article>';}).join('')+'</div>'+buildRail(segs)+'<button class="story-return-overlay" type="button" hidden>Volver a la narración</button><audio class="story-audio" preload="auto" playsinline data-sync-audio="true"></audio><div class="ogp-qr-autoplay-hint" role="status">El sonido está listo. Este navegador necesita un toque para comenzar.<button type="button">Iniciar experiencia</button></div>';
+if(segs.length!==49)throw new Error('El relato canónico requiere 49 segmentos.');
+if(!data.sourceAudio||!data.sourceAudio.path)throw new Error('Falta la ruta del audio maestro.');
+var masterAudioPath=String(data.sourceAudio.path);
+var richItems=(canon&&canon.richTranscript&&canon.richTranscript.segments49)||[];
+mount.innerHTML='<div class="story-rail">'+segs.map(function(s){var rich=richItems.find(function(x){return String(x.segment)===String(s.id);});var richIndex=buildRichIndex(s,rich);return '<article class="story-stop" id="story-stop-'+esc(s.id)+'" data-segment="'+esc(s.id)+'" data-sync-segment-id="'+esc(s.id)+'" data-sync-active-segment="false"><div class="story-copy"><h2>'+esc(s.title)+'</h2><p class="story-transcript" aria-label="Texto hablado">'+s.words.map(function(w,j){var fm=richIndex[j]||'';return '<button class="story-word'+(fm?' '+fm:'')+'" type="button" data-segment="'+esc(s.id)+'" data-word="'+j+'" data-sync-word-index="'+j+'" data-sync-current-word="false">'+esc(w.word)+'</button> ';}).join('')+'</p></div><div class="story-art">'+art(String(s.visualKey||'welcome'),s.title,s.id)+'</div><div class="story-segment-meta"><button type="button" data-play-segment="'+esc(s.id)+'">Escuchar este fragmento</button></div></article>';}).join('')+'</div>'+buildRail(segs)+'<button class="story-return-overlay" type="button" hidden>Volver a la narración</button><audio class="story-audio" preload="auto" playsinline data-sync-audio="true"></audio><div class="ogp-qr-autoplay-hint" role="status">El sonido está listo. Este navegador necesita un toque para comenzar.<button type="button">Iniciar experiencia</button></div>';
 var audio=mount.querySelector('.story-audio'),prev=mount.querySelector('.story-micro-prev'),next=mount.querySelector('.story-micro-next'),play=mount.querySelector('.story-micro-play'),microProgress=mount.querySelector('.story-micro-progress'),microTime=mount.querySelector('.story-micro-time'),status=mount.querySelector('.story-micro-status'),hint=mount.querySelector('.ogp-qr-autoplay-hint'),rail=mount.querySelector('.story-micro-rail'),returnOverlay=mount.querySelector('.story-return-overlay');
 var cards=[].slice.call(mount.querySelectorAll('.story-stop')),railPhaseButtons=[].slice.call(mount.querySelectorAll('.story-micro-phase-label')),railSegmentButtons=[].slice.call(mount.querySelectorAll('.story-micro-segment'));
-var cur=0,widx=-1,anchorIdx=-1,anchorUntil=0,follow=true,advance=true,playing=false,manual=0,lastScroll=0,gestureRecovery=false,suppressFollowUntil=0,scrollY0=window.scrollY||0,scrollT0=Date.now(),intenseOverlayTimer=0,rafId=0,wordTimerId=0,lastPaintedWord=-2,lastPaintedState='',audioContext=null,analyser=null,mediaSource=null,prosodyBuffer=null,prosodyReady=false,prosodyEnergy=0,lastProsodyPaint=0,activeArt=null;var CONTINUITY_HOLD_MS=240;var RECENT_ECHO_WORDS=3;window.__ogpSyncDiagnostics={version:'v1.18.0-20261007',transitions:[],frames:0,currentWord:-1,continuityAnchors:0,continuityAnchorFrames:0,maxContinuityGapMs:0,progressFrames:0,prosodyFrames:0,prosodySamples:[],prosodyReady:false};
+var cur=0,widx=-1,anchorIdx=-1,anchorUntil=0,follow=true,advance=true,playing=false,manual=0,lastScroll=0,gestureRecovery=false,suppressFollowUntil=0,scrollY0=window.scrollY||0,scrollT0=Date.now(),intenseOverlayTimer=0,rafId=0,wordTimerId=0,lastPaintedWord=-2,lastPaintedState='',audioContext=null,analyser=null,mediaSource=null,prosodyBuffer=null,prosodyReady=false,prosodyEnergy=0,lastProsodyPaint=0,activeArt=null,pendingSeek=null,pendingPlayReason='';var CONTINUITY_HOLD_MS=240;var RECENT_ECHO_WORDS=3;window.__ogpSyncDiagnostics={version:'v1.19.0-20261007',transitions:[],frames:0,currentWord:-1,continuityAnchors:0,continuityAnchorFrames:0,maxContinuityGapMs:0,progressFrames:0,prosodyFrames:0,prosodySamples:[],prosodyReady:false};
 audio.preload='auto';audio.autoplay=true;audio.setAttribute('autoplay','');
 function current(){return segs[cur];}
 function ensureProsody(){
@@ -138,7 +145,7 @@ function recoverFromGesture(){clearGestureRecovery();start('first-gesture');}
 function paintRail(){
 var id=String(current().id);
 railSegmentButtons.forEach(function(b){var n=String(b.dataset.segment);b.classList.toggle('is-current',n===id);b.classList.toggle('is-past',Number(n)<Number(id));b.setAttribute('aria-current',n===id?'true':'false');});
-railPhaseButtons.forEach(function(b){var target=String(b.dataset.segment),group=b.closest('.story-micro-phase'),first=Number(target),last=first+3,currentId=Number(id),active=currentId>=first&&currentId<=last;if(group)group.classList.toggle('is-current',active);b.setAttribute('aria-current',active?'true':'false');});
+railPhaseButtons.forEach(function(b){var group=b.closest('.story-micro-phase'),items=group?group.querySelectorAll('.story-micro-segment'):[],first=items.length?Number(items[0].dataset.segment):Number(b.dataset.segment),last=items.length?Number(items[items.length-1].dataset.segment):first,currentId=Number(id),active=currentId>=first&&currentId<=last;if(group)group.classList.toggle('is-current',active);b.setAttribute('aria-current',active?'true':'false');});
 }
 function paint(){cards.forEach(function(c,i){var active=i===cur;c.classList.toggle('is-active',active);c.setAttribute('aria-current',active?'true':'false');c.setAttribute('data-sync-active-segment',active?'true':'false');if(active)activeArt=c.querySelector('.story-art');});if(prev)prev.disabled=cur===0;if(next)next.disabled=cur===segs.length-1;paintRail();}
 function paintWords(){
@@ -197,18 +204,36 @@ if(nextIndex>=0&&changed&&follow&&playing){
  }
 }
 }
-function load(i,go,scroll){clearWordTimer();cur=Math.max(0,Math.min(segs.length-1,i));widx=-1;lastPaintedWord=-2;var s=current();audio.autoplay=true;audio.src=asset(s.audio)+'?v='+V;audio.load();if(status)status.textContent='Fragmento listo.';paint();paintWords();if(scroll){var el=document.getElementById('story-stop-'+s.id);if(el)el.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'center'});}if(go)start('segment-change');}
+function ensureMasterAudio(){
+var src=asset(masterAudioPath)+'?v='+V;
+if(audio.getAttribute('src')!==src){audio.autoplay=true;audio.setAttribute('src',src);audio.load();}
+}
+function load(i,go,scroll){
+clearWordTimer();cur=Math.max(0,Math.min(segs.length-1,i));widx=-1;anchorIdx=-1;lastPaintedWord=-2;
+var s=current();pendingSeek=Number(s.masterStart)||0;ensureMasterAudio();
+if(audio.readyState<1){try{audio.load();}catch(e){}}
+if(audio.readyState>=1){try{audio.currentTime=pendingSeek;pendingSeek=null;}catch(e){}}
+if(status)status.textContent='Fragmento '+s.id+' listo.';
+paint();paintWords();
+if(scroll){var el=document.getElementById('story-stop-'+s.id);if(el)el.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'center'});}
+if(go)start('segment-change');
+}
 function start(reason){
-if(!audio.src)return;
+if(!audio.src){ensureMasterAudio();if(!audio.src)return;}
+if(audio.readyState<1){pendingPlayReason=reason;return;}
 var p;
 try{p=audio.play();}catch(e){p=Promise.reject(e);}
 if(p&&p.then)p.then(function(){playing=true;mount.classList.add('is-playing');ensureProsody();if(audioContext&&audioContext.state==='suspended'){audioContext.resume().catch(function(){});}play.textContent='Ⅱ';play.setAttribute('aria-label','Pausar');if(status)status.textContent=reason==='first-gesture'?'Reproduciendo.':'Reproduciendo esta parte.';syncMicroPlay();clearGestureRecovery();if(hint)hint.classList.remove('is-visible');update();startVisualClock();scheduleNextWord();}).catch(function(err){playing=false;mount.classList.remove('is-playing');play.textContent='▶';play.setAttribute('aria-label','Reproducir');syncMicroPlay();if(err&&err.name==='NotAllowedError'){status.textContent='El navegador bloqueó el inicio automático. El audio está listo.';if(hint)hint.classList.add('is-visible');installGestureRecovery();}else{if(status)status.textContent='No se pudo iniciar el audio todavía.';}});
 }
 function update(){
-var s=current(),d=Number(audio.duration)||Number(s.audioDuration)||0,t=Number(audio.currentTime)||0,r=d?Math.max(0,Math.min(1,t/d)):0;
+var s=current(),start=Number(s.masterStart)||0,end=Number(s.masterEnd)||start,d=Math.max(.001,end-start),t=Number(audio.currentTime)||start,r=Math.max(0,Math.min(1,(t-start)/d));
 if(microProgress){microProgress.style.setProperty('--progress',(r*100)+'%');microProgress.setAttribute('aria-valuenow',String(Math.round(r*100)));}
-if(microTime)microTime.textContent=fmt(t);
+if(microTime)microTime.textContent=fmt(Math.max(0,t-start));
 setWordState(resolveWordState(t),t);paintWordProgress(t);updateProsody();window.__ogpSyncDiagnostics.frames++;
+if(playing&&advance&&t>=end-0.04){
+  if(cur<segs.length-1&&!pendingSeek){load(cur+1,true,true);}
+  else if(cur===segs.length-1){audio.pause();if(status)status.textContent='Fin de la experiencia.';}
+}
 }
 function visualClock(){
 if(!playing){rafId=0;return;}
@@ -226,7 +251,12 @@ mount.querySelectorAll('[data-play-segment]').forEach(function(b){b.addEventList
 railPhaseButtons.forEach(function(b){b.addEventListener('click',function(){var i=segs.findIndex(function(s){return String(s.id)===String(b.dataset.segment);});if(i>=0){manual=Date.now()+1200;load(i,true,true);}});});
 railSegmentButtons.forEach(function(b){b.addEventListener('click',function(){var i=segs.findIndex(function(s){return String(s.id)===String(b.dataset.segment);});if(i>=0){manual=Date.now()+1200;load(i,true,true);}});});
 mount.querySelectorAll('.story-word').forEach(function(b){b.addEventListener('click',function(){var i=segs.findIndex(function(s){return String(s.id)===String(b.dataset.segment);}),wi=Number(b.dataset.word);if(i<0)return;if(i!==cur)load(i,false,true);var w=segs[i].words[wi];if(w){audio.currentTime=Number(w.start);manual=Date.now()+1200;start('word');update();}});});
-audio.addEventListener('loadedmetadata',function(){if(status)status.textContent='Fragmento listo · '+fmt(audio.duration);update();syncMicroPlay();});
+audio.addEventListener('loadedmetadata',function(){
+if(pendingSeek!==null){try{audio.currentTime=Number(pendingSeek)||0;pendingSeek=null;}catch(e){}}
+if(status)status.textContent='Relato maestro listo · '+fmt(audio.duration);
+update();syncMicroPlay();
+if(pendingPlayReason){var reason=pendingPlayReason;pendingPlayReason='';start(reason);}
+});
 audio.addEventListener('timeupdate',update);
 audio.addEventListener('seeking',function(){clearWordTimer();update();});
 audio.addEventListener('seeked',update);
