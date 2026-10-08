@@ -2156,3 +2156,34 @@ html.mobile-nav-open .story-return-overlay{pointer-events:none;opacity:0}
     mask-image:none !important;
   }
 }
+/* ===== v1.49.0 · máscara externa de alisado real ===== */
+@media(min-width:901px){
+  .ogp-author-portrait{
+    overflow:visible !important;
+    border:0 !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+    background:transparent !important;
+  }
+  .ogp-author-portrait::before{
+    display:none !important;
+  }
+  .ogp-author-portrait::after{
+    display:none !important;
+  }
+  .ogp-author-portrait img{
+    position:relative !important;
+    z-index:1 !important;
+    filter:none !important;
+    transform:none !important;
+    border-radius:0 !important;
+    -webkit-mask-image:url("../portrait-edge-mask.svg") !important;
+    mask-image:url("../portrait-edge-mask.svg") !important;
+    -webkit-mask-size:100% 100% !important;
+    mask-size:100% 100% !important;
+    -webkit-mask-position:center !important;
+    mask-position:center !important;
+    -webkit-mask-repeat:no-repeat !important;
+    mask-repeat:no-repeat !important;
+  }
+}
