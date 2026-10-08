@@ -19,7 +19,8 @@
         "path": "/theme.zip"
       },
       "options": {
-        "activate": true
+        "activate": true,
+        "targetFolderName": "ser-y-mente-blog"
       }
     },
     {
