@@ -1804,3 +1804,18 @@ html.mobile-nav-open .story-return-overlay{pointer-events:none;opacity:0}
       linear-gradient(to right,rgba(238,242,248,.025),transparent 1px,transparent calc(100% - 1px),rgba(238,242,248,.025));
   }
 }
+
+
+/* ===== v1.31.0 · microborde ===== */
+.ogp-author-portrait::before{
+  background:
+    linear-gradient(to bottom,rgba(238,242,248,.012),transparent .5px,transparent calc(100% - .5px),rgba(238,242,248,.012)),
+    linear-gradient(to right,rgba(238,242,248,.012),transparent .5px,transparent calc(100% - .5px),rgba(238,242,248,.012));
+}
+@media(max-width:700px){
+  .ogp-author-portrait::before{
+    background:
+      linear-gradient(to bottom,rgba(238,242,248,.01),transparent .5px,transparent calc(100% - .5px),rgba(238,242,248,.01)),
+      linear-gradient(to right,rgba(238,242,248,.01),transparent .5px,transparent calc(100% - .5px),rgba(238,242,248,.01));
+  }
+}
