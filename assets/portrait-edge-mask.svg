@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2.6"/>
+    </filter>
+  </defs>
+  <rect width="100" height="100" fill="black"/>
+  <rect x="3.5" y="3.5" width="93" height="93" fill="white" filter="url(#soft)"/>
+</svg>
