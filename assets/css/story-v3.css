@@ -1768,3 +1768,8 @@ html.mobile-nav-open .story-return-overlay{pointer-events:none;opacity:0}
 .ogp-author-portrait::before{background:linear-gradient(to bottom,rgba(238,242,248,.12),rgba(238,242,248,0) 1.4%,rgba(238,242,248,0) 98.6%,rgba(238,242,248,.12)),linear-gradient(to right,rgba(238,242,248,.12),rgba(238,242,248,0) 1.4%,rgba(238,242,248,0) 98.6%,rgba(238,242,248,.12))}
 .ogp-author-portrait::after{box-shadow:none}
 @media(max-width:700px){.ogp-author-portrait{box-shadow:none}.ogp-author-portrait::before{background:linear-gradient(to bottom,rgba(238,242,248,.1),rgba(238,242,248,0) 1.3%,rgba(238,242,248,0) 98.7%,rgba(238,242,248,.1)),linear-gradient(to right,rgba(238,242,248,.1),rgba(238,242,248,0) 1.3%,rgba(238,242,248,0) 98.7%,rgba(238,242,248,.1))}}
+
+
+/* ===== v1.28.0 · borde casi imperceptible ===== */
+.ogp-author-portrait::before{background:linear-gradient(to bottom,rgba(238,242,248,.045),transparent .7%,transparent 99.3%,rgba(238,242,248,.045)),linear-gradient(to right,rgba(238,242,248,.045),transparent .7%,transparent 99.3%,rgba(238,242,248,.045))}
+@media(max-width:700px){.ogp-author-portrait::before{background:linear-gradient(to bottom,rgba(238,242,248,.04),transparent .65%,transparent 99.35%,rgba(238,242,248,.04)),linear-gradient(to right,rgba(238,242,248,.04),transparent .65%,transparent 99.35%,rgba(238,242,248,.04))}}
