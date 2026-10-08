@@ -1522,3 +1522,99 @@ html.mobile-nav-open .story-return-overlay{pointer-events:none;opacity:0}
         rgba(238,242,248,1) 100%);
   }
 }
+
+
+/* ===== v1.24.0 · fundido perimetral compatible =====
+/* v1.23 intentó resolver el fundido con máscaras múltiples. El navegador live
+   las descarta. Esta versión usa una técnica deliberadamente simple y robusta:
+   cuatro degradados superpuestos sobre la fotografía + sombra interior suave.
+   El centro permanece limpio; cada uno de los CUATRO lados pierde contraste
+   gradualmente hacia el fondo, incluidos los vértices. */
+
+.ogp-author-portrait{
+  position:relative;
+  overflow:hidden;
+  border:0;
+  border-radius:0;
+  box-shadow:inset 0 0 42px 18px rgba(238,242,248,.92);
+}
+
+.ogp-author-portrait::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+  background:
+    linear-gradient(to bottom,
+      #eef2f8 0%,
+      rgba(238,242,248,.88) 2.5%,
+      rgba(238,242,248,.40) 8%,
+      transparent 17%,
+      transparent 83%,
+      rgba(238,242,248,.40) 92%,
+      rgba(238,242,248,.88) 97.5%,
+      #eef2f8 100%),
+    linear-gradient(to right,
+      #eef2f8 0%,
+      rgba(238,242,248,.88) 2.5%,
+      rgba(238,242,248,.40) 8%,
+      transparent 17%,
+      transparent 83%,
+      rgba(238,242,248,.40) 92%,
+      rgba(238,242,248,.88) 97.5%,
+      #eef2f8 100%);
+}
+
+.ogp-author-portrait::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:3;
+  pointer-events:none;
+  box-shadow:
+    inset 0 0 0 1px rgba(238,242,248,.18),
+    inset 0 0 58px 22px rgba(238,242,248,.22);
+}
+
+.ogp-author-portrait img{
+  position:relative;
+  z-index:1;
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  object-position:56% 43%;
+  transform:scale(1.018);
+  transform-origin:center;
+  -webkit-mask-image:none;
+  mask-image:none;
+}
+
+@media(max-width:700px){
+  .ogp-author-portrait{
+    box-shadow:inset 0 0 34px 14px rgba(238,242,248,.92);
+  }
+
+  .ogp-author-portrait::before{
+    background:
+      linear-gradient(to bottom,
+        #eef2f8 0%,
+        rgba(238,242,248,.90) 3%,
+        rgba(238,242,248,.42) 9%,
+        transparent 18%,
+        transparent 82%,
+        rgba(238,242,248,.42) 91%,
+        rgba(238,242,248,.90) 97%,
+        #eef2f8 100%),
+      linear-gradient(to right,
+        #eef2f8 0%,
+        rgba(238,242,248,.90) 3%,
+        rgba(238,242,248,.42) 9%,
+        transparent 18%,
+        transparent 82%,
+        rgba(238,242,248,.42) 91%,
+        rgba(238,242,248,.90) 97%,
+        #eef2f8 100%);
+  }
+}
