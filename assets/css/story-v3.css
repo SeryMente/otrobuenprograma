@@ -1912,3 +1912,22 @@ html.mobile-nav-open .story-return-overlay{pointer-events:none;opacity:0}
 .ogp-author-portrait img{
   filter:drop-shadow(0 0 .05px rgba(238,242,248,.03));
 }
+
+/* ===== v1.37.0 · cero tratamiento de borde ===== */
+.ogp-author-portrait,
+.ogp-author-portrait::before,
+.ogp-author-portrait::after,
+.ogp-author-portrait img{
+  box-shadow:none !important;
+  filter:none !important;
+  -webkit-mask-image:none !important;
+  mask-image:none !important;
+}
+.ogp-author-portrait::before,
+.ogp-author-portrait::after{
+  display:none !important;
+}
+.ogp-author-portrait img{
+  border-radius:0 !important;
+  transform:none !important;
+}
