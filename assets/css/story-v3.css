@@ -1819,3 +1819,17 @@ html.mobile-nav-open .story-return-overlay{pointer-events:none;opacity:0}
       linear-gradient(to right,rgba(238,242,248,.01),transparent .5px,transparent calc(100% - .5px),rgba(238,242,248,.01));
   }
 }
+
+
+/* ===== v1.32.0 · suavizado exterior del perímetro =====
+   No se desvanece el interior de la fotografía. El contorno se suaviza
+   únicamente hacia afuera y se elimina el zoom que recortaba los laterales. */
+.ogp-author-portrait::before,
+.ogp-author-portrait::after{
+  display:none;
+}
+.ogp-author-portrait img{
+  transform:none;
+  border-radius:1px;
+  filter:drop-shadow(0 0 .65px rgba(238,242,248,.42));
+}
